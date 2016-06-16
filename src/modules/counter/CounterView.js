@@ -31,8 +31,8 @@ const CounterView = React.createClass({
 
         <TouchableOpacity
           onPress={this.settings}
-          style={[styles.counterButton, loadingStyle]}>
-          <Text style={styles.counter}>
+          style={[styles.settingsButton, loadingStyle]}>
+          <Text style={styles.button}>
             {this.props.counter}
           </Text>
         </TouchableOpacity>
@@ -56,29 +56,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'white'
   },
-  counterButton: {
+  settingsButton: {
     ...circle,
     backgroundColor: 'green',
     alignItems: 'center',
     justifyContent: 'center',
     margin: 20
   },
-  counter: {
+  button: {
     color: 'white',
     fontSize: 20,
     textAlign: 'center'
-  },
-  welcome: {
-    textAlign: 'center',
-    color: 'black',
-    marginBottom: 5,
-    padding: 5
-  },
-  linkButton: {
-    textAlign: 'center',
-    color: '#CCCCCC',
-    marginBottom: 10,
-    padding: 5
   }
 });
 

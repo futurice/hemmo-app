@@ -28,10 +28,6 @@ const DeveloperMenu = React.createClass({
         await snapshot.clearSnapshot();
         console.warn('(╯°□°）╯︵ ┻━┻ \nState cleared, Cmd+R to reload the application now');
       }
-      /*else if (index === options.showLogin) {
-        await auth0.showLogin();
-        console.log('Show auth0 login screen');
-      }*/
     };
 
     ActionSheetIOS.showActionSheetWithOptions({

@@ -31,14 +31,6 @@ const SettingsView = React.createClass({
 
     return (
       <View style={styles.container}>
-
-        {/*}<TouchableOpacity
-          onPress={this.settings}
-          style={[styles.counterButton, loadingStyle]}>
-          <Text style={styles.counter}>
-            {this.props.counter}
-          </Text>
-        </TouchableOpacity>*/}
         <View style={styles.form}>
 
           <View style={styles.field}>
