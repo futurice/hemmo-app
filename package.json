@@ -1,0 +1,67 @@
+{
+  "name": "PepperoniAppTemplate",
+  "author": "Futurice",
+  "description": "React Native App Starter Kit for Android and iOS",
+  "license": "MIT",
+  "homepage": "http://getpepperoni.com",
+  "bugs": "https://github.com/futurice/pepperoni-app-kit/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/futurice/pepperoni-app-kit"
+  },
+  "keywords": [
+    "React Native",
+    "Starter Kit",
+    "Bitrise",
+    "Redux",
+    "Auth0"
+  ],
+  "version": "1.0.0",
+  "private": false,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "bundle:ios": "node ./node_modules/react-native/local-cli/cli.js bundle --platform ios --entry-file index.ios.js --bundle-output ios/PepperoniAppTemplate/main.jsbundle --dev=false --minify --verbose",
+    "test": "mocha src/**/*.spec.js",
+    "test:watch": "chokidar 'src/**/*.js' 'test/**/*.js' -c 'npm test'",
+    "coverage": "rimraf coverage && istanbul cover --i=src/**/*.js _mocha -- src/**/*.spec.js",
+    "check-coverage": "istanbul check-coverage"
+  },
+  "dependencies": {
+    "bluebird": "^3.3.5",
+    "es6-symbol": "^3.0.2",
+    "immutable": "^3.7.6",
+    "lodash": "^4.11.0",
+    "moment": "^2.12.0",
+    "react": "15.0.2",
+    "react-dom": "15.0.2",
+    "react-native": "^0.26.2",
+    "react-native-gifted-spinner": "0.0.4",
+    "react-native-lock": "futurice/react-native-lock#feature/customizedTheme",
+    "react-redux": "^4.4.5",
+    "redux": "^3.4.0",
+    "redux-logger": "^2.6.1",
+    "redux-loop": "^2.1.0",
+    "redux-promise": "^0.5.3",
+    "redux-thunk": "^2.0.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.9.0",
+    "babel-core": "^6.9.0",
+    "babel-eslint": "^6.0.2",
+    "babel-polyfill": "^6.9.0",
+    "babel-preset-react-native": "^1.7.0",
+    "babel-preset-stage-0": "^6.5.0",
+    "chai": "^3.5.0",
+    "chokidar-cli": "^1.2.0",
+    "enzyme": "^2.2.0",
+    "eslint": "^2.8.0",
+    "eslint-plugin-babel": "^3.2.0",
+    "eslint-plugin-react": "^4.3.0",
+    "istanbul": "1.0.0-alpha.2",
+    "mocha": "^2.4.5",
+    "react-addons-test-utils": "15.0.2",
+    "react-native-mock": "^0.2.2",
+    "rimraf": "^2.5.2",
+    "sinon": "^1.17.4"
+  }
+}
