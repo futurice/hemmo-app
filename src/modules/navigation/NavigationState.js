@@ -34,7 +34,7 @@ export function navigationCompleted() {
 
 const initialState = fromJS(
   createNavigationState('MainNavigation', 'App', [
-    createNavigationState('HomeTab', 'Home', [{key: 'Counter', title: 'Counter'}]),
+    createNavigationState('HomeTab', 'Home', [{key: 'Home', title: 'Home'}]),
     createNavigationState('SettingsTab', 'Settings', [{key: 'Settings', title: 'Settings'}])
   ]));
 

@@ -1,13 +1,13 @@
 import {Map} from 'immutable';
 import {combineReducers} from 'redux-loop';
 import NavigationStateReducer from '../modules/navigation/NavigationState';
-import CounterStateReducer from '../modules/counter/CounterState';
+import HomeStateReducer from '../modules/counter/HomeState';
 import SessionStateReducer, {RESET_STATE} from '../modules/session/SessionState';
 import SettingsStateReducer from '../modules/settings/SettingsState';
 
 const reducers = {
   // Counter sample app state. This can be removed in a live application
-  counter: CounterStateReducer,
+  home: HomeStateReducer,
 
   // @NOTE: By convention, the navigation state must live in a subtree called
   //`navigationState`

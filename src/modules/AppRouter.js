@@ -1,7 +1,7 @@
 /*eslint-disable react/prop-types*/
 
 import React from 'react';
-import CounterViewContainer from './counter/CounterViewContainer';
+import HomeViewContainer from './counter/HomeViewContainer';
 import SettingsViewContainer from './settings/SettingsViewContainer';
 
 /**
@@ -11,8 +11,8 @@ export default function AppRouter(props) {
   const onNavigate = props.onNavigate;
   const key = props.scene.navigationState.key;
 
-  if (key === 'Counter') {
-    return <CounterViewContainer onNavigate={onNavigate} />;
+  if (key === 'Home') {
+    return <HomeViewContainer onNavigate={onNavigate} />;
   }
 
   if (key === 'Settings') {

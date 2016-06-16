@@ -12,12 +12,8 @@ import {
 
 const SettingsView = React.createClass({
   propTypes: {
-    counter: PropTypes.string.isRequired,
-    loading: PropTypes.bool.isRequired,
-    dispatch: PropTypes.func.isRequired,
     onNavigate: PropTypes.func.isRequired
   },
-
 
   settings() {
     console.log("Do nothing");
