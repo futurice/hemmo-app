@@ -5,7 +5,6 @@ import {loop, Effects} from 'redux-loop';
 const initialState = Map({
   value: "Settings",
   loading: false,
-  icon: require('../../../assets/default-icon.png')
 });
 
 // Actions
@@ -28,7 +27,7 @@ export default function SettingsStateReducer(state = initialState, action = {}) 
       return state.update('value', value => value + 1);
 
     case CHANGEIMAGE:
-      return state.update('icon', icon => require('../../../assets/test.png'));
+      return state.update('profilePhoto', profilePhoto => require('../../../assets/test.png'));
 
     default:
       return state;

@@ -14,11 +14,12 @@ import Orientation from 'react-native-orientation';
 const AppView = React.createClass({
   propTypes: {
     isReady: PropTypes.bool.isRequired,
-    dispatch: PropTypes.func.isRequired
+    dispatch: PropTypes.func.isRequired,
   },
   componentDidMount() {
 
     Orientation.lockToLandscape();
+
 
     snapshotUtil.resetSnapshot()
       .then(snapshot => {

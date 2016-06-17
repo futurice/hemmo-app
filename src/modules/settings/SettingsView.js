@@ -14,7 +14,6 @@ import {
 const SettingsView = React.createClass({
   propTypes: {
     onNavigate: PropTypes.func.isRequired,
-    icon: PropTypes.number.isRequired
   },
 
   settings() {
@@ -30,8 +29,6 @@ const SettingsView = React.createClass({
     const loadingStyle = this.props.loading
       ? {backgroundColor: '#eee'}
       : null;
-
-    var icon = require('../../../assets/default-icon.png');
 
     return (
       <View style={styles.container}>
@@ -59,7 +56,7 @@ const SettingsView = React.createClass({
 
             <View style={styles.imagefield}>
               <TouchableHighlight style={styles.touchable}>
-                <Image style={styles.icon} source={this.props.icon}/>
+                <Image style={styles.icon} source={require('../../../assets/default-icon.png')}/>
 
               </TouchableHighlight>
 

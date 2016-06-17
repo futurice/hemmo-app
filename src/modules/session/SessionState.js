@@ -3,7 +3,10 @@ import {Map} from 'immutable';
 export const RESET_STATE = 'SessionState/RESET';
 export const INITIALIZE_STATE = 'SessionState/INITIALIZE';
 // Initial state
-const initialState = Map({isReady: false});
+const initialState = Map({
+  isReady: false
+  
+});
 
 export function resetSessionStateFromSnapshot(state) {
   return {

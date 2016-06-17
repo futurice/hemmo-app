@@ -10,14 +10,13 @@ import SettingsViewContainer from './settings/SettingsViewContainer';
 export default function AppRouter(props) {
   const onNavigate = props.onNavigate;
   const key = props.scene.navigationState.key;
-  const icon = require('../../assets/default-icon.png');
 
   if (key === 'Home') {
     return <HomeViewContainer onNavigate={onNavigate} />;
   }
 
   if (key === 'Settings') {
-    return <SettingsViewContainer onNavigate={onNavigate} icon={icon}  />;
+    return <SettingsViewContainer onNavigate={onNavigate}/>;
   }
 
   throw new Error('Unknown navigation key: ' + key);
