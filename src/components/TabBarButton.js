@@ -14,12 +14,12 @@ export default React.createClass({
   },
   render() {
     return (
-      <TouchableOpacity
+      {/*<TouchableOpacity
         onPress={this.props.action}
-        style={[styles.button, this.props.isSelected && styles.selected]}
+        style={[styles.button}
         >
         <Text>{this.props.text}</Text>
-      </TouchableOpacity>
+      </TouchableOpacity>*/}
     );
   }
 });
@@ -30,7 +30,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
-  selected: {
-    backgroundColor: 'yellow'
-  }
+
 });

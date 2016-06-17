@@ -7,8 +7,6 @@ import AppRouter from '../AppRouter';
 import NavigationTabView from './NavigationTabView';
 import TabBar from '../../components/TabBar';
 
-const TAB_BAR_HEIGHT = 50;
-
 const NavigationView = React.createClass({
   propTypes: {
     router: PropTypes.func.isRequired,
@@ -54,7 +52,7 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    bottom: TAB_BAR_HEIGHT
+    bottom: 0,
   },
   hidden: {
     overflow: 'hidden',

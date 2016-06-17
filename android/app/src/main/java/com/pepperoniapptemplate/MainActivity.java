@@ -1,9 +1,14 @@
 package com.pepperoniapptemplate;
 
 import com.facebook.react.ReactActivity;
+import com.github.yamill.orientation.OrientationPackage;
 import com.auth0.lock.react.LockReactPackage;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
+
+/* SCREEN ORIENTATION RELATED */
+import android.content.Intent; // <--- import
+import android.content.res.Configuration; // <--- import
 
 import java.util.Arrays;
 import java.util.List;
@@ -36,7 +41,17 @@ public class MainActivity extends ReactActivity {
     protected List<ReactPackage> getPackages() {
         return Arrays.<ReactPackage>asList(
             new MainReactPackage(),
+            new OrientationPackage(this),
             new LockReactPackage()
         );
+    }
+
+    /* SCREEN ORIENATATION RELATED */
+      @Override
+      public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        Intent intent = new Intent("onConfigurationChanged");
+        intent.putExtra("newConfig", newConfig);
+        this.sendBroadcast(intent);
     }
 }
