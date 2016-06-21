@@ -1,4 +1,4 @@
-import {Map} from 'immutable';
+import {Map, List} from 'immutable';
 import {loop, Effects} from 'redux-loop';
 
 // Initial state
@@ -7,45 +7,46 @@ const initialState = Map({
   kids: null,
 });
 
-const CREATEKID = 'HomeState/CREATEKID';
+const ADDKID = 'HomeState/ADDKID';
 
 // Action creators
-export function createKid(kid) {
+export function addKid(kid) {
   return {
-    type: CREATEKID,
+    type: ADDKID,
     payload: kid
   }
 }
-
 
 // Reducer
 export default function HomeStateReducer(state = initialState, action = {}) {
   switch (action.type) {
 
-    case CREATEKID:
+    case ADDKID:
 
       var newArray;
 
       console.log("State Kids sisältö " + state.get('kids'));
 
-      console.log("Täällä kotona  ollaan lisäämässä lasta");
-
       if ( state.get('kids') == null )
       {
         console.log("Lisätään ensimmäinen lapsi");
-        newArray = [];
-        newArray.push(action.payload);
+        return state
+          .set('kids', Array(Object(action.payload)));
+        /*newArray = [];
+        newArray.push(action.payload);*/
       }
       else
       {
         console.log("Taulukossa on jo lapsia, lisätään perään");
-        newArray = state.get('kids').slice();
-        console.log("New Array ensin " + newArray);
-        newArray.push(action.payload)
+        return state
+          .set('kids', state.get('kids').push(action.payload));
+        /*newArray = state.get('kids').slice();
+        console.log("Lisäystä ennen " + newArray);
+        console.log("ACTION PAYLOAD " + action.payload.name);
+        newArray.push(action.payload);
+        console.log("Lisäyksen jälkeen" + newArray);*/
       }
 
-      return state
-        .set('kids', newArray)
     default:
       return state;
   }

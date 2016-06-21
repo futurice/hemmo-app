@@ -26,27 +26,9 @@ const SettingsView = React.createClass({
       age: this.state.age
     };
 
-    this.props.dispatch(HomeState.createKid(newKid));
+    this.props.dispatch(HomeState.addKid(newKid));
 
-
-    /*var newArray = [];
-
-    newKid.id = newArray.length;
-
-    console.log("id " + newKid.id);*/
-
-    //this.props.kids.push(newKid);
-
-    //console.log("Lapsi lisättiin " + this.props.kids[0]);
-
-    /*var newArray = this.state.kids.slice();
-
-    newArray.push(newKid);
-
-    console.log("New array " + newArray[0].name);*/
-
-    //this.props.dispatch(SettingsState.createKid(newKid));
-
+    this.props.dispatch(NavigationState.popRoute());
   },
 
   changeImage() {
@@ -154,24 +136,6 @@ const SettingsView = React.createClass({
             </View>
 
           </View>
-          {/*
-
-
-
-
-          <View style={styles.field}>
-            <TouchableHighlight
-              onPress={this.settings}
-              style={styles.touchable}>
-
-              <View style={styles.button}>
-                <Text style={styles.label, styles.highlight}>
-                  Tallenna
-                </Text>
-              </View>
-            </TouchableHighlight>
-          </View>*/}
-
 
         </View>
       </View>

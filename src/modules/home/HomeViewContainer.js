@@ -3,7 +3,7 @@ import HomeView from './HomeView';
 
 export default connect(
   state => ({
-    counter: state.getIn(['counter', 'value']),
-    loading: state.getIn(['counter', 'loading']),
+    loading: state.getIn(['home', 'loading']),
+    kids: state.getIn(['home', 'kids']),
   })
 )(HomeView);

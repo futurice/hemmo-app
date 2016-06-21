@@ -24,6 +24,7 @@ const HomeView = React.createClass({
       ? {backgroundColor: '#eee'}
       : null;
 
+
     return (
       <View style={styles.container}>
 
@@ -34,8 +35,6 @@ const HomeView = React.createClass({
             Settings
           </Text>
         </TouchableOpacity>
-
-
 
       </View>
     );
