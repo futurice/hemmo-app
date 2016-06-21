@@ -1,4 +1,5 @@
 import * as SettingsState from './SettingsState';
+import * as HomeState from '../../modules/home/HomeState'
 import * as NavigationState from '../../modules/navigation/NavigationState';
 import React, {PropTypes} from 'react';
 import {
@@ -10,22 +11,63 @@ import {
   View
 } from 'react-native';
 
-
 const SettingsView = React.createClass({
   propTypes: {
     onNavigate: PropTypes.func.isRequired,
+    dispatch: PropTypes.func.isRequired,
   },
 
-  settings() {
-    console.log("Do nothing");
+  createKid() {
+    console.log("Lapsen nimi ja ikä olivat " + this.state.name + " " + this.state.age);
+
+
+   var newKid = {
+      name: this.state.name,
+      age: this.state.age
+    };
+
+    this.props.dispatch(HomeState.createKid(newKid));
+
+
+    /*var newArray = [];
+
+    newKid.id = newArray.length;
+
+    console.log("id " + newKid.id);*/
+
+    //this.props.kids.push(newKid);
+
+    //console.log("Lapsi lisättiin " + this.props.kids[0]);
+
+    /*var newArray = this.state.kids.slice();
+
+    newArray.push(newKid);
+
+    console.log("New array " + newArray[0].name);*/
+
+    //this.props.dispatch(SettingsState.createKid(newKid));
+
   },
 
   changeImage() {
       this.props.dispatch(SettingsState.changeImage());
   },
 
+  getName(e) {
+    this.setState( {
+      name: e.nativeEvent.text
+    })
+  },
+
+  getAge(e) {
+    this.setState( {
+      age: e.nativeEvent.text
+    })
+  },
+
 
   render() {
+
     const loadingStyle = this.props.loading
       ? {backgroundColor: '#eee'}
       : null;
@@ -41,7 +83,9 @@ const SettingsView = React.createClass({
                 Nimi:
               </Text>
               <View>
-                <TextInput style={styles.input}/>
+                <TextInput style={styles.input}
+                  ref = "name"
+                  onChange = {this.getName}/>
               </View>
             </View>
 
@@ -50,7 +94,10 @@ const SettingsView = React.createClass({
                 Ikä:
               </Text>
               <View>
-                <TextInput style={styles.input}/>
+                <TextInput style={styles.input}
+                ref="age"
+                onChange={this.getAge}
+                />
               </View>
             </View>
 
@@ -80,7 +127,7 @@ const SettingsView = React.createClass({
 
             <View style={styles.buttonfield}>
               <TouchableHighlight
-                onPress={this.settings}
+                onPress={this.createKid}
                 style={styles.touchable}>
 
                 <View style={styles.savebutton}>
@@ -93,7 +140,7 @@ const SettingsView = React.createClass({
 
             <View style={styles.buttonfield}>
               <TouchableHighlight
-                onPress={this.settings}
+                onPress={this.createKid}
                 style={styles.touchable}>
 
                 <View style={styles.cancelbutton}>

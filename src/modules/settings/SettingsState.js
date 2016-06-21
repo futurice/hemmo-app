@@ -3,18 +3,11 @@ import {loop, Effects} from 'redux-loop';
 
 // Initial state
 const initialState = Map({
-  value: "Settings",
   loading: false,
 });
 
 // Actions
-const INCREMENT = 'SettingsState/INCREMENT';
 const CHANGEIMAGE = 'SettingsState/CHANGEIMAGE';
-
-// Action creators
-export function increment() {
-  return {type: INCREMENT};
-}
 
 export function changeImage() {
   return {type: CHANGEIMAGE};
@@ -23,11 +16,9 @@ export function changeImage() {
 // Reducer
 export default function SettingsStateReducer(state = initialState, action = {}) {
   switch (action.type) {
-    case INCREMENT:
-      return state.update('value', value => value + 1);
-
     case CHANGEIMAGE:
-      return state.update('profilePhoto', profilePhoto => require('../../../assets/test.png'));
+      console.log("value tässä kohtaa " + state.get(value));
+      return state.update('value', value => value + 1);
 
     default:
       return state;

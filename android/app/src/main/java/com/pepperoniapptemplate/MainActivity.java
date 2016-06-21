@@ -2,7 +2,6 @@ package com.pepperoniapptemplate;
 
 import com.facebook.react.ReactActivity;
 import com.github.yamill.orientation.OrientationPackage;
-import com.auth0.lock.react.LockReactPackage;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 
@@ -41,8 +40,7 @@ public class MainActivity extends ReactActivity {
     protected List<ReactPackage> getPackages() {
         return Arrays.<ReactPackage>asList(
             new MainReactPackage(),
-            new OrientationPackage(this),
-            new LockReactPackage()
+            new OrientationPackage(this)
         );
     }
 

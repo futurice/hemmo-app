@@ -8,7 +8,6 @@ import * as SessionStateActions from '../modules/session/SessionState';
 import store from '../redux/store';
 import DeveloperMenu from '../components/DeveloperMenu';
 
-
 import Orientation from 'react-native-orientation';
 
 const AppView = React.createClass({
@@ -30,8 +29,18 @@ const AppView = React.createClass({
         } else {
           dispatch(SessionStateActions.initializeSessionState());
         }
+
+        store.subscribe(() => {
+          snapshotUtil.saveSnapshot(store.getState());
+        });
       });
   },
+
+  componentWillReceiveProps({isReady, isLoggedIn}) {
+  if (!this.props.isReady) {
+    console.log("Bööö");
+  }
+},
 
   render() {
     if (!this.props.isReady) {

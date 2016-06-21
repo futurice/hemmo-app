@@ -1,7 +1,7 @@
 import {Map} from 'immutable';
 import {combineReducers} from 'redux-loop';
 import NavigationStateReducer from '../modules/navigation/NavigationState';
-import HomeStateReducer from '../modules/counter/HomeState';
+import HomeStateReducer from '../modules/home/HomeState';
 import SessionStateReducer, {RESET_STATE} from '../modules/session/SessionState';
 import SettingsStateReducer from '../modules/settings/SettingsState';
 
@@ -15,7 +15,7 @@ const reducers = {
 
   session: SessionStateReducer,
 
-  settings : SettingsStateReducer
+  settings: SettingsStateReducer,
 
 };
 

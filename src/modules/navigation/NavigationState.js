@@ -63,7 +63,7 @@ export default function NavigationReducer(state = initialState, action) {
       return state.set('isNavigating', false);
 
     default:
-      return initialState;
+      return state;
   }
 }
 

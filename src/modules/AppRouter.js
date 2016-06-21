@@ -1,7 +1,7 @@
 /*eslint-disable react/prop-types*/
 
 import React from 'react';
-import HomeViewContainer from './counter/HomeViewContainer';
+import HomeViewContainer from './home/HomeViewContainer';
 import SettingsViewContainer from './settings/SettingsViewContainer';
 
 /**
@@ -10,6 +10,8 @@ import SettingsViewContainer from './settings/SettingsViewContainer';
 export default function AppRouter(props) {
   const onNavigate = props.onNavigate;
   const key = props.scene.navigationState.key;
+
+  console.log("KEY WAS " + key);
 
   if (key === 'Home') {
     return <HomeViewContainer onNavigate={onNavigate} />;
