@@ -19,14 +19,14 @@ const AppView = React.createClass({
 
     Orientation.lockToLandscape();
 
-
     snapshotUtil.resetSnapshot()
       .then(snapshot => {
         const {dispatch} = this.props;
 
         if (snapshot) {
           dispatch(SessionStateActions.resetSessionStateFromSnapshot(snapshot));
-        } else {
+        }
+        else {
           dispatch(SessionStateActions.initializeSessionState());
         }
 
@@ -35,12 +35,6 @@ const AppView = React.createClass({
         });
       });
   },
-
-  componentWillReceiveProps({isReady, isLoggedIn}) {
-  if (!this.props.isReady) {
-    console.log("Bööö");
-  }
-},
 
   render() {
     if (!this.props.isReady) {

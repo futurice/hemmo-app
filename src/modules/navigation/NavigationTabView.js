@@ -27,6 +27,7 @@ const NavigationTabView = React.createClass({
   },
 
   renderScene(props) {
+    console.log("RENDERING SCENE");
     return (
       <Navigation.Card
         {...props}

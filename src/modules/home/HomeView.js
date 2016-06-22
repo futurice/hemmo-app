@@ -10,9 +10,10 @@ import {
 } from 'react-native';
 
 const HomeView = React.createClass({
+
   propTypes: {
-    onNavigate: PropTypes.func.isRequired,
     dispatch: PropTypes.func.isRequired,
+    onNavigate: PropTypes.func.isRequired,
   },
 
   settings() {
@@ -20,17 +21,13 @@ const HomeView = React.createClass({
   },
 
   render() {
-    const loadingStyle = this.props.loading
-      ? {backgroundColor: '#eee'}
-      : null;
-
 
     return (
       <View style={styles.container}>
 
         <TouchableOpacity
           onPress={this.settings}
-          style={[styles.settingsButton, loadingStyle]}>
+          style={[styles.settingsButton]}>
           <Text style={styles.button}>
             Settings
           </Text>

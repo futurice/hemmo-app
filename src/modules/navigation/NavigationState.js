@@ -15,6 +15,7 @@ export function switchTab(index) {
 
 // Action creators
 export function pushRoute(state) {
+  console.log("PUSH ROUTE");
   return (dispatch, getState) => {
     // conditionally execute push to avoid double
     // navigations due to impatient users

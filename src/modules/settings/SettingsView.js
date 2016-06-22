@@ -2,6 +2,7 @@ import * as SettingsState from './SettingsState';
 import * as HomeState from '../../modules/home/HomeState'
 import * as NavigationState from '../../modules/navigation/NavigationState';
 import React, {PropTypes} from 'react';
+import {Map} from 'immutable';
 import {
   StyleSheet,
   TouchableHighlight,
@@ -11,42 +12,23 @@ import {
   View
 } from 'react-native';
 
+var name;
+var age;
+
 const SettingsView = React.createClass({
-  propTypes: {
-    onNavigate: PropTypes.func.isRequired,
-    dispatch: PropTypes.func.isRequired,
-  },
 
   createKid() {
-    console.log("Lapsen nimi ja ikä olivat " + this.state.name + " " + this.state.age);
-
-
-   var newKid = {
-      name: this.state.name,
-      age: this.state.age
-    };
-
-    this.props.dispatch(HomeState.addKid(newKid));
-
-    this.props.dispatch(NavigationState.popRoute());
-  },
-
-  changeImage() {
-      this.props.dispatch(SettingsState.changeImage());
+    console.log("Lapsen nimi ja ikä olivat " + name + " " + age);
+    this.props.dispatch(HomeState.addKid(name, age));
   },
 
   getName(e) {
-    this.setState( {
-      name: e.nativeEvent.text
-    })
+    name = e.nativeEvent.text;
   },
 
   getAge(e) {
-    this.setState( {
-      age: e.nativeEvent.text
-    })
+    age = e.nativeEvent.text;
   },
-
 
   render() {
 
@@ -89,19 +71,6 @@ const SettingsView = React.createClass({
 
               </TouchableHighlight>
 
-              <View style={styles.buttonfield}>
-                <TouchableHighlight
-                  onPress={this.changeImage}
-                  style={styles.touchable}>
-
-                  <View style={styles.cancelbutton}>
-                    <Text style={styles.label, styles.highlight}>
-                      Vaihda
-                    </Text>
-                  </View>
-                </TouchableHighlight>
-
-              </View>
             </View>
           </View>
 
@@ -122,7 +91,6 @@ const SettingsView = React.createClass({
 
             <View style={styles.buttonfield}>
               <TouchableHighlight
-                onPress={this.createKid}
                 style={styles.touchable}>
 
                 <View style={styles.cancelbutton}>
