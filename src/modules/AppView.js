@@ -6,14 +6,13 @@ import Spinner from 'react-native-gifted-spinner';
 import * as snapshotUtil from '../utils/snapshot';
 import * as SessionStateActions from '../modules/session/SessionState';
 import store from '../redux/store';
-import DeveloperMenu from '../components/DeveloperMenu';
 
 import Orientation from 'react-native-orientation';
 
 const AppView = React.createClass({
   propTypes: {
     isReady: PropTypes.bool.isRequired,
-    dispatch: PropTypes.func.isRequired,
+    dispatch: PropTypes.func.isRequired
   },
   componentDidMount() {
 

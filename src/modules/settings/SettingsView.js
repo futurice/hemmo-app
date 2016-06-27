@@ -1,15 +1,10 @@
 import * as SettingsState from './SettingsState';
-import * as HomeState from '../../modules/home/HomeState'
-import * as NavigationState from '../../modules/navigation/NavigationState';
+import * as HomeState from '../../modules/home/HomeState';
 import React, {PropTypes} from 'react';
-import {Map} from 'immutable';
-
 
 import {
-  StyleSheet,
   NativeModules,
   TouchableHighlight,
-  CameraRoll,
   Image,
   Text,
   TextInput,
@@ -26,10 +21,10 @@ var options = {
   title: 'Valitse kuvake', // specify null or empty string to remove the title
   cancelButtonTitle: 'Peruuta',
   takePhotoButtonTitle: 'Ota valokuva...', // specify null or empty string to remove this button
-  chooseFromLibraryButtonTitle: 'Valitse galleriasta...', // specify null or empty string to remove this button
+  chooseFromLibraryButtonTitle: 'Valitse galleriasta...',
   customButtons: {
-     'Choose Photo from Facebook': 'fb', // [Button Text] : [String returned upon selection]
-   },
+     //'Choose Photo from Facebook': 'fb', // [Button Text] : [String returned upon selection]
+  },
   cameraType: 'back', // 'front' or 'back'
   mediaType: 'photo', // 'photo' or 'video'
   videoQuality: 'high', // 'low', 'medium', or 'high'
@@ -41,18 +36,19 @@ var options = {
   quality: 1, // 0 to 1, photos only
   angle: 0, // android only, photos only
   allowsEditing: false, // Built in functionality to resize/reposition the image after selection
-  noData: false, // photos only - disables the base64 `data` field from being generated (greatly improves performance on large photos)
+  noData: false
 };
-
 
 const SettingsView = React.createClass({
 
   propTypes: {
     userImage: PropTypes.string.isRequired,
+    dispatch: PropTypes.func.isRequired,
+    onNavigate: PropTypes.func.isRequired
   },
 
-  createKid() {
-    console.log("Lapsen nimi ja ikä olivat " + name + " " + age);
+  createKid() { /* ei toimi oikein */
+    console.log('Lapsen nimi ja ikä olivat ' + name + ' ' + age);
     this.props.dispatch(HomeState.addKid(name, age));
   },
   getName(e) {
@@ -64,38 +60,25 @@ const SettingsView = React.createClass({
 
   openGallery() {
     ImagePicker.showImagePicker(options, (response) => {
-      console.log('Response was = ', response);
 
       if (response.didCancel) {
         console.log('User cancelled image picker');
       }
-      else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
-      }
-      else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton);
-      }
       else {
-        //const source = {uri: 'data:image/jpeg;base64,' + response.data, isStatic: true};
-
-        // uri (on iOS)
-        //const source = {uri: response.uri.replace('file://', ''), isStatic: true};
-        // uri (on android)
         const source = {uri: response.uri, isStatic: true};
 
         this.props.dispatch(SettingsState.updateImage(source.uri));
-
       }
-    });
+      //const source = {uri: 'data:image/jpeg;base64,' + response.data, isStatic: true};
 
+      // uri (on iOS)
+      //const source = {uri: response.uri.replace('file://', ''), isStatic: true};
+      // uri (on android)
+    });
   },
 
   render() {
-    console.log("USERIMAGE " + this.props.userImage);
-
-    const loadingStyle = this.props.loading
-      ? {backgroundColor: '#eee'}
-      : null;
+    console.log('USERIMAGE ' + this.props.userImage);
 
     return (
       <View style={styles.container}>
@@ -109,7 +92,7 @@ const SettingsView = React.createClass({
               </Text>
               <View>
                 <TextInput style={styles.input}
-                  ref = "name"
+                  ref = 'name'
                   onChange = {this.getName}/>
               </View>
             </View>
@@ -119,8 +102,8 @@ const SettingsView = React.createClass({
                 Ikä:
               </Text>
               <View>
-                <TextInput style={styles.input}
-                ref="age"
+                <TextInput keyboardType='numeric' style={styles.input}
+                ref='age'
                 onChange={this.getAge}
                 />
               </View>
@@ -137,7 +120,7 @@ const SettingsView = React.createClass({
                 onPress={this.openGallery}
                 style={styles.touchable}>
                 <View style={styles.cancelbutton}>
-                  <Text style={styles.label, styles.highlight}>
+                  <Text style={styles.label}>
                     Vaihda
                   </Text>
                 </View>
@@ -154,7 +137,7 @@ const SettingsView = React.createClass({
                 style={styles.touchable}>
 
                 <View style={styles.savebutton}>
-                  <Text style={styles.label, styles.highlight}>
+                  <Text style={styles.label}>
                     Tallenna
                   </Text>
                 </View>
@@ -166,7 +149,7 @@ const SettingsView = React.createClass({
                 style={styles.touchable}>
 
                 <View style={styles.cancelbutton}>
-                  <Text style={styles.label, styles.highlight}>
+                  <Text style={styles.label}>
                     Peruuta
                   </Text>
                 </View>
@@ -178,7 +161,5 @@ const SettingsView = React.createClass({
     );
   }
 });
-
-
 
 export default SettingsView;

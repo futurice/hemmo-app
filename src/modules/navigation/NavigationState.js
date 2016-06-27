@@ -36,7 +36,7 @@ export function navigationCompleted() {
 const initialState = fromJS(
   createNavigationState('MainNavigation', 'App', [
     createNavigationState('HomeTab', 'Home', [{key: 'Home', title: 'Home'}]),
-    createNavigationState('SettingsTab', 'Settings', [{key: 'Settings', title: 'Settings'}]),
+    createNavigationState('SettingsTab', 'Settings', [{key: 'Settings', title: 'Settings'}])
   ]));
 
 export default function NavigationReducer(state = initialState, action) {
