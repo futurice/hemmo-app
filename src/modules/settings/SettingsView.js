@@ -3,9 +3,13 @@ import * as HomeState from '../../modules/home/HomeState'
 import * as NavigationState from '../../modules/navigation/NavigationState';
 import React, {PropTypes} from 'react';
 import {Map} from 'immutable';
+
+
 import {
   StyleSheet,
+  NativeModules,
   TouchableHighlight,
+  CameraRoll,
   Image,
   Text,
   TextInput,
@@ -14,23 +18,80 @@ import {
 
 var name;
 var age;
+var styles = require('./styles.js');
+
+var ImagePicker = NativeModules.ImagePickerManager;
+
+var options = {
+  title: 'Valitse kuvake', // specify null or empty string to remove the title
+  cancelButtonTitle: 'Peruuta',
+  takePhotoButtonTitle: 'Ota valokuva...', // specify null or empty string to remove this button
+  chooseFromLibraryButtonTitle: 'Valitse galleriasta...', // specify null or empty string to remove this button
+  customButtons: {
+     'Choose Photo from Facebook': 'fb', // [Button Text] : [String returned upon selection]
+   },
+  cameraType: 'back', // 'front' or 'back'
+  mediaType: 'photo', // 'photo' or 'video'
+  videoQuality: 'high', // 'low', 'medium', or 'high'
+  durationLimit: 10, // video recording max time in seconds
+  maxWidth: 100, // photos only
+  maxHeight: 100, // photos only
+  aspectX: 2, // android only - aspectX:aspectY, the cropping image's ratio of width to height
+  aspectY: 1, // android only - aspectX:aspectY, the cropping image's ratio of width to height
+  quality: 1, // 0 to 1, photos only
+  angle: 0, // android only, photos only
+  allowsEditing: false, // Built in functionality to resize/reposition the image after selection
+  noData: false, // photos only - disables the base64 `data` field from being generated (greatly improves performance on large photos)
+};
+
 
 const SettingsView = React.createClass({
+
+  propTypes: {
+    userImage: PropTypes.string.isRequired,
+  },
 
   createKid() {
     console.log("Lapsen nimi ja ikä olivat " + name + " " + age);
     this.props.dispatch(HomeState.addKid(name, age));
   },
-
   getName(e) {
     name = e.nativeEvent.text;
   },
-
   getAge(e) {
     age = e.nativeEvent.text;
   },
 
+  openGallery() {
+    ImagePicker.showImagePicker(options, (response) => {
+      console.log('Response was = ', response);
+
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      }
+      else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      }
+      else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      }
+      else {
+        //const source = {uri: 'data:image/jpeg;base64,' + response.data, isStatic: true};
+
+        // uri (on iOS)
+        //const source = {uri: response.uri.replace('file://', ''), isStatic: true};
+        // uri (on android)
+        const source = {uri: response.uri, isStatic: true};
+
+        this.props.dispatch(SettingsState.updateImage(source.uri));
+
+      }
+    });
+
+  },
+
   render() {
+    console.log("USERIMAGE " + this.props.userImage);
 
     const loadingStyle = this.props.loading
       ? {backgroundColor: '#eee'}
@@ -67,11 +128,22 @@ const SettingsView = React.createClass({
 
             <View style={styles.imagefield}>
               <TouchableHighlight style={styles.touchable}>
-                <Image style={styles.icon} source={require('../../../assets/default-icon.png')}/>
-
+                <Image style={styles.icon} source={{uri: this.props.userImage}}/>
               </TouchableHighlight>
-
             </View>
+
+            <View style={styles.buttonfield}>
+              <TouchableHighlight
+                onPress={this.openGallery}
+                style={styles.touchable}>
+                <View style={styles.cancelbutton}>
+                  <Text style={styles.label, styles.highlight}>
+                    Vaihda
+                  </Text>
+                </View>
+              </TouchableHighlight>
+            </View>
+
           </View>
 
           <View style={styles.buttoncolumn}>
@@ -99,90 +171,14 @@ const SettingsView = React.createClass({
                   </Text>
                 </View>
               </TouchableHighlight>
-
-
             </View>
-
           </View>
-
         </View>
       </View>
     );
   }
 });
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    backgroundColor: 'white'
-  },
-  form: {
-    flexDirection: 'row',
-    position: 'absolute',
-    top: 10,
-    left: 10,
-    right: 10,
-    bottom: 10,
-  },
-  fieldcolumn: {
-    flex: 1,
-    flexDirection: 'column',
-  },
-  buttoncolumn: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-  },
-  field: {
-    flex: 1,
-    alignItems: 'center',
-    marginBottom: 15,
-  },
-  buttonfield: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  imagefield: {
-    flex: 2,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  label: {
-    textAlign: 'center',
-    fontSize: 20,
-  },
-  input: {
-    textAlign: 'center',
-    fontSize: 20,
-  },
-  touchable: {
-    borderRadius: 60,
-  },
-  highlight: {
-    color: '#F5FCFF'
-  },
-  savebutton: {
-    backgroundColor: 'green',
-    borderRadius: 60,
-    height: 120,
-    width: 120,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  cancelbutton: {
-    backgroundColor: 'grey',
-    borderRadius: 20,
-    height: 30,
-    width: 80,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  icon: {
-    height: 100,
-    width: 100,
-  }
-});
+
 
 export default SettingsView;
