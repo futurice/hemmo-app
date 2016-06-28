@@ -1,5 +1,4 @@
 import {Map, List} from 'immutable';
-import {loop, Effects} from 'redux-loop';
 
 // Initial state
 const initialState = Map({

@@ -1,7 +1,7 @@
-import * as HomeState from './HomeState';
 import * as NavigationState from '../../modules/navigation/NavigationState';
 import React, {PropTypes} from 'react';
-import {Map, List} from 'immutable';
+import {List, immutable} from 'immutable';
+import User from '../../components/User';
 
 import {
   TouchableOpacity,
@@ -11,6 +11,8 @@ import {
 } from 'react-native';
 
 var styles = require('./styles.js');
+var users;
+
 
 const HomeView = React.createClass({
 
@@ -20,9 +22,9 @@ const HomeView = React.createClass({
     kids: PropTypes.instanceOf(List)
   },
   getInitialState() {
-    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => !immutable.is(r1,r2)});
     return {
-      dataSource: ds.cloneWithRows(this.props.kids)
+      dataSource: ds.cloneWithRows(this.props.kids.toArray())
     };
   },
   settings() {
@@ -33,10 +35,24 @@ const HomeView = React.createClass({
 
     console.log('KIDS  ' + this.props.kids);
 
+    if (this.props.kids.size < 1)
+    {
+      console.log('Oli tyhjä');
+    }
+    else {
+      console.log('Ei ollut tyhjä!');
+      users = <ListView
+        dataSource = {this.state.dataSource}
+        renderRow = {
+          (rowData) => <User image={rowData.get('image')}/>
+        }
+      />;
+    }
+
     return (
       <View style={styles.container}>
 
-        <View style={styles.leftColumn}>
+        <View style={styles.column}>
           <TouchableOpacity
             onPress={this.settings}
             style={[styles.settingsButton]}>
@@ -46,11 +62,8 @@ const HomeView = React.createClass({
           </TouchableOpacity>
         </View>
 
-        <View style={styles.rightColumn}>
-          <ListView
-           dataSource={this.state.dataSource}
-           renderRow={(rowData) => <Text style={styles.nameList}>{rowData}</Text>}
-           />
+        <View style={styles.column}>
+          {users}
         </View>
 
       </View>

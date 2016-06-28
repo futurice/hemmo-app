@@ -19,8 +19,7 @@ const styles = StyleSheet.create({
   },
   column: {
     flex: 1,
-    alignItems: 'center',
-    borderWidth: 1
+    alignItems: 'center'
   },
   settingsButton: {
     ...circle,
@@ -30,7 +29,7 @@ const styles = StyleSheet.create({
     margin: 20
   },
   nameList: {
-    fontSize: 40
+    fontSize: 5
   },
   button: {
     color: 'white',
