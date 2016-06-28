@@ -41,7 +41,9 @@ const styles = StyleSheet.create({
   },
   input: {
     textAlign: 'center',
-    fontSize: 20
+    fontSize: 20,
+    flex: 1,
+    borderWidth: 1
   },
   touchable: {
     borderRadius: 60

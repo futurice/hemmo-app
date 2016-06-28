@@ -105,23 +105,19 @@ const SettingsView = React.createClass({
               <Text style={styles.label}>
                 Nimi:
               </Text>
-              <View>
                 <TextInput style={styles.input}
                   ref = 'name'
                   onChange = {this.getName}/>
-              </View>
             </View>
 
             <View style={styles.field}>
               <Text style={styles.label}>
                 Ikä:
               </Text>
-              <View>
                 <TextInput keyboardType='numeric' style={styles.input}
                 ref='age'
                 onChange={this.getAge}
                 />
-              </View>
             </View>
 
             <View style={styles.imagefield}>

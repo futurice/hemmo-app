@@ -12,6 +12,8 @@ import {
 
 var styles = require('./styles.js');
 var users;
+var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => !immutable.is(r1,r2)});
+
 
 
 const HomeView = React.createClass({
@@ -22,10 +24,19 @@ const HomeView = React.createClass({
     kids: PropTypes.instanceOf(List)
   },
   getInitialState() {
-    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => !immutable.is(r1,r2)});
     return {
       dataSource: ds.cloneWithRows(this.props.kids.toArray())
     };
+  },
+  componentDidMount() {
+    this.getUsers();
+  },
+  getUsers() {
+    console.log('KIDS  PÄIVITETÄÄN' + this.props.kids);
+
+    this.setState({
+      dataSource: ds.cloneWithRows(this.props.kids.toArray())
+    });
   },
   settings() {
     this.props.dispatch(NavigationState.pushRoute({key: 'Settings'}));
@@ -35,14 +46,11 @@ const HomeView = React.createClass({
 
     console.log('KIDS  ' + this.props.kids);
 
-    if (this.props.kids.size < 1)
-    {
-      console.log('Oli tyhjä');
-    }
-    else {
+    if (this.props.kids.size > 0) {
       console.log('Ei ollut tyhjä!');
+      console.log('DATASOURCE ' + this.state.dataSource);
       users = <ListView
-        dataSource = {this.state.dataSource}
+        dataSource = {ds.cloneWithRows(this.props.kids.toArray())}
         renderRow = {
           (rowData) => <User image={rowData.get('image')}/>
         }
