@@ -3,16 +3,16 @@ import {loop, Effects} from 'redux-loop';
 
 // Initial state
 const initialState = Map({
-  kids: []
+  kids: List()
 });
 
 const ADDKID = 'HomeState/ADDKID';
 
 // Action creators
-export function addKid(name, age) {
+export function addKid(kid) {
   return {
     type: ADDKID,
-    payload: {name: name, age: age}
+    payload: Map({name: kid.name, age: kid.age, image: kid.image})
   };
 }
 
@@ -26,5 +26,6 @@ export default function HomeStateReducer(state = initialState, action = {}) {
 
     default:
       return state;
+
   }
 }

@@ -9,11 +9,18 @@ const initialState = Map({
 const UPDATEIMAGE = 'SettingsState/UPDATEIMAGE';
 
 // Action creators
-export function updateImage(image) {
+export function loadImage(image) {
   console.log('IMAGE ON ' + image);
   return {
     type: UPDATEIMAGE,
     payload: image
+  };
+}
+
+export function removeImage() {
+  return {
+    type: UPDATEIMAGE,
+    payload: '../../../assets/default-icon.png'
   };
 }
 

@@ -2,6 +2,7 @@ import {
   StyleSheet
 } from 'react-native';
 
+// TODO: Fix positioning and buttons
 const styles = StyleSheet.create({
   container: {
     flex: 1,

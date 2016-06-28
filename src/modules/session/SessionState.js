@@ -5,7 +5,6 @@ export const INITIALIZE_STATE = 'SessionState/INITIALIZE';
 // Initial state
 const initialState = Map({
   isReady: false
-  
 });
 
 export function resetSessionStateFromSnapshot(state) {

@@ -1,6 +1,8 @@
 import * as HomeState from './HomeState';
 import * as NavigationState from '../../modules/navigation/NavigationState';
 import React, {PropTypes} from 'react';
+import {Map, List} from 'immutable';
+
 import {
   TouchableOpacity,
   ListView,
@@ -14,19 +16,22 @@ const HomeView = React.createClass({
 
   propTypes: {
     dispatch: PropTypes.func.isRequired,
-    onNavigate: PropTypes.func.isRequired
+    onNavigate: PropTypes.func.isRequired,
+    kids: PropTypes.instanceOf(List)
   },
-  /*getInitialState: function() {
+  getInitialState() {
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     return {
-      dataSource: ds.cloneWithRows(testData)
+      dataSource: ds.cloneWithRows(this.props.kids)
     };
-  },*/
+  },
   settings() {
     this.props.dispatch(NavigationState.pushRoute({key: 'Settings'}));
   },
 
   render() {
+
+    console.log('KIDS  ' + this.props.kids);
 
     return (
       <View style={styles.container}>
@@ -42,10 +47,10 @@ const HomeView = React.createClass({
         </View>
 
         <View style={styles.rightColumn}>
-          {/*<ListView
+          <ListView
            dataSource={this.state.dataSource}
            renderRow={(rowData) => <Text style={styles.nameList}>{rowData}</Text>}
-           />*/}
+           />
         </View>
 
       </View>

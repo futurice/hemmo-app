@@ -1,21 +1,23 @@
 import * as SettingsState from './SettingsState';
 import * as HomeState from '../../modules/home/HomeState';
+import * as NavigationState from '../../modules/navigation/NavigationState';
+
 import React, {PropTypes} from 'react';
 
 import {
   NativeModules,
   TouchableHighlight,
   Image,
+  Alert,
   Text,
   TextInput,
   View
 } from 'react-native';
 
-var name;
-var age;
 var styles = require('./styles.js');
 
 var ImagePicker = NativeModules.ImagePickerManager;
+var newKid = {name: null, age: null, image: null};
 
 var options = {
   title: 'Valitse kuvake', // specify null or empty string to remove the title
@@ -47,17 +49,29 @@ const SettingsView = React.createClass({
     onNavigate: PropTypes.func.isRequired
   },
 
-  createKid() { /* ei toimi oikein */
-    console.log('Lapsen nimi ja ikä olivat ' + name + ' ' + age);
-    this.props.dispatch(HomeState.addKid(name, age));
+  createKid() {
+    if (newKid.name === null || newKid.age === null || newKid.image === null) {
+      Alert.alert('Puuttuvia tietoja', 'Varmistathan, että kaikki kohdat on täytetty ennen jatkamista.');
+    }
+    else {
+      console.log('Lapsen nimi ja ikä olivat ' + newKid.name + ' ' + newKid.age + ' ' + newKid.image);
+      this.props.dispatch(HomeState.addKid(newKid));
+      this.props.dispatch(SettingsState.removeImage());
+
+      newKid = {name: null, age: null, image: null};
+      //Back to front page
+      this.props.dispatch(NavigationState.popRoute());
+    }
   },
   getName(e) {
-    name = e.nativeEvent.text;
+    newKid.name = e.nativeEvent.text;
   },
   getAge(e) {
-    age = e.nativeEvent.text;
+    newKid.age = e.nativeEvent.text;
   },
 
+  // TODO: Add 'Remove image'
+  // TODO: Display default-image after opening.
   openGallery() {
     ImagePicker.showImagePicker(options, (response) => {
 
@@ -67,8 +81,11 @@ const SettingsView = React.createClass({
       else {
         const source = {uri: response.uri, isStatic: true};
 
-        this.props.dispatch(SettingsState.updateImage(source.uri));
+        newKid.image = source.uri;
+
+        this.props.dispatch(SettingsState.loadImage(source.uri));
       }
+
       //const source = {uri: 'data:image/jpeg;base64,' + response.data, isStatic: true};
 
       // uri (on iOS)
@@ -78,8 +95,6 @@ const SettingsView = React.createClass({
   },
 
   render() {
-    console.log('USERIMAGE ' + this.props.userImage);
-
     return (
       <View style={styles.container}>
         <View style={styles.form}>

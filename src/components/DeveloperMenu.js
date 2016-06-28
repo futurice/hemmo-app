@@ -1,6 +1,5 @@
 import React from 'react';
 import * as snapshot from '../utils/snapshot';
-//import * as auth0 from '../services/auth0';
 
 import {
   TouchableOpacity,
