@@ -9,7 +9,8 @@ const NavigationTabView = React.createClass({
     router: PropTypes.func.isRequired,
     navigationState: PropTypes.object.isRequired,
     onNavigate: PropTypes.func.isRequired,
-    shouldRenderHeader: PropTypes.bool
+    shouldRenderHeader: PropTypes.bool,
+    selectUser: PropTypes.func.isRequired
   },
 
   getDefaultProps() {
@@ -17,7 +18,6 @@ const NavigationTabView = React.createClass({
   },
 
   renderHeader(props) {
-    console.log('renderHeader', props);
     return (
       <Navigation.Header
         {...props}
@@ -27,12 +27,13 @@ const NavigationTabView = React.createClass({
   },
 
   renderScene(props) {
-    console.log('RENDERING SCENE');
+    console.log('RENDERING SCENE ' + props.scene.navigationState.key);
     return (
       <Navigation.Card
         {...props}
         key={props.scene.navigationState.key}
         renderScene={this.props.router}
+        selectUser={this.props.selectUser}
       />
     );
   },
@@ -43,6 +44,7 @@ const NavigationTabView = React.createClass({
         style={{flex: 1}}
         navigationState={this.props.navigationState}
         onNavigate={this.props.onNavigate}
+        //selectUser={this.props.selectUser}
         //renderOverlay={this.props.shouldRenderHeader ? this.renderHeader : null}
         renderScene={this.renderScene}
         applyAnimation={(pos, navState) => {

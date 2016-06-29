@@ -1,8 +1,8 @@
 import * as SettingsState from './SettingsState';
 import * as HomeState from '../../modules/home/HomeState';
 import * as NavigationState from '../../modules/navigation/NavigationState';
-
 import React, {PropTypes} from 'react';
+import {List, Map} from 'immutable';
 
 import {
   NativeModules,
@@ -14,10 +14,12 @@ import {
   View
 } from 'react-native';
 
+// NOTE: Re-use settings-module when editing existing children!
+
 var styles = require('./styles.js');
 
 var ImagePicker = NativeModules.ImagePickerManager;
-var newKid = {name: null, age: null, image: null};
+var newKid = {id: null, name: null, age: null, image: null};
 
 var options = {
   title: 'Valitse kuvake', // specify null or empty string to remove the title
@@ -43,10 +45,13 @@ var options = {
 
 const SettingsView = React.createClass({
 
+  // TODO: Retrieve currentUser.
   propTypes: {
     userImage: PropTypes.string.isRequired,
     dispatch: PropTypes.func.isRequired,
-    onNavigate: PropTypes.func.isRequired
+    onNavigate: PropTypes.func.isRequired,
+    kids: PropTypes.instanceOf(List),
+    currentUser: PropTypes.instanceOf(Map)
   },
 
   createKid() {
@@ -55,18 +60,20 @@ const SettingsView = React.createClass({
     }
     else {
       console.log('Lapsen nimi ja ikä olivat ' + newKid.name + ' ' + newKid.age + ' ' + newKid.image);
+      newKid.id = this.props.kids.size;
+
       this.props.dispatch(HomeState.addKid(newKid));
       this.props.dispatch(SettingsState.removeImage());
 
-      newKid = {name: null, age: null, image: null};
-      //Back to front page
+      newKid = {id: null, name: null, age: null, image: null};
+
       this.props.dispatch(NavigationState.popRoute());
     }
   },
-  getName(e) {
+  getChangedName(e) {
     newKid.name = e.nativeEvent.text;
   },
-  getAge(e) {
+  getChangedAge(e) {
     newKid.age = e.nativeEvent.text;
   },
 
@@ -95,34 +102,38 @@ const SettingsView = React.createClass({
   },
 
   render() {
+    // TODO: Check is user.id is empty/null -> fields are empty. Otherwise getName etc.
+
+    console.log('NEW KID NAME BRUCE ' + this.props.currentUser.get('name'));
+
     return (
       <View style={styles.container}>
         <View style={styles.form}>
-
           <View style={styles.fieldcolumn}>
-
             <View style={styles.field}>
               <Text style={styles.label}>
                 Nimi:
               </Text>
-                <TextInput style={styles.input}
-                  ref = 'name'
-                  onChange = {this.getName}/>
+              <TextInput style={styles.input}
+                ref = 'name'
+                onChange = {this.getChangedName}
+                value={this.props.currentUser.get('name')}/>
             </View>
 
             <View style={styles.field}>
               <Text style={styles.label}>
                 Ikä:
               </Text>
-                <TextInput keyboardType='numeric' style={styles.input}
+              <TextInput keyboardType='numeric' style={styles.input}
                 ref='age'
-                onChange={this.getAge}
+                onChange={this.getChangedAge}
+                value={this.props.currentUser.get('age')}
                 />
             </View>
 
             <View style={styles.imagefield}>
               <TouchableHighlight style={styles.touchable}>
-                <Image style={styles.icon} source={{uri: this.props.userImage}}/>
+                <Image style={styles.icon} source={{uri: this.props.currentUser.get('image')}}/>
               </TouchableHighlight>
             </View>
 

@@ -12,7 +12,7 @@ export default function AppRouter(props) {
   const key = props.scene.navigationState.key;
 
   if (key === 'Home') {
-    return <HomeViewContainer onNavigate={onNavigate}/>;
+    return <HomeViewContainer onNavigate={onNavigate} selectUser={props.selectUser}/>;
   }
   else if (key === 'Settings') {
     return <SettingsViewContainer onNavigate={onNavigate}/>;

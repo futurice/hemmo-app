@@ -1,6 +1,7 @@
 import * as NavigationState from '../../modules/navigation/NavigationState';
+import * as HomeState from '../../modules/home/HomeState';
 import React, {PropTypes} from 'react';
-import {List, immutable} from 'immutable';
+import {List, Map, immutable} from 'immutable';
 import User from '../../components/User';
 
 import {
@@ -14,14 +15,14 @@ var styles = require('./styles.js');
 var users;
 var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => !immutable.is(r1,r2)});
 
-
-
 const HomeView = React.createClass({
 
   propTypes: {
     dispatch: PropTypes.func.isRequired,
     onNavigate: PropTypes.func.isRequired,
-    kids: PropTypes.instanceOf(List)
+    kids: PropTypes.instanceOf(List),
+    selectUser: PropTypes.func.isRequired,
+    currentUser: PropTypes.instanceOf(Map)
   },
   getInitialState() {
     return {
@@ -38,21 +39,25 @@ const HomeView = React.createClass({
       dataSource: ds.cloneWithRows(this.props.kids.toArray())
     });
   },
-  settings() {
+  addUser() {
+    this.props.dispatch(HomeState.resetCurrentUser());
+    console.log('Current user is ' + this.props.currentUser);
     this.props.dispatch(NavigationState.pushRoute({key: 'Settings'}));
   },
 
   render() {
-
     console.log('KIDS  ' + this.props.kids);
 
     if (this.props.kids.size > 0) {
-      console.log('Ei ollut tyhjä!');
-      console.log('DATASOURCE ' + this.state.dataSource);
+      console.log('Kids ei ollut tyhjä!');
       users = <ListView
         dataSource = {ds.cloneWithRows(this.props.kids.toArray())}
         renderRow = {
-          (rowData) => <User image={rowData.get('image')}/>
+          (rowData) =>
+            <User id={rowData.get('id')}
+                  image={rowData.get('image')}
+                  selectUser={this.props.selectUser}
+                  />
         }
       />;
     }
@@ -62,7 +67,7 @@ const HomeView = React.createClass({
 
         <View style={styles.column}>
           <TouchableOpacity
-            onPress={this.settings}
+            onPress={this.addUser}
             style={[styles.settingsButton]}>
             <Text style={styles.button}>
               +

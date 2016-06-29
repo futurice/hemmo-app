@@ -1,6 +1,7 @@
 import {connect} from 'react-redux';
-import {popRoute, switchTab, navigationCompleted} from './NavigationState';
+import {popRoute, pushRoute, switchTab, navigationCompleted} from './NavigationState';
 import NavigationView from './NavigationView';
+import * as HomeState from '../../modules/home/HomeState';
 
 export default connect(
   state => ({
@@ -21,6 +22,12 @@ export default connect(
       } else if (action.type === 'animation-completed') {
         dispatch(navigationCompleted());
       }
+    },
+    selectUser(index) {
+      console.log('INDEX OLI ' + index);
+      dispatch(HomeState.updateCurrentUser(index));
+
+      dispatch(pushRoute({key: 'Settings'}));
     }
   })
 )(NavigationView);
