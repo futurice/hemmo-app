@@ -10,7 +10,7 @@ const NavigationTabView = React.createClass({
     navigationState: PropTypes.object.isRequired,
     onNavigate: PropTypes.func.isRequired,
     shouldRenderHeader: PropTypes.bool,
-    selectUser: PropTypes.func.isRequired
+    viewUserProfile: PropTypes.func.isRequired
   },
 
   getDefaultProps() {
@@ -33,7 +33,7 @@ const NavigationTabView = React.createClass({
         {...props}
         key={props.scene.navigationState.key}
         renderScene={this.props.router}
-        selectUser={this.props.selectUser}
+        viewUserProfile={this.props.viewUserProfile}
       />
     );
   },

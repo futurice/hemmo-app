@@ -1,5 +1,5 @@
 import {connect} from 'react-redux';
-import {popRoute, pushRoute, switchTab, navigationCompleted} from './NavigationState';
+import {popRoute, pushRoute, navigationCompleted} from './NavigationState';
 import NavigationView from './NavigationView';
 import * as HomeState from '../../modules/home/HomeState';
 
@@ -8,9 +8,6 @@ export default connect(
     navigationState: state.get('navigationState').toJS()
   }),
   dispatch => ({
-    switchTab(index) {
-      dispatch(switchTab(index));
-    },
     onNavigate(action) {
       // The "back" and "BackAction" actions are fired from NavigationExperimental when
       // the user swipes the screen back or uses the software back button, respectively.
@@ -23,10 +20,8 @@ export default connect(
         dispatch(navigationCompleted());
       }
     },
-    selectUser(index) {
-      console.log('INDEX OLI ' + index);
+    viewUserProfile(index) {
       dispatch(HomeState.updateCurrentUser(index));
-
       dispatch(pushRoute({key: 'Settings'}));
     }
   })

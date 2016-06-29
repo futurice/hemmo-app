@@ -21,7 +21,7 @@ const HomeView = React.createClass({
     dispatch: PropTypes.func.isRequired,
     onNavigate: PropTypes.func.isRequired,
     kids: PropTypes.instanceOf(List),
-    selectUser: PropTypes.func.isRequired,
+    viewUserProfile: PropTypes.func.isRequired,
     currentUser: PropTypes.instanceOf(Map)
   },
   getInitialState() {
@@ -33,38 +33,31 @@ const HomeView = React.createClass({
     this.getUsers();
   },
   getUsers() {
-    console.log('KIDS  PÄIVITETÄÄN' + this.props.kids);
-
     this.setState({
       dataSource: ds.cloneWithRows(this.props.kids.toArray())
     });
   },
   addUser() {
     this.props.dispatch(HomeState.resetCurrentUser());
-    console.log('Current user is ' + this.props.currentUser);
     this.props.dispatch(NavigationState.pushRoute({key: 'Settings'}));
   },
-
   render() {
-    console.log('KIDS  ' + this.props.kids);
-
     if (this.props.kids.size > 0) {
       console.log('Kids ei ollut tyhjä!');
       users = <ListView
         dataSource = {ds.cloneWithRows(this.props.kids.toArray())}
         renderRow = {
           (rowData) =>
-            <User id={rowData.get('id')}
-                  image={rowData.get('image')}
-                  selectUser={this.props.selectUser}
-                  />
+            <User
+              id={rowData.get('id')}
+              image={rowData.get('image')}
+              viewUserProfile={this.props.viewUserProfile}
+            />
         }
       />;
     }
-
     return (
       <View style={styles.container}>
-
         <View style={styles.column}>
           <TouchableOpacity
             onPress={this.addUser}
@@ -78,7 +71,6 @@ const HomeView = React.createClass({
         <View style={styles.column}>
           {users}
         </View>
-
       </View>
     );
   }

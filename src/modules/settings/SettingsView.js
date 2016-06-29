@@ -14,8 +14,6 @@ import {
   View
 } from 'react-native';
 
-// NOTE: Re-use settings-module when editing existing children!
-
 var styles = require('./styles.js');
 
 var ImagePicker = NativeModules.ImagePickerManager;
@@ -45,7 +43,6 @@ var options = {
 
 const SettingsView = React.createClass({
 
-  // TODO: Retrieve currentUser.
   propTypes: {
     userImage: PropTypes.string.isRequired,
     dispatch: PropTypes.func.isRequired,
@@ -54,7 +51,7 @@ const SettingsView = React.createClass({
     currentUser: PropTypes.instanceOf(Map)
   },
 
-  createKid() {
+  saveUser() {
     if (newKid.name === null || newKid.age === null || newKid.image === null) {
       Alert.alert('Puuttuvia tietoja', 'Varmistathan, että kaikki kohdat on täytetty ennen jatkamista.');
     }
@@ -67,6 +64,7 @@ const SettingsView = React.createClass({
 
       newKid = {id: null, name: null, age: null, image: null};
 
+      // TODO: Check is adding was successful!
       this.props.dispatch(NavigationState.popRoute());
     }
   },
@@ -92,9 +90,7 @@ const SettingsView = React.createClass({
 
         this.props.dispatch(SettingsState.loadImage(source.uri));
       }
-
       //const source = {uri: 'data:image/jpeg;base64,' + response.data, isStatic: true};
-
       // uri (on iOS)
       //const source = {uri: response.uri.replace('file://', ''), isStatic: true};
       // uri (on android)
@@ -102,10 +98,6 @@ const SettingsView = React.createClass({
   },
 
   render() {
-    // TODO: Check is user.id is empty/null -> fields are empty. Otherwise getName etc.
-
-    console.log('NEW KID NAME BRUCE ' + this.props.currentUser.get('name'));
-
     return (
       <View style={styles.container}>
         <View style={styles.form}>
@@ -114,7 +106,8 @@ const SettingsView = React.createClass({
               <Text style={styles.label}>
                 Nimi:
               </Text>
-              <TextInput style={styles.input}
+              <TextInput
+                style={styles.input}
                 ref = 'name'
                 onChange = {this.getChangedName}
                 value={this.props.currentUser.get('name')}/>
@@ -124,7 +117,9 @@ const SettingsView = React.createClass({
               <Text style={styles.label}>
                 Ikä:
               </Text>
-              <TextInput keyboardType='numeric' style={styles.input}
+              <TextInput
+                keyboardType='numeric'
+                style={styles.input}
                 ref='age'
                 onChange={this.getChangedAge}
                 value={this.props.currentUser.get('age')}
@@ -133,7 +128,9 @@ const SettingsView = React.createClass({
 
             <View style={styles.imagefield}>
               <TouchableHighlight style={styles.touchable}>
-                <Image style={styles.icon} source={{uri: this.props.currentUser.get('image')}}/>
+                <Image
+                  style={styles.icon}
+                  source={{uri: this.props.currentUser.get('image')}}/>
               </TouchableHighlight>
             </View>
 
@@ -155,7 +152,7 @@ const SettingsView = React.createClass({
 
             <View style={styles.buttonfield}>
               <TouchableHighlight
-                onPress={this.createKid}
+                onPress={this.saveUser}
                 style={styles.touchable}>
 
                 <View style={styles.savebutton}>
