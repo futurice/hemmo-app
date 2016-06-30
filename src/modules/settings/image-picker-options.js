@@ -3,7 +3,9 @@ var options = {
   cancelButtonTitle: 'Peruuta',
   takePhotoButtonTitle: 'Ota valokuva...', // specify null or empty string to remove this button
   chooseFromLibraryButtonTitle: 'Valitse galleriasta...',
-  customButtons: {},
+  customButtons: {
+    'Poista kuva': 'remove'
+  },
   cameraType: 'back', // 'front' or 'back'
   mediaType: 'photo', // 'photo' or 'video'
   videoQuality: 'high', // 'low', 'medium', or 'high'

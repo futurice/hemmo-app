@@ -42,7 +42,7 @@ export function editUser(user) {
 export function resetCurrentUser() {
   return {
     type: RESET_CURRENT_USER,
-    payload: Map({id: null, name: null, age: null, image: null})
+    payload: Map({id: null, name: '', age: '', image: null})
   };
 }
 

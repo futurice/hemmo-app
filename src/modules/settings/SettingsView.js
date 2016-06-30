@@ -28,8 +28,8 @@ const SettingsView = React.createClass({
 
   saveUser() {
     // TODO: CHECK IF STRINGS ARE NULL OR EMPTY
-    if (this.props.currentUser.get('name') === null ||
-        this.props.currentUser.get('age') === null ||
+    if (this.props.currentUser.get('name') === '' ||
+        this.props.currentUser.get('age') === '' ||
         this.props.currentUser.get('image') === null) {
       Alert.alert('Puuttuvia tietoja', 'Varmistathan, että kaikki kohdat on täytetty ennen jatkamista.');
     }
@@ -70,6 +70,9 @@ const SettingsView = React.createClass({
 
       if (response.didCancel) {
         console.log('User cancelled image picker');
+      }
+      else if (response.customButton) {
+        this.props.dispatch(HomeState.setCurrentUserValue('image', null));
       }
       else {
         const source = {uri: response.uri, isStatic: true};
