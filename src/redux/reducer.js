@@ -15,7 +15,7 @@ const reducers = {
 
   session: SessionStateReducer,
 
-  settings: SettingsStateReducer,
+  settings: SettingsStateReducer
 
 };
 

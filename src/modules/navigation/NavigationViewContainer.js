@@ -21,7 +21,7 @@ export default connect(
       }
     },
     viewUserProfile(index) {
-      dispatch(HomeState.updateCurrentUser(index));
+      dispatch(HomeState.setCurrentUser(index));
       dispatch(pushRoute({key: 'Settings'}));
     }
   })

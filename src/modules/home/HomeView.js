@@ -2,7 +2,7 @@ import * as NavigationState from '../../modules/navigation/NavigationState';
 import * as HomeState from '../../modules/home/HomeState';
 import React, {PropTypes} from 'react';
 import {List, Map, immutable} from 'immutable';
-import User from '../../components/User';
+import UserIcon from '../../components/UserIcon';
 
 import {
   TouchableOpacity,
@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 
 var styles = require('./styles.js');
-var users;
+var userIcons;
 var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => !immutable.is(r1,r2)});
 
 const HomeView = React.createClass({
@@ -20,35 +20,35 @@ const HomeView = React.createClass({
   propTypes: {
     dispatch: PropTypes.func.isRequired,
     onNavigate: PropTypes.func.isRequired,
-    kids: PropTypes.instanceOf(List),
+    users: PropTypes.instanceOf(List),
     viewUserProfile: PropTypes.func.isRequired,
     currentUser: PropTypes.instanceOf(Map)
   },
   getInitialState() {
     return {
-      dataSource: ds.cloneWithRows(this.props.kids.toArray())
+      dataSource: ds.cloneWithRows(this.props.users.toArray())
     };
   },
-  componentDidMount() {
-    this.getUsers();
-  },
-  getUsers() {
-    this.setState({
-      dataSource: ds.cloneWithRows(this.props.kids.toArray())
-    });
-  },
+  // componentDidMount() {
+  //   this.getUsers();
+  // },
+  // getUsers() {
+  //   this.setState({
+  //     dataSource: ds.cloneWithRows(this.props.users.toArray())
+  //   });
+  // },
   addUser() {
     this.props.dispatch(HomeState.resetCurrentUser());
     this.props.dispatch(NavigationState.pushRoute({key: 'Settings'}));
   },
   render() {
-    if (this.props.kids.size > 0) {
-      console.log('Kids ei ollut tyhjä!');
-      users = <ListView
-        dataSource = {ds.cloneWithRows(this.props.kids.toArray())}
+    if (this.props.users.size > 0) {
+      // console.log('users ei ollut tyhjä!');
+      userIcons = <ListView
+        dataSource = {ds.cloneWithRows(this.props.users.toArray())}
         renderRow = {
           (rowData) =>
-            <User
+            <UserIcon
               id={rowData.get('id')}
               image={rowData.get('image')}
               viewUserProfile={this.props.viewUserProfile}
@@ -69,7 +69,7 @@ const HomeView = React.createClass({
         </View>
 
         <View style={styles.column}>
-          {users}
+          {userIcons}
         </View>
       </View>
     );

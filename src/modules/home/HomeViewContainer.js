@@ -4,7 +4,7 @@ import HomeView from './HomeView';
 
 export default connect(
   state => ({
-    kids: state.getIn(['home', 'kids']),
+    users: state.getIn(['home', 'users']),
     currentUser: state.getIn(['home', 'currentUser'])
   })
 )(HomeView);

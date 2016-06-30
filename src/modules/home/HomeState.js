@@ -2,32 +2,32 @@ import {Map, List} from 'immutable';
 
 // Initial state
 const initialState = Map({
-  kids: List(),
+  users: List(),
   currentUser: Map()
 });
 
-const ADDKID = 'HomeState/ADDKID';
-const RESETUSER = 'HomeState/RESETUSER';
-const UPDATECURRENTUSER = 'HomeState/UPDATECURRENTUSER';
+const CREATE_USER = 'HomeState/CREATE_USER';
+const RESET_CURRENT_USER = 'HomeState/RESET_CURRENT_USER';
+const SET_CURRENT_USER = 'HomeState/SET_CURRENT_USER';
 
 // Action creators
-export function addKid(kid) {
+export function createUser(newUser) {
   return {
-    type: ADDKID,
-    payload: Map({id: kid.id, name: kid.name, age: kid.age, image: kid.image})
+    type: CREATE_USER,
+    payload: Map({id: newUser.id, name: newUser.name, age: newUser.age, image: newUser.image})
   };
 }
 
 export function resetCurrentUser() {
   return {
-    type: RESETUSER,
+    type: RESET_CURRENT_USER,
     payload: Map({id: null, name: null, age: null, image: null})
   };
 }
 
-export function updateCurrentUser(id) {
+export function setCurrentUser(id) {
   return {
-    type: UPDATECURRENTUSER,
+    type: SET_CURRENT_USER,
     payload: id
   };
 }
@@ -35,23 +35,22 @@ export function updateCurrentUser(id) {
 // Reducer
 export default function HomeStateReducer(state = initialState, action = {}) {
   switch (action.type) {
-
     //Adds new kid to the List
-    case ADDKID:
+    case CREATE_USER:
       return state
-        .updateIn(['kids'], list => list.push(action.payload));
+        .updateIn(['users'], list => list.push(action.payload));
 
-    case RESETUSER:
+    case RESET_CURRENT_USER:
       return state
         .set('currentUser', action.payload);
 
-    case UPDATECURRENTUSER:
-      console.log('CURRENT USER BY ID ' + state.getIn(['kids', action.payload]));
-      var currentUser = state.getIn(['kids', action.payload]);
+    case SET_CURRENT_USER:
+      console.log('CURRENT USER BY ID ' + state.getIn(['users', action.payload]));
+      var currentUser = state.getIn(['users', action.payload]);
       console.log('Current user name ' + currentUser.get('name'));
 
       return state
-        .set('currentUser', state.getIn(['kids', action.payload]));
+        .set('currentUser', state.getIn(['users', action.payload]));
     // TODO: edit existing children
     // TODO: Remove existing children
 

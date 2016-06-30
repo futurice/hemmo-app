@@ -2,7 +2,6 @@ import {
   StyleSheet
 } from 'react-native';
 
-// TODO: Fix positioning and buttons
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -17,23 +16,17 @@ const styles = StyleSheet.create({
     right: 10,
     bottom: 10
   },
-  fieldcolumn: {
+  leftColumn: {
+    flex: 2,
+    flexDirection: 'column'
+  },
+  rightColumn: {
     flex: 1,
     flexDirection: 'column'
   },
-  buttoncolumn: {
+  inputField: {
     flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center'
-  },
-  field: {
-    flex: 1,
-    alignItems: 'center',
-    marginBottom: 15
-  },
-  buttonfield: {
-    alignItems: 'center',
-    justifyContent: 'center'
+    alignItems: 'center'
   },
   label: {
     textAlign: 'center',
@@ -45,36 +38,44 @@ const styles = StyleSheet.create({
     flex: 1,
     borderWidth: 1
   },
+  imagefield: {
+    flex: 2,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  icon: {
+    height: 120,
+    width: 120
+  },
   touchable: {
-    borderRadius: 60
+    borderRadius: 60,
+    marginLeft: 20,
+    marginBottom: 20
+  },
+  changeImageButton: {
+    backgroundColor: '#c2c2c2',
+    borderRadius: 10,
+    width: 100
   },
   highlight: {
     color: '#F5FCFF'
+  },
+  buttonfield: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   savebutton: {
     backgroundColor: 'green',
     borderRadius: 60,
     height: 120,
     width: 120,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 20
+    justifyContent: 'center'
   },
   cancelbutton: {
-    backgroundColor: 'grey',
-    borderRadius: 20,
-    height: 30,
-    width: 80,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  imagefield: {
-    flex: 2,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  icon: {
-    height: 100,
+    backgroundColor: '#c2c2c2',
+    borderRadius: 10,
     width: 100
   }
 });
