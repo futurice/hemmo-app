@@ -2,11 +2,12 @@ import * as NavigationState from '../../modules/navigation/NavigationState';
 import * as HomeState from '../../modules/home/HomeState';
 import React, {PropTypes} from 'react';
 import {List, Map, immutable} from 'immutable';
-import UserIcon from '../../components/UserIcon';
+import UserConfigurationButton from '../../components/UserConfigurationButton';
 
 import {
   TouchableOpacity,
   ListView,
+  Image,
   Text,
   View
 } from 'react-native';
@@ -39,11 +40,14 @@ const HomeView = React.createClass({
         dataSource = {ds.cloneWithRows(this.props.users.toArray())}
         renderRow = {
           (rowData) =>
-            <UserIcon
-              id={rowData.get('id')}
-              image={rowData.get('image')}
-              viewUserProfile={this.props.viewUserProfile}
-            />
+            <View style={styles.userRow}>
+              <UserConfigurationButton
+                id={rowData.get('id')}
+                viewUserProfile={this.props.viewUserProfile}
+              />
+              <Image style={styles.icon} source={{uri: rowData.get('image')}}/>
+
+            </View>
         }
       />;
     }

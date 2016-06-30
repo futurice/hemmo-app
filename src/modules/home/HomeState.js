@@ -7,6 +7,7 @@ const initialState = Map({
 });
 
 const CREATE_USER = 'HomeState/CREATE_USER';
+const EDIT_USER = 'HomeState/EDIT_USER';
 const RESET_CURRENT_USER = 'HomeState/RESET_CURRENT_USER';
 const SET_CURRENT_USER = 'HomeState/SET_CURRENT_USER';
 const SET_CURRENT_USER_VALUE = 'HomeState/SET_CURRENT_USER_VALUE';
@@ -20,6 +21,21 @@ export function createUser(userId, newUser) {
       name: newUser.get('name'),
       age: newUser.get('age'),
       image: newUser.get('image')})
+  };
+}
+
+export function editUser(user) {
+  return {
+    type: EDIT_USER,
+    payload: {
+      id: user.get('id'),
+      values: Map({
+        id: user.get('id'),
+        name: user.get('name'),
+        age: user.get('age'),
+        image: user.get('image')
+      })
+    }
   };
 }
 
@@ -51,6 +67,10 @@ export default function HomeStateReducer(state = initialState, action = {}) {
     case CREATE_USER:
       return state
         .updateIn(['users'], list => list.push(action.payload));
+
+    case EDIT_USER:
+      return state
+        .setIn(['users', action.payload.id], action.payload.values);
 
     case RESET_CURRENT_USER:
       return state

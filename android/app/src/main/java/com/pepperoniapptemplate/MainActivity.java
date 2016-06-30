@@ -1,6 +1,7 @@
 package com.pepperoniapptemplate;
 
 import com.facebook.react.ReactActivity;
+import com.oblador.vectoricons.VectorIconsPackage;
 import com.imagepicker.ImagePickerPackage;
 import com.github.yamill.orientation.OrientationPackage;
 import com.facebook.react.ReactPackage;
@@ -32,7 +33,7 @@ public class MainActivity extends ReactActivity {
     protected boolean getUseDeveloperSupport() {
         return BuildConfig.DEBUG;
     }
-    
+
 
     /**
      * A list of packages used by the app. If the app uses additional views
@@ -42,6 +43,7 @@ public class MainActivity extends ReactActivity {
     protected List<ReactPackage> getPackages() {
         return Arrays.<ReactPackage>asList(
             new MainReactPackage(),
+            new VectorIconsPackage(),
             new ImagePickerPackage(),
             new OrientationPackage(this)
         );

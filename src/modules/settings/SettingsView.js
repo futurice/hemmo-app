@@ -27,6 +27,7 @@ const SettingsView = React.createClass({
   },
 
   saveUser() {
+    // TODO: CHECK IF STRINGS ARE NULL OR EMPTY
     if (this.props.currentUser.get('name') === null ||
         this.props.currentUser.get('age') === null ||
         this.props.currentUser.get('image') === null) {
@@ -35,13 +36,25 @@ const SettingsView = React.createClass({
     else {
       var id = this.props.users.size;
 
-      console.log('CURRENT USER ' + this.props.currentUser);
+      console.log('CURRENT USER ID ' + this.props.currentUser.get('id'));
 
-      this.props.dispatch(HomeState.createUser(id, this.props.currentUser));
+      // If id == null, new user is created. Otherwise users[id] will be edited.
+      if (this.props.currentUser.get('id') === null) {
+        console.log('LISÄTÄÄN UUSI');
+
+        this.props.dispatch(HomeState.createUser(id, this.props.currentUser));
+      }
+      else {
+        console.log('MUOKATAAN VANHAA');
+        this.props.dispatch(HomeState.editUser(this.props.currentUser));
+      }
 
       // TODO: Check is adding was successful!
       this.props.dispatch(NavigationState.popRoute());
     }
+  },
+  cancel() {
+    this.props.dispatch(NavigationState.popRoute());
   },
   getChangedName(e) {
     this.props.dispatch(HomeState.setCurrentUserValue('name', e.nativeEvent.text));
@@ -128,8 +141,8 @@ const SettingsView = React.createClass({
               </TouchableHighlight>
 
               <TouchableHighlight
-                style={styles.touchable}>
-
+                style={styles.touchable}
+                onPress={this.cancel}>
                 <View style={styles.cancelbutton}>
                   <Text style={[styles.label, styles.highlight]}>
                     Peruuta

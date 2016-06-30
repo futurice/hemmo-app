@@ -21,6 +21,15 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center'
   },
+  userRow: {
+    flexDirection: 'row',
+    margin: 5,
+    alignItems: 'center'
+  },
+  icon: {
+    height: 80,
+    width: 80
+  },
   settingsButton: {
     ...circle,
     backgroundColor: 'green',
