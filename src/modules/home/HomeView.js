@@ -29,21 +29,12 @@ const HomeView = React.createClass({
       dataSource: ds.cloneWithRows(this.props.users.toArray())
     };
   },
-  // componentDidMount() {
-  //   this.getUsers();
-  // },
-  // getUsers() {
-  //   this.setState({
-  //     dataSource: ds.cloneWithRows(this.props.users.toArray())
-  //   });
-  // },
   addUser() {
     this.props.dispatch(HomeState.resetCurrentUser());
     this.props.dispatch(NavigationState.pushRoute({key: 'Settings'}));
   },
   render() {
     if (this.props.users.size > 0) {
-      // console.log('users ei ollut tyhjä!');
       userIcons = <ListView
         dataSource = {ds.cloneWithRows(this.props.users.toArray())}
         renderRow = {

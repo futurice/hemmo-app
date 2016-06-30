@@ -9,12 +9,17 @@ const initialState = Map({
 const CREATE_USER = 'HomeState/CREATE_USER';
 const RESET_CURRENT_USER = 'HomeState/RESET_CURRENT_USER';
 const SET_CURRENT_USER = 'HomeState/SET_CURRENT_USER';
+const SET_CURRENT_USER_VALUE = 'HomeState/SET_CURRENT_USER_VALUE';
 
 // Action creators
-export function createUser(newUser) {
+export function createUser(userId, newUser) {
   return {
     type: CREATE_USER,
-    payload: Map({id: newUser.id, name: newUser.name, age: newUser.age, image: newUser.image})
+    payload: Map({
+      id: userId,
+      name: newUser.get('name'),
+      age: newUser.get('age'),
+      image: newUser.get('image')})
   };
 }
 
@@ -22,6 +27,13 @@ export function resetCurrentUser() {
   return {
     type: RESET_CURRENT_USER,
     payload: Map({id: null, name: null, age: null, image: null})
+  };
+}
+
+export function setCurrentUserValue(variable, newValue) {
+  return {
+    type: SET_CURRENT_USER_VALUE,
+    payload: {destination: variable, value: newValue}
   };
 }
 
@@ -43,6 +55,10 @@ export default function HomeStateReducer(state = initialState, action = {}) {
     case RESET_CURRENT_USER:
       return state
         .set('currentUser', action.payload);
+
+    case SET_CURRENT_USER_VALUE:
+      return state
+        .setIn(['currentUser', action.payload.destination], action.payload.value);
 
     case SET_CURRENT_USER:
       console.log('CURRENT USER BY ID ' + state.getIn(['users', action.payload]));

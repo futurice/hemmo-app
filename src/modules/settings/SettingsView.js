@@ -1,4 +1,3 @@
-import * as SettingsState from './SettingsState';
 import * as HomeState from '../../modules/home/HomeState';
 import * as NavigationState from '../../modules/navigation/NavigationState';
 import React, {PropTypes} from 'react';
@@ -18,12 +17,9 @@ var styles = require('./styles.js');
 var options = require('./image-picker-options');
 var ImagePicker = NativeModules.ImagePickerManager;
 
-var newKid = {id: null, name: null, age: null, image: null};
-
 const SettingsView = React.createClass({
 
   propTypes: {
-    userImage: PropTypes.string.isRequired,
     dispatch: PropTypes.func.isRequired,
     onNavigate: PropTypes.func.isRequired,
     users: PropTypes.instanceOf(List),
@@ -31,27 +27,27 @@ const SettingsView = React.createClass({
   },
 
   saveUser() {
-    if (newKid.name === null || newKid.age === null || newKid.image === null) {
+    if (this.props.currentUser.get('name') === null ||
+        this.props.currentUser.get('age') === null ||
+        this.props.currentUser.get('image') === null) {
       Alert.alert('Puuttuvia tietoja', 'Varmistathan, että kaikki kohdat on täytetty ennen jatkamista.');
     }
     else {
-      console.log('Lapsen nimi ja ikä olivat ' + newKid.name + ' ' + newKid.age + ' ' + newKid.image);
-      newKid.id = this.props.users.size;
+      var id = this.props.users.size;
 
-      this.props.dispatch(HomeState.createUser(newKid));
-      this.props.dispatch(SettingsState.removeImage());
+      console.log('CURRENT USER ' + this.props.currentUser);
 
-      newKid = {id: null, name: null, age: null, image: null};
+      this.props.dispatch(HomeState.createUser(id, this.props.currentUser));
 
       // TODO: Check is adding was successful!
       this.props.dispatch(NavigationState.popRoute());
     }
   },
   getChangedName(e) {
-    newKid.name = e.nativeEvent.text;
+    this.props.dispatch(HomeState.setCurrentUserValue('name', e.nativeEvent.text));
   },
   getChangedAge(e) {
-    newKid.age = e.nativeEvent.text;
+    this.props.dispatch(HomeState.setCurrentUserValue('age', e.nativeEvent.text));
   },
 
   // TODO: Add 'Remove image'
@@ -65,9 +61,7 @@ const SettingsView = React.createClass({
       else {
         const source = {uri: response.uri, isStatic: true};
 
-        newKid.image = source.uri;
-
-        this.props.dispatch(SettingsState.loadImage(source.uri));
+        this.props.dispatch(HomeState.setCurrentUserValue('image', source.uri));
       }
     });
   },
