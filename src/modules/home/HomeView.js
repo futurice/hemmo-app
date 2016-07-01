@@ -1,5 +1,5 @@
 import * as NavigationState from '../../modules/navigation/NavigationState';
-import * as HomeState from '../../modules/home/HomeState';
+import * as SettingsState from '../../modules/settings/SettingsState';
 import React, {PropTypes} from 'react';
 import {List, Map, immutable} from 'immutable';
 import UserConfigurationButton from '../../components/UserConfigurationButton';
@@ -31,7 +31,7 @@ const HomeView = React.createClass({
     };
   },
   addUser() {
-    this.props.dispatch(HomeState.resetCurrentUser());
+    this.props.dispatch(SettingsState.resetCurrentUser());
     this.props.dispatch(NavigationState.pushRoute({key: 'Settings'}));
   },
   render() {

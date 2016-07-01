@@ -77,6 +77,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#c2c2c2',
     borderRadius: 10,
     width: 100
+  },
+  removebutton: {
+    backgroundColor: '#c42b08',
+    borderRadius: 10,
+    width: 100
   }
 });
 
