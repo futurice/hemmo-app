@@ -78,6 +78,7 @@ const HomeView = React.createClass({
         <View style={styles.rightcolumn}>
           {userIcons}
         </View>
+        //TODO: Hide and show whenever needed
         <SpeechBubble/>
         <Hemmo/>
       </View>
