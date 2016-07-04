@@ -28,7 +28,6 @@ const SettingsView = React.createClass({
   },
 
   saveUser() {
-    // TODO: CHECK IF STRINGS ARE NULL OR EMPTY
     if (this.props.currentUser.get('name') === '' ||
         this.props.currentUser.get('age') === '' ||
         this.props.currentUser.get('image') === null) {
@@ -36,20 +35,13 @@ const SettingsView = React.createClass({
     }
     else {
       var id = this.props.users.size;
-
-      console.log('CURRENT USER ID ' + this.props.currentUser.get('id'));
-
       // If id == null, new user is created. Otherwise users[id] will be edited.
       if (this.props.currentUser.get('id') === null) {
-        console.log('LISÄTÄÄN UUSI');
-
         this.props.dispatch(SettingsState.createUser(id, this.props.currentUser));
       }
       else {
-        console.log('MUOKATAAN VANHAA');
         this.props.dispatch(SettingsState.editUser(this.props.currentUser));
       }
-
       // TODO: Check is adding was successful!
       this.props.dispatch(NavigationState.popRoute());
     }
@@ -164,10 +156,10 @@ const SettingsView = React.createClass({
             <View style={styles.buttonfield}>
               <TouchableHighlight
                 onPress={this.saveUser}
-                style={styles.touchable}>
+                style={styles.save_touchable}>
 
                 <View style={styles.savebutton}>
-                  <Text style={[styles.label, styles.highlight]}>
+                  <Text style={styles.save_label}>
                     Tallenna
                   </Text>
                 </View>

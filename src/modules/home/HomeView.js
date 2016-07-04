@@ -3,6 +3,7 @@ import * as SettingsState from '../../modules/settings/SettingsState';
 import React, {PropTypes} from 'react';
 import {List, Map, immutable} from 'immutable';
 import UserConfigurationButton from '../../components/UserConfigurationButton';
+import SpeechBubble from '../../components/SpeechBubble';
 
 import {
   TouchableOpacity,
@@ -37,23 +38,27 @@ const HomeView = React.createClass({
   render() {
     if (this.props.users.size > 0) {
       userIcons = <ListView
+        contentContainerStyle = {styles.list}
+        style= {styles.listview}
         dataSource = {ds.cloneWithRows(this.props.users.toArray())}
         renderRow = {
           (rowData) =>
             <View style={styles.userRow}>
-              <UserConfigurationButton
-                id={rowData.get('id')}
-                viewUserProfile={this.props.viewUserProfile}
-              />
               <Image style={styles.icon} source={{uri: rowData.get('image')}}/>
-
+              <View style={styles.nameLabel}>
+                <UserConfigurationButton
+                  id={rowData.get('id')}
+                  viewUserProfile={this.props.viewUserProfile}
+                />
+                <Text> {rowData.get('name')} </Text>
+              </View>
             </View>
         }
       />;
     }
     return (
       <View style={styles.container}>
-        <View style={styles.column}>
+        <View style={styles.leftcolumn}>
           <TouchableOpacity
             onPress={this.addUser}
             style={[styles.settingsButton]}>
@@ -63,9 +68,10 @@ const HomeView = React.createClass({
           </TouchableOpacity>
         </View>
 
-        <View style={styles.column}>
+        <View style={styles.rightcolumn}>
           {userIcons}
         </View>
+          <SpeechBubble/>
       </View>
     );
   }

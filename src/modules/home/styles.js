@@ -1,48 +1,68 @@
 import {
-  StyleSheet
+  StyleSheet,
+  Dimensions
 } from 'react-native';
 
 const circle = {
   borderWidth: 0,
   borderRadius: 60,
-  width: 120,
-  height: 120
+  width: 60,
+  height: 60
 };
+
+var width = Dimensions.get('window').width;
+var height = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    //justifyContent: 'center',
     backgroundColor: 'white',
     flexDirection: 'row'
   },
-  column: {
+  leftcolumn: {
+    flex: 1
+  },
+  rightcolumn: {
     flex: 1,
+    flexDirection: 'row',
     alignItems: 'center'
+  },
+  list: {
+    flexDirection: 'row',
+    flexWrap: 'wrap'
   },
   userRow: {
-    flexDirection: 'row',
-    margin: 5,
-    alignItems: 'center'
+    borderWidth: 1,
+    width: width * 0.4,
+    alignItems: 'center',
+    margin: 5
   },
   icon: {
-    height: 80,
-    width: 80
+    height: height * 0.17,
+    width: width * 0.4,
+    borderWidth: 10
+  },
+  nameLabel: {
+    flexDirection: 'row',
+    alignItems: 'center'
   },
   settingsButton: {
     ...circle,
     backgroundColor: 'green',
     alignItems: 'center',
     justifyContent: 'center',
-    margin: 20
+    position: 'absolute',
+    bottom: 10,
+    left: 10
   },
   nameList: {
     fontSize: 5
   },
   button: {
     color: 'white',
-    fontSize: 40,
+    fontSize: 20,
+    borderWidth: 1,
     textAlign: 'center'
   }
 });

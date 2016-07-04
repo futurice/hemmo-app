@@ -3,15 +3,7 @@ import {fromJS} from 'immutable';
 // Actions
 const PUSH_ROUTE = 'NavigationState/PUSH_ROUTE';
 const POP_ROUTE = 'NavigationState/POP_ROUTE';
-const SWITCH_TAB = 'NavigationState/SWITCH_TAB';
 const NAVIGATION_COMPLETED = 'NavigationState/NAVIGATION_COMPLETED';
-
-export function switchTab(index) {
-  return {
-    type: SWITCH_TAB,
-    payload: index
-  };
-}
 
 // Action creators
 export function pushRoute(state) {
@@ -56,9 +48,6 @@ export default function NavigationReducer(state = initialState, action) {
           tabState
             .update('children', children => children.pop())
             .set('index', tabState.get('children').size - 2));
-
-    case SWITCH_TAB:
-      return state.set('index', action.payload);
 
     case NAVIGATION_COMPLETED:
       return state.set('isNavigating', false);

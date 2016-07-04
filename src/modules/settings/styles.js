@@ -59,7 +59,8 @@ const styles = StyleSheet.create({
     width: 100
   },
   highlight: {
-    color: '#F5FCFF'
+    color: '#F5FCFF',
+    borderRadius: 10
   },
   buttonfield: {
     flex: 1,
@@ -71,7 +72,16 @@ const styles = StyleSheet.create({
     borderRadius: 60,
     height: 120,
     width: 120,
+    alignItems: 'center',
     justifyContent: 'center'
+  },
+  save_label: {
+    fontSize: 18,
+    width: 80
+  },
+  save_touchable: {
+    marginLeft: 20,
+    marginBottom: 20
   },
   cancelbutton: {
     backgroundColor: '#c2c2c2',
