@@ -1,9 +1,11 @@
 import * as NavigationState from '../../modules/navigation/NavigationState';
 import * as SettingsState from '../../modules/settings/SettingsState';
+import * as HomeState from '../../modules/home/HomeState';
 import React, {PropTypes} from 'react';
 import {List, Map, immutable} from 'immutable';
 import UserConfigurationButton from '../../components/UserConfigurationButton';
 import SpeechBubble from '../../components/SpeechBubble';
+import Hemmo from '../../components/Hemmo';
 
 import {
   TouchableOpacity,
@@ -24,7 +26,8 @@ const HomeView = React.createClass({
     onNavigate: PropTypes.func.isRequired,
     users: PropTypes.instanceOf(List),
     viewUserProfile: PropTypes.func.isRequired,
-    currentUser: PropTypes.instanceOf(Map)
+    currentUser: PropTypes.instanceOf(Map),
+    shouldHide: PropTypes.bool.isRequired
   },
   getInitialState() {
     return {
@@ -35,11 +38,14 @@ const HomeView = React.createClass({
     this.props.dispatch(SettingsState.resetCurrentUser());
     this.props.dispatch(NavigationState.pushRoute({key: 'Settings'}));
   },
+  hideBubble() {
+    this.props.dispatch(HomeState.hideBubble());
+  },
   render() {
     if (this.props.users.size > 0) {
+      // TODO: If there are more than 4 added children, only names of the children are displayed.
       userIcons = <ListView
         contentContainerStyle = {styles.list}
-        style= {styles.listview}
         dataSource = {ds.cloneWithRows(this.props.users.toArray())}
         renderRow = {
           (rowData) =>
@@ -50,7 +56,7 @@ const HomeView = React.createClass({
                   id={rowData.get('id')}
                   viewUserProfile={this.props.viewUserProfile}
                 />
-                <Text> {rowData.get('name')} </Text>
+                <Text style={styles.name}> {rowData.get('name')} </Text>
               </View>
             </View>
         }
@@ -59,6 +65,7 @@ const HomeView = React.createClass({
     return (
       <View style={styles.container}>
         <View style={styles.leftcolumn}>
+
           <TouchableOpacity
             onPress={this.addUser}
             style={[styles.settingsButton]}>
@@ -71,7 +78,8 @@ const HomeView = React.createClass({
         <View style={styles.rightcolumn}>
           {userIcons}
         </View>
-          <SpeechBubble/>
+        <SpeechBubble/>
+        <Hemmo/>
       </View>
     );
   }

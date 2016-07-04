@@ -10,8 +10,8 @@ var options = {
   mediaType: 'photo', // 'photo' or 'video'
   videoQuality: 'high', // 'low', 'medium', or 'high'
   durationLimit: 10, // video recording max time in seconds
-  maxWidth: 100, // photos only
-  maxHeight: 100, // photos only
+  maxWidth: 500, // photos only
+  maxHeight: 500, // photos only
   aspectX: 2, // android only - aspectX:aspectY, the cropping image's ratio of width to height
   aspectY: 1, // android only - aspectX:aspectY, the cropping image's ratio of width to height
   quality: 1, // 0 to 1, photos only

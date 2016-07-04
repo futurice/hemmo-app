@@ -1,6 +1,5 @@
 import {
-  StyleSheet,
-  Dimensions
+  StyleSheet
 } from 'react-native';
 
 const circle = {
@@ -9,9 +8,6 @@ const circle = {
   width: 60,
   height: 60
 };
-
-var width = Dimensions.get('window').width;
-var height = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
   container: {
@@ -34,18 +30,18 @@ const styles = StyleSheet.create({
   },
   userRow: {
     borderWidth: 1,
-    width: width * 0.4,
+    width: 150,
+    backgroundColor: '#dedede',
     alignItems: 'center',
     margin: 5
   },
   icon: {
-    height: height * 0.17,
-    width: width * 0.4,
+    height: 110,
+    width: 150,
     borderWidth: 10
   },
   nameLabel: {
-    flexDirection: 'row',
-    alignItems: 'center'
+    flexDirection: 'row'
   },
   settingsButton: {
     ...circle,
@@ -56,8 +52,8 @@ const styles = StyleSheet.create({
     bottom: 10,
     left: 10
   },
-  nameList: {
-    fontSize: 5
+  name: {
+    fontSize: 20
   },
   button: {
     color: 'white',
