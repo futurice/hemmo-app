@@ -6,9 +6,10 @@ import {List, Map, immutable} from 'immutable';
 import UserConfigurationButton from '../../components/UserConfigurationButton';
 import SpeechBubble from '../../components/SpeechBubble';
 import Hemmo from '../../components/Hemmo';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 import {
-  TouchableOpacity,
+  TouchableHighlight,
   ListView,
   Image,
   Text,
@@ -17,7 +18,10 @@ import {
 
 var styles = require('./styles.js');
 var userIcons;
+var speechBubble;
 var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => !immutable.is(r1,r2)});
+
+var phrases = require('../../../phrases.json');
 
 const HomeView = React.createClass({
 
@@ -34,9 +38,9 @@ const HomeView = React.createClass({
       dataSource: ds.cloneWithRows(this.props.users.toArray())
     };
   },
-  addUser() {
+  openSettings() {
     this.props.dispatch(SettingsState.resetCurrentUser());
-    this.props.dispatch(NavigationState.pushRoute({key: 'Settings'}));
+    this.props.dispatch(NavigationState.pushRoute({key: 'Settings', index: 1}));
   },
   hideBubble() {
     this.props.dispatch(HomeState.hideBubble());
@@ -61,25 +65,35 @@ const HomeView = React.createClass({
             </View>
         }
       />;
+      speechBubble = <SpeechBubble text={phrases.userIsKnown}/>;
+    }
+    else {
+      userIcons =
+        <View style={styles.emptyRow}>
+          <Image style={styles.icon} source={require('../../../assets/default-icon.png')}/>
+          <View style={styles.nameLabel}>
+            <Text style={styles.name}> Nimi </Text>
+          </View>
+        </View>;
+
+      speechBubble = <SpeechBubble text={phrases.userIsUnknown}/>;
     }
     return (
       <View style={styles.container}>
         <View style={styles.leftcolumn}>
 
-          <TouchableOpacity
-            onPress={this.addUser}
-            style={[styles.settingsButton]}>
-            <Text style={styles.button}>
-              +
-            </Text>
-          </TouchableOpacity>
+          <View style={styles.settingsButton}>
+            <TouchableHighlight
+              onPress={this.openSettings}>
+              <Icon name='cog' size={40} style={styles.button}/>
+            </TouchableHighlight>
+          </View>
         </View>
 
         <View style={styles.rightcolumn}>
           {userIcons}
         </View>
-        //TODO: Hide and show whenever needed
-        <SpeechBubble/>
+        {speechBubble}
         <Hemmo/>
       </View>
     );

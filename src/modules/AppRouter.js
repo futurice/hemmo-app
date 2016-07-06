@@ -9,10 +9,12 @@ import SettingsViewContainer from './settings/SettingsViewContainer';
  */
 export default function AppRouter(props) {
   const onNavigate = props.onNavigate;
-  const key = props.scene.navigationState.key;
+  const key = props.route.key;
+
+  console.log('NAVIGATION KEY ON ' + key);
 
   if (key === 'Home') {
-    return <HomeViewContainer onNavigate={onNavigate} viewUserProfile={props.viewUserProfile}/>;
+    return <HomeViewContainer onNavigate={onNavigate}/>;
   }
   else if (key === 'Settings') {
     return <SettingsViewContainer onNavigate={onNavigate}/>;

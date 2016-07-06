@@ -2,13 +2,6 @@ import {
   StyleSheet
 } from 'react-native';
 
-const circle = {
-  borderWidth: 0,
-  borderRadius: 60,
-  width: 60,
-  height: 60
-};
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -44,8 +37,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   settingsButton: {
-    ...circle,
-    backgroundColor: 'green',
     alignItems: 'center',
     justifyContent: 'center',
     position: 'absolute',
@@ -56,10 +47,13 @@ const styles = StyleSheet.create({
     fontSize: 20
   },
   button: {
-    color: 'white',
-    fontSize: 20,
+    color: 'green'
+  },
+  emptyRow: {
+    flexDirection: 'column',
+    width: 150,
     borderWidth: 1,
-    textAlign: 'center'
+    alignItems: 'center'
   }
 });
 

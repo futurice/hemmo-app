@@ -15,14 +15,16 @@ export default connect(
       //
       // Android back button is handled separately in index.android.js
       if (action.type === 'back' || action.type === 'BackAction') {
+        console.log('TRYING TO GO BACK!!');
         dispatch(popRoute());
       } else if (action.type === 'animation-completed') {
+        console.log('ANIMATION COMPLETED');
         dispatch(navigationCompleted());
       }
     },
     viewUserProfile(index) {
       dispatch(SettingsState.setCurrentUser(index));
-      dispatch(pushRoute({key: 'Settings'}));
+      dispatch(pushRoute({key: 'Settings', index: 1}));
     }
   })
 )(NavigationView);

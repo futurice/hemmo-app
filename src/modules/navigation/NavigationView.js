@@ -1,10 +1,10 @@
 import React, {PropTypes} from 'react';
 import {
-  View,
-  StyleSheet
+  Navigator
 } from 'react-native';
 import AppRouter from '../AppRouter';
-import NavigationTabView from './NavigationTabView';
+import SettingsViewContainer from '../settings/SettingsViewContainer';
+import HomeViewContainer from '../home/HomeViewContainer';
 
 const NavigationView = React.createClass({
   propTypes: {
@@ -14,44 +14,37 @@ const NavigationView = React.createClass({
     viewUserProfile: PropTypes.func.isRequired
   },
 
+  renderScene(route, navigator) {
+    this.navigator = navigator;
+    console.log('ROUTE ' + route.key);
+    if (route.key === 'Home') {
+      return <HomeViewContainer
+        onNavigate={this.props.onNavigate}
+        viewUserProfile={this.props.viewUserProfile}/>;
+    }
+    else if (route.key === 'Settings') {
+      return <SettingsViewContainer onNavigate={this.props.onNavigate}/>;
+    }
+    return null;
+  },
+
   render() {
-    const {children, index} = this.props.navigationState;
-    const tabs = children.map((tabState, tabIndex) => {
-      return (
-        <View key={'tab' + tabIndex} style={[styles.viewContainer, index !== tabIndex && styles.hidden]}>
-          <NavigationTabView
-            router={AppRouter}
-            navigationState={tabState}
-            onNavigate={this.props.onNavigate}
-            viewUserProfile={this.props.viewUserProfile}
-          />
-        </View>
-      );
-    });
+    // TODO: Nimeä paremmin, vielä jotain testi nimiä käytössä
+    var index = this.props.navigationState.index;
+    var testi = this.props.navigationState.children;
 
     return (
-      <View style={styles.container}>
-        {tabs}
-      </View>
+      <Navigator
+        initialRoute={{key: 'Home', index: 0}}
+        renderScene={(route, nav) => this.renderScene(testi[index], nav)}
+        configureScene={(route) => {
+          if (route.sceneConfig) {
+            return route.sceneConfig;
+          }
+          return Navigator.SceneConfigs.FloatFromRight;
+        }}
+      />
     );
-  }
-});
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
-  viewContainer: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0
-  },
-  hidden: {
-    overflow: 'hidden',
-    width: 0,
-    height: 0
   }
 });
 

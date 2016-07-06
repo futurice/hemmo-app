@@ -1,21 +1,21 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import {
   View,
   Text,
   StyleSheet
 } from 'react-native';
 
-var text = ' Moikka, kiva kun tulis taas juttelemaan kanssani.\n ' +
-  'Nyt voit kertoa siitä, millaista sinulla oli viime kerralla tukiperheessä.\n ' +
-  'Olen apunasi alusta loppuun, joten ei huolta, osaat kyllä!';
-
 const SpeechBubble = React.createClass({
+
+  propTypes: {
+    text: PropTypes.string.isRequired
+  },
 
   render() {
     return (
       <View style={styles.bubble}>
         <View style={styles.bubbleText}>
-          <Text style={styles.text}> {text} </Text>
+          <Text style={styles.text}> {this.props.text} </Text>
         </View>
         <View style={styles.triangle}/>
       </View>
