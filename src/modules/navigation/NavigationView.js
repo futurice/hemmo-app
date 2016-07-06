@@ -5,6 +5,7 @@ import {
 import AppRouter from '../AppRouter';
 import SettingsViewContainer from '../settings/SettingsViewContainer';
 import HomeViewContainer from '../home/HomeViewContainer';
+import AudioRecordViewContainer from '../audiorecord/AudioRecordViewContainer';
 
 const NavigationView = React.createClass({
   propTypes: {
@@ -24,6 +25,9 @@ const NavigationView = React.createClass({
     }
     else if (route.key === 'Settings') {
       return <SettingsViewContainer onNavigate={this.props.onNavigate}/>;
+    }
+    else if (route.key === 'AudioRecord') {
+      return <AudioRecordViewContainer onNavigate={this.props.onNavigate}/>;
     }
     return null;
   },

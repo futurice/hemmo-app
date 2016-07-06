@@ -42,6 +42,9 @@ const HomeView = React.createClass({
     this.props.dispatch(SettingsState.resetCurrentUser());
     this.props.dispatch(NavigationState.pushRoute({key: 'Settings', index: 1}));
   },
+  startJourney() {
+    this.props.dispatch(NavigationState.pushRoute({key: 'AudioRecord', index: 1}));
+  },
   hideBubble() {
     this.props.dispatch(HomeState.hideBubble());
   },
@@ -54,7 +57,12 @@ const HomeView = React.createClass({
         renderRow = {
           (rowData) =>
             <View style={styles.userRow}>
-              <Image style={styles.icon} source={{uri: rowData.get('image')}}/>
+              <View>
+                <TouchableHighlight
+                  onPress={this.startJourney}>
+                  <Image style={styles.icon} source={{uri: rowData.get('image')}}/>
+                </TouchableHighlight>
+              </View>
               <View style={styles.nameLabel}>
                 <UserConfigurationButton
                   id={rowData.get('id')}
