@@ -43,7 +43,7 @@ const HomeView = React.createClass({
     this.props.dispatch(NavigationState.pushRoute({key: 'Settings', index: 1}));
   },
   startJourney() {
-    this.props.dispatch(NavigationState.pushRoute({key: 'AudioRecord', index: 1}));
+    this.props.dispatch(NavigationState.pushRoute({key: 'ActivityQuery', index: 1}));
   },
   hideBubble() {
     this.props.dispatch(HomeState.hideBubble());
