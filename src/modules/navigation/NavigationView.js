@@ -5,7 +5,7 @@ import {
 import AppRouter from '../AppRouter';
 import SettingsViewContainer from '../settings/SettingsViewContainer';
 import HomeViewContainer from '../home/HomeViewContainer';
-import ActivityQueryViewContainer from '../activityquery/ActivityQueryViewContainer';
+import ActivityViewContainer from '../activity/ActivityViewContainer';
 
 const NavigationView = React.createClass({
   propTypes: {
@@ -26,8 +26,8 @@ const NavigationView = React.createClass({
     else if (route.key === 'Settings') {
       return <SettingsViewContainer onNavigate={this.props.onNavigate}/>;
     }
-    else if (route.key === 'ActivityQuery') {
-      return <ActivityQueryViewContainer onNavigate={this.props.onNavigate}/>;
+    else if (route.key === 'Activity') {
+      return <ActivityViewContainer onNavigate={this.props.onNavigate}/>;
     }
     return null;
   },
@@ -35,12 +35,12 @@ const NavigationView = React.createClass({
   render() {
     // TODO: Nimeä paremmin, vielä jotain testi nimiä käytössä
     var index = this.props.navigationState.index;
-    var testi = this.props.navigationState.children;
+    var children = this.props.navigationState.children;
 
     return (
       <Navigator
         initialRoute={{key: 'Home', index: 0}}
-        renderScene={(route, nav) => this.renderScene(testi[index], nav)}
+        renderScene={(route, nav) => this.renderScene(children[index], nav)}
         configureScene={(route) => {
           if (route.sceneConfig) {
             return route.sceneConfig;

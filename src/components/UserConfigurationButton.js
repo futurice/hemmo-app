@@ -8,7 +8,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 const UserConfigurationButton = React.createClass({
 
-  // TODO: Could I pass the selectUser function some other (simpler) way?
+  // TODO: Could I pass the viewUserProfile function some other (simpler) way?
   propTypes: {
     id: PropTypes.number.isRequired,
     viewUserProfile: PropTypes.func.isRequired

@@ -71,7 +71,6 @@ const SettingsView = React.createClass({
     this.props.dispatch(SettingsState.setCurrentUserValue('age', e.nativeEvent.text));
   },
 
-  // TODO: Add 'Remove image'
   // TODO: Display default-image after opening.
   openImageGallery() {
     ImagePicker.showImagePicker(options, (response) => {

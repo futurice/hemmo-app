@@ -88,7 +88,6 @@ export default function SettingsStateReducer(state = initialState, action = {}) 
 
       return state
         .set('currentUser', state.getIn(['users', action.payload]));
-    // TODO: edit existing children
     // TODO: Remove existing children
 
     default:
