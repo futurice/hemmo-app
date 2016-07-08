@@ -1,5 +1,13 @@
 import {fromJS, Map} from 'immutable';
 
+const initialState = fromJS({
+  index: 0,
+  children: [{
+    key: 'Home',
+    index: 0
+  }]
+});
+
 // Actions
 const PUSH_ROUTE = 'NavigationState/PUSH_ROUTE';
 const POP_ROUTE = 'NavigationState/POP_ROUTE';
@@ -26,14 +34,6 @@ export function popRoute() {
 export function navigationCompleted() {
   return {type: NAVIGATION_COMPLETED};
 }
-
-const initialState = fromJS({
-  index: 0,
-  children: [{
-    key: 'Home',
-    index: 0
-  }]
-});
 
 export default function NavigationReducer(state = initialState, action) {
   switch (action.type) {

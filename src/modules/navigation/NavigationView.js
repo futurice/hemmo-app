@@ -15,6 +15,7 @@ const NavigationView = React.createClass({
     viewUserProfile: PropTypes.func.isRequired
   },
 
+  //TODO: Move to AppRouter somehow
   renderScene(route, navigator) {
     this.navigator = navigator;
     console.log('ROUTE ' + route.key);
@@ -33,14 +34,13 @@ const NavigationView = React.createClass({
   },
 
   render() {
-    // TODO: Nimeä paremmin, vielä jotain testi nimiä käytössä
     var index = this.props.navigationState.index;
-    var children = this.props.navigationState.children;
+    var routes = this.props.navigationState.children;
 
     return (
       <Navigator
         initialRoute={{key: 'Home', index: 0}}
-        renderScene={(route, nav) => this.renderScene(children[index], nav)}
+        renderScene={(route, nav) => this.renderScene(routes[index], nav)}
         configureScene={(route) => {
           if (route.sceneConfig) {
             return route.sceneConfig;

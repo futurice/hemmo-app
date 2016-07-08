@@ -17,11 +17,11 @@ import {
 } from 'react-native';
 
 var styles = require('./styles.js');
+var phrases = require('../../../phrases.json');
+
 var userIcons;
 var speechBubble;
 var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => !immutable.is(r1,r2)});
-
-var phrases = require('../../../phrases.json');
 
 const HomeView = React.createClass({
 
@@ -31,7 +31,8 @@ const HomeView = React.createClass({
     users: PropTypes.instanceOf(List),
     viewUserProfile: PropTypes.func.isRequired,
     currentUser: PropTypes.instanceOf(Map),
-    shouldHide: PropTypes.bool.isRequired
+    shouldHide: PropTypes.bool.isRequired,
+    currentViewIndex: PropTypes.number.isRequired
   },
   getInitialState() {
     return {
@@ -40,10 +41,10 @@ const HomeView = React.createClass({
   },
   openSettings() {
     this.props.dispatch(SettingsState.resetCurrentUser());
-    this.props.dispatch(NavigationState.pushRoute({key: 'Settings', index: 1}));
+    this.props.dispatch(NavigationState.pushRoute({key: 'Settings', index: this.props.currentViewIndex + 1}));
   },
   startJourney() {
-    this.props.dispatch(NavigationState.pushRoute({key: 'Activity', index: 1}));
+    this.props.dispatch(NavigationState.pushRoute({key: 'Activity', index: this.props.currentViewIndex + 1}));
   },
   hideBubble() {
     this.props.dispatch(HomeState.hideBubble());
@@ -65,8 +66,9 @@ const HomeView = React.createClass({
               </View>
               <View style={styles.nameLabel}>
                 <UserConfigurationButton
-                  id={rowData.get('id')}
+                  userIndex={rowData.get('id')}
                   viewUserProfile={this.props.viewUserProfile}
+                  pageIndex={this.props.currentViewIndex + 1}
                 />
                 <Text style={styles.name}> {rowData.get('name')} </Text>
               </View>
@@ -84,7 +86,12 @@ const HomeView = React.createClass({
           </View>
         </View>;
 
-      speechBubble = <SpeechBubble text={phrases.userIsUnknown}/>;
+      if (this.props.shouldHide === false) {
+        speechBubble = <SpeechBubble text={phrases.userIsUnknown}/>;
+      }
+      else {
+        console.log('PIILOSSA');
+      }
     }
     return (
       <View style={styles.container}>
@@ -101,6 +108,10 @@ const HomeView = React.createClass({
         <View style={styles.rightcolumn}>
           {userIcons}
         </View>
+
+        <Text onPress={this.hideBubble}>
+          PIILOTA
+        </Text>
         {speechBubble}
         <Hemmo/>
       </View>

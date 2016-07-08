@@ -8,6 +8,13 @@ const initialState = Map({
 });
 
 const HIDE_BUBBLE = 'HomeState/HIDE_BUBBLE';
+const SHOW_BUBBLE = 'HomeState/SHOW_BUBBLE';
+
+export function showBubble() {
+  return {
+    type: SHOW_BUBBLE
+  };
+}
 
 export function hideBubble() {
   return {
@@ -18,6 +25,10 @@ export function hideBubble() {
 // Reducer
 export default function HomeStateReducer(state = initialState, action = {}) {
   switch (action.type) {
+
+    case SHOW_BUBBLE:
+      return state
+        .set('shouldHide', false);
 
     case HIDE_BUBBLE:
       return state

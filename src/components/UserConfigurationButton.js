@@ -10,12 +10,13 @@ const UserConfigurationButton = React.createClass({
 
   // TODO: Could I pass the viewUserProfile function some other (simpler) way?
   propTypes: {
-    id: PropTypes.number.isRequired,
-    viewUserProfile: PropTypes.func.isRequired
+    userIndex: PropTypes.number.isRequired,
+    viewUserProfile: PropTypes.func.isRequired,
+    pageIndex: PropTypes.number.isRequired
   },
 
   viewUserProfile() {
-    this.props.viewUserProfile(this.props.id);
+    this.props.viewUserProfile(this.props.userIndex, this.props.pageIndex);
   },
 
   render() {
