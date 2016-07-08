@@ -16,8 +16,6 @@ const NAVIGATION_COMPLETED = 'NavigationState/NAVIGATION_COMPLETED';
 // Action creators
 export function pushRoute(state) {
   return (dispatch) => {
-    // conditionally execute push to avoid double
-    // navigations due to impatient users
     dispatch({
       type: PUSH_ROUTE,
       payload: Map({
