@@ -3,8 +3,8 @@ import HomeView from './HomeView';
 
 export default connect(
   state => ({
-    users: state.getIn(['settings', 'users']),
-    currentUser: state.getIn(['settings', 'currentUser']),
+    users: state.getIn(['user', 'users']),
+    currentUser: state.getIn(['user', 'currentUser']),
     shouldHide: state.getIn(['home', 'shouldHide']),
     currentViewIndex: state.getIn(['navigationState', 'index'])
   })

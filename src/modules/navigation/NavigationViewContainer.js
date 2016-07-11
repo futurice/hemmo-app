@@ -1,7 +1,7 @@
 import {connect} from 'react-redux';
 import {popRoute, pushRoute, navigationCompleted} from './NavigationState';
 import NavigationView from './NavigationView';
-import * as SettingsState from '../../modules/settings/SettingsState';
+import * as UserState from '../../modules/user/UserState';
 
 export default connect(
   state => ({
@@ -22,7 +22,7 @@ export default connect(
     },
     viewUserProfile(userIndex, pageIndex) {
       console.log('userIndex ' + userIndex);
-      dispatch(SettingsState.setCurrentUser(userIndex));
+      dispatch(UserState.setCurrentUser(userIndex));
       dispatch(pushRoute({key: 'Settings', index: pageIndex}));
     }
   })

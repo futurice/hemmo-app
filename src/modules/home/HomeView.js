@@ -1,5 +1,5 @@
 import * as NavigationState from '../../modules/navigation/NavigationState';
-import * as SettingsState from '../../modules/settings/SettingsState';
+import * as UserState from '../../modules/user/UserState';
 import * as HomeState from '../../modules/home/HomeState';
 import React, {PropTypes} from 'react';
 import {List, Map, immutable} from 'immutable';
@@ -40,11 +40,11 @@ const HomeView = React.createClass({
     };
   },
   openSettings() {
-    this.props.dispatch(SettingsState.resetCurrentUser());
+    this.props.dispatch(UserState.resetCurrentUser());
     this.props.dispatch(NavigationState.pushRoute({key: 'Settings', index: this.props.currentViewIndex + 1}));
   },
   startJourney(id) {
-    this.props.dispatch(SettingsState.setCurrentUser(id));
+    this.props.dispatch(UserState.setCurrentUser(id));
     this.props.dispatch(NavigationState.pushRoute({key: 'Activity', index: this.props.currentViewIndex + 1}));
   },
   hideBubble() {

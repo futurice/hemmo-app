@@ -1,5 +1,5 @@
-import * as SettingsState from '../../modules/settings/SettingsState';
 import * as NavigationState from '../../modules/navigation/NavigationState';
+import * as UserState from '../../modules/user/UserState';
 import React, {PropTypes} from 'react';
 import {List, Map} from 'immutable';
 
@@ -37,11 +37,11 @@ const SettingsView = React.createClass({
       var id = this.props.users.size;
       // If id == null, new user is created. Otherwise users[id] will be edited.
       if (this.props.currentUser.get('id') === null) {
-        this.props.dispatch(SettingsState.setCurrentUserValue('id', id));
-        this.props.dispatch(SettingsState.createUser(id, this.props.currentUser));
+        this.props.dispatch(UserState.setCurrentUserValue('id', id));
+        this.props.dispatch(UserState.createUser(id, this.props.currentUser));
       }
       else {
-        this.props.dispatch(SettingsState.editUser(this.props.currentUser));
+        this.props.dispatch(UserState.editUser(this.props.currentUser));
       }
       // TODO: Check is adding was successful!
       this.props.dispatch(NavigationState.popRoute());
@@ -66,10 +66,10 @@ const SettingsView = React.createClass({
     Alert.alert('Not implemented yet', 'Coming soon! :)');
   },
   getChangedName(e) {
-    this.props.dispatch(SettingsState.setCurrentUserValue('name', e.nativeEvent.text));
+    this.props.dispatch(UserState.setCurrentUserValue('name', e.nativeEvent.text));
   },
   getChangedAge(e) {
-    this.props.dispatch(SettingsState.setCurrentUserValue('age', e.nativeEvent.text));
+    this.props.dispatch(UserState.setCurrentUserValue('age', e.nativeEvent.text));
   },
 
   // TODO: Display default-image after opening.
@@ -80,12 +80,12 @@ const SettingsView = React.createClass({
         console.log('User cancelled image picker');
       }
       else if (response.customButton) {
-        this.props.dispatch(SettingsState.setCurrentUserValue('image', null));
+        this.props.dispatch(UserState.setCurrentUserValue('image', null));
       }
       else {
         const source = {uri: response.uri, isStatic: true};
 
-        this.props.dispatch(SettingsState.setCurrentUserValue('image', source.uri));
+        this.props.dispatch(UserState.setCurrentUserValue('image', source.uri));
       }
     });
   },

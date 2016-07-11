@@ -5,6 +5,7 @@ import HomeStateReducer from '../modules/home/HomeState';
 import SessionStateReducer, {RESET_STATE} from '../modules/session/SessionState';
 import SettingsStateReducer from '../modules/settings/SettingsState';
 import ActivityStateReducer from '../modules/activity/ActivityState';
+import UserStateReducer from '../modules/user/UserState';
 
 const reducers = {
   // Counter sample app state. This can be removed in a live application
@@ -15,6 +16,8 @@ const reducers = {
   navigationState: NavigationStateReducer,
 
   session: SessionStateReducer,
+
+  user: UserStateReducer,
 
   settings: SettingsStateReducer,
 
