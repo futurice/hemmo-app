@@ -11,6 +11,7 @@ const EDIT_USER = 'UserState/EDIT_USER';
 const RESET_CURRENT_USER = 'UserState/RESET_CURRENT_USER';
 const SET_CURRENT_USER = 'UserState/SET_CURRENT_USER';
 const SET_CURRENT_USER_VALUE = 'UserState/SET_CURRENT_USER_VALUE';
+const SAVE_ANSWER = 'UserState/SAVE_ANSWER';
 
 // Action creators
 export function createUser(userId, newUser) {
@@ -62,6 +63,14 @@ export function setCurrentUser(id) {
   };
 }
 
+export function saveAnswer(destination, answers) {
+  console.log('TALLENNETAAN ' + answers);
+  return {
+    type: SAVE_ANSWER,
+    payload: {destination: destination, answers: answers}
+  };
+}
+
 // Reducer
 export default function UserStateReducer(state = initialState, action = {}) {
   switch (action.type) {
@@ -89,6 +98,10 @@ export default function UserStateReducer(state = initialState, action = {}) {
 
       return state
       .set('currentUser', state.getIn(['users', action.payload]));
+
+    case SAVE_ANSWER:
+      return state
+        .setIn(['currentUser', 'answers', action.payload.destination], action.payload.answers);
 
     default:
       return state;

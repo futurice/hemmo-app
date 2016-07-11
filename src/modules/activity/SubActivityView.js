@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react';
 import {List} from 'immutable';
 import * as ActivityState from '../../modules/activity/ActivityState';
+import * as UserState from '../../modules/user/UserState';
 
 import {
   View,
@@ -68,8 +69,9 @@ const SubActivityView = React.createClass({
       }
     }
   },
-  chooseActivity() {
-    Alert.alert('Valittiin ', 'Valittiin');
+  chooseActivity(subActivity, index) {
+    this.props.dispatch(UserState.saveAnswer('SubActivity', index));
+    Alert.alert('Valittiin ', 'Valittiin ' + subActivity + ' ' + index);
   },
 
   render() {
@@ -84,7 +86,7 @@ const SubActivityView = React.createClass({
           height: coordinates[index].height}]}>
           <TouchableHighlight
             style={{borderRadius: coordinates[index].height / 2}}
-            onPress={this.chooseActivity}>
+            onPress={this.chooseActivity.bind(this, subActivity, index)}>
             <View
               key={subActivity}
               style={[styles.activityCircle, {

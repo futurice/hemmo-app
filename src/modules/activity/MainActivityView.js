@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react';
 import {List} from 'immutable';
 import * as ActivityState from '../../modules/activity/ActivityState';
+import * as UserState from '../../modules/user/UserState';
 import SubActivityView from './SubActivityView';
 import {
   Image,
@@ -25,6 +26,7 @@ const MainActivityView = React.createClass({
     activityWidth = Dimensions.get('window').width / 3 - 20;
   },
   openModal(activity) {
+    this.props.dispatch(UserState.saveAnswer('MainActivity', activity.id));
     this.props.dispatch(ActivityState.openSubActivities(activity.subActivities));
   },
   render() {
