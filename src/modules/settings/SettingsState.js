@@ -15,6 +15,7 @@ const SET_CURRENT_USER_VALUE = 'SettingsState/SET_CURRENT_USER_VALUE';
 
 // Action creators
 export function createUser(userId, newUser) {
+  console.log('id createUserissa ' + userId);
   return {
     type: CREATE_USER,
     payload: Map({

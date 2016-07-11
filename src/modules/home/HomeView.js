@@ -43,7 +43,8 @@ const HomeView = React.createClass({
     this.props.dispatch(SettingsState.resetCurrentUser());
     this.props.dispatch(NavigationState.pushRoute({key: 'Settings', index: this.props.currentViewIndex + 1}));
   },
-  startJourney() {
+  startJourney(id) {
+    this.props.dispatch(SettingsState.setCurrentUser(id));
     this.props.dispatch(NavigationState.pushRoute({key: 'Activity', index: this.props.currentViewIndex + 1}));
   },
   hideBubble() {
@@ -60,7 +61,7 @@ const HomeView = React.createClass({
             <View style={styles.userRow}>
               <View>
                 <TouchableHighlight
-                  onPress={this.startJourney}>
+                  onPress={this.startJourney.bind(this, rowData.get('id'))}>
                   <Image style={styles.icon} source={{uri: rowData.get('image')}}/>
                 </TouchableHighlight>
               </View>

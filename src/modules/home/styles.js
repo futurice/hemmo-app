@@ -23,14 +23,14 @@ const styles = StyleSheet.create({
   },
   userRow: {
     borderWidth: 1,
-    width: 150,
+    width: 120,
     backgroundColor: '#dedede',
     alignItems: 'center',
     margin: 5
   },
   icon: {
     height: 110,
-    width: 150,
+    width: 120,
     borderWidth: 10
   },
   nameLabel: {

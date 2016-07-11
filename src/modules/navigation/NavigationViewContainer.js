@@ -21,6 +21,7 @@ export default connect(
       }
     },
     viewUserProfile(userIndex, pageIndex) {
+      console.log('userIndex ' + userIndex);
       dispatch(SettingsState.setCurrentUser(userIndex));
       dispatch(pushRoute({key: 'Settings', index: pageIndex}));
     }

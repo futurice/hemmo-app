@@ -37,6 +37,7 @@ const SettingsView = React.createClass({
       var id = this.props.users.size;
       // If id == null, new user is created. Otherwise users[id] will be edited.
       if (this.props.currentUser.get('id') === null) {
+        this.props.dispatch(SettingsState.setCurrentUserValue('id', id));
         this.props.dispatch(SettingsState.createUser(id, this.props.currentUser));
       }
       else {

@@ -31,7 +31,6 @@ const styles = StyleSheet.create({
   activityImage: {
     // flexWrap: 'wrap',
     flex: 1,
-    width: 160,
     borderWidth: 4,
     borderColor: 'gray',
     borderRadius: 10

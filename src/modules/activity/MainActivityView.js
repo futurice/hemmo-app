@@ -5,11 +5,13 @@ import SubActivityView from './SubActivityView';
 import {
   Image,
   TouchableHighlight,
+  Dimensions,
   View
 } from 'react-native';
 
 var styles = require('./styles.js');
 var activities = require('./activities.js');
+var activityWidth;
 
 const MainActivityView = React.createClass({
 
@@ -19,20 +21,21 @@ const MainActivityView = React.createClass({
     showSubActivities: PropTypes.bool.isRequired,
     subActivities: PropTypes.instanceOf(List)
   },
-  openModal(key) {
-    this.props.dispatch(ActivityState.openSubActivities(key));
+  componentWillMount() {
+    activityWidth = Dimensions.get('window').width / 3 - 20;
+  },
+  openModal(activity) {
+    this.props.dispatch(ActivityState.openSubActivities(activity.subActivities));
   },
   render() {
-
     const activityViews = activities.map((activity) => (
-
       <View key={activity.key} style={styles.activity}>
         <TouchableHighlight
           style={styles.highlight}
-          onPress={this.openModal.bind(this, activity.subActivities)}>
+          onPress={this.openModal.bind(this, activity)}>
             <Image
               resizeMode={'contain'}
-              style={styles.activityImage}
+              style={[styles.activityImage, {width: activityWidth}]}
               source={activity.route}/>
         </TouchableHighlight>
       </View>

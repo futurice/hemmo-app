@@ -38,7 +38,7 @@ var activities = [
     key: 'Yhdessa',
     route: require('../../../assets/Yhdessa.jpg'),
     subActivities: List([
-      'Saunaminen',
+      'Saunominen',
       'Juttelu',
       'Kyläily',
       'Elokuvan katselu',

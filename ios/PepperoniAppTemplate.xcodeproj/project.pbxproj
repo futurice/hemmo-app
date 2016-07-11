@@ -873,6 +873,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.pepperoni.PepperoniAppTemplate;
 				PRODUCT_NAME = PepperoniAppTemplate;
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
 		};
@@ -899,6 +900,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.pepperoni.PepperoniAppTemplate;
 				PRODUCT_NAME = PepperoniAppTemplate;
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;
 		};
