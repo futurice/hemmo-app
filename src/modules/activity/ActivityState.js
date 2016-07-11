@@ -1,18 +1,18 @@
-import {Map, List} from 'immutable';
+import {Map} from 'immutable';
 
 // Initial state
 const initialState = Map({
   showSubActivities: false,
-  subActivities: List()
+  chosenActivity: Map()
 });
 
 const OPEN_SUBACTIVITIES = 'ActivityState/OPEN_SUBACTIVITIES';
 const CLOSE_SUBACTIVITIES = 'ActivityState/CLOSE_SUBACTIVITIES';
 
-export function openSubActivities(activities) {
+export function openSubActivities(activity) {
   return {
     type: OPEN_SUBACTIVITIES,
-    payload: {showSubActivities: true, subActivities: activities}
+    payload: {showSubActivities: true, chosenActivity: activity}
   };
 }
 
@@ -29,7 +29,7 @@ export default function ActivityStateReducer(state = initialState, action = {}) 
     case OPEN_SUBACTIVITIES:
       return state
         .set('showSubActivities', action.payload.showSubActivities)
-        .set('subActivities', action.payload.subActivities);
+        .set('chosenActivity', action.payload.chosenActivity);
 
     case CLOSE_SUBACTIVITIES:
       return state

@@ -34,22 +34,27 @@ const HomeView = React.createClass({
     shouldHide: PropTypes.bool.isRequired,
     currentViewIndex: PropTypes.number.isRequired
   },
+
   getInitialState() {
     return {
       dataSource: ds.cloneWithRows(this.props.users.toArray())
     };
   },
+
   openSettings() {
     this.props.dispatch(UserState.resetCurrentUser());
     this.props.dispatch(NavigationState.pushRoute({key: 'Settings', index: this.props.currentViewIndex + 1}));
   },
+
   startJourney(id) {
     this.props.dispatch(UserState.setCurrentUser(id));
     this.props.dispatch(NavigationState.pushRoute({key: 'Activity', index: this.props.currentViewIndex + 1}));
   },
+
   hideBubble() {
     this.props.dispatch(HomeState.hideBubble());
   },
+
   render() {
     if (this.props.users.size > 0) {
       // TODO: If there are more than 4 added children, only names of the children are displayed.
@@ -104,6 +109,9 @@ const HomeView = React.createClass({
               <Icon name='cog' size={40} style={styles.button}/>
             </TouchableHighlight>
           </View>
+
+          {speechBubble}
+          <Hemmo/>
         </View>
 
         <View style={styles.rightcolumn}>
@@ -113,8 +121,6 @@ const HomeView = React.createClass({
         <Text onPress={this.hideBubble}>
           PIILOTA
         </Text>
-        {speechBubble}
-        <Hemmo/>
       </View>
     );
   }

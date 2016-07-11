@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react';
-import {List} from 'immutable';
+import {List, Map} from 'immutable';
 import * as ActivityState from '../../modules/activity/ActivityState';
 import * as UserState from '../../modules/user/UserState';
 import SubActivityView from './SubActivityView';
@@ -20,25 +20,28 @@ const MainActivityView = React.createClass({
     dispatch: PropTypes.func.isRequired,
     onNavigate: PropTypes.func.isRequired,
     showSubActivities: PropTypes.bool.isRequired,
-    subActivities: PropTypes.instanceOf(List)
+    chosenActivity: PropTypes.instanceOf(Map)
   },
+
   componentWillMount() {
     activityWidth = Dimensions.get('window').width / 3 - 20;
   },
+
   openModal(activity) {
-    this.props.dispatch(UserState.saveAnswer('MainActivity', activity.id));
-    this.props.dispatch(ActivityState.openSubActivities(activity.subActivities));
+    this.props.dispatch(UserState.saveAnswer('MainActivity', activity.get('id')));
+    this.props.dispatch(ActivityState.openSubActivities(activity));
   },
+
   render() {
     const activityViews = activities.map((activity) => (
-      <View key={activity.key} style={styles.activity}>
+      <View key={activity.get('key')} style={styles.activity}>
         <TouchableHighlight
           style={styles.highlight}
           onPress={this.openModal.bind(this, activity)}>
             <Image
               resizeMode={'contain'}
               style={[styles.activityImage, {width: activityWidth}]}
-              source={activity.route}/>
+              source={activity.get('route')}/>
         </TouchableHighlight>
       </View>
     ));
@@ -46,7 +49,7 @@ const MainActivityView = React.createClass({
     if (this.props.showSubActivities === true)
     {
       var subActivities =
-        <SubActivityView subActivities={this.props.subActivities} dispatch={this.props.dispatch}/>;
+        <SubActivityView chosenActivity={this.props.chosenActivity} dispatch={this.props.dispatch}/>;
     }
     return (
       <View style={styles.container}>

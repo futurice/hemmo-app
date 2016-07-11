@@ -1,19 +1,19 @@
-import {List} from 'immutable';
+import {List, Map} from 'immutable';
 
 var activities = [
-  {
+  Map({
     id: 0,
-    key: 'Puuhailu',
+    key: 'Puuhasimme',
     route: require('../../../assets/Puuhailu.jpg'),
     subActivities: List([
       'Leipominen, kokkailu',
       'Piirtäminen, askartelu',
       'Kotihommia',
       'Lukeminen',
-      'Rakentaminen, nikkarointi, korjaaminen'])},
-  {
+      'Rakentaminen, nikkarointi, korjaaminen'])}),
+  Map({
     id: 1,
-    key: 'Ulkoilu',
+    key: 'Ulkoilimme, retkeilimme',
     route: require('../../../assets/Ulkoilu.jpg'),
     subActivities: List([
       'Ulkoilu',
@@ -22,36 +22,36 @@ var activities = [
       'Pihahommat',
       'Leikkipuisto',
       'Kalastaminen',
-      'Mökkeily'])},
-  {
+      'Mökkeily'])}),
+  Map({
     id: 2,
-    key: 'Leikkiminen',
+    key: 'Leikimme, pelasimme',
     route: require('../../../assets/Leikkiminen.jpg'),
     subActivities: List([
       'Leikkiminen',
       'Lautapelit',
       'Videopelit',
       'Liikunta',
-      'Uiminen'])},
-  {
+      'Uiminen'])}),
+  Map({
     id: 3,
-    key: 'Yhdessa',
+    key: 'Vietimme aikaa yhdessä',
     route: require('../../../assets/Yhdessa.jpg'),
     subActivities: List([
       'Saunominen',
       'Juttelu',
       'Kyläily',
       'Elokuvan katselu',
-      'Kirjat'])},
-  {
+      'Kirjat'])}),
+  Map({
     id: 4,
-    key: 'Lemmikit',
+    key: 'Lemmikit, kotieläimet',
     route: require('../../../assets/Lemmikit.jpg'),
     subActivities: List([
       'Koira',
       'Kissa',
       'Hevonen',
-      'Muut eläimet'])}
+      'Muut eläimet'])})
 ];
 
 module.exports = activities;

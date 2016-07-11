@@ -47,9 +47,11 @@ const SettingsView = React.createClass({
       this.props.dispatch(NavigationState.popRoute());
     }
   },
+
   cancel() {
     this.props.dispatch(NavigationState.popRoute());
   },
+
   verifyRemove() {
     Alert.alert(
       'Oletko varma?',
@@ -62,12 +64,15 @@ const SettingsView = React.createClass({
       ]
     );
   },
+
   remove() {
     Alert.alert('Not implemented yet', 'Coming soon! :)');
   },
+
   getChangedName(e) {
     this.props.dispatch(UserState.setCurrentUserValue('name', e.nativeEvent.text));
   },
+
   getChangedAge(e) {
     this.props.dispatch(UserState.setCurrentUserValue('age', e.nativeEvent.text));
   },

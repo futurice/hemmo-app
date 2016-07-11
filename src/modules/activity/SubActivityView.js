@@ -1,7 +1,8 @@
 import React, {PropTypes} from 'react';
-import {List} from 'immutable';
+import {Map} from 'immutable';
 import * as ActivityState from '../../modules/activity/ActivityState';
 import * as UserState from '../../modules/user/UserState';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 import {
   View,
@@ -17,21 +18,26 @@ var coordinates = [];
 const SubActivityView = React.createClass({
 
   propTypes: {
-    subActivities: PropTypes.instanceOf(List),
+    chosenActivity: PropTypes.instanceOf(Map),
     dispatch: PropTypes.func.isRequired
   },
+
   componentWillMount() {
     this.countPositions();
   },
+
   closeModal() {
     this.props.dispatch(ActivityState.closeSubActivities());
   },
+
+  // TODO: Needs commenting etc.
   countPositions() {
 
     coordinates = [];
-    var n = this.props.subActivities.size;
+    var n = this.props.chosenActivity.get('subActivities').size;
     var screenWidth = Dimensions.get('window').width;
-    var screenHeight = Dimensions.get('window').height;
+    var screenHeight = Dimensions.get('window').height - 20;
+
     var height = screenHeight / 2;
 
     var fixValue = 0;
@@ -42,25 +48,13 @@ const SubActivityView = React.createClass({
     for (var i = 0; i < rows; i++) {
       if (n % 2 === 0) {
         perRow = n / rows;
-        if (i === 1) {
-          fixValue = 20;
-        }
-        else {
-          fixValue = 10;
-        }
       }
       else {
         var topRow = ((n / rows) + 0.5);
         var bottomRow = ((n / rows) - 0.5);
-        if (i === 0) {
-          perRow = topRow;
-          fixValue = 10;
-        }
-        else {
-          perRow = bottomRow;
-          fixValue = 20;
-        }
+        perRow = (i === 1) ? bottomRow : topRow;
       }
+      fixValue = (i === 1) ? 20 : 10;
       var width = screenWidth / perRow;
       for (var j = 0; j < perRow; j++) {
         var x = j * width - fixValue;
@@ -69,14 +63,14 @@ const SubActivityView = React.createClass({
       }
     }
   },
+
   chooseActivity(subActivity, index) {
     this.props.dispatch(UserState.saveAnswer('SubActivity', index));
     Alert.alert('Valittiin ', 'Valittiin ' + subActivity + ' ' + index);
   },
 
   render() {
-
-    const subActivityViews = this.props.subActivities.map((subActivity, index) => (
+    const subActivityViews = this.props.chosenActivity.get('subActivities').map((subActivity, index) => (
       <View
         key={subActivity}
         style={[styles.activityBlock, {
@@ -103,8 +97,13 @@ const SubActivityView = React.createClass({
 
     return (
       <View style={styles.container}>
-        {subActivityViews}
-        <Text onPress={this.closeModal}> SULJE </Text>
+        <View style={styles.titleBar}>
+          <Text style={styles.title}>{this.props.chosenActivity.get('key')}</Text>
+        </View>
+        <View style={styles.activityBar}>
+          {subActivityViews}
+        </View>
+        <Icon onPress={this.closeModal} name='times-circle' size={40} style={styles.closeButton}/>
       </View>
     );
   }
@@ -124,6 +123,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap'
   },
+  titleBar: {
+    flex: 1,
+    alignItems: 'center',
+    flexDirection: 'column'
+  },
+  title: {
+    fontSize: 20
+  },
+  activityBar: {
+    position: 'absolute',
+    top: 20,
+    left: 5
+  },
   activityBlock: {
     position: 'absolute',
     alignItems: 'center',
@@ -137,6 +149,12 @@ const styles = StyleSheet.create({
   },
   activityFont: {
     textAlign: 'center'
+  },
+  closeButton: {
+    color: 'green',
+    position: 'absolute',
+    top: 0,
+    right: 5
   }
 });
 
