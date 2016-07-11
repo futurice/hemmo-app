@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react';
 import {Map} from 'immutable';
 import * as ActivityState from '../../modules/activity/ActivityState';
+import * as NavigationState from '../../modules/navigation/NavigationState';
 import * as UserState from '../../modules/user/UserState';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -8,7 +9,6 @@ import {
   View,
   StyleSheet,
   Dimensions,
-  Alert,
   TouchableHighlight,
   Text
 } from 'react-native';
@@ -19,7 +19,8 @@ const SubActivityView = React.createClass({
 
   propTypes: {
     chosenActivity: PropTypes.instanceOf(Map),
-    dispatch: PropTypes.func.isRequired
+    dispatch: PropTypes.func.isRequired,
+    currentViewIndex: PropTypes.number.isRequired
   },
 
   componentWillMount() {
@@ -66,7 +67,8 @@ const SubActivityView = React.createClass({
 
   chooseActivity(subActivity, index) {
     this.props.dispatch(UserState.saveAnswer('SubActivity', index));
-    Alert.alert('Valittiin ', 'Valittiin ' + subActivity + ' ' + index);
+    console.log('INDEX ' + this.props.currentViewIndex);
+    this.props.dispatch(NavigationState.pushRoute({key: 'Feedback', index: this.props.currentViewIndex + 1}));
   },
 
   render() {

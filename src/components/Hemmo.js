@@ -1,15 +1,21 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import {
   View,
   Image,
   StyleSheet
 } from 'react-native';
 
-const SpeechBubble = React.createClass({
+const Hemmo = React.createClass({
+
+  propTypes: {
+    x: PropTypes.number.isRequired,
+    y: PropTypes.number.isRequired
+  },
 
   render() {
     return (
-      <View style={styles.hemmo}>
+      //TODO: Fix positioning of image (not that important atm)
+      <View style={[styles.hemmo, {top: this.props.y, left: this.props.x}]}>
         <Image style={styles.hemmo_img} source={require('../../assets/Hemmo.jpg')}/>
       </View>
     );
@@ -18,9 +24,7 @@ const SpeechBubble = React.createClass({
 
 const styles = StyleSheet.create({
   hemmo: {
-    position: 'absolute',
-    top: 120,
-    left: 120
+    position: 'absolute'
   },
   hemmo_img: {
     width: 100,
@@ -28,4 +32,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default SpeechBubble;
+export default Hemmo;

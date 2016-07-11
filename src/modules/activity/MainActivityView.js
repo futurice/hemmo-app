@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react';
-import {List, Map} from 'immutable';
+import {Map} from 'immutable';
 import * as ActivityState from '../../modules/activity/ActivityState';
 import * as UserState from '../../modules/user/UserState';
 import SubActivityView from './SubActivityView';
@@ -20,7 +20,8 @@ const MainActivityView = React.createClass({
     dispatch: PropTypes.func.isRequired,
     onNavigate: PropTypes.func.isRequired,
     showSubActivities: PropTypes.bool.isRequired,
-    chosenActivity: PropTypes.instanceOf(Map)
+    chosenActivity: PropTypes.instanceOf(Map),
+    currentViewIndex: PropTypes.number.isRequired
   },
 
   componentWillMount() {
@@ -49,7 +50,10 @@ const MainActivityView = React.createClass({
     if (this.props.showSubActivities === true)
     {
       var subActivities =
-        <SubActivityView chosenActivity={this.props.chosenActivity} dispatch={this.props.dispatch}/>;
+        <SubActivityView
+          chosenActivity={this.props.chosenActivity}
+          dispatch={this.props.dispatch}
+          currentViewIndex={this.props.currentViewIndex}/>;
     }
     return (
       <View style={styles.container}>

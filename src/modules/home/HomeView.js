@@ -111,7 +111,7 @@ const HomeView = React.createClass({
           </View>
 
           {speechBubble}
-          <Hemmo/>
+          <Hemmo x={120} y={120}/>
         </View>
 
         <View style={styles.rightcolumn}>
