@@ -1,6 +1,7 @@
 import * as NavigationState from '../../modules/navigation/NavigationState';
 import * as UserState from '../../modules/user/UserState';
 import * as HomeState from '../../modules/home/HomeState';
+import * as ActivityState from '../../modules/activity/ActivityState';
 import React, {PropTypes} from 'react';
 import {List, Map, immutable} from 'immutable';
 import UserConfigurationButton from '../../components/UserConfigurationButton';
@@ -47,6 +48,7 @@ const HomeView = React.createClass({
 
   startJourney(id) {
     this.props.dispatch(UserState.setCurrentUser(id));
+    this.props.dispatch(ActivityState.closeSubActivities());
     this.props.dispatch(NavigationState.pushRoute({key: 'Activity'}));
   },
 

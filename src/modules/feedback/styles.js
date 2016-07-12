@@ -5,6 +5,7 @@ import {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
+    backgroundColor: 'white',
     flex: 1
   },
   leftColumn: {
@@ -34,12 +35,31 @@ const styles = StyleSheet.create({
     borderWidth: 1
   },
   hemmoRow: {
-    flex: 2,
+    flex: 3,
     borderWidth: 1
   },
   extraRow: {
     flex: 1,
-    borderWidth: 1
+    borderWidth: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  writeButton: {
+    flex: 2,
+    borderWidth: 1,
+    borderRadius: 10,
+    marginHorizontal: 10
+  },
+  skipButton: {
+    flex: 1,
+    borderWidth: 1,
+    borderRadius: 10,
+    marginHorizontal: 10
+
+  },
+  text: {
+    textAlign: 'center'
   }
 });
 

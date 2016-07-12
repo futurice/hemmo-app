@@ -7,7 +7,6 @@ import {
   Image,
   TouchableHighlight,
   Dimensions,
-  Alert,
   View
 } from 'react-native';
 
@@ -25,6 +24,7 @@ const MainActivityView = React.createClass({
   },
 
   componentWillMount() {
+    console.log('I am here');
     activityWidth = Dimensions.get('window').width / 3 - 20;
   },
 
@@ -34,9 +34,6 @@ const MainActivityView = React.createClass({
   },
 
   render() {
-
-    Alert.alert('Näytön leveys ja korkeus', 'Leveys ' + Dimensions.get('window').width + ' korkeus ' + Dimensions.get('window').height);
-
     const activityViews = activities.map((activity) => (
       <View key={activity.get('key')} style={styles.activity}>
         <TouchableHighlight

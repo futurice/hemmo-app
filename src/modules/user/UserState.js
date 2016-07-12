@@ -14,6 +14,8 @@ const SET_CURRENT_USER_VALUE = 'UserState/SET_CURRENT_USER_VALUE';
 const SAVE_ANSWER = 'UserState/SAVE_ANSWER';
 
 // Action creators
+
+// TODO: Is it necessary that the userList has the answers-maps?
 export function createUser(userId, newUser) {
   console.log('id createUserissa ' + userId);
   return {

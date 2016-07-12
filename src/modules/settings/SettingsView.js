@@ -43,7 +43,7 @@ const SettingsView = React.createClass({
       else {
         this.props.dispatch(UserState.editUser(this.props.currentUser));
       }
-      // TODO: Check is adding was successful!
+      // TODO: Check if adding was successful!
       this.props.dispatch(NavigationState.popRoute());
     }
   },
