@@ -17,12 +17,23 @@ const FeedbackView = React.createClass({
 
   propTypes: {
     answers: PropTypes.instanceOf(Map),
-    enableWriting: PropTypes.bool.isRequired,
-    dispatch: PropTypes.func.isRequired
+    dispatch: PropTypes.func.isRequired,
+    showTitle: PropTypes.bool
+  },
+
+  getInitialState() {
+    return {
+      enableWri: false
+    };
   },
 
   enableWriting() {
-    this.props.dispatch(FeedbackState.enableWriting());
+    this.setState({enableWri: true});
+    // this.props.dispatch(FeedbackState.enableWriting());
+  },
+
+  disableWriting() {
+    this.setState({enableWri: false});
   },
 
   render() {
@@ -30,18 +41,21 @@ const FeedbackView = React.createClass({
     var i = this.props.answers.get('MainActivity');
     var j = this.props.answers.get('SubActivity');
 
-    if (this.props.enableWriting === true)
-    {
-      var writing = <WritingView dispatch={this.props.dispatch}/>;
+    if (this.state.enableWri === true) {
+      var writing = <WritingView dispatch={this.props.dispatch} disableWriting={this.disableWriting}/>;
+    }
+
+    if (this.props.showTitle === true) {
+      var title = <View style={styles.titleRow}>
+          <Text style={styles.mainTitle}>{activities[i].get('key')}</Text>
+          <Text style={styles.subtitle}>{activities[i].get('subActivities').get(j)}</Text>
+        </View>;
     }
 
     return (
       <View style={styles.container}>
         <View style={styles.leftColumn}>
-          <View style={styles.titleRow}>
-            <Text style={styles.mainTitle}>{activities[i].get('key')}</Text>
-            <Text style={styles.subtitle}>{activities[i].get('subActivities').get(j)}</Text>
-          </View>
+          {title}
 
           <View style={styles.actionRow}>
             <Text>Action</Text>

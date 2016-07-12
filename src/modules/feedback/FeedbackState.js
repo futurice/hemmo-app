@@ -2,34 +2,23 @@ import {Map} from 'immutable';
 
 // Initial state
 const initialState = Map({
-  enableWriting: false
+  showTitle: false
 });
 
-const ENABLE_WRITING = 'FeedbackState/ENABLE_WRITING';
-const DISABLE_WRITING = 'FeedbackState/DISABLE_WRITING';
+const SHOW_TITLE = 'FeedbackState/SHOW_TITLE';
 
-export function enableWriting() {
+export function showTitle() {
   return {
-    type: ENABLE_WRITING
-  };
-}
-
-export function disableWriting() {
-  return {
-    type: DISABLE_WRITING
+    type: SHOW_TITLE
   };
 }
 
 // Reducer
 export default function FeedbackStateReducer(state = initialState, action = {}) {
   switch (action.type) {
-    case ENABLE_WRITING:
+    case SHOW_TITLE:
       return state
-        .set('enableWriting', true);
-
-    case DISABLE_WRITING:
-      return state
-        .set('enableWriting', false);
+        .set('showTitle', true);
 
     default:
       return state;

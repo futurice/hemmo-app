@@ -10,7 +10,7 @@ import {
   View
 } from 'react-native';
 
-var styles = require('./styles.js');
+var styles = require('./mainStyles.js');
 var activities = require('./activities.js');
 var activityWidth;
 
@@ -19,18 +19,27 @@ const MainActivityView = React.createClass({
   propTypes: {
     dispatch: PropTypes.func.isRequired,
     onNavigate: PropTypes.func.isRequired,
-    showSubActivities: PropTypes.bool.isRequired,
     chosenActivity: PropTypes.instanceOf(Map)
   },
 
+  getInitialState() {
+    return {
+      showSubActivities: false
+    };
+  },
+
   componentWillMount() {
-    console.log('I am here');
     activityWidth = Dimensions.get('window').width / 3 - 20;
   },
 
-  openModal(activity) {
+  openSubActivities(activity) {
     this.props.dispatch(UserState.saveAnswer('MainActivity', activity.get('id')));
+    this.setState({showSubActivities: true});
     this.props.dispatch(ActivityState.openSubActivities(activity));
+  },
+
+  closeSubActivities() {
+    this.setState({showSubActivities: false});
   },
 
   render() {
@@ -38,7 +47,7 @@ const MainActivityView = React.createClass({
       <View key={activity.get('key')} style={styles.activity}>
         <TouchableHighlight
           style={styles.highlight}
-          onPress={this.openModal.bind(this, activity)}>
+          onPress={this.openSubActivities.bind(this, activity)}>
             <Image
               resizeMode={'contain'}
               style={[styles.activityImage, {width: activityWidth}]}
@@ -47,12 +56,13 @@ const MainActivityView = React.createClass({
       </View>
     ));
 
-    if (this.props.showSubActivities === true)
+    if (this.state.showSubActivities === true)
     {
       var subActivities =
         <SubActivityView
           chosenActivity={this.props.chosenActivity}
-          dispatch={this.props.dispatch}/>;
+          dispatch={this.props.dispatch}
+          closeSubActivities={this.closeSubActivities}/>;
     }
     return (
       <View style={styles.container}>

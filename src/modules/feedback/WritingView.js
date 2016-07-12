@@ -1,13 +1,8 @@
 import React, {PropTypes} from 'react';
-import {Map} from 'immutable';
-import * as FeedbackState from '../../modules/feedback/FeedbackState';
 import Icon from 'react-native-vector-icons/FontAwesome';
-
 
 import {
   View,
-  Alert,
-  Text,
   TextInput,
   StyleSheet
 } from 'react-native';
@@ -15,10 +10,11 @@ import {
 const WritingView = React.createClass({
 
   propTypes: {
-    dispatch: PropTypes.func.isRequired
+    dispatch: PropTypes.func.isRequired,
+    disableWriting: PropTypes.func.isRequired
   },
   disableWriting() {
-    this.props.dispatch(FeedbackState.disableWriting());
+    this.props.disableWriting();
   },
 
   render() {

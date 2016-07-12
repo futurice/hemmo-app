@@ -3,31 +3,33 @@ import {Map} from 'immutable';
 import * as ActivityState from '../../modules/activity/ActivityState';
 import * as NavigationState from '../../modules/navigation/NavigationState';
 import * as UserState from '../../modules/user/UserState';
+import * as FeedbackState from '../../modules/feedback/FeedbackState';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import {
   View,
-  StyleSheet,
   Dimensions,
   TouchableHighlight,
   Text
 } from 'react-native';
 
 var coordinates = [];
+var styles = require('./subStyles.js');
 
 const SubActivityView = React.createClass({
 
   propTypes: {
     chosenActivity: PropTypes.instanceOf(Map),
-    dispatch: PropTypes.func.isRequired
+    dispatch: PropTypes.func.isRequired,
+    closeSubActivities: PropTypes.func.isRequired
   },
 
   componentWillMount() {
     this.countPositions();
   },
 
-  closeModal() {
-    this.props.dispatch(ActivityState.closeSubActivities());
+  closeSubActivities() {
+    this.props.closeSubActivities();
   },
 
   // TODO: Needs commenting etc.
@@ -66,11 +68,12 @@ const SubActivityView = React.createClass({
 
   chooseActivity(subActivity, index) {
     this.props.dispatch(UserState.saveAnswer('SubActivity', index));
-    console.log('INDEX ' + this.props.currentViewIndex);
+    this.props.dispatch(FeedbackState.showTitle());
     this.props.dispatch(NavigationState.pushRoute({key: 'Feedback'}));
   },
 
   render() {
+
     const subActivityViews = this.props.chosenActivity.get('subActivities').map((subActivity, index) => (
       <View
         key={subActivity}
@@ -110,53 +113,6 @@ const SubActivityView = React.createClass({
   }
 });
 
-const styles = StyleSheet.create({
-  container: {
-    position: 'absolute',
-    backgroundColor: 'rgba(233, 233, 233, 0.93)',
-    borderWidth: 2,
-    borderRadius: 20,
-    // padding: 15,
-    top: 5,
-    left: 5,
-    right: 5,
-    bottom: 5,
-    flexDirection: 'row',
-    flexWrap: 'wrap'
-  },
-  titleBar: {
-    flex: 1,
-    alignItems: 'center',
-    flexDirection: 'column'
-  },
-  title: {
-    fontSize: 20
-  },
-  activityBar: {
-    position: 'absolute',
-    top: 20,
-    left: 5
-  },
-  activityBlock: {
-    position: 'absolute',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  activityCircle: {
-    borderWidth: 2,
-    justifyContent: 'center',
-    //margin: 20,
-    backgroundColor: 'white'
-  },
-  activityFont: {
-    textAlign: 'center'
-  },
-  closeButton: {
-    color: 'green',
-    position: 'absolute',
-    top: 0,
-    right: 5
-  }
-});
+
 
 export default SubActivityView;
