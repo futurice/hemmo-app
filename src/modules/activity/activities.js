@@ -4,7 +4,7 @@ var activities = [
   Map({
     id: 0,
     key: 'Puuhasimme',
-    route: require('../../../assets/Puuhailu.jpg'),
+    imageRoute: require('../../../assets/Puuhailu.jpg'),
     subActivities: List([
       'Leipominen, kokkailu',
       'Piirtäminen, askartelu',
@@ -14,7 +14,7 @@ var activities = [
   Map({
     id: 1,
     key: 'Ulkoilimme, retkeilimme',
-    route: require('../../../assets/Ulkoilu.jpg'),
+    imageRoute: require('../../../assets/Ulkoilu.jpg'),
     subActivities: List([
       'Ulkoilu',
       'Makkaranpaisto',
@@ -26,7 +26,7 @@ var activities = [
   Map({
     id: 2,
     key: 'Leikimme, pelasimme',
-    route: require('../../../assets/Leikkiminen.jpg'),
+    imageRoute: require('../../../assets/Leikkiminen.jpg'),
     subActivities: List([
       'Leikkiminen',
       'Lautapelit',
@@ -36,7 +36,7 @@ var activities = [
   Map({
     id: 3,
     key: 'Vietimme aikaa yhdessä',
-    route: require('../../../assets/Yhdessa.jpg'),
+    imageRoute: require('../../../assets/Yhdessa.jpg'),
     subActivities: List([
       'Saunominen',
       'Juttelu',
@@ -46,7 +46,7 @@ var activities = [
   Map({
     id: 4,
     key: 'Lemmikit, kotieläimet',
-    route: require('../../../assets/Lemmikit.jpg'),
+    imageRoute: require('../../../assets/Lemmikit.jpg'),
     subActivities: List([
       'Koira',
       'Kissa',

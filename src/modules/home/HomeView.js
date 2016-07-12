@@ -1,7 +1,6 @@
 import * as NavigationState from '../../modules/navigation/NavigationState';
 import * as UserState from '../../modules/user/UserState';
 import * as HomeState from '../../modules/home/HomeState';
-import * as ActivityState from '../../modules/activity/ActivityState';
 import React, {PropTypes} from 'react';
 import {List, Map, immutable} from 'immutable';
 import UserConfigurationButton from '../../components/UserConfigurationButton';
@@ -30,7 +29,6 @@ const HomeView = React.createClass({
     dispatch: PropTypes.func.isRequired,
     onNavigate: PropTypes.func.isRequired,
     users: PropTypes.instanceOf(List),
-    viewUserProfile: PropTypes.func.isRequired,
     currentUser: PropTypes.instanceOf(Map),
     shouldHide: PropTypes.bool.isRequired
   },
@@ -55,6 +53,11 @@ const HomeView = React.createClass({
     this.props.dispatch(HomeState.hideBubble());
   },
 
+  viewUserProfile(userIndex) {
+    this.props.dispatch(UserState.setCurrentUser(userIndex));
+    this.props.dispatch(NavigationState.pushRoute({key: 'Settings'}));
+  },
+
   render() {
     if (this.props.users.size > 0) {
       // TODO: If there are more than 4 added children, only names of the children are displayed.
@@ -73,7 +76,7 @@ const HomeView = React.createClass({
               <View style={styles.nameLabel}>
                 <UserConfigurationButton
                   userIndex={rowData.get('id')}
-                  viewUserProfile={this.props.viewUserProfile}
+                  viewUserProfile={this.viewUserProfile}
                 />
                 <Text style={styles.name}> {rowData.get('name')} </Text>
               </View>

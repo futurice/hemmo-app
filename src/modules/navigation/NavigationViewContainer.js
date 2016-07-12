@@ -19,11 +19,6 @@ export default connect(
       } else if (action.type === 'animation-completed') {
         dispatch(navigationCompleted());
       }
-    },
-    viewUserProfile(userIndex) {
-      console.log('userIndex ' + userIndex);
-      dispatch(UserState.setCurrentUser(userIndex));
-      dispatch(pushRoute({key: 'Settings'}));
     }
   })
 )(NavigationView);

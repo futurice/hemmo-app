@@ -2,7 +2,6 @@ import React, {PropTypes} from 'react';
 import {Map} from 'immutable';
 import Hemmo from '../../components/Hemmo';
 import WritingView from './WritingView';
-import * as FeedbackState from '../../modules/feedback/FeedbackState';
 
 import {
   Text,
@@ -29,7 +28,6 @@ const FeedbackView = React.createClass({
 
   enableWriting() {
     this.setState({enableWri: true});
-    // this.props.dispatch(FeedbackState.enableWriting());
   },
 
   disableWriting() {

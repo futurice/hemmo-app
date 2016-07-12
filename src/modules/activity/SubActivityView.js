@@ -1,6 +1,5 @@
 import React, {PropTypes} from 'react';
 import {Map} from 'immutable';
-import * as ActivityState from '../../modules/activity/ActivityState';
 import * as NavigationState from '../../modules/navigation/NavigationState';
 import * as UserState from '../../modules/user/UserState';
 import * as FeedbackState from '../../modules/feedback/FeedbackState';
@@ -19,7 +18,7 @@ var styles = require('./subStyles.js');
 const SubActivityView = React.createClass({
 
   propTypes: {
-    chosenActivity: PropTypes.instanceOf(Map),
+    chosenMainActivity: PropTypes.instanceOf(Map),
     dispatch: PropTypes.func.isRequired,
     closeSubActivities: PropTypes.func.isRequired
   },
@@ -36,7 +35,7 @@ const SubActivityView = React.createClass({
   countPositions() {
 
     coordinates = [];
-    var n = this.props.chosenActivity.get('subActivities').size;
+    var n = this.props.chosenMainActivity.get('subActivities').size;
     var screenWidth = Dimensions.get('window').width;
     var screenHeight = Dimensions.get('window').height - 20;
 
@@ -74,7 +73,7 @@ const SubActivityView = React.createClass({
 
   render() {
 
-    const subActivityViews = this.props.chosenActivity.get('subActivities').map((subActivity, index) => (
+    const subActivityViews = this.props.chosenMainActivity.get('subActivities').map((subActivity, index) => (
       <View
         key={subActivity}
         style={[styles.activityBlock, {
@@ -102,7 +101,7 @@ const SubActivityView = React.createClass({
     return (
       <View style={styles.container}>
         <View style={styles.titleBar}>
-          <Text style={styles.title}>{this.props.chosenActivity.get('key')}</Text>
+          <Text style={styles.title}>{this.props.chosenMainActivity.get('key')}</Text>
         </View>
         <View style={styles.activityBar}>
           {subActivityViews}
@@ -112,7 +111,5 @@ const SubActivityView = React.createClass({
     );
   }
 });
-
-
 
 export default SubActivityView;
