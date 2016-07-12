@@ -27,7 +27,6 @@ const FeedbackView = React.createClass({
           <View style={styles.titleRow}>
             <Text style={styles.mainTitle}>{activities[i].get('key')}</Text>
             <Text style={styles.subtitle}>{activities[i].get('subActivities').get(j)}</Text>
-            // TODO: Add pictures
           </View>
 
           <View style={styles.actionRow}>
@@ -38,7 +37,6 @@ const FeedbackView = React.createClass({
           <View style={styles.hemmoRow}>
             <Hemmo x={40} y={40}/>
           </View>
-          // TODO: Hide when writing option is not available
           <View style={styles.extraRow}>
             <Text>Extra</Text>
           </View>

@@ -19,8 +19,7 @@ const SubActivityView = React.createClass({
 
   propTypes: {
     chosenActivity: PropTypes.instanceOf(Map),
-    dispatch: PropTypes.func.isRequired,
-    currentViewIndex: PropTypes.number.isRequired
+    dispatch: PropTypes.func.isRequired
   },
 
   componentWillMount() {
@@ -68,7 +67,7 @@ const SubActivityView = React.createClass({
   chooseActivity(subActivity, index) {
     this.props.dispatch(UserState.saveAnswer('SubActivity', index));
     console.log('INDEX ' + this.props.currentViewIndex);
-    this.props.dispatch(NavigationState.pushRoute({key: 'Feedback', index: this.props.currentViewIndex + 1}));
+    this.props.dispatch(NavigationState.pushRoute({key: 'Feedback'}));
   },
 
   render() {

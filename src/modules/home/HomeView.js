@@ -31,8 +31,7 @@ const HomeView = React.createClass({
     users: PropTypes.instanceOf(List),
     viewUserProfile: PropTypes.func.isRequired,
     currentUser: PropTypes.instanceOf(Map),
-    shouldHide: PropTypes.bool.isRequired,
-    currentViewIndex: PropTypes.number.isRequired
+    shouldHide: PropTypes.bool.isRequired
   },
 
   getInitialState() {
@@ -43,12 +42,12 @@ const HomeView = React.createClass({
 
   openSettings() {
     this.props.dispatch(UserState.resetCurrentUser());
-    this.props.dispatch(NavigationState.pushRoute({key: 'Settings', index: this.props.currentViewIndex + 1}));
+    this.props.dispatch(NavigationState.pushRoute({key: 'Settings'}));
   },
 
   startJourney(id) {
     this.props.dispatch(UserState.setCurrentUser(id));
-    this.props.dispatch(NavigationState.pushRoute({key: 'Activity', index: this.props.currentViewIndex + 1}));
+    this.props.dispatch(NavigationState.pushRoute({key: 'Activity'}));
   },
 
   hideBubble() {
@@ -74,7 +73,6 @@ const HomeView = React.createClass({
                 <UserConfigurationButton
                   userIndex={rowData.get('id')}
                   viewUserProfile={this.props.viewUserProfile}
-                  pageIndex={this.props.currentViewIndex + 1}
                 />
                 <Text style={styles.name}> {rowData.get('name')} </Text>
               </View>

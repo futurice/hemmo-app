@@ -20,8 +20,7 @@ const MainActivityView = React.createClass({
     dispatch: PropTypes.func.isRequired,
     onNavigate: PropTypes.func.isRequired,
     showSubActivities: PropTypes.bool.isRequired,
-    chosenActivity: PropTypes.instanceOf(Map),
-    currentViewIndex: PropTypes.number.isRequired
+    chosenActivity: PropTypes.instanceOf(Map)
   },
 
   componentWillMount() {
@@ -52,8 +51,7 @@ const MainActivityView = React.createClass({
       var subActivities =
         <SubActivityView
           chosenActivity={this.props.chosenActivity}
-          dispatch={this.props.dispatch}
-          currentViewIndex={this.props.currentViewIndex}/>;
+          dispatch={this.props.dispatch}/>;
     }
     return (
       <View style={styles.container}>

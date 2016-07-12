@@ -20,10 +20,10 @@ export default connect(
         dispatch(navigationCompleted());
       }
     },
-    viewUserProfile(userIndex, pageIndex) {
+    viewUserProfile(userIndex) {
       console.log('userIndex ' + userIndex);
       dispatch(UserState.setCurrentUser(userIndex));
-      dispatch(pushRoute({key: 'Settings', index: pageIndex}));
+      dispatch(pushRoute({key: 'Settings'}));
     }
   })
 )(NavigationView);
