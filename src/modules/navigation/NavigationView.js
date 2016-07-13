@@ -18,7 +18,6 @@ const NavigationView = React.createClass({
   //TODO: Move to AppRouter somehow
   renderScene(route, navigator) {
     this.navigator = navigator;
-    console.log('ROUTE ' + route.key);
     if (route.key === 'Home') {
       return <HomeViewContainer onNavigate={this.props.onNavigate}/>;
     }
@@ -38,6 +37,7 @@ const NavigationView = React.createClass({
     var index = this.props.navigationState.index;
     var routes = this.props.navigationState.children;
 
+    /* TODO: Add animation */
     return (
       <Navigator
         initialRoute={{key: 'Home', index: 0}}

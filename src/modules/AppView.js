@@ -29,6 +29,7 @@ const AppView = React.createClass({
           dispatch(SessionStateActions.initializeSessionState());
         }
 
+        // TODO: Restore only added children. Everything else can be set to initialState
         store.subscribe(() => {
           snapshotUtil.saveSnapshot(store.getState());
         });

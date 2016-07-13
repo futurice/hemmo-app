@@ -31,7 +31,6 @@
 		ADE6C7E6D21B48BC8F75F007 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 76F5B877EA2C437DA62CAD97 /* EvilIcons.ttf */; };
 		B8FD3A80B6EA40AD9CEE7E0A /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B3AAC763C6284A56BB09F6E9 /* Foundation.ttf */; };
 		BC6A93CBC049461B88FA4739 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 10E41518B8604FF8AAB5169C /* MaterialIcons.ttf */; };
-		C479462A5C42476786A6A1D0 /* libA0RNLock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CDA06CD398E24534B72848C5 /* libA0RNLock.a */; };
 		C91BC9D39A024D1E88CCEA99 /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F9CB703FA3D4A67BB80F97E /* libRNImagePicker.a */; };
 		E71E5A58F35C2A785460512A /* libPods-PepperoniAppTemplate.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C465081FA4B5BC6A6E35D62D /* libPods-PepperoniAppTemplate.a */; };
 		F4798E3C54274E8CB0E7E08A /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A566DC59704548358E65EE40 /* libRNVectorIcons.a */; };
@@ -181,7 +180,6 @@
 		AD98742C065D441FB42AD0F1 /* A0RNLock.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = A0RNLock.xcodeproj; path = "../node_modules/react-native-lock/A0RNLock.xcodeproj"; sourceTree = "<group>"; };
 		B3AAC763C6284A56BB09F6E9 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 		C465081FA4B5BC6A6E35D62D /* libPods-PepperoniAppTemplate.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PepperoniAppTemplate.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		CDA06CD398E24534B72848C5 /* libA0RNLock.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libA0RNLock.a; sourceTree = "<group>"; };
 		D50692D4E0DD0735E687BCD2 /* Pods-PepperoniAppTemplate.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PepperoniAppTemplate.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PepperoniAppTemplate/Pods-PepperoniAppTemplate.debug.xcconfig"; sourceTree = "<group>"; };
 		E2F24CB53D744122AB8D6D1F /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; };
 		FE7543558CE944A0A1093C79 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
@@ -211,7 +209,6 @@
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				E71E5A58F35C2A785460512A /* libPods-PepperoniAppTemplate.a in Frameworks */,
-				C479462A5C42476786A6A1D0 /* libA0RNLock.a in Frameworks */,
 				2B7D3D47072C4CE2BE4E159A /* libRCTOrientation.a in Frameworks */,
 				C91BC9D39A024D1E88CCEA99 /* libRNImagePicker.a in Frameworks */,
 				F4798E3C54274E8CB0E7E08A /* libRNVectorIcons.a in Frameworks */,
