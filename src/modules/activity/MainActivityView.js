@@ -56,11 +56,11 @@ const MainActivityView = React.createClass({
 
     if (this.state.showSubActivities === true)
     {
-      var subActivities =
+      var subActivities = (
         <SubActivityView
           chosenMainActivity={this.state.chosenMainActivity}
           dispatch={this.props.dispatch}
-          closeSubActivities={this.closeSubActivities}/>;
+          closeSubActivities={this.closeSubActivities}/>);
     }
     return (
       <View style={styles.container}>

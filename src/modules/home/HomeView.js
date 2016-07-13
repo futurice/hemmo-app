@@ -61,7 +61,8 @@ const HomeView = React.createClass({
   render() {
     if (this.props.users.size > 0) {
       // TODO: If there are more than 4 added children, only names of the children are displayed.
-      userIcons = <ListView
+      userIcons = (
+        <ListView
         contentContainerStyle = {styles.list}
         dataSource = {ds.cloneWithRows(this.props.users.toArray())}
         renderRow = {
@@ -82,17 +83,17 @@ const HomeView = React.createClass({
               </View>
             </View>
         }
-      />;
+      />);
       speechBubble = <SpeechBubble text={phrases.userIsKnown}/>;
     }
     else {
-      userIcons =
+      userIcons = (
         <View style={styles.emptyRow}>
           <Image style={styles.icon} source={require('../../../assets/default-icon.png')}/>
           <View style={styles.nameLabel}>
             <Text style={styles.name}> Nimi </Text>
           </View>
-        </View>;
+        </View>);
 
       if (this.props.shouldHide === false) {
         speechBubble = <SpeechBubble text={phrases.userIsUnknown}/>;

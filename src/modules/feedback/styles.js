@@ -10,13 +10,11 @@ const styles = StyleSheet.create({
   },
   leftColumn: {
     flex: 3,
-    flexDirection: 'column',
-    borderWidth: 1
+    flexDirection: 'column'
   },
   titleRow: {
     flex: 1,
     padding: 20,
-    borderWidth: 1,
     alignItems: 'center'
   },
   mainTitle: {
@@ -26,21 +24,21 @@ const styles = StyleSheet.create({
     fontSize: 10
   },
   actionRow: {
-    flex: 1,
-    borderWidth: 1
+    flex: 2,
+    marginLeft: 30,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   rightColumn: {
     flex: 2,
-    flexDirection: 'column',
-    borderWidth: 1
+    flexDirection: 'column'
   },
   hemmoRow: {
-    flex: 3,
-    borderWidth: 1
+    flex: 3
   },
   extraRow: {
     flex: 1,
-    borderWidth: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center'
@@ -50,6 +48,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
     marginHorizontal: 10
+  },
+  voteButton: {
+    margin: 15
   },
   skipButton: {
     flex: 1,

@@ -2,7 +2,6 @@ import React, {PropTypes} from 'react';
 import {Map} from 'immutable';
 import * as NavigationState from '../../modules/navigation/NavigationState';
 import * as UserState from '../../modules/user/UserState';
-import * as FeedbackState from '../../modules/feedback/FeedbackState';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import {
@@ -67,8 +66,10 @@ const SubActivityView = React.createClass({
 
   chooseActivity(subActivity, index) {
     this.props.dispatch(UserState.saveAnswer('SubActivity', index));
-    this.props.dispatch(FeedbackState.showTitle());
-    this.props.dispatch(NavigationState.pushRoute({key: 'Feedback'}));
+    var layout = Map({
+      showTitle: true,
+      voteThumbs: true});
+    this.props.dispatch(NavigationState.pushRoute({key: 'Feedback', pageLayout: layout}));
   },
 
   render() {

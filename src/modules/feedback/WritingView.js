@@ -10,7 +10,6 @@ import {
 const WritingView = React.createClass({
 
   propTypes: {
-    dispatch: PropTypes.func.isRequired,
     disableWriting: PropTypes.func.isRequired
   },
   disableWriting() {
