@@ -13,6 +13,12 @@ const styles = StyleSheet.create({
   },
   activity: {
     flex: 1,
+    // flex: 1,
+    // flexWrap: 'wrap',
+    // // borderWidth: 4,
+    // // borderColor: 'gray',
+    // // margin: 15,
+    // borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center'
   },
@@ -23,6 +29,7 @@ const styles = StyleSheet.create({
     borderRadius: 10
   },
   activityImage: {
+    // flexWrap: 'wrap',
     flex: 1,
     borderWidth: 4,
     borderColor: 'gray',

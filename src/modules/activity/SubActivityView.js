@@ -31,7 +31,7 @@ const SubActivityView = React.createClass({
     this.props.closeSubActivities();
   },
 
-  // TODO: Needs commenting etc. Really ugly and complicated atm?
+  // TODO: Needs commenting etc.
   countPositions() {
 
     coordinates = [];
