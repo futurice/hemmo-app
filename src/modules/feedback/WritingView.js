@@ -22,8 +22,10 @@ const WritingView = React.createClass({
         <View style={styles.textInput}>
           <TextInput
             multiline = {true}
-           numberOfLines = {7}
-            maxLength={150}/>
+            numberOfLines = {30}
+            maxLength = {150}
+            underlineColorAndroid = 'transparent'
+            style={styles.textForm}/>
         </View>
         <Icon onPress={this.disableWriting} name='times-circle' size={40} style={styles.closeButton}/>
 
@@ -35,29 +37,37 @@ const WritingView = React.createClass({
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    backgroundColor: 'white',
+    backgroundColor: 'rgb(177, 177, 177)',
     borderWidth: 2,
-    borderRadius: 50,
+    borderRadius: 30,
     top: 20,
     left: 20,
     right: 20,
     bottom: 60,
-    paddingTop: 40,
-    paddingBottom: 30,
-    paddingLeft: 20,
+    paddingTop: 5,
+    paddingBottom: 5,
+    paddingLeft: 5,
     paddingRight: 80
   },
   textInput: {
     flex: 1,
-    borderWidth: 1,
-    borderRadius: 5,
-    alignItems: 'stretch'
+    backgroundColor: 'white',
+    borderTopLeftRadius: 30,
+    borderBottomLeftRadius: 30,
+    borderWidth: 3,
+    borderColor: 'gray',
+    justifyContent: 'flex-start'
+
   },
   closeButton: {
-    color: 'green',
+    color: 'rgb(74, 79, 77)',
     position: 'absolute',
-    top: 20,
-    right: 25
+    top: 10,
+    right: 15
+  },
+  textForm: {
+    margin: 15,
+    textAlignVertical: 'top'
   }
 });
 

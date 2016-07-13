@@ -49,18 +49,29 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginHorizontal: 10
   },
-  voteButton: {
-    margin: 15
+  writeButtonHighlight: {
+    flex: 2,
+    borderRadius: 10
   },
   skipButton: {
     flex: 1,
     borderWidth: 1,
     borderRadius: 10,
     marginHorizontal: 10
-
+  },
+  skipButtonHighlight: {
+    flex: 1,
+    borderRadius: 10
+  },
+  button: {
+    flexDirection: 'row',
+    justifyContent: 'center'
   },
   text: {
     textAlign: 'center'
+  },
+  voteButton: {
+    margin: 15
   }
 });
 

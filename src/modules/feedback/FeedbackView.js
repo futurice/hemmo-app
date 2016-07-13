@@ -15,7 +15,7 @@ import {
 var styles = require('./styles.js');
 var activities = require('../activity/activities.js');
 var icons = [{icon: 'thumbs-down'}, {icon: 'meh-o'}, {icon: 'thumbs-up'}];
-var activity;
+var actionPanel;
 
 const FeedbackView = React.createClass({
 
@@ -51,18 +51,13 @@ const FeedbackView = React.createClass({
     var i = this.props.answers.get('MainActivity');
     var j = this.props.answers.get('SubActivity');
 
-    // Check if the writing view should be displayed
-    if (this.state.enableWriting === true) {
-      var writing = <WritingView disableWriting={this.disableWriting}/>;
-    }
-
     var index = this.props.navigationState.index;
     var pageLayout = this.props.navigationState.children[index].pageLayout;
 
     // Check if the view is related to selected activities. If not
     // and the user is giving feedback regarding something else, the activity title is not displayed
     if (pageLayout.showTitle === true) {
-      var title = (
+      var titlePanel = (
         <View style={styles.titleRow}>
           <Text style={styles.mainTitle}>{activities[i].get('key')}</Text>
           <Text style={styles.subtitle}>{activities[i].get('subActivities').get(j)}</Text>
@@ -82,34 +77,50 @@ const FeedbackView = React.createClass({
           </View>
         );
       }
-      activity = (
+      actionPanel = (
         <View style={styles.actionRow}>
           {thumbs}
         </View>
       );
     }
     else {
-      activity = (
+      actionPanel = (
         <View style={styles.actionRow}>
           <Text>Recording voice</Text>
         </View>
       );
 
-      var writeOrSkip = (
+      var icon = 'pencil';
+      var text = 'Kirjoita';
+      // Check if the writing view should be displayed
+      if (this.state.enableWriting === true) {
+        var writingView = <WritingView disableWriting={this.disableWriting}/>;
+        icon = 'save';
+        text = 'Tallenna';
+      }
+
+      var writeOrSkipPanel = (
         <View style={styles.extraRow}>
           <View style={styles.writeButton}>
             <TouchableHighlight
-              onPress={this.enableWriting}>
-              <Text style={styles.text}>
-                Kirjoita
-              </Text>
+              onPress={this.enableWriting}
+              style={styles.writeButtonHighlight}>
+              <View style={styles.button}>
+                <Text style={styles.text}>
+                  {text}
+                </Text>
+                <Icon size={20} name={icon}/>
+              </View>
             </TouchableHighlight>
           </View>
           <View style={styles.skipButton}>
-            <TouchableHighlight>
-              <Text style={styles.text}>
-                Ohita
-              </Text>
+            <TouchableHighlight style={styles.skipButtonHighlight}>
+              <View style={styles.button}>
+                <Text style={styles.text}>
+                  Ohita
+                </Text>
+                <Icon size={20} name={'angle-right'}/>
+              </View>
             </TouchableHighlight>
           </View>
         </View>
@@ -119,16 +130,16 @@ const FeedbackView = React.createClass({
     return (
       <View style={styles.container}>
         <View style={styles.leftColumn}>
-          {title}
-          {activity}
+          {titlePanel}
+          {actionPanel}
         </View>
         <View style={styles.rightColumn}>
           <View style={styles.hemmoRow}>
             <Hemmo x={40} y={40}/>
           </View>
-          {writeOrSkip}
+          {writeOrSkipPanel}
         </View>
-        {writing}
+        {writingView}
       </View>
     );
   }

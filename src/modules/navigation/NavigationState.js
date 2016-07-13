@@ -60,6 +60,3 @@ export default function NavigationReducer(state = initialState, action) {
       return state;
   }
 }
-// function isNavigationAnimationInProgress(state) {
-//   return state.getIn(['navigationState', 'isNavigating']);
-// }
