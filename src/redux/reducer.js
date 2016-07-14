@@ -4,7 +4,6 @@ import NavigationStateReducer from '../modules/navigation/NavigationState';
 import HomeStateReducer from '../modules/home/HomeState';
 import SessionStateReducer, {RESET_STATE} from '../modules/session/SessionState';
 import SettingsStateReducer from '../modules/settings/SettingsState';
-import ActivityStateReducer from '../modules/activity/ActivityState';
 import UserStateReducer from '../modules/user/UserState';
 import FeedbackStateReducer from '../modules/feedback/FeedbackState';
 
@@ -21,8 +20,6 @@ const reducers = {
   user: UserStateReducer,
 
   settings: SettingsStateReducer,
-
-  activity: ActivityStateReducer,
 
   feedback: FeedbackStateReducer
 

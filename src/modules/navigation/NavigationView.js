@@ -12,8 +12,7 @@ const NavigationView = React.createClass({
   propTypes: {
     router: PropTypes.func.isRequired,
     navigationState: PropTypes.object.isRequired,
-    onNavigate: PropTypes.func.isRequired,
-    viewUserProfile: PropTypes.func.isRequired
+    onNavigate: PropTypes.func.isRequired
   },
 
   //TODO: Move to AppRouter somehow
@@ -21,9 +20,7 @@ const NavigationView = React.createClass({
     this.navigator = navigator;
     console.log('ROUTE ' + route.key);
     if (route.key === 'Home') {
-      return <HomeViewContainer
-        onNavigate={this.props.onNavigate}
-        viewUserProfile={this.props.viewUserProfile}/>;
+      return <HomeViewContainer onNavigate={this.props.onNavigate}/>;
     }
     else if (route.key === 'Settings') {
       return <SettingsViewContainer onNavigate={this.props.onNavigate}/>;

@@ -18,7 +18,7 @@ export function pushRoute(state) {
   return (dispatch) => {
     dispatch({
       type: PUSH_ROUTE,
-      payload: state.key
+      payload: Map({key: state.key, pageLayout: state.pageLayout})
     });
   };
 }
@@ -34,11 +34,15 @@ export function navigationCompleted() {
 export default function NavigationReducer(state = initialState, action) {
   switch (action.type) {
     case PUSH_ROUTE:
-      var newPath = Map({key: action.payload, index: state.get('index') + 1});
+      var newPath = Map({
+        key: action.payload.get('key'),
+        index: state.get('index') + 1,
+        pageLayout: action.payload.get('pageLayout')});
+
       return state
-      .set('isNavigating', true)
-      .updateIn(['children'], list => list.push(newPath))
-      .update('index', index => index + 1);
+        .set('isNavigating', true)
+        .updateIn(['children'], list => list.push(newPath))
+        .update('index', index => index + 1);
 
     case POP_ROUTE:
       var poppedRouteIndex = state.get('index');
@@ -56,6 +60,3 @@ export default function NavigationReducer(state = initialState, action) {
       return state;
   }
 }
-// function isNavigationAnimationInProgress(state) {
-//   return state.getIn(['navigationState', 'isNavigating']);
-// }

@@ -2,7 +2,9 @@ import React, {PropTypes} from 'react';
 import {Map} from 'immutable';
 import Hemmo from '../../components/Hemmo';
 import WritingView from './WritingView';
-import * as FeedbackState from '../../modules/feedback/FeedbackState';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import * as UserState from '../../modules/user/UserState';
+import * as NavigationState from '../../modules/navigation/NavigationState';
 
 import {
   Text,
@@ -12,80 +14,132 @@ import {
 
 var styles = require('./styles.js');
 var activities = require('../activity/activities.js');
+var icons = [{icon: 'thumbs-down'}, {icon: 'meh-o'}, {icon: 'thumbs-up'}];
+var actionPanel;
 
 const FeedbackView = React.createClass({
 
   propTypes: {
     answers: PropTypes.instanceOf(Map),
     dispatch: PropTypes.func.isRequired,
-    showTitle: PropTypes.bool
+    navigationState: PropTypes.object
   },
 
   getInitialState() {
     return {
-      enableWri: false
+      enableWriting: false
     };
   },
 
   enableWriting() {
-    this.setState({enableWri: true});
-    // this.props.dispatch(FeedbackState.enableWriting());
+    this.setState({enableWriting: true});
   },
 
   disableWriting() {
-    this.setState({enableWri: false});
+    this.setState({enableWriting: false});
+  },
+
+  vote(vote) {
+    this.props.dispatch(UserState.saveAnswer('Thumb', vote));
+    var layout = Map({
+      showTitle: true,
+      voteThumbs: false});
+    this.props.dispatch(NavigationState.pushRoute({key: 'Feedback', pageLayout: layout}));
   },
 
   render() {
-
     var i = this.props.answers.get('MainActivity');
     var j = this.props.answers.get('SubActivity');
 
-    if (this.state.enableWri === true) {
-      var writing = <WritingView dispatch={this.props.dispatch} disableWriting={this.disableWriting}/>;
-    }
+    var index = this.props.navigationState.index;
+    var pageLayout = this.props.navigationState.children[index].pageLayout;
 
-    if (this.props.showTitle === true) {
-      var title = <View style={styles.titleRow}>
+    // Check if the view is related to selected activities. If not
+    // and the user is giving feedback regarding something else, the activity title is not displayed
+    if (pageLayout.showTitle === true) {
+      var titlePanel = (
+        <View style={styles.titleRow}>
           <Text style={styles.mainTitle}>{activities[i].get('key')}</Text>
           <Text style={styles.subtitle}>{activities[i].get('subActivities').get(j)}</Text>
-        </View>;
+        </View>);
+    }
+
+    if (pageLayout.voteThumbs === true) {
+      var thumbs = [];
+      for (i = 0; i <= 2; i++) {
+        thumbs.push(
+          <View key={i}>
+            <Icon
+              onPress={this.vote.bind(this, i)}
+              name={icons[i].icon}
+              size={100}
+              style={styles.voteButton}/>
+          </View>
+        );
+      }
+      actionPanel = (
+        <View style={styles.actionRow}>
+          {thumbs}
+        </View>
+      );
+    }
+    else {
+      actionPanel = (
+        <View style={styles.actionRow}>
+          <Text>Recording voice</Text>
+        </View>
+      );
+
+      var icon = 'pencil';
+      var text = 'Kirjoita';
+      // Check if the writing view should be displayed
+      if (this.state.enableWriting === true) {
+        var writingView = <WritingView disableWriting={this.disableWriting}/>;
+        icon = 'save';
+        text = 'Tallenna';
+      }
+
+      var writeOrSkipPanel = (
+        <View style={styles.extraRow}>
+          <View style={styles.writeButton}>
+            <TouchableHighlight
+              onPress={this.enableWriting}
+              style={styles.writeButtonHighlight}>
+              <View style={styles.button}>
+                <Text style={styles.text}>
+                  {text}
+                </Text>
+                <Icon size={20} name={icon}/>
+              </View>
+            </TouchableHighlight>
+          </View>
+          <View style={styles.skipButton}>
+            <TouchableHighlight style={styles.skipButtonHighlight}>
+              <View style={styles.button}>
+                <Text style={styles.text}>
+                  Ohita
+                </Text>
+                <Icon size={20} name={'angle-right'}/>
+              </View>
+            </TouchableHighlight>
+          </View>
+        </View>
+      );
     }
 
     return (
       <View style={styles.container}>
         <View style={styles.leftColumn}>
-          {title}
-
-          <View style={styles.actionRow}>
-            <Text>Action</Text>
-          </View>
+          {titlePanel}
+          {actionPanel}
         </View>
         <View style={styles.rightColumn}>
           <View style={styles.hemmoRow}>
             <Hemmo x={40} y={40}/>
           </View>
-          <View style={styles.extraRow}>
-            <View style={styles.writeButton}>
-              <TouchableHighlight
-                onPress={this.enableWriting}>
-                <Text style={styles.text}>
-                  Kirjoita
-                </Text>
-              </TouchableHighlight>
-            </View>
-            <View style={styles.skipButton}>
-              <TouchableHighlight>
-                <Text style={styles.text}>
-                  Ohita
-                </Text>
-              </TouchableHighlight>
-            </View>
-          </View>
+          {writeOrSkipPanel}
         </View>
-
-        {writing}
-
+        {writingView}
       </View>
     );
   }

@@ -1,6 +1,5 @@
 import React, {PropTypes} from 'react';
 import {Map} from 'immutable';
-import * as ActivityState from '../../modules/activity/ActivityState';
 import * as UserState from '../../modules/user/UserState';
 import SubActivityView from './SubActivityView';
 import {
@@ -18,13 +17,13 @@ const MainActivityView = React.createClass({
 
   propTypes: {
     dispatch: PropTypes.func.isRequired,
-    onNavigate: PropTypes.func.isRequired,
-    chosenActivity: PropTypes.instanceOf(Map)
+    onNavigate: PropTypes.func.isRequired
   },
 
   getInitialState() {
     return {
-      showSubActivities: false
+      showSubActivities: false,
+      chosenMainActivity: Map()
     };
   },
 
@@ -34,8 +33,7 @@ const MainActivityView = React.createClass({
 
   openSubActivities(activity) {
     this.props.dispatch(UserState.saveAnswer('MainActivity', activity.get('id')));
-    this.setState({showSubActivities: true});
-    this.props.dispatch(ActivityState.openSubActivities(activity));
+    this.setState({showSubActivities: true, chosenMainActivity: activity});
   },
 
   closeSubActivities() {
@@ -51,18 +49,18 @@ const MainActivityView = React.createClass({
             <Image
               resizeMode={'contain'}
               style={[styles.activityImage, {width: activityWidth}]}
-              source={activity.get('route')}/>
+              source={activity.get('imageRoute')}/>
         </TouchableHighlight>
       </View>
     ));
 
     if (this.state.showSubActivities === true)
     {
-      var subActivities =
+      var subActivities = (
         <SubActivityView
-          chosenActivity={this.props.chosenActivity}
+          chosenMainActivity={this.state.chosenMainActivity}
           dispatch={this.props.dispatch}
-          closeSubActivities={this.closeSubActivities}/>;
+          closeSubActivities={this.closeSubActivities}/>);
     }
     return (
       <View style={styles.container}>
