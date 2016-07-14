@@ -4,9 +4,10 @@ import {
 } from 'react-native';
 import AppRouter from '../AppRouter';
 import SettingsViewContainer from '../settings/SettingsViewContainer';
-import FeedbackViewContainer from '../feedback/FeedbackViewContainer';
 import HomeViewContainer from '../home/HomeViewContainer';
 import ActivityViewContainer from '../activity/ActivityViewContainer';
+import ThumbVoteViewContainer from '../feedback/ThumbVoteViewContainer';
+import RecordOrWriteViewContainer from '../feedback/RecordOrWriteViewContainer';
 
 const NavigationView = React.createClass({
   propTypes: {
@@ -28,8 +29,11 @@ const NavigationView = React.createClass({
     else if (route.key === 'Activity') {
       return <ActivityViewContainer onNavigate={this.props.onNavigate}/>;
     }
-    else if (route.key === 'Feedback') {
-      return <FeedbackViewContainer onNavigate={this.props.onNavigate}/>;
+    else if (route.key === 'RecordOrWrite') {
+      return <RecordOrWriteViewContainer/>;
+    }
+    else if (route.key === 'Thumbs') {
+      return <ThumbVoteViewContainer/>;
     }
     return null;
   },
@@ -37,6 +41,7 @@ const NavigationView = React.createClass({
   render() {
     var index = this.props.navigationState.index;
     var routes = this.props.navigationState.children;
+    console.log('ROUTING index ' + index);
 
     return (
       <Navigator

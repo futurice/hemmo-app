@@ -41,6 +41,9 @@ const MainActivityView = React.createClass({
   },
 
   render() {
+
+    console.log('Rendering MainActivityView');
+
     const activityViews = activities.map((activity) => (
       <View key={activity.get('key')} style={styles.activity}>
         <TouchableHighlight

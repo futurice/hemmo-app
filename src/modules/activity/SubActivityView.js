@@ -69,7 +69,7 @@ const SubActivityView = React.createClass({
     var layout = Map({
       showTitle: true,
       voteThumbs: true});
-    this.props.dispatch(NavigationState.pushRoute({key: 'Feedback', pageLayout: layout}));
+    this.props.dispatch(NavigationState.pushRoute({key: 'Thumbs', pageLayout: layout}));
   },
 
   render() {

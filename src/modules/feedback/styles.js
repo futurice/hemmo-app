@@ -72,6 +72,39 @@ const styles = StyleSheet.create({
   },
   voteButton: {
     margin: 15
+  },
+  writingContainer: {
+    position: 'absolute',
+    backgroundColor: 'rgb(177, 177, 177)',
+    borderWidth: 2,
+    borderRadius: 30,
+    top: 20,
+    left: 20,
+    right: 20,
+    bottom: 60,
+    paddingTop: 5,
+    paddingBottom: 5,
+    paddingLeft: 5,
+    paddingRight: 80
+  },
+  textInput: {
+    flex: 1,
+    backgroundColor: 'white',
+    borderTopLeftRadius: 30,
+    borderBottomLeftRadius: 30,
+    borderWidth: 3,
+    borderColor: 'gray',
+    justifyContent: 'flex-start'
+  },
+  closeButton: {
+    color: 'rgb(74, 79, 77)',
+    position: 'absolute',
+    top: 10,
+    right: 15
+  },
+  textForm: {
+    margin: 15,
+    textAlignVertical: 'top'
   }
 });
 

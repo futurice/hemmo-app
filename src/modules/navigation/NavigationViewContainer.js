@@ -1,7 +1,6 @@
 import {connect} from 'react-redux';
-import {popRoute, pushRoute, navigationCompleted} from './NavigationState';
+import {popRoute, navigationCompleted} from './NavigationState';
 import NavigationView from './NavigationView';
-import * as UserState from '../../modules/user/UserState';
 
 export default connect(
   state => ({
@@ -16,6 +15,7 @@ export default connect(
       // Android back button is handled separately in index.android.js
       if (action.type === 'back' || action.type === 'BackAction') {
         dispatch(popRoute());
+        console.log('POPPING DONE');
       } else if (action.type === 'animation-completed') {
         dispatch(navigationCompleted());
       }

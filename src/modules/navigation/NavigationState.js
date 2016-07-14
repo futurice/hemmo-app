@@ -4,7 +4,11 @@ const initialState = fromJS({
   index: 0,
   children: [{
     key: 'Home',
-    index: 0
+    index: 0,
+    pageLayout: Map({
+      showTitle: false,
+      voteThumbs: false
+    })
   }]
 });
 
@@ -45,9 +49,11 @@ export default function NavigationReducer(state = initialState, action) {
         .update('index', index => index + 1);
 
     case POP_ROUTE:
+      console.log('POPPING ROUTE 1');
       var poppedRouteIndex = state.get('index');
       var tmp = state.get('children').slice();
       tmp = tmp.filter(function deleteRoute(item) { return item.get('index') !== poppedRouteIndex; });
+
       return state
         .set('isNavigating', true)
         .set('children', tmp)
