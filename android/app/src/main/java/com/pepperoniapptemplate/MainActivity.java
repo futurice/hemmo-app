@@ -11,6 +11,8 @@ import com.facebook.react.shell.MainReactPackage;
 import android.content.Intent; // <--- import
 import android.content.res.Configuration; // <--- import
 
+import com.futurice.rctaudiotoolkit.AudioPackage;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -45,7 +47,8 @@ public class MainActivity extends ReactActivity {
             new MainReactPackage(),
             new VectorIconsPackage(),
             new ImagePickerPackage(),
-            new OrientationPackage(this)
+            new OrientationPackage(this),
+            new AudioPackage()
         );
     }
 

@@ -32,6 +32,8 @@
 		B8FD3A80B6EA40AD9CEE7E0A /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B3AAC763C6284A56BB09F6E9 /* Foundation.ttf */; };
 		BC6A93CBC049461B88FA4739 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 10E41518B8604FF8AAB5169C /* MaterialIcons.ttf */; };
 		C91BC9D39A024D1E88CCEA99 /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F9CB703FA3D4A67BB80F97E /* libRNImagePicker.a */; };
+		DCE7304A1D36621F00E22DCE /* libReactNativeAudioToolkit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DCE730491D36621B00E22DCE /* libReactNativeAudioToolkit.a */; };
+		DCE7305D1D3674BA00E22DCE /* drumsticks.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DCE7305C1D3674BA00E22DCE /* drumsticks.mp3 */; };
 		E71E5A58F35C2A785460512A /* libPods-PepperoniAppTemplate.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C465081FA4B5BC6A6E35D62D /* libPods-PepperoniAppTemplate.a */; };
 		F4798E3C54274E8CB0E7E08A /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A566DC59704548358E65EE40 /* libRNVectorIcons.a */; };
 /* End PBXBuildFile section */
@@ -135,6 +137,13 @@
 			remoteGlobalIDString = 58B5119B1A9E6C1200147676;
 			remoteInfo = RCTText;
 		};
+		DCE730481D36621B00E22DCE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DCE730441D36621B00E22DCE /* ReactNativeAudioToolkit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5E8FD9831D269F5D00CF68CC;
+			remoteInfo = ReactNativeAudioToolkit;
+		};
 		DDC1AA901D00447E009A9298 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AD98742C065D441FB42AD0F1 /* A0RNLock.xcodeproj */;
@@ -181,6 +190,8 @@
 		B3AAC763C6284A56BB09F6E9 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 		C465081FA4B5BC6A6E35D62D /* libPods-PepperoniAppTemplate.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PepperoniAppTemplate.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D50692D4E0DD0735E687BCD2 /* Pods-PepperoniAppTemplate.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PepperoniAppTemplate.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PepperoniAppTemplate/Pods-PepperoniAppTemplate.debug.xcconfig"; sourceTree = "<group>"; };
+		DCE730441D36621B00E22DCE /* ReactNativeAudioToolkit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeAudioToolkit.xcodeproj; path = "../node_modules/react-native-audio-toolkit/ios/ReactNativeAudioToolkit/ReactNativeAudioToolkit.xcodeproj"; sourceTree = "<group>"; };
+		DCE7305C1D3674BA00E22DCE /* drumsticks.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = drumsticks.mp3; sourceTree = "<group>"; };
 		E2F24CB53D744122AB8D6D1F /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; };
 		FE7543558CE944A0A1093C79 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		FED00CDF8D114E61BCEF2A27 /* RCTOrientation.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTOrientation.xcodeproj; path = "../node_modules/react-native-orientation/iOS/RCTOrientation.xcodeproj"; sourceTree = "<group>"; };
@@ -198,6 +209,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DCE7304A1D36621F00E22DCE /* libReactNativeAudioToolkit.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
@@ -309,6 +321,7 @@
 		13B07FAE1A68108700A75B9A /* PepperoniAppTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				DCE7305C1D3674BA00E22DCE /* drumsticks.mp3 */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -363,6 +376,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				DCE730441D36621B00E22DCE /* ReactNativeAudioToolkit.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
 				00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */,
 				00C302B51ABCB90400DB3ED1 /* RCTGeolocation.xcodeproj */,
@@ -422,6 +436,14 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		DCE730451D36621B00E22DCE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DCE730491D36621B00E22DCE /* libReactNativeAudioToolkit.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		DDC1AA8D1D00447E009A9298 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -463,13 +485,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "PepperoniAppTemplate" */;
 			buildPhases = (
-				98EAEF8AC12B4BC7892DB9B9 /* 📦 Check Pods Manifest.lock */,
+				98EAEF8AC12B4BC7892DB9B9 /* [CP] Check Pods Manifest.lock */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				27A9C0C7F07A81753CC7FD4F /* 📦 Embed Pods Frameworks */,
-				3F007284397F85AD6CF9BF16 /* 📦 Copy Pods Resources */,
+				27A9C0C7F07A81753CC7FD4F /* [CP] Embed Pods Frameworks */,
+				3F007284397F85AD6CF9BF16 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -554,6 +576,10 @@
 				{
 					ProductGroup = 146834001AC3E56700842450 /* Products */;
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+				},
+				{
+					ProductGroup = DCE730451D36621B00E22DCE /* Products */;
+					ProjectRef = DCE730441D36621B00E22DCE /* ReactNativeAudioToolkit.xcodeproj */;
 				},
 				{
 					ProductGroup = 6259DF921D2A91FF00E4A8B7 /* Products */;
@@ -664,6 +690,13 @@
 			remoteRef = 832341B41AAA6A8300B99B32 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		DCE730491D36621B00E22DCE /* libReactNativeAudioToolkit.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libReactNativeAudioToolkit.a;
+			remoteRef = DCE730481D36621B00E22DCE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		DDC1AA911D00447E009A9298 /* libA0RNLock.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -689,6 +722,7 @@
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				957CC70DD61E4074BC08BE53 /* Entypo.ttf in Resources */,
 				ADE6C7E6D21B48BC8F75F007 /* EvilIcons.ttf in Resources */,
+				DCE7305D1D3674BA00E22DCE /* drumsticks.mp3 in Resources */,
 				0A0BE5A01DF446CA8616CCB8 /* FontAwesome.ttf in Resources */,
 				B8FD3A80B6EA40AD9CEE7E0A /* Foundation.ttf in Resources */,
 				158AFF16B2A5415381B0379B /* Ionicons.ttf in Resources */,
@@ -715,14 +749,14 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/packager/react-native-xcode.sh";
 		};
-		27A9C0C7F07A81753CC7FD4F /* 📦 Embed Pods Frameworks */ = {
+		27A9C0C7F07A81753CC7FD4F /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -730,14 +764,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PepperoniAppTemplate/Pods-PepperoniAppTemplate-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		3F007284397F85AD6CF9BF16 /* 📦 Copy Pods Resources */ = {
+		3F007284397F85AD6CF9BF16 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -745,14 +779,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PepperoniAppTemplate/Pods-PepperoniAppTemplate-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		98EAEF8AC12B4BC7892DB9B9 /* 📦 Check Pods Manifest.lock */ = {
+		98EAEF8AC12B4BC7892DB9B9 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -879,6 +913,7 @@
 			baseConfigurationReference = 938FD9977D1735DEB15300EE /* Pods-PepperoniAppTemplate.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"DEAD_CODE_STRIPPING[arch=*]" = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
