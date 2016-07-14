@@ -19,8 +19,10 @@ const Hemmo = React.createClass({
 
   _onPress: () => {
     console.log();
-    RCTAudioPlayer.play('drumsticks', null, {
+    RCTAudioPlayer.play('drumsticks.mp3', {
       resource: true
+    }, () => {
+        console.log('callback');
     });
   },
 
