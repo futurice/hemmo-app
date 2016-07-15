@@ -6,8 +6,9 @@ import AppRouter from '../AppRouter';
 import SettingsViewContainer from '../settings/SettingsViewContainer';
 import HomeViewContainer from '../home/HomeViewContainer';
 import ActivityViewContainer from '../activity/ActivityViewContainer';
-import ThumbVoteViewContainer from '../feedback/ThumbVoteViewContainer';
-import RecordOrWriteViewContainer from '../feedback/RecordOrWriteViewContainer';
+import ThumbVoteViewContainer from '../feedback/thumbs/ThumbVoteViewContainer';
+import RecordViewContainer from '../feedback/record/RecordViewContainer';
+import NewRound from '../feedback/NewRound';
 
 const NavigationView = React.createClass({
   propTypes: {
@@ -29,11 +30,14 @@ const NavigationView = React.createClass({
     else if (route.key === 'Activity') {
       return <ActivityViewContainer onNavigate={this.props.onNavigate}/>;
     }
-    else if (route.key === 'RecordOrWrite') {
-      return <RecordOrWriteViewContainer/>;
+    else if (route.key === 'Record') {
+      return <RecordViewContainer/>;
     }
     else if (route.key === 'Thumbs') {
       return <ThumbVoteViewContainer/>;
+    }
+    else if (route.key === 'NewRound') {
+      return <NewRound/>;
     }
     return null;
   },

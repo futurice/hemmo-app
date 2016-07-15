@@ -48,19 +48,11 @@ const styles = StyleSheet.create({
     height: 120,
     width: 120
   },
-  touchable: {
-    borderRadius: 60,
-    marginLeft: 20,
-    marginBottom: 20
-  },
   changeImageButton: {
     backgroundColor: '#c2c2c2',
     borderRadius: 10,
-    width: 100
-  },
-  highlight: {
-    color: '#F5FCFF',
-    borderRadius: 10
+    width: 100,
+    marginLeft: 10
   },
   buttonfield: {
     flex: 1,
@@ -73,24 +65,30 @@ const styles = StyleSheet.create({
     height: 120,
     width: 120,
     alignItems: 'center',
-    justifyContent: 'center'
-  },
-  save_label: {
-    fontSize: 18,
-    width: 80
+    justifyContent: 'center',
+    marginBottom: 20
   },
   save_touchable: {
-    marginLeft: 20,
-    marginBottom: 20
+    height: 120,
+    width: 120,
+    borderRadius: 60,
+    justifyContent: 'center'
   },
   cancelbutton: {
     backgroundColor: '#c2c2c2',
     borderRadius: 10,
-    width: 100
+    width: 100,
+    marginLeft: 10,
+    marginBottom: 20
+  },
+  buttonHighlight: {
+    flex: 2,
+    borderRadius: 10
   },
   removebutton: {
     backgroundColor: '#c42b08',
     borderRadius: 10,
+    marginLeft: 10,
     width: 100
   }
 });

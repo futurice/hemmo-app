@@ -2,10 +2,10 @@ import * as NavigationState from '../../modules/navigation/NavigationState';
 import * as UserState from '../../modules/user/UserState';
 import React, {PropTypes} from 'react';
 import {List, Map} from 'immutable';
+import Button from '../../components/Button';
 
 import {
   NativeModules,
-  TouchableHighlight,
   Image,
   Alert,
   Text,
@@ -99,15 +99,12 @@ const SettingsView = React.createClass({
 
     if (this.props.currentUser.get('id') !== null)
     {
-      removeButton = <TouchableHighlight
-        style={styles.touchable}
-        onPress={this.verifyRemove}>
-        <View style={styles.removebutton}>
-          <Text style={[styles.label, styles.highlight]}>
-            Poista
-          </Text>
-        </View>
-      </TouchableHighlight>;
+      removeButton = (<Button
+        style={styles.removebutton} highlightStyle={styles.buttonHighlight}
+        onPress={this.verifyRemove} text={'Poista'} icon={''}/>);
+    }
+    else {
+      removeButton = null;
     }
 
     return (
@@ -142,47 +139,23 @@ const SettingsView = React.createClass({
             <View style={styles.imagefield}>
                 <Image
                   style={styles.icon}
-                  source={{uri: this.props.currentUser.get('image')}}
-                />
-                <TouchableHighlight
-                  onPress={this.openImageGallery}
-                  style={styles.touchable}>
-                  <View style={styles.changeImageButton}>
-                    <Text style={[styles.label, styles.highlight]}>
-                      Vaihda
-                    </Text>
-                  </View>
-                </TouchableHighlight>
+                  source={{uri: this.props.currentUser.get('image')}}/>
+                <Button
+                  style={styles.changeImageButton} highlightStyle={styles.buttonHighlight}
+                  onPress={this.openImageGallery} text={'Vaihda'} icon={''}/>
             </View>
           </View>
 
           <View style={styles.rightColumn}>
-
             <View style={styles.buttonfield}>
-              <TouchableHighlight
-                onPress={this.saveUser}
-                style={styles.save_touchable}>
-
-                <View style={styles.savebutton}>
-                  <Text style={styles.save_label}>
-                    Tallenna
-                  </Text>
-                </View>
-              </TouchableHighlight>
-
-              <TouchableHighlight
-                style={styles.touchable}
-                onPress={this.cancel}>
-                <View style={styles.cancelbutton}>
-                  <Text style={[styles.label, styles.highlight]}>
-                    Peruuta
-                  </Text>
-                </View>
-              </TouchableHighlight>
-
+              <Button
+                style={styles.savebutton} highlightStyle={styles.save_touchable}
+                onPress={this.saveUser} text={'Tallenna'} icon={''}/>
+              <Button
+                style={styles.cancelbutton} highlightStyle={styles.buttonHighlight}
+                onPress={this.cancel} text={'Peruuta'} icon={''}/>
               {removeButton}
             </View>
-
           </View>
         </View>
       </View>

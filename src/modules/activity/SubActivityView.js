@@ -66,10 +66,7 @@ const SubActivityView = React.createClass({
 
   chooseActivity(subActivity, index) {
     this.props.dispatch(UserState.saveAnswer('SubActivity', index));
-    var layout = Map({
-      showTitle: true,
-      voteThumbs: true});
-    this.props.dispatch(NavigationState.pushRoute({key: 'Thumbs', pageLayout: layout}));
+    this.props.dispatch(NavigationState.pushRoute({key: 'Thumbs'}));
   },
 
   render() {

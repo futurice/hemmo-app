@@ -1,17 +1,17 @@
 import React, {PropTypes} from 'react';
 import {Map} from 'immutable';
-import Hemmo from '../../components/Hemmo';
+import Hemmo from '../../../components/Hemmo';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import * as UserState from '../../modules/user/UserState';
-import * as NavigationState from '../../modules/navigation/NavigationState';
+import * as UserState from '../../../modules/user/UserState';
+import * as NavigationState from '../../../modules/navigation/NavigationState';
 
 import {
   Text,
   View
 } from 'react-native';
 
-var styles = require('./styles.js');
-var activities = require('../activity/activities.js');
+var styles = require('../styles.js');
+var activities = require('../../activity/activities.js');
 
 //TODO: Separate rendering to smaller components.
 
@@ -24,10 +24,7 @@ const ThumbVote = React.createClass({
 
   vote(vote) {
     this.props.dispatch(UserState.saveAnswer('Thumb', vote));
-    var layout = Map({
-      showTitle: true,
-      voteThumbs: false});
-    this.props.dispatch(NavigationState.pushRoute({key: 'RecordOrWrite', pageLayout: layout}));
+    this.props.dispatch(NavigationState.pushRoute({key: 'Record'}));
   },
 
   renderTitlePanel() {
@@ -58,7 +55,6 @@ const ThumbVote = React.createClass({
     }
     return thumbs;
   },
-
 
   render() {
 

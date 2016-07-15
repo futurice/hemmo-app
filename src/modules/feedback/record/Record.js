@@ -1,20 +1,22 @@
 import React, {PropTypes} from 'react';
 import {Map} from 'immutable';
-import Hemmo from '../../components/Hemmo';
+import Button from '../../../components/Button';
+import Hemmo from '../../../components/Hemmo';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import * as NavigationState from '../../../modules/navigation/NavigationState';
 
 import {
   Text,
   TextInput,
-  TouchableHighlight,
+  Alert,
   View
 } from 'react-native';
 
-var styles = require('./styles.js');
-var activities = require('../activity/activities.js');
+var styles = require('../styles.js');
+var activities = require('../../activity/activities.js');
 var buttonPanel;
 
-const RecordOrWrite = React.createClass({
+const Record = React.createClass({
 
   propTypes: {
     answers: PropTypes.instanceOf(Map),
@@ -35,6 +37,10 @@ const RecordOrWrite = React.createClass({
     this.setState({enableWriting: false});
   },
 
+  saveText() {
+    this.props.dispatch(NavigationState.pushRoute({key: 'NewRound'}));
+  },
+
   renderTitlePanel() {
     var i = this.props.answers.get('MainActivity');
     var j = this.props.answers.get('SubActivity');
@@ -47,35 +53,18 @@ const RecordOrWrite = React.createClass({
   },
 
   renderButtonPanel(icon, text, onPress) {
-    var saveOrWriteButton = this.renderButton(
-      styles.writeButton, styles.writeButtonHighlight,
-      onPress, text, icon);
+    var saveOrWriteButton = (<Button
+      style={styles.writeButton} highlightStyle={styles.writeButtonHighlight}
+      onPress={onPress} text={text} icon={icon}/>);
 
-    var skipButton = this.renderButton(
-      styles.skipButton, styles.skipButtonHighlight,
-      this.enableWriting, 'Ohita', 'angle-right');
+    var skipButton = (<Button
+      style={styles.skipButton} highlightStyle={styles.skipButtonHighlight}
+      onPress={this.enableWriting} text={'Ohita'} icon={'angle-right'}/>);
 
     return (
       <View style={styles.extraRow}>
         {saveOrWriteButton}
         {skipButton}
-      </View>
-    );
-  },
-
-  renderButton(style, highlightStyle, onPress, text, icon) {
-    return (
-      <View style={style}>
-        <TouchableHighlight
-          onPress={onPress}
-          style={highlightStyle}>
-          <View style={styles.button}>
-            <Text style={styles.text}>
-              {text}
-            </Text>
-            <Icon size={20} name={icon}/>
-          </View>
-        </TouchableHighlight>
       </View>
     );
   },
@@ -92,7 +81,6 @@ const RecordOrWrite = React.createClass({
             style={styles.textForm}/>
         </View>
         <Icon onPress={this.disableWriting} name='times-circle' size={40} style={styles.closeButton}/>
-
       </View>
     );
   },
@@ -131,4 +119,4 @@ const RecordOrWrite = React.createClass({
   }
 });
 
-export default RecordOrWrite;
+export default Record;

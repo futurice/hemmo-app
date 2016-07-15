@@ -22,7 +22,7 @@ const Hemmo = React.createClass({
     RCTAudioPlayer.play('drumsticks.mp3', {
       resource: true
     }, () => {
-        console.log('callback');
+      console.log('callback');
     });
   },
 

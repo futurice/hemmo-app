@@ -1,9 +1,8 @@
 import {connect} from 'react-redux';
-import RecordOrWrite from './RecordOrWrite';
+import ThumbVote from './ThumbVote';
 
 export default connect(
   state => ({
     answers: state.getIn(['user', 'currentUser', 'answers'])
-    // navigationState: state.get('navigationState').toJS()
   })
-)(RecordOrWrite);
+)(ThumbVote);

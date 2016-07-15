@@ -4,25 +4,26 @@ const initialState = fromJS({
   index: 0,
   children: [{
     key: 'Home',
-    index: 0,
-    pageLayout: Map({
-      showTitle: false,
-      voteThumbs: false
-    })
+    index: 0
   }]
 });
 
 // Actions
+const RESET_ROUTE = 'NavigationState/RESET_ROUTE';
 const PUSH_ROUTE = 'NavigationState/PUSH_ROUTE';
 const POP_ROUTE = 'NavigationState/POP_ROUTE';
 const NAVIGATION_COMPLETED = 'NavigationState/NAVIGATION_COMPLETED';
 
 // Action creators
+export function resetRoute() {
+  return {type: RESET_ROUTE};
+}
+
 export function pushRoute(state) {
   return (dispatch) => {
     dispatch({
       type: PUSH_ROUTE,
-      payload: Map({key: state.key, pageLayout: state.pageLayout})
+      payload: Map({key: state.key})
     });
   };
 }
@@ -37,11 +38,13 @@ export function navigationCompleted() {
 
 export default function NavigationReducer(state = initialState, action) {
   switch (action.type) {
+    case RESET_ROUTE:
+      return initialState;
+
     case PUSH_ROUTE:
       var newPath = Map({
         key: action.payload.get('key'),
-        index: state.get('index') + 1,
-        pageLayout: action.payload.get('pageLayout')});
+        index: state.get('index') + 1});
 
       return state
         .set('isNavigating', true)
@@ -49,7 +52,6 @@ export default function NavigationReducer(state = initialState, action) {
         .update('index', index => index + 1);
 
     case POP_ROUTE:
-      console.log('POPPING ROUTE 1');
       var poppedRouteIndex = state.get('index');
       var tmp = state.get('children').slice();
       tmp = tmp.filter(function deleteRoute(item) { return item.get('index') !== poppedRouteIndex; });
