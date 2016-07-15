@@ -3,6 +3,7 @@ import ThumbVote from './ThumbVote';
 
 export default connect(
   state => ({
-    answers: state.getIn(['user', 'currentUser', 'answers'])
+    savedActivities: state.getIn(['user', 'currentUser', 'answers', 'activities']),
+    activityIndex: state.getIn(['user', 'activityIndex'])
   })
 )(ThumbVote);

@@ -3,7 +3,8 @@ import {Map, List} from 'immutable';
 // Initial state
 const initialState = Map({
   users: List(),
-  currentUser: Map()
+  currentUser: Map(),
+  activityIndex: -1
 });
 
 const CREATE_USER = 'UserState/CREATE_USER';
@@ -12,6 +13,7 @@ const RESET_CURRENT_USER = 'UserState/RESET_CURRENT_USER';
 const SET_CURRENT_USER = 'UserState/SET_CURRENT_USER';
 const SET_CURRENT_USER_VALUE = 'UserState/SET_CURRENT_USER_VALUE';
 const SAVE_ANSWER = 'UserState/SAVE_ANSWER';
+const ADD_ACTIVITY = 'UserState/ADD_ACTIVITY';
 
 // Action creators
 
@@ -25,7 +27,8 @@ export function createUser(userId, newUser) {
       name: newUser.get('name'),
       age: newUser.get('age'),
       image: newUser.get('image'),
-      answers: Map()})
+      answers: Map({
+        activities: List()})})
   };
 }
 
@@ -47,7 +50,7 @@ export function editUser(user) {
 export function resetCurrentUser() {
   return {
     type: RESET_CURRENT_USER,
-    payload: Map({id: null, name: '', age: '', image: null, answers: Map()})
+    payload: Map({id: null, name: '', age: '', image: null, answers: Map({activities: List()})})
   };
 }
 
@@ -65,11 +68,21 @@ export function setCurrentUser(id) {
   };
 }
 
-export function saveAnswer(destination, answers) {
-  console.log('TALLENNETAAN ' + answers);
+export function addActivity() {
+  return {
+    type: ADD_ACTIVITY,
+    payload: Map({
+      main: null,
+      sub: null,
+      thumb: null})
+  };
+}
+
+export function saveAnswer(index, destination, answers) {
+  console.log('TALLENNETAAN ' + index + ' Jee ' + answers);
   return {
     type: SAVE_ANSWER,
-    payload: {destination: destination, answers: answers}
+    payload: {index: index, destination: destination, answers: answers}
   };
 }
 
@@ -94,16 +107,18 @@ export default function UserStateReducer(state = initialState, action = {}) {
         .setIn(['currentUser', action.payload.destination], action.payload.value);
 
     case SET_CURRENT_USER:
-      console.log('CURRENT USER BY ID ' + state.getIn(['users', action.payload]));
-      var currentUser = state.getIn(['users', action.payload]);
-      console.log('Current user name ' + currentUser.get('name'));
-
       return state
       .set('currentUser', state.getIn(['users', action.payload]));
 
+    case ADD_ACTIVITY:
+      return state
+        .update('activityIndex', index => index + 1)
+        .updateIn(['currentUser', 'answers', 'activities'], list => list.push(action.payload));
+
     case SAVE_ANSWER:
       return state
-        .setIn(['currentUser', 'answers', action.payload.destination], action.payload.answers);
+        .setIn(['currentUser', 'answers', 'activities', action.payload.index, action.payload.destination],
+        action.payload.answers);
 
     default:
       return state;

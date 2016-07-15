@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react';
-import {Map} from 'immutable';
+import {Map, List} from 'immutable';
 import * as UserState from '../../modules/user/UserState';
 import SubActivityView from './SubActivityView';
 import {
@@ -17,7 +17,9 @@ const MainActivityView = React.createClass({
 
   propTypes: {
     dispatch: PropTypes.func.isRequired,
-    onNavigate: PropTypes.func.isRequired
+    onNavigate: PropTypes.func.isRequired,
+    savedActivities: PropTypes.instanceOf(List),
+    activityIndex: PropTypes.number.isRequired
   },
 
   getInitialState() {
@@ -32,7 +34,7 @@ const MainActivityView = React.createClass({
   },
 
   openSubActivities(activity) {
-    this.props.dispatch(UserState.saveAnswer('MainActivity', activity.get('id')));
+    this.props.dispatch(UserState.saveAnswer(this.props.activityIndex, 'main', activity.get('id')));
     this.setState({showSubActivities: true, chosenMainActivity: activity});
   },
 
@@ -41,8 +43,6 @@ const MainActivityView = React.createClass({
   },
 
   render() {
-
-    console.log('Rendering MainActivityView');
 
     const activityViews = activities.map((activity) => (
       <View key={activity.get('key')} style={styles.activity}>
@@ -63,7 +63,8 @@ const MainActivityView = React.createClass({
         <SubActivityView
           chosenMainActivity={this.state.chosenMainActivity}
           dispatch={this.props.dispatch}
-          closeSubActivities={this.closeSubActivities}/>);
+          closeSubActivities={this.closeSubActivities}
+          activityIndex={this.props.activityIndex}/>);
     }
     return (
       <View style={styles.container}>

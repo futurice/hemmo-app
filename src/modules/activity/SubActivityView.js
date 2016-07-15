@@ -19,7 +19,8 @@ const SubActivityView = React.createClass({
   propTypes: {
     chosenMainActivity: PropTypes.instanceOf(Map),
     dispatch: PropTypes.func.isRequired,
-    closeSubActivities: PropTypes.func.isRequired
+    closeSubActivities: PropTypes.func.isRequired,
+    activityIndex: PropTypes.number.isRequired
   },
 
   componentWillMount() {
@@ -64,13 +65,12 @@ const SubActivityView = React.createClass({
     }
   },
 
-  chooseActivity(subActivity, index) {
-    this.props.dispatch(UserState.saveAnswer('SubActivity', index));
+  chooseActivity(subActivity, subIndex) {
+    this.props.dispatch(UserState.saveAnswer(this.props.activityIndex, 'sub', subIndex));
     this.props.dispatch(NavigationState.pushRoute({key: 'Thumbs'}));
   },
 
   render() {
-
     const subActivityViews = this.props.chosenMainActivity.get('subActivities').map((subActivity, index) => (
       <View
         key={subActivity}

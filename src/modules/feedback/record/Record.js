@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react';
-import {Map} from 'immutable';
+import {List} from 'immutable';
 import Button from '../../../components/Button';
 import Hemmo from '../../../components/Hemmo';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -8,7 +8,6 @@ import * as NavigationState from '../../../modules/navigation/NavigationState';
 import {
   Text,
   TextInput,
-  Alert,
   View
 } from 'react-native';
 
@@ -19,8 +18,9 @@ var buttonPanel;
 const Record = React.createClass({
 
   propTypes: {
-    answers: PropTypes.instanceOf(Map),
-    dispatch: PropTypes.func.isRequired
+    savedActivities: PropTypes.instanceOf(List),
+    dispatch: PropTypes.func.isRequired,
+    activityIndex: PropTypes.number.isRequired
   },
 
   getInitialState() {
@@ -42,8 +42,8 @@ const Record = React.createClass({
   },
 
   renderTitlePanel() {
-    var i = this.props.answers.get('MainActivity');
-    var j = this.props.answers.get('SubActivity');
+    var i = this.props.savedActivities.get(this.props.activityIndex).get('main');
+    var j = this.props.savedActivities.get(this.props.activityIndex).get('sub');
     return (
       <View style={styles.titleRow}>
         <Text style={styles.mainTitle}>{activities[i].get('key')}</Text>

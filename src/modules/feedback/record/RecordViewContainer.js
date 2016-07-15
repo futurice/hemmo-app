@@ -3,6 +3,7 @@ import Record from './Record';
 
 export default connect(
   state => ({
-    answers: state.getIn(['user', 'currentUser', 'answers'])
+    savedActivities: state.getIn(['user', 'currentUser', 'answers', 'activities']),
+    activityIndex: state.getIn(['user', 'activityIndex'])
   })
 )(Record);

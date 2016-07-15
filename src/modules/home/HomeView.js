@@ -46,6 +46,7 @@ const HomeView = React.createClass({
 
   startJourney(id) {
     this.props.dispatch(UserState.setCurrentUser(id));
+    this.props.dispatch(UserState.addActivity());
     this.props.dispatch(NavigationState.pushRoute({key: 'Activity'}));
   },
 

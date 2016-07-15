@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react';
-import {Map} from 'immutable';
+import {Map, List} from 'immutable';
 import Hemmo from '../../../components/Hemmo';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import * as UserState from '../../../modules/user/UserState';
@@ -18,18 +18,22 @@ var activities = require('../../activity/activities.js');
 const ThumbVote = React.createClass({
 
   propTypes: {
-    answers: PropTypes.instanceOf(Map),
-    dispatch: PropTypes.func.isRequired
+    savedActivities: PropTypes.instanceOf(List),
+    dispatch: PropTypes.func.isRequired,
+    activityIndex: PropTypes.number.isRequired
   },
 
   vote(vote) {
-    this.props.dispatch(UserState.saveAnswer('Thumb', vote));
+    console.log('VOTE INDEX ' + this.props.activityIndex);
+    this.props.dispatch(UserState.saveAnswer(this.props.activityIndex, 'thumb', vote));
     this.props.dispatch(NavigationState.pushRoute({key: 'Record'}));
   },
 
   renderTitlePanel() {
-    var i = this.props.answers.get('MainActivity');
-    var j = this.props.answers.get('SubActivity');
+    console.log('VOTE INDEX ' + this.props.activityIndex);
+
+    var i = this.props.savedActivities.get(this.props.activityIndex).get('main');
+    var j = this.props.savedActivities.get(this.props.activityIndex).get('sub');
     return (
       <View style={styles.titleRow}>
         <Text style={styles.mainTitle}>{activities[i].get('key')}</Text>

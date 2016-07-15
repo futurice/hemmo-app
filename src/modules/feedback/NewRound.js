@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import Hemmo from '../../components/Hemmo';
 import Button from '../../components/Button';
 import * as NavigationState from '../../modules/navigation/NavigationState';
+import * as UserState from '../../modules/user/UserState';
 
 import {
   StyleSheet,
@@ -17,6 +18,7 @@ const NewRound = React.createClass({
 
   newRound() {
     this.props.dispatch(NavigationState.resetRoute());
+    this.props.dispatch(UserState.addActivity());
     this.props.dispatch(NavigationState.pushRoute({key: 'Activity'}));
   },
 
