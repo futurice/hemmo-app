@@ -29,7 +29,6 @@ const PepperoniAppTemplate = React.createClass({
     }
 
     store.dispatch(NavigationStateActions.popRoute());
-    console.log('POPPING FINISHED');
     return true;
   },
 

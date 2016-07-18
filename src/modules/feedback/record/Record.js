@@ -55,6 +55,7 @@ const Record = React.createClass({
     }
   },
 
+  // TODO: SAVE WRITTEN TEXT TO STATE
   saveText() {
     this.props.dispatch(NavigationState.pushRoute({key: 'NewRound'}));
   },

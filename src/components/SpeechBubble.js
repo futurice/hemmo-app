@@ -12,18 +12,22 @@ const SpeechBubble = React.createClass({
 
   propTypes: {
     text: PropTypes.string.isRequired,
-    textIndex: PropTypes.number,
-    subTextIndex: PropTypes.number,
+    maIndex: PropTypes.number,
+    saIndex: PropTypes.number,
     position: PropTypes.object.isRequired
   },
 
   render() {
-    if (this.props.textIndex || this.props.textIndex === 0) {
-      if (this.props.subTextIndex || this.props.subTextIndex === 0) {
-        bubbleText = phrases[this.props.text][this.props.textIndex].subTexts[this.props.subTextIndex].subText;
+    //Text of the speech bubble is related to selected main activity.
+    //maIndex is the index of the selected main activity.
+    if (this.props.maIndex || this.props.maIndex === 0) {
+      //Text of the speech bubble is related to selected sub activity.
+      //saIndex is the index of the selected sub activity.
+      if (this.props.saIndex || this.props.saIndex === 0) {
+        bubbleText = phrases[this.props.text][this.props.maIndex].subTexts[this.props.saIndex].subText;
       }
       else {
-        bubbleText = phrases[this.props.text][this.props.textIndex].text;
+        bubbleText = phrases[this.props.text][this.props.maIndex].text;
       }
     }
     else {

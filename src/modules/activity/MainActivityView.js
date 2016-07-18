@@ -55,7 +55,7 @@ const MainActivityView = React.createClass({
         text={text}
         hideBubble={this.hideBubble}
         position={{x: 15, y: 140, triangle: 150}}
-        textIndex={index}/>);
+        maIndex={index}/>);
     }
     else {
       return null;

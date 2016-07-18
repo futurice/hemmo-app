@@ -10,8 +10,8 @@ const SpeechBubbleView = React.createClass({
 
   propTypes: {
     text: PropTypes.string.isRequired,
-    textIndex: PropTypes.number,
-    subTextIndex: PropTypes.number,
+    maIndex: PropTypes.number, // index of the selected main activity
+    saIndex: PropTypes.number, // index of the selected sub activity
     hideBubble: PropTypes.func.isRequired,
     position: PropTypes.object.isRequired
   },
@@ -26,8 +26,8 @@ const SpeechBubbleView = React.createClass({
         <SpeechBubble
           text={this.props.text}
           position={this.props.position}
-          textIndex={this.props.textIndex}
-          subTextIndex={this.props.subTextIndex}/>
+          maIndex={this.props.maIndex}
+          saIndex={this.props.saIndex}/>
       </TouchableOpacity>
     );
   }

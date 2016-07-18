@@ -45,8 +45,8 @@ const ThumbVote = React.createClass({
         text={text}
         hideBubble={this.hideBubble}
         position={{x: 15, y: 320, triangle: 120}}
-        textIndex={i}
-        subTextIndex={j}/>);
+        maIndex={i}
+        saIndex={j}/>);
     }
     else {
       return null;
