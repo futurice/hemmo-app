@@ -104,7 +104,7 @@ const SubActivityView = React.createClass({
         <View style={styles.activityBar}>
           {subActivityViews}
         </View>
-        <Icon onPress={this.closeModal} name='times-circle' size={40} style={styles.closeButton}/>
+        <Icon onPress={this.closeSubActivities} name='times-circle' size={40} style={styles.closeButton}/>
       </View>
     );
   }

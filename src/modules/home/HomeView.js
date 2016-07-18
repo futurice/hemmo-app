@@ -1,6 +1,5 @@
 import * as NavigationState from '../../modules/navigation/NavigationState';
 import * as UserState from '../../modules/user/UserState';
-import * as HomeState from '../../modules/home/HomeState';
 import React, {PropTypes} from 'react';
 import {List, Map, immutable} from 'immutable';
 import UserConfigurationButton from '../../components/UserConfigurationButton';
@@ -17,10 +16,8 @@ import {
 } from 'react-native';
 
 var styles = require('./styles.js');
-var phrases = require('../../../phrases.json');
-
 var userIcons;
-var speechBubble;
+var bubbleText;
 var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => !immutable.is(r1,r2)});
 
 const HomeView = React.createClass({
@@ -29,8 +26,7 @@ const HomeView = React.createClass({
     dispatch: PropTypes.func.isRequired,
     onNavigate: PropTypes.func.isRequired,
     users: PropTypes.instanceOf(List),
-    currentUser: PropTypes.instanceOf(Map),
-    shouldHide: PropTypes.bool.isRequired
+    currentUser: PropTypes.instanceOf(Map)
   },
 
   getInitialState() {
@@ -48,10 +44,6 @@ const HomeView = React.createClass({
     this.props.dispatch(UserState.setCurrentUser(id));
     this.props.dispatch(UserState.addActivity());
     this.props.dispatch(NavigationState.pushRoute({key: 'Activity'}));
-  },
-
-  hideBubble() {
-    this.props.dispatch(HomeState.hideBubble());
   },
 
   viewUserProfile(userIndex) {
@@ -85,7 +77,7 @@ const HomeView = React.createClass({
             </View>
         }
       />);
-      speechBubble = <SpeechBubble text={phrases.userIsKnown}/>;
+      bubbleText = 'userIsKnown';
     }
     else {
       userIcons = (
@@ -96,13 +88,11 @@ const HomeView = React.createClass({
           </View>
         </View>);
 
-      if (this.props.shouldHide === false) {
-        speechBubble = <SpeechBubble text={phrases.userIsUnknown}/>;
-      }
-      else {
-        console.log('PIILOSSA');
-      }
+      bubbleText = 'userIsUnknown';
     }
+
+    var speechBubble = <SpeechBubble text={bubbleText} position={{x: 20, y: 100, triangle: 70}}/>;
+
     return (
       <View style={styles.container}>
         <View style={styles.leftcolumn}>
@@ -114,17 +104,13 @@ const HomeView = React.createClass({
             </TouchableHighlight>
           </View>
 
-          {speechBubble}
           <Hemmo x={120} y={120}/>
         </View>
 
         <View style={styles.rightcolumn}>
           {userIcons}
         </View>
-
-        <Text onPress={this.hideBubble}>
-          PIILOTA
-        </Text>
+        {speechBubble}
       </View>
     );
   }

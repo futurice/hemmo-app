@@ -4,6 +4,7 @@ import Button from '../../../components/Button';
 import Hemmo from '../../../components/Hemmo';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import * as NavigationState from '../../../modules/navigation/NavigationState';
+import SpeechBubbleView from '../../../components/SpeechBubbleView';
 
 import {
   Text,
@@ -25,7 +26,8 @@ const Record = React.createClass({
 
   getInitialState() {
     return {
-      enableWriting: false
+      enableWriting: false,
+      showBubble: true
     };
   },
 
@@ -35,6 +37,22 @@ const Record = React.createClass({
 
   disableWriting() {
     this.setState({enableWriting: false});
+  },
+
+  hideBubble() {
+    this.setState({showBubble: false});
+  },
+
+  renderBubble(text) {
+    if (this.state.showBubble === true) {
+      return (<SpeechBubbleView
+        text={text}
+        hideBubble={this.hideBubble}
+        position={{x: 10, y: 150, triangle: 330}}/>);
+    }
+    else {
+      return null;
+    }
   },
 
   saveText() {
@@ -94,6 +112,8 @@ const Record = React.createClass({
       </View>
     );
 
+    var speechBubble = this.renderBubble('record');
+
     if (this.state.enableWriting === true) {
       var writingView = this.renderWritingPanel();
       buttonPanel = this.renderButtonPanel('save', 'Tallenna', this.saveText);
@@ -109,11 +129,12 @@ const Record = React.createClass({
         </View>
         <View style={styles.rightColumn}>
           <View style={styles.hemmoRow}>
-            <Hemmo x={40} y={40}/>
+            <Hemmo x={40} y={100}/>
           </View>
           {buttonPanel}
         </View>
         {writingView}
+        {speechBubble}
       </View>
     );
   }

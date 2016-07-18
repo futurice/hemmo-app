@@ -4,6 +4,7 @@ import Hemmo from '../../components/Hemmo';
 import Button from '../../components/Button';
 import * as NavigationState from '../../modules/navigation/NavigationState';
 import * as UserState from '../../modules/user/UserState';
+import SpeechBubble from '../../components/SpeechBubble';
 
 import {
   StyleSheet,
@@ -23,6 +24,8 @@ const NewRound = React.createClass({
   },
 
   render() {
+    var speechBubble = <SpeechBubble text={"newRound"} position={{x: 10, y: 100, triangle: 220}}/>;
+
     return (
       <View style={styles.container}>
         <View style={styles.column}>
@@ -38,6 +41,7 @@ const NewRound = React.createClass({
             style={styles.button} highlightStyle={styles.buttonHighlight}
             onPress={this.newRound} text={'Jatka'} icon={''}/>
         </View>
+        {speechBubble}
       </View>
     );
   }

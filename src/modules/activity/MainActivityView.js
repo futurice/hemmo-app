@@ -2,6 +2,7 @@ import React, {PropTypes} from 'react';
 import {Map, List} from 'immutable';
 import * as UserState from '../../modules/user/UserState';
 import SubActivityView from './SubActivityView';
+import SpeechBubbleView from '../../components/SpeechBubbleView';
 import {
   Image,
   TouchableHighlight,
@@ -12,6 +13,7 @@ import {
 var styles = require('./mainStyles.js');
 var activities = require('./activities.js');
 var activityWidth;
+var speechBubble;
 
 const MainActivityView = React.createClass({
 
@@ -24,6 +26,7 @@ const MainActivityView = React.createClass({
 
   getInitialState() {
     return {
+      showBubble: true,
       showSubActivities: false,
       chosenMainActivity: Map()
     };
@@ -35,11 +38,28 @@ const MainActivityView = React.createClass({
 
   openSubActivities(activity) {
     this.props.dispatch(UserState.saveAnswer(this.props.activityIndex, 'main', activity.get('id')));
-    this.setState({showSubActivities: true, chosenMainActivity: activity});
+    this.setState({showSubActivities: true, chosenMainActivity: activity, showBubble: true});
   },
 
   closeSubActivities() {
     this.setState({showSubActivities: false});
+  },
+
+  hideBubble() {
+    this.setState({showBubble: false});
+  },
+
+  renderBubble(text, index) {
+    if (this.state.showBubble === true) {
+      return (<SpeechBubbleView
+        text={text}
+        hideBubble={this.hideBubble}
+        position={{x: 15, y: 140, triangle: 150}}
+        textIndex={index}/>);
+    }
+    else {
+      return null;
+    }
   },
 
   render() {
@@ -65,7 +85,13 @@ const MainActivityView = React.createClass({
           dispatch={this.props.dispatch}
           closeSubActivities={this.closeSubActivities}
           activityIndex={this.props.activityIndex}/>);
+
+      speechBubble = this.renderBubble('subActivity', this.state.chosenMainActivity.get('id'));
     }
+    else {
+      speechBubble = this.renderBubble('mainActivity');
+    }
+
     return (
       <View style={styles.container}>
         <View style={styles.row}>
@@ -85,7 +111,7 @@ const MainActivityView = React.createClass({
         </View>
 
         {subActivities}
-
+        {speechBubble}
       </View>
     );
   }

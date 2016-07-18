@@ -5,19 +5,37 @@ import {
   StyleSheet
 } from 'react-native';
 
+var phrases = require('../../phrases.json');
+var bubbleText;
+
 const SpeechBubble = React.createClass({
 
   propTypes: {
-    text: PropTypes.string.isRequired
+    text: PropTypes.string.isRequired,
+    textIndex: PropTypes.number,
+    subTextIndex: PropTypes.number,
+    position: PropTypes.object.isRequired
   },
 
   render() {
+    if (this.props.textIndex || this.props.textIndex === 0) {
+      if (this.props.subTextIndex || this.props.subTextIndex === 0) {
+        bubbleText = phrases[this.props.text][this.props.textIndex].subTexts[this.props.subTextIndex].subText;
+      }
+      else {
+        bubbleText = phrases[this.props.text][this.props.textIndex].text;
+      }
+    }
+    else {
+      bubbleText = phrases[this.props.text];
+    }
+
     return (
-      <View style={styles.bubble}>
+      <View style={[styles.bubble, {top: this.props.position.x, left: this.props.position.y}]}>
         <View style={styles.bubbleText}>
-          <Text style={styles.text}> {this.props.text} </Text>
+          <Text style={styles.text}> {bubbleText} </Text>
         </View>
-        <View style={styles.triangle}/>
+        <View style={[styles.triangle, {left: this.props.position.triangle}]}/>
       </View>
     );
   }
@@ -25,9 +43,7 @@ const SpeechBubble = React.createClass({
 
 const styles = StyleSheet.create({
   bubble: {
-    position: 'absolute',
-    top: 20,
-    left: 100
+    position: 'absolute'
   },
   bubbleText: {
     borderWidth: 2,
@@ -36,11 +52,11 @@ const styles = StyleSheet.create({
     padding: 10
   },
   text: {
-    fontSize: 10
+    fontSize: 15,
+    textAlign: 'center'
   },
   triangle: {
     position: 'relative',
-    left: 70,
     width: 0,
     height: 0,
     borderTopColor: 'black',
