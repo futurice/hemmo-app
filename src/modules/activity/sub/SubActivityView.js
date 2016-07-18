@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import {Map} from 'immutable';
-import * as NavigationState from '../../modules/navigation/NavigationState';
-import * as UserState from '../../modules/user/UserState';
+import * as NavigationState from '../../../modules/navigation/NavigationState';
+import * as UserState from '../../../modules/user/UserState';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import {

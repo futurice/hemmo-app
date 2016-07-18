@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 
 var styles = require('../styles.js');
-var activities = require('../../activity/activities.js');
+var activities = require('../activities.js');
 
 //TODO: Separate rendering to smaller components.
 

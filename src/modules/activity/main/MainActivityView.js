@@ -1,8 +1,8 @@
 import React, {PropTypes} from 'react';
 import {Map, List} from 'immutable';
-import * as UserState from '../../modules/user/UserState';
-import SubActivityView from './SubActivityView';
-import SpeechBubbleView from '../../components/SpeechBubbleView';
+import * as UserState from '../../../modules/user/UserState';
+import SubActivityView from '../sub/SubActivityView';
+import SpeechBubbleView from '../../../components/SpeechBubbleView';
 import {
   Image,
   TouchableHighlight,
@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 
 var styles = require('./mainStyles.js');
-var activities = require('./activities.js');
+var activities = require('../activities.js');
 var activityWidth;
 var speechBubble;
 
@@ -105,7 +105,7 @@ const MainActivityView = React.createClass({
           <View style={styles.hemmo}>
             <Image resizeMode={'contain'}
               style={styles.hemmoImage}
-              source={require('../../../assets/Hemmo.jpg')}/>
+              source={require('../../../../assets/Hemmo.jpg')}/>
           </View>
           {activityViews[4]}
         </View>

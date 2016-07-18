@@ -5,10 +5,10 @@ import {
 import AppRouter from '../AppRouter';
 import SettingsViewContainer from '../settings/SettingsViewContainer';
 import HomeViewContainer from '../home/HomeViewContainer';
-import ActivityViewContainer from '../activity/ActivityViewContainer';
-import ThumbVoteViewContainer from '../feedback/thumbs/ThumbVoteViewContainer';
-import RecordViewContainer from '../feedback/record/RecordViewContainer';
-import NewRound from '../feedback/NewRound';
+import ActivityViewContainer from '../activity/main/ActivityViewContainer';
+import ThumbVoteViewContainer from '../activity/thumbs/ThumbVoteViewContainer';
+import RecordViewContainer from '../activity/record/RecordViewContainer';
+import NewRound from '../activity/NewRound';
 
 const NavigationView = React.createClass({
   propTypes: {

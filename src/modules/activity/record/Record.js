@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 
 var styles = require('../styles.js');
-var activities = require('../../activity/activities.js');
+var activities = require('../activities.js');
 var buttonPanel;
 
 const Record = React.createClass({
@@ -60,6 +60,10 @@ const Record = React.createClass({
     this.props.dispatch(NavigationState.pushRoute({key: 'NewRound'}));
   },
 
+  skip() {
+    this.props.dispatch(NavigationState.pushRoute({key: 'NewRound'}));
+  },
+
   renderTitlePanel() {
     var i = this.props.savedActivities.get(this.props.activityIndex).get('main');
     var j = this.props.savedActivities.get(this.props.activityIndex).get('sub');
@@ -78,7 +82,7 @@ const Record = React.createClass({
 
     var skipButton = (<Button
       style={styles.skipButton} highlightStyle={styles.skipButtonHighlight}
-      onPress={this.enableWriting} text={'Ohita'} icon={'angle-right'}/>);
+      onPress={this.skip} text={'Ohita'} icon={'angle-right'}/>);
 
     return (
       <View style={styles.extraRow}>
