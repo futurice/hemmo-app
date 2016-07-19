@@ -23,6 +23,10 @@ const NewRound = React.createClass({
     this.props.dispatch(NavigationState.pushRoute({key: 'Activity'}));
   },
 
+  continue() {
+    this.props.dispatch(NavigationState.pushRoute({key: 'Emotions'}));
+  },
+
   render() {
     var speechBubble = <SpeechBubble text={"newRound"} position={{x: 10, y: 100, triangle: 220}}/>;
 
@@ -39,7 +43,7 @@ const NewRound = React.createClass({
         <View style={styles.column}>
           <Button
             style={styles.button} highlightStyle={styles.buttonHighlight}
-            onPress={this.newRound} text={'Jatka'} icon={''}/>
+            onPress={this.continue} text={'Jatka'} icon={''}/>
         </View>
         {speechBubble}
       </View>

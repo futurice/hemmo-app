@@ -2,12 +2,12 @@ import React, {PropTypes} from 'react';
 import {
   Navigator
 } from 'react-native';
-import AppRouter from '../AppRouter';
 import SettingsViewContainer from '../settings/SettingsViewContainer';
 import HomeViewContainer from '../home/HomeViewContainer';
 import ActivityViewContainer from '../activity/main/ActivityViewContainer';
 import ThumbVoteViewContainer from '../activity/thumbs/ThumbVoteViewContainer';
 import RecordViewContainer from '../activity/record/RecordViewContainer';
+import EmotionViewContainer from '../emotions/EmotionViewContainer';
 import NewRound from '../activity/NewRound';
 
 const NavigationView = React.createClass({
@@ -38,6 +38,9 @@ const NavigationView = React.createClass({
     }
     else if (route.key === 'NewRound') {
       return <NewRound/>;
+    }
+    else if (route.key === 'Emotions') {
+      return <EmotionViewContainer/>;
     }
     return null;
   },
