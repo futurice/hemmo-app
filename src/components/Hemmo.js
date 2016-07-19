@@ -15,6 +15,7 @@ class Hemmo extends React.Component {
     super(props);
 
     this.player = new Player('drumsticks.mp3');
+    //this.player = new Player('https://fruitiex.org/files/rosanna_128kbit.mp3');
     this.player.autoDestroy = false;
     this.player.prepare();
 
