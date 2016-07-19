@@ -6,7 +6,7 @@ var emotions = [
   'Tunne',
   'Tunne1',
   'Tunne2',
-  'Tunne3'
+  'Muu tunne'
 ];
 
 module.exports = emotions;

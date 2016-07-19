@@ -1,79 +1,99 @@
 import React, {PropTypes} from 'react';
-import {Map, List} from 'immutable';
+import {List} from 'immutable';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import * as UserState from '../../modules/user/UserState';
 import Hemmo from '../../components/Hemmo';
+import SpeechBubbleView from '../../components/SpeechBubbleView';
+import Button from '../../components/Button';
 import {
-  StyleSheet,
   Text,
   Alert,
-  TouchableHighlight,
+  TouchableOpacity,
   View
 } from 'react-native';
 
 var emotions = require('./emotions.js');
-var checkedEmotions = [];
+var styles = require('./styles.js');
 
 const EmotionView = React.createClass({
 
   propTypes: {
-
+    activityIndex: PropTypes.number.isRequired,
+    dispatch: PropTypes.func
   },
 
   getInitialState() {
     return {
-      checkedEmotions: List()
+      selectedEmotions: List(),
+      showBubble: true
     };
   },
 
-  checkEmotion(emotion) {
-    Alert.alert('CHECKED ', 'Checked ' + emotion);
-    var uncheck = false;
+  hideBubble() {
+    this.setState({showBubble: false});
+  },
 
-    for (var j = 0; j < this.state.checkedEmotions.size; j++) {
-      console.log('Verrataan ' + emotion + ' ja ' + this.state.checkedEmotions.get(j));
-      if (emotion === this.state.checkedEmotions.get(j)) {
-        console.log('Oli jo raksittu');
-        var tmp = this.state.checkedEmotions.slice();
-        console.log('tmp ' + tmp);
+  renderBubble(text) {
+    if (this.state.showBubble === true) {
+      return (<SpeechBubbleView
+        text={text}
+        hideBubble={this.hideBubble}
+        position={{x: 10, y: 150, triangle: 350}}/>);
+    }
+    else {
+      return null;
+    }
+  },
+
+  save() {
+    Alert.alert('tallennetaan', 'tallennetaan');
+    console.log('tallennettavat tunnetilat ' + this.state.selectedEmotions);
+
+    this.props.dispatch(UserState.saveAnswer(null,
+      'emotions', this.state.selectedEmotions));
+  },
+
+  /* If the emotion hasn't been checked yet, it is added to an array what holds the information
+  about the selected emotions. If a checked emotion is clicked again,
+  it is unchecked and removed from the array*/
+  selectEmotion(emotion) {
+    var notSelected = false;
+
+    for (var j = 0; j < this.state.selectedEmotions.size; j++) {
+      if (emotion === this.state.selectedEmotions.get(j)) {
+        var tmp = this.state.selectedEmotions.slice();
         tmp = tmp.filter(function deleteRoute(item) { return item !== emotion; });
-        console.log('tmp jälkeen ' + tmp);
-        this.setState({checkedEmotions: tmp});
-
-        console.log('poiston jälkeen ' + this.state.checkedEmotions);
-        uncheck = true;
+        this.setState({selectedEmotions: tmp});
+        notSelected = true;
       }
     }
-    if (uncheck === false) {
-      console.log('lisätään');
-      this.setState({checkedEmotions: this.state.checkedEmotions.concat(emotion)});
+    /* Emotion was not selected, so it is not added to the array */
+    if (notSelected === false) {
+      this.setState({selectedEmotions: this.state.selectedEmotions.concat(emotion)});
     }
   },
 
   render() {
 
     var emotionViews = [];
-    console.log('All the checked emotions ' + this.state.checkedEmotions);
-    console.log('emotions length ' + emotions.length);
-    console.log('checked length ' + this.state.checkedEmotions.size);
-
     for (var i = 0; i < emotions.length; i++) {
       var checked = null;
-      for (var j = 0; j < this.state.checkedEmotions.size; j++) {
-        console.log('emotions' + emotions[i]);
-        console.log('checkedEmotions j ' + this.state.checkedEmotions.get(j));
-        if (emotions[i] === this.state.checkedEmotions.get(j)) {
+      for (var j = 0; j < this.state.selectedEmotions.size; j++) {
+        if (emotions[i] === this.state.selectedEmotions.get(j)) {
           checked = <Icon name={'check'} size={25} style={styles.check}/>;
         }
       }
       emotionViews.push(<View key={emotions[i]} style={styles.emotion}>
-        <TouchableHighlight style={styles.highlight} onPress={this.checkEmotion.bind(this, emotions[i])}>
+        <TouchableOpacity style={styles.highlight} onPress={this.selectEmotion.bind(this, emotions[i])}>
           <Text>
             {emotions[i]}
           </Text>
-        </TouchableHighlight>
+        </TouchableOpacity>
         {checked}
       </View>);
     }
+
+    var speechBubble = this.renderBubble('emotions');
 
     return (
       <View style={styles.container}>
@@ -81,52 +101,14 @@ const EmotionView = React.createClass({
           {emotionViews}
         </View>
         <View style={styles.hemmoColumn}>
-          <Hemmo x={0} y={80}/>
+          <Hemmo x={0} y={100}/>
         </View>
+        <Button
+          style={styles.saveButton} highlightStyle={styles.buttonHighlight}
+          onPress={this.save} text={'Tallenna'} icon={'save'}/>
+        {speechBubble}
       </View>
     );
-  }
-});
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
-    flexDirection: 'row',
-    justifyContent: 'center'
-  },
-  emotionColumn: {
-    flex: 4,
-    paddingVertical: 20,
-    flexDirection: 'column',
-    flexWrap: 'wrap',
-    justifyContent: 'center'
-  },
-  check: {
-    position: 'absolute',
-    top: 0,
-    right: 10
-  },
-  hemmoColumn: {
-    flex: 1,
-    justifyContent: 'center'
-  },
-  emotion: {
-    borderWidth: 1,
-    backgroundColor: 'rgba(180, 180, 180, 0.66)',
-    margin: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 50,
-    height: 100,
-    width: 100
-  },
-  highlight: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 50,
-    height: 100,
-    width: 100
   }
 });
 

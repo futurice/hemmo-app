@@ -116,9 +116,15 @@ export default function UserStateReducer(state = initialState, action = {}) {
         .updateIn(['currentUser', 'answers', 'activities'], list => list.push(action.payload));
 
     case SAVE_ANSWER:
-      return state
-        .setIn(['currentUser', 'answers', 'activities', action.payload.index, action.payload.destination],
-        action.payload.answers);
+      if (action.payload.index === null) {
+        return state
+          .setIn(['currentUser', 'answers', action.payload.destination], action.payload.answers);
+      }
+      else {
+        return state
+          .setIn(['currentUser', 'answers', 'activities', action.payload.index, action.payload.destination],
+          action.payload.answers);
+      }
 
     default:
       return state;

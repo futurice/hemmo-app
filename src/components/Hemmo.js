@@ -28,7 +28,7 @@ const Hemmo = React.createClass({
 
   render() {
     return (
-      //TODO: Fix positioning of image (not that important atm)
+      //TODO: Fix positioning and sizing of image (not that important atm)
       <TouchableWithoutFeedback onPressIn={this._onPress}>
         <View style={[styles.hemmo, {top: this.props.y, left: this.props.x}]}>
           <Image style={styles.hemmo_img} source={require('../../assets/Hemmo.jpg')}/>

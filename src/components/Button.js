@@ -43,9 +43,11 @@ const Button = React.createClass({
 const styles = StyleSheet.create({
   button: {
     flexDirection: 'row',
+    alignItems: 'center',
     justifyContent: 'center'
   },
   text: {
+    paddingHorizontal: 5,
     textAlign: 'center',
     fontSize: 20
   }
