@@ -47,8 +47,6 @@ const EmotionView = React.createClass({
 
   save() {
     Alert.alert('tallennetaan', 'tallennetaan');
-    console.log('tallennettavat tunnetilat ' + this.state.selectedEmotions);
-
     this.props.dispatch(UserState.saveAnswer(null,
       'emotions', this.state.selectedEmotions));
   },

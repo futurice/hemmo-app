@@ -105,6 +105,34 @@ const styles = StyleSheet.create({
   textForm: {
     margin: 15,
     textAlignVertical: 'top'
+  },
+  recordRow: {
+    flex: 2,
+    borderWidth: 1,
+    marginLeft: 30,
+    padding: 20,
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  buttonArea: {
+    width: 130,
+    height: 130,
+    borderWidth: 1,
+    borderRadius: 65,
+    backgroundColor: 'rgb(240, 234, 234)',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  rec: {
+    width: 90,
+    height: 90,
+    borderRadius: 45,
+    backgroundColor: 'rgb(246, 30, 30)'
+  },
+  recHighlight: {
+    width: 90,
+    height: 90,
+    borderRadius: 45
   }
 });
 

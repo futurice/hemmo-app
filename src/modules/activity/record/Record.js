@@ -5,13 +5,17 @@ import Hemmo from '../../../components/Hemmo';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import * as NavigationState from '../../../modules/navigation/NavigationState';
 import SpeechBubbleView from '../../../components/SpeechBubbleView';
+import ProgressBarClassic from 'react-native-progress-bar-classic';
 
 import {
   Text,
   TextInput,
+  Alert,
+  TouchableOpacity,
   View
 } from 'react-native';
 
+var TimerMixin = require('react-timer-mixin');
 var styles = require('../styles.js');
 var activities = require('../activities.js');
 var buttonPanel;
@@ -23,11 +27,14 @@ const Record = React.createClass({
     dispatch: PropTypes.func.isRequired,
     activityIndex: PropTypes.number.isRequired
   },
+  mixins: [TimerMixin],
 
   getInitialState() {
     return {
       enableWriting: false,
-      showBubble: true
+      showBubble: true,
+      progress: 0,
+      recording: false
     };
   },
 
@@ -64,6 +71,17 @@ const Record = React.createClass({
     this.props.dispatch(NavigationState.pushRoute({key: 'NewRound'}));
   },
 
+  record() {
+    // Alert.alert('painettiin', 'painettiin');
+    this.setInterval(
+      () => {
+        console.log('I do not leak!');
+        this.setState({progress: this.state.progress + 1});
+      },
+      1000
+    );
+  },
+
   renderTitlePanel() {
     var i = this.props.savedActivities.get(this.props.activityIndex).get('main');
     var j = this.props.savedActivities.get(this.props.activityIndex).get('sub');
@@ -71,6 +89,22 @@ const Record = React.createClass({
       <View style={styles.titleRow}>
         <Text style={styles.mainTitle}>{activities[i].get('key')}</Text>
         <Text style={styles.subtitle}>{activities[i].get('subActivities').get(j)}</Text>
+      </View>
+    );
+  },
+
+  renderRecordPanel() {
+
+    return (
+      <View style={styles.recordRow}>
+        <View style={styles.buttonArea}>
+          <TouchableOpacity onPress={this.record} style={styles.recHighlight}>
+            <View style={styles.rec}/>
+          </TouchableOpacity>
+        </View>
+        <View style={{flex: 1, marginLeft: 10}}>
+          <ProgressBarClassic valueStyle={'none'} progress={this.state.progress} />
+        </View>
       </View>
     );
   },
@@ -111,11 +145,7 @@ const Record = React.createClass({
   render() {
 
     var titlePanel = this.renderTitlePanel();
-    var actionPanel = (
-      <View style={styles.actionRow}>
-        <Text>Recording voice</Text>
-      </View>
-    );
+    var actionPanel = this.renderRecordPanel();
 
     var speechBubble = this.renderBubble('record');
 

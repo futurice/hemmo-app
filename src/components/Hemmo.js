@@ -7,24 +7,34 @@ import {
 } from 'react-native';
 
 import {
-  RCTAudioPlayer
+  Player,
 } from 'react-native-audio-toolkit';
 
-const Hemmo = React.createClass({
+class Hemmo extends React.Component {
+  constructor(props) {
+    super(props);
 
-  propTypes: {
-    x: PropTypes.number.isRequired,
-    y: PropTypes.number.isRequired
-  },
+    this.player = new Player('drumsticks.mp3');
+    //this.player = new Player('https://fruitiex.org/files/rosanna_128kbit.mp3');
+    this.player.autoDestroy = false;
+    this.player.prepare();
 
-  _onPress: () => {
-    console.log();
-    RCTAudioPlayer.play('drumsticks.mp3', {
-      resource: true
-    }, () => {
-      console.log('callback');
-    });
-  },
+    this._onPress = this._onPress.bind(this);
+  }
+
+  _onPress() {
+    this.player.play();
+    /*
+    setTimeout(() => {
+      this.player.currentTime = 15;
+    }, 3000);
+
+    setTimeout(() => {
+      console.log('stopping');
+      this.player.stop();
+    }, 6000);
+    */
+  }
 
   render() {
     return (
@@ -36,7 +46,13 @@ const Hemmo = React.createClass({
       </TouchableWithoutFeedback>
     );
   }
-});
+};
+
+Hemmo.propTypes = {
+  x: PropTypes.number.isRequired,
+  y: PropTypes.number.isRequired
+};
+
 
 const styles = StyleSheet.create({
   hemmo: {
