@@ -67,7 +67,7 @@ const SubActivityView = React.createClass({
 
   chooseActivity(subActivity, subIndex) {
     this.props.dispatch(UserState.saveAnswer(this.props.activityIndex, 'sub', subIndex));
-    this.props.dispatch(NavigationState.pushRoute({key: 'Thumbs'}));
+    this.props.dispatch(NavigationState.pushRoute({key: 'Thumbs', allowReturn: true}));
   },
 
   render() {

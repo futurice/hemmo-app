@@ -27,6 +27,11 @@ const PepperoniAppTemplate = React.createClass({
       // otherwise let OS handle the back button action
       return false;
     }
+    var currentIndex = navigationState.get('index');
+    var allowReturn = navigationState.getIn(['children', currentIndex, 'allowReturn']);
+    if (allowReturn === false) {
+      return true;
+    }
 
     store.dispatch(NavigationStateActions.popRoute());
     return true;

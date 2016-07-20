@@ -1,8 +1,18 @@
 import {Map, List} from 'immutable';
 
-// Initial state
+// Initial state. user Hemmo created for testing.
 const initialState = Map({
-  users: List(),
+  users: List([
+    Map({
+      id: 0,
+      name: 'Hemmo',
+      age: 6,
+      image: '../../assets/default-icon.png',
+      answers: Map({
+        activities: List()
+      })
+    })
+  ]),
   currentUser: Map(),
   activityIndex: -1
 });
@@ -14,6 +24,7 @@ const SET_CURRENT_USER = 'UserState/SET_CURRENT_USER';
 const SET_CURRENT_USER_VALUE = 'UserState/SET_CURRENT_USER_VALUE';
 const SAVE_ANSWER = 'UserState/SAVE_ANSWER';
 const ADD_ACTIVITY = 'UserState/ADD_ACTIVITY';
+const RESET_ACTIVITY = 'UserState/RESET_ACTIVITY';
 
 // Action creators
 
@@ -82,7 +93,13 @@ export function saveAnswer(index, destination, answers) {
   console.log('TALLENNETAAN ' + index + ' Jee ' + answers);
   return {
     type: SAVE_ANSWER,
-    payload: {index: index, destination: destination, answers: answers}
+    payload: {index, destination, answers}
+  };
+}
+
+export function resetActivity() {
+  return {
+    type: RESET_ACTIVITY
   };
 }
 
@@ -125,6 +142,10 @@ export default function UserStateReducer(state = initialState, action = {}) {
           .setIn(['currentUser', 'answers', 'activities', action.payload.index, action.payload.destination],
           action.payload.answers);
       }
+
+    case RESET_ACTIVITY:
+      return state
+        .set('activityIndex', -1);
 
     default:
       return state;

@@ -6,20 +6,20 @@ import {
   TouchableWithoutFeedback
 } from 'react-native';
 
-import {
-  Player,
-} from 'react-native-audio-toolkit';
+// import {
+//   Player
+// } from 'react-native-audio-toolkit';
 
 class Hemmo extends React.Component {
   constructor(props) {
     super(props);
-
-    this.player = new Player('drumsticks.mp3');
-    //this.player = new Player('https://fruitiex.org/files/rosanna_128kbit.mp3');
-    this.player.autoDestroy = false;
-    this.player.prepare();
-
-    this._onPress = this._onPress.bind(this);
+    //
+    // this.player = new Player('drumsticks.mp3');
+    // //this.player = new Player('https://fruitiex.org/files/rosanna_128kbit.mp3');
+    // this.player.autoDestroy = false;
+    // this.player.prepare();
+    //
+    // this._onPress = this._onPress.bind(this);
   }
 
   _onPress() {
@@ -39,20 +39,19 @@ class Hemmo extends React.Component {
   render() {
     return (
       //TODO: Fix positioning and sizing of image (not that important atm)
-      <TouchableWithoutFeedback onPressIn={this._onPress}>
+      <TouchableWithoutFeedback>
         <View style={[styles.hemmo, {top: this.props.y, left: this.props.x}]}>
           <Image style={styles.hemmo_img} source={require('../../assets/Hemmo.jpg')}/>
         </View>
       </TouchableWithoutFeedback>
     );
   }
-};
+}
 
 Hemmo.propTypes = {
   x: PropTypes.number.isRequired,
   y: PropTypes.number.isRequired
 };
-
 
 const styles = StyleSheet.create({
   hemmo: {

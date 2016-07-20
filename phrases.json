@@ -48,5 +48,9 @@
   "thumbs": "Millaista oli rakennella, nikkaroita\ntai korjailla?",
   "record": "Kertoisitko minulle vielä mikä erityisesti jäi\nmieleen siitä? Paina pyöreää punaista nappia niin\naloitetaan tallennus. Kun olet valmis, paina samalta paikalta\nmustaa nappia.",
   "newRound": "Tahdotko kertoa vielä jostain muustakin, mitä teitte?\nVai siirtyä eteenpäin?",
-  "emotions": "Millainen olo sinulle jäi koko viime kerrastasi tukiperheessä?\nValitse näistä omaa olosia vastaavia kuvia,\ntai kerro minulle puhumalla tai kirjoittamalla."
+  "emotions": "Millainen olo sinulle jäi koko viime kerrastasi tukiperheessä?\nValitse näistä omaa olosia vastaavia kuvia,\ntai kerro minulle puhumalla tai kirjoittamalla.",
+  "emotionFeedback": "Kerro tarkemmin miksi sinusta tuntui siltä?",
+  "generalFeedback": "Haluaisitko vielä lopuksi kertoa\nminulle jotain muuta?",
+  "ending": "Kiitos, että kerroit minulle.\nMinusta on kiva kuulla mitä sanottavaa sinulla on,\nkerrothan kuulumisiasi taas seuraavan\n kerran jälkeen.",
+  "deliveredBy": "Mitä olet Hemmolle kertonut, sen kuuntelee Pelastakaa Lasten työntekijä"
 }

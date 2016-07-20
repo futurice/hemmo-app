@@ -8,6 +8,10 @@ const initialState = fromJS({
   }]
 });
 
+// TODO: ATM all the views are saved to navigation state, but possibly it could be
+// edited so that the navigation stack doesn't hold information about the views
+// that the user can not return to anyway.
+
 // Actions
 const RESET_ROUTE = 'NavigationState/RESET_ROUTE';
 const PUSH_ROUTE = 'NavigationState/PUSH_ROUTE';
@@ -23,7 +27,7 @@ export function pushRoute(state) {
   return (dispatch) => {
     dispatch({
       type: PUSH_ROUTE,
-      payload: Map({key: state.key})
+      payload: Map({key: state.key, allowReturn: state.allowReturn})
     });
   };
 }
@@ -44,7 +48,8 @@ export default function NavigationReducer(state = initialState, action) {
     case PUSH_ROUTE:
       var newPath = Map({
         key: action.payload.get('key'),
-        index: state.get('index') + 1});
+        index: state.get('index') + 1,
+        allowReturn: action.payload.get('allowReturn')});
 
       return state
         .set('isNavigating', true)

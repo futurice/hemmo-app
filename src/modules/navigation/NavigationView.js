@@ -9,6 +9,7 @@ import ThumbVoteViewContainer from '../activity/thumbs/ThumbVoteViewContainer';
 import RecordViewContainer from '../activity/record/RecordViewContainer';
 import EmotionViewContainer from '../emotions/EmotionViewContainer';
 import NewRound from '../activity/NewRound';
+import EndingView from '../EndingView';
 
 const NavigationView = React.createClass({
   propTypes: {
@@ -40,6 +41,9 @@ const NavigationView = React.createClass({
     }
     else if (route.key === 'Emotions') {
       return <EmotionViewContainer/>;
+    }
+    else if (route.key === 'End') {
+      return <EndingView/>;
     }
     return null;
   },

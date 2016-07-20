@@ -37,18 +37,18 @@ const HomeView = React.createClass({
 
   openSettings() {
     this.props.dispatch(UserState.resetCurrentUser());
-    this.props.dispatch(NavigationState.pushRoute({key: 'Settings'}));
+    this.props.dispatch(NavigationState.pushRoute({key: 'Settings', allowReturn: true}));
   },
 
   startJourney(id) {
     this.props.dispatch(UserState.setCurrentUser(id));
     this.props.dispatch(UserState.addActivity());
-    this.props.dispatch(NavigationState.pushRoute({key: 'Activity'}));
+    this.props.dispatch(NavigationState.pushRoute({key: 'Activity', allowReturn: true}));
   },
 
   viewUserProfile(userIndex) {
     this.props.dispatch(UserState.setCurrentUser(userIndex));
-    this.props.dispatch(NavigationState.pushRoute({key: 'Settings'}));
+    this.props.dispatch(NavigationState.pushRoute({key: 'Settings', allowReturn: true}));
   },
 
   render() {

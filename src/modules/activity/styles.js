@@ -108,7 +108,6 @@ const styles = StyleSheet.create({
   },
   recordRow: {
     flex: 2,
-    borderWidth: 1,
     marginLeft: 30,
     padding: 20,
     flexDirection: 'row',

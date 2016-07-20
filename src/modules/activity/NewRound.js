@@ -20,11 +20,12 @@ const NewRound = React.createClass({
   newRound() {
     this.props.dispatch(NavigationState.resetRoute());
     this.props.dispatch(UserState.addActivity());
-    this.props.dispatch(NavigationState.pushRoute({key: 'Activity'}));
+    this.props.dispatch(NavigationState.pushRoute({key: 'Activity', allowReturn: false}));
   },
 
   continue() {
-    this.props.dispatch(NavigationState.pushRoute({key: 'Emotions'}));
+    this.props.dispatch(UserState.resetActivity());
+    this.props.dispatch(NavigationState.pushRoute({key: 'Emotions', allowReturn: false}));
   },
 
   render() {

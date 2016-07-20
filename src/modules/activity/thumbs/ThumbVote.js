@@ -15,7 +15,6 @@ var styles = require('../styles.js');
 var activities = require('../activities.js');
 
 //TODO: Separate rendering to smaller components.
-
 const ThumbVote = React.createClass({
 
   propTypes: {
@@ -32,7 +31,7 @@ const ThumbVote = React.createClass({
 
   vote(vote) {
     this.props.dispatch(UserState.saveAnswer(this.props.activityIndex, 'thumb', vote));
-    this.props.dispatch(NavigationState.pushRoute({key: 'Record'}));
+    this.props.dispatch(NavigationState.pushRoute({key: 'Record', allowReturn: true}));
   },
 
   hideBubble() {

@@ -10,7 +10,6 @@ import ProgressBarClassic from 'react-native-progress-bar-classic';
 import {
   Text,
   TextInput,
-  Alert,
   TouchableOpacity,
   View
 } from 'react-native';
@@ -34,7 +33,8 @@ const Record = React.createClass({
       enableWriting: false,
       showBubble: true,
       progress: 0,
-      recording: false
+      recording: false,
+      generalFeedbackView: false
     };
   },
 
@@ -50,12 +50,12 @@ const Record = React.createClass({
     this.setState({showBubble: false});
   },
 
-  renderBubble(text) {
+  renderBubble(text, x, y, triangle) {
     if (this.state.showBubble === true) {
       return (<SpeechBubbleView
         text={text}
         hideBubble={this.hideBubble}
-        position={{x: 10, y: 150, triangle: 330}}/>);
+        position={{x, y, triangle}}/>);
     }
     else {
       return null;
@@ -64,18 +64,32 @@ const Record = React.createClass({
 
   // TODO: SAVE WRITTEN TEXT TO STATE
   saveText() {
-    this.props.dispatch(NavigationState.pushRoute({key: 'NewRound'}));
+    this.moveToNext();
   },
 
   skip() {
-    this.props.dispatch(NavigationState.pushRoute({key: 'NewRound'}));
+    this.moveToNext();
+  },
+
+  moveToNext() {
+    if (this.props.activityIndex === -1) {
+      if (this.state.generalFeedbackView === false) {
+        this.setState({enableWriting: false, showBubble: true, progress: 0, generalFeedbackView: true});
+        this.props.dispatch(NavigationState.pushRoute({key: 'Record', allowReturn: false}));
+      }
+      else {
+        this.props.dispatch(NavigationState.pushRoute({key: 'End', allowReturn: false}));
+      }
+    }
+    else {
+      this.props.dispatch(NavigationState.pushRoute({key: 'NewRound', allowReturn: false}));
+    }
   },
 
   record() {
-    // Alert.alert('painettiin', 'painettiin');
     this.setInterval(
       () => {
-        console.log('I do not leak!');
+        console.log('Up up up!');
         this.setState({progress: this.state.progress + 1});
       },
       1000
@@ -94,7 +108,6 @@ const Record = React.createClass({
   },
 
   renderRecordPanel() {
-
     return (
       <View style={styles.recordRow}>
         <View style={styles.buttonArea}>
@@ -144,10 +157,22 @@ const Record = React.createClass({
 
   render() {
 
-    var titlePanel = this.renderTitlePanel();
-    var actionPanel = this.renderRecordPanel();
+    var speechBubble;
 
-    var speechBubble = this.renderBubble('record');
+    if (this.props.activityIndex === -1) {
+      if (this.state.generalFeedbackView === false) {
+        speechBubble = this.renderBubble('emotionFeedback', 40, 180, 260);
+      }
+      else {
+        speechBubble = this.renderBubble('generalFeedback', 20, 260, 180);
+      }
+    }
+    else {
+      var titlePanel = this.renderTitlePanel();
+      speechBubble = this.renderBubble('record', 10, 150, 330);
+    }
+
+    var actionPanel = this.renderRecordPanel();
 
     if (this.state.enableWriting === true) {
       var writingView = this.renderWritingPanel();
