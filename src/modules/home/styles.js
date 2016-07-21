@@ -15,6 +15,9 @@ const styles = StyleSheet.create({
   rightcolumn: {
     flex: 1,
     flexDirection: 'row',
+    flexWrap: 'wrap',
+    borderWidth: 1,
+    borderColor: 'red',
     alignItems: 'center'
   },
   list: {

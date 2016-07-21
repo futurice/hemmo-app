@@ -33,6 +33,10 @@ const namespacedReducer = combineReducers(
 
 export default function mainReducer(state, action) {
   if (action.type === RESET_STATE) {
+    // console.log('main reducer state ' + JSON.stringify(state));
+    // console.log('main reducer action ' + JSON.stringify(action));
+    // console.log('main reducer action payload ' + JSON.stringify(action.payload));
+
     return namespacedReducer(action.payload, action);
   }
 

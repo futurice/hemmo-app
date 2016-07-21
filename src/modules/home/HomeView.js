@@ -16,7 +16,7 @@ import {
 } from 'react-native';
 
 var styles = require('./styles.js');
-var userIcons;
+// var userIcons;
 var bubbleText;
 var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => !immutable.is(r1,r2)});
 
@@ -52,31 +52,53 @@ const HomeView = React.createClass({
   },
 
   render() {
+
+    var userIcons;
+
     if (this.props.users.size > 0) {
       // TODO: If there are more than 4 added children, only names of the children are displayed.
-      userIcons = (
-        <ListView
-        contentContainerStyle = {styles.list}
-        dataSource = {ds.cloneWithRows(this.props.users.toArray())}
-        renderRow = {
-          (rowData) =>
-            <View style={styles.userRow}>
-              <View>
-                <TouchableHighlight
-                  onPress={this.startJourney.bind(this, rowData.get('id'))}>
-                  <Image style={styles.icon} source={{uri: rowData.get('image')}}/>
-                </TouchableHighlight>
-              </View>
-              <View style={styles.nameLabel}>
-                <UserConfigurationButton
-                  userIndex={rowData.get('id')}
-                  viewUserProfile={this.viewUserProfile}
-                />
-                <Text style={styles.name}> {rowData.get('name')} </Text>
-              </View>
-            </View>
-        }
-      />);
+      userIcons = this.props.users.map((user, index) => (
+        <View key={index} style={styles.userRow}>
+          <View>
+            <TouchableHighlight
+              onPress={this.startJourney.bind(this, index)}>
+              <Image style={styles.icon} source={{uri: user.get('image')}}/>
+            </TouchableHighlight>
+          </View>
+          <View style={styles.nameLabel}>
+            <UserConfigurationButton
+              userIndex={index}
+              viewUserProfile={this.viewUserProfile}
+            />
+            <Text style={styles.name}> {user.get('name')} </Text>
+          </View>
+        </View>
+      ));
+
+      // userIcons = (
+      //   <ListView
+      //   contentContainerStyle = {styles.list}
+      //   dataSource = {ds.cloneWithRows(this.props.users.toArray())}
+      //   renderRow = {
+      //     (rowData, secId, rowId) =>
+      //       <View style={styles.userRow}>
+      //         <View>
+      //           <TouchableHighlight
+      //             onPress={this.startJourney.bind(this, rowData.get('id'))}>
+      //             <Image style={styles.icon} source={{uri: rowData.get('image')}}/>
+      //           </TouchableHighlight>
+      //         </View>
+      //         <View style={styles.nameLabel}>
+      //           <UserConfigurationButton
+      //             userIndex={rowData.get('id')}
+      //             user={rowData}
+      //             viewUserProfile={this.viewUserProfile}
+      //           />
+      //           <Text style={styles.name}> {sec} </Text>
+      //         </View>
+      //       </View>
+      //   }
+      // />);
       bubbleText = 'userIsKnown';
     }
     else {

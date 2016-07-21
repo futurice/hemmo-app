@@ -34,11 +34,9 @@ const SettingsView = React.createClass({
       Alert.alert('Puuttuvia tietoja', 'Varmistathan, että kaikki kohdat on täytetty ennen jatkamista.');
     }
     else {
-      var id = this.props.users.size;
       // If id == null, new user is created. Otherwise users[id] will be edited.
       if (this.props.currentUser.get('id') === null) {
-        this.props.dispatch(UserState.setCurrentUserValue('id', id));
-        this.props.dispatch(UserState.createUser(id, this.props.currentUser));
+        this.props.dispatch(UserState.createUser(this.props.currentUser));
       }
       else {
         this.props.dispatch(UserState.editUser(this.props.currentUser));
@@ -66,7 +64,8 @@ const SettingsView = React.createClass({
   },
 
   remove() {
-    Alert.alert('Not implemented yet', 'Coming soon! :)');
+    this.props.dispatch(UserState.removeUser(this.props.currentUser.get('id')));
+    this.props.dispatch(NavigationState.popRoute());
   },
 
   getChangedName(e) {

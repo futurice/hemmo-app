@@ -4,9 +4,8 @@ import {Map, List} from 'immutable';
 const initialState = Map({
   users: List([
     Map({
-      id: 0,
       name: 'Hemmo',
-      age: 6,
+      age: '6',
       image: '../../assets/default-icon.png',
       answers: Map({
         activities: List()
@@ -19,6 +18,7 @@ const initialState = Map({
 
 const CREATE_USER = 'UserState/CREATE_USER';
 const EDIT_USER = 'UserState/EDIT_USER';
+const REMOVE_USER = 'UserState/REMOVE_USER';
 const RESET_CURRENT_USER = 'UserState/RESET_CURRENT_USER';
 const SET_CURRENT_USER = 'UserState/SET_CURRENT_USER';
 const SET_CURRENT_USER_VALUE = 'UserState/SET_CURRENT_USER_VALUE';
@@ -29,12 +29,10 @@ const RESET_ACTIVITY = 'UserState/RESET_ACTIVITY';
 // Action creators
 
 // TODO: Is it necessary that the userList has the answers-maps?
-export function createUser(userId, newUser) {
-  console.log('id createUserissa ' + userId);
+export function createUser(newUser) {
   return {
     type: CREATE_USER,
     payload: Map({
-      id: userId,
       name: newUser.get('name'),
       age: newUser.get('age'),
       image: newUser.get('image'),
@@ -49,12 +47,20 @@ export function editUser(user) {
     payload: {
       id: user.get('id'),
       values: Map({
-        id: user.get('id'),
         name: user.get('name'),
         age: user.get('age'),
-        image: user.get('image')
+        image: user.get('image'),
+        answers: Map({
+          activities: List()})
       })
     }
+  };
+}
+
+export function removeUser(id) {
+  return {
+    type: REMOVE_USER,
+    payload: id
   };
 }
 
@@ -90,7 +96,6 @@ export function addActivity() {
 }
 
 export function saveAnswer(index, destination, answers) {
-  console.log('TALLENNETAAN ' + index + ' Jee ' + answers);
   return {
     type: SAVE_ANSWER,
     payload: {index, destination, answers}
@@ -115,6 +120,12 @@ export default function UserStateReducer(state = initialState, action = {}) {
       return state
         .setIn(['users', action.payload.id], action.payload.values);
 
+    case REMOVE_USER:
+      var tmp = state.get('users').slice();
+      tmp = tmp.filter(function deleteUser(index) {return index !== action.payload; });
+      return state
+        .set('users', tmp);
+
     case RESET_CURRENT_USER:
       return state
         .set('currentUser', action.payload);
@@ -125,7 +136,8 @@ export default function UserStateReducer(state = initialState, action = {}) {
 
     case SET_CURRENT_USER:
       return state
-      .set('currentUser', state.getIn(['users', action.payload]));
+      .set('currentUser', state.getIn(['users', action.payload]))
+      .setIn(['currentUser', 'id'], action.payload);
 
     case ADD_ACTIVITY:
       return state

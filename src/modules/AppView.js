@@ -23,6 +23,7 @@ const AppView = React.createClass({
         const {dispatch} = this.props;
 
         if (snapshot) {
+          console.log('Snapshot löytyi ' + JSON.stringify(snapshot));
           dispatch(SessionStateActions.resetSessionStateFromSnapshot(snapshot));
         }
         else {
