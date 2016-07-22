@@ -5,41 +5,70 @@ import {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: 'column',
     alignItems: 'center',
     backgroundColor: 'white'
   },
-  form: {
+  titleBar: {
     flexDirection: 'row',
     position: 'absolute',
-    top: 10,
+    top: 0,
+    left: 0,
+    right: 0
+  },
+  titleBarSection: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  tabBar: {
+    flexDirection: 'row',
+    backgroundColor: 'rgb(214, 214, 214)',
+    borderWidth: 1,
+    position: 'absolute',
+    borderBottomColor: 'white',
+    top: 40,
+    left: 30,
+    right: 30
+  },
+  form: {
+    borderWidth: 1,
+    flex: 5,
+    flexDirection: 'row',
+    position: 'absolute',
+    top: 60,
     left: 10,
     right: 10,
     bottom: 10
   },
   leftColumn: {
-    flex: 2,
+    flex: 5,
     flexDirection: 'column'
   },
   rightColumn: {
-    flex: 1,
+    flex: 3,
     flexDirection: 'column'
   },
   inputField: {
     flex: 1,
+    flexDirection: 'row',
     alignItems: 'center'
   },
   label: {
     textAlign: 'center',
+    flex: 2,
     fontSize: 20
   },
   input: {
     textAlign: 'center',
     fontSize: 20,
-    flex: 1,
-    borderWidth: 1
+    margin: 10,
+    borderRadius: 10,
+    flex: 4
   },
   imagefield: {
-    flex: 2,
+    flex: 3,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center'
@@ -51,44 +80,43 @@ const styles = StyleSheet.create({
   changeImageButton: {
     backgroundColor: '#c2c2c2',
     borderRadius: 10,
-    width: 100,
+    width: 140,
     marginLeft: 10
+  },
+  changeImageHighlight: {
+    padding: 10,
+    borderRadius: 10
   },
   buttonfield: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center'
   },
+  bottomRow: {
+    flexDirection: 'row'
+  },
   savebutton: {
     backgroundColor: 'green',
-    borderRadius: 60,
-    height: 120,
-    width: 120,
+    borderRadius: 10,
+    padding: 10,
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 20
   },
   save_touchable: {
-    height: 120,
-    width: 120,
-    borderRadius: 60,
+    borderRadius: 10,
     justifyContent: 'center'
   },
   cancelbutton: {
-    backgroundColor: '#c2c2c2',
     borderRadius: 10,
-    width: 100,
-    marginLeft: 10,
-    marginBottom: 20
+    width: 100
   },
   buttonHighlight: {
     flex: 2,
     borderRadius: 10
   },
   removebutton: {
-    backgroundColor: '#c42b08',
     borderRadius: 10,
-    marginLeft: 10,
     width: 100
   }
 });

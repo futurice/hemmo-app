@@ -30,7 +30,10 @@ const styles = StyleSheet.create({
   subTitle: {
     fontSize: 10
   },
-
+  extraRow: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
   writeButton: {
     flex: 2,
     borderWidth: 1,
@@ -45,7 +48,7 @@ const styles = StyleSheet.create({
     flex: 1,
     borderWidth: 1,
     borderRadius: 10,
-    marginHorizontal: 10
+    margin: 10
   },
   skipButtonHighlight: {
     flex: 1,

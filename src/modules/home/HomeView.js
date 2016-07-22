@@ -2,7 +2,6 @@ import * as NavigationState from '../../modules/navigation/NavigationState';
 import * as UserState from '../../modules/user/UserState';
 import React, {PropTypes} from 'react';
 import {List, Map, immutable} from 'immutable';
-import UserConfigurationButton from '../../components/UserConfigurationButton';
 import SpeechBubble from '../../components/SpeechBubble';
 import Hemmo from '../../components/Hemmo';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -61,10 +60,6 @@ const HomeView = React.createClass({
         userIcons = this.props.users.map((user, index) => (
           <View key={index} style={styles.userRowWithoutImage}>
             <View style={styles.nameLabel}>
-              <UserConfigurationButton
-                userIndex={index}
-                viewUserProfile={this.viewUserProfile}
-              />
               <TouchableHighlight
                 onPress={this.startJourney.bind(this, index)}>
                 <Text style={styles.name}> {user.get('name')} </Text>
@@ -83,10 +78,6 @@ const HomeView = React.createClass({
               </TouchableHighlight>
             </View>
             <View style={styles.nameLabel}>
-              <UserConfigurationButton
-                userIndex={index}
-                viewUserProfile={this.viewUserProfile}
-              />
               <Text style={styles.name}> {user.get('name')} </Text>
             </View>
           </View>

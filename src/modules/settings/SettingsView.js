@@ -2,11 +2,13 @@ import * as NavigationState from '../../modules/navigation/NavigationState';
 import * as UserState from '../../modules/user/UserState';
 import React, {PropTypes} from 'react';
 import {List, Map} from 'immutable';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import Button from '../../components/Button';
 
 import {
   NativeModules,
   Image,
+  TouchableOpacity,
   Alert,
   Text,
   TextInput,
@@ -17,6 +19,7 @@ var styles = require('./styles.js');
 var options = require('./image-picker-options');
 var ImagePicker = NativeModules.ImagePickerManager;
 var removeButton;
+var texts;
 
 const SettingsView = React.createClass({
 
@@ -27,9 +30,16 @@ const SettingsView = React.createClass({
     currentUser: PropTypes.instanceOf(Map)
   },
 
+  getInitialState() {
+    texts = this.props.users.map((user) => user.get('name'));
+    texts = texts.concat(['+ Lisää']);
+    return {
+      tabTexts: texts
+    };
+  },
+
   saveUser() {
     if (this.props.currentUser.get('name') === '' ||
-        this.props.currentUser.get('age') === '' ||
         this.props.currentUser.get('image') === null) {
       Alert.alert('Puuttuvia tietoja', 'Varmistathan, että kaikki kohdat on täytetty ennen jatkamista.');
     }
@@ -72,10 +82,6 @@ const SettingsView = React.createClass({
     this.props.dispatch(UserState.setCurrentUserValue('name', e.nativeEvent.text));
   },
 
-  getChangedAge(e) {
-    this.props.dispatch(UserState.setCurrentUserValue('age', e.nativeEvent.text));
-  },
-
   // TODO: Display default-image after opening.
   openImageGallery() {
     ImagePicker.showImagePicker(options, (response) => {
@@ -94,6 +100,25 @@ const SettingsView = React.createClass({
     });
   },
 
+  addTab(index) {
+    this.props.dispatch(UserState.resetCurrentUser());
+    // this.setState({tabTexts: this.state.tabTexts.push('+ Lisää')});
+    console.log('tabTexts ' + this.state.tabTexts + index);
+  },
+
+  handleClick(user, index) {
+    if (user === '+ Lisää') {
+      this.addTab(index);
+    }
+    else {
+      this.viewUserProfile(index);
+    }
+  },
+
+  viewUserProfile(index) {
+    this.props.dispatch(UserState.setCurrentUser(index));
+  },
+
   render() {
 
     if (this.props.currentUser.get('id') !== null)
@@ -106,14 +131,39 @@ const SettingsView = React.createClass({
       removeButton = null;
     }
 
+    var tabs = this.state.tabTexts.map((user, index) => (
+      <TouchableOpacity key={index} onPress={this.handleClick.bind(this, user, index)} style={{width: 80, alignItems: 'center'}}>
+        <Text>
+          {user}
+        </Text>
+      </TouchableOpacity>
+    ));
+
     return (
       <View style={styles.container}>
+        <View style={styles.titleBar}>
+          <View style={styles.titleBarSection}>
+            <Icon onPress={this.cancel} size={30} name={'angle-left'}/>
+          </View>
+
+          <View style={styles.titleBarSection}>
+            <Icon size={30} name={'cog'}/>
+            <Text> Asetukset </Text>
+          </View>
+
+          <View style={styles.titleBarSection}>
+            <Icon size={30} name={'volume-off'}/>
+          </View>
+        </View>
+
+        <View style={styles.tabBar}>
+          {tabs}
+        </View>
         <View style={styles.form}>
           <View style={styles.leftColumn}>
-
             <View style={styles.inputField}>
               <Text style={styles.label}>
-                Nimi:
+                Nimi
               </Text>
               <TextInput
                 style={styles.input}
@@ -121,39 +171,29 @@ const SettingsView = React.createClass({
                 onChange = {this.getChangedName}
                 value={this.props.currentUser.get('name')}/>
             </View>
-
-            <View style={styles.inputField}>
-              <Text style={styles.label}>
-                Ikä:
-              </Text>
-              <TextInput
-                keyboardType='numeric'
-                style={styles.input}
-                ref='age'
-                onChange={this.getChangedAge}
-                value={this.props.currentUser.get('age')}
-                />
-            </View>
-
             <View style={styles.imagefield}>
-                <Image
-                  style={styles.icon}
-                  source={{uri: this.props.currentUser.get('image')}}/>
-                <Button
-                  style={styles.changeImageButton} highlightStyle={styles.buttonHighlight}
-                  onPress={this.openImageGallery} text={'Vaihda'} icon={''}/>
+             <Image
+               style={styles.icon}
+               source={{uri: this.props.currentUser.get('image')}}/>
+             <Button
+               style={styles.changeImageButton} highlightStyle={styles.changeImageHighlight}
+               onPress={this.openImageGallery} text={'Ota uusi kuva'} icon={'camera'}/>
             </View>
           </View>
 
           <View style={styles.rightColumn}>
-            <View style={styles.buttonfield}>
-              <Button
-                style={styles.savebutton} highlightStyle={styles.save_touchable}
-                onPress={this.saveUser} text={'Tallenna'} icon={''}/>
-              <Button
-                style={styles.cancelbutton} highlightStyle={styles.buttonHighlight}
-                onPress={this.cancel} text={'Peruuta'} icon={''}/>
-              {removeButton}
+            <View style={styles.rightColumn}>
+              <View style={styles.buttonfield}>
+                <Button
+                  style={styles.savebutton} highlightStyle={styles.save_touchable}
+                  onPress={this.saveUser} text={'Tallenna'} icon={''}/>
+                <View style={styles.bottomRow}>
+                  <Button
+                    style={styles.cancelbutton} highlightStyle={styles.buttonHighlight}
+                    onPress={this.cancel} text={'Peruuta'} icon={''}/>
+                  {removeButton}
+                </View>
+              </View>
             </View>
           </View>
         </View>

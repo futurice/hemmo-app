@@ -5,7 +5,6 @@ const initialState = Map({
   users: List([
     Map({
       name: 'Hemmo',
-      age: '6',
       image: '../../assets/default-icon.png',
       answers: Map({
         activities: List()
@@ -34,7 +33,6 @@ export function createUser(newUser) {
     type: CREATE_USER,
     payload: Map({
       name: newUser.get('name'),
-      age: newUser.get('age'),
       image: newUser.get('image'),
       answers: Map({
         activities: List()})})
@@ -48,7 +46,6 @@ export function editUser(user) {
       id: user.get('id'),
       values: Map({
         name: user.get('name'),
-        age: user.get('age'),
         image: user.get('image'),
         answers: Map({
           activities: List()})
@@ -67,7 +64,7 @@ export function removeUser(id) {
 export function resetCurrentUser() {
   return {
     type: RESET_CURRENT_USER,
-    payload: Map({id: null, name: '', age: '', image: null, answers: Map({activities: List()})})
+    payload: Map({id: null, name: '', image: null, answers: Map({activities: List()})})
   };
 }
 
