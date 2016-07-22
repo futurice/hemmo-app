@@ -132,8 +132,11 @@ const SettingsView = React.createClass({
     }
 
     var tabs = this.state.tabTexts.map((user, index) => (
-      <TouchableOpacity key={index} onPress={this.handleClick.bind(this, user, index)} style={{width: 80, alignItems: 'center'}}>
-        <Text>
+      <TouchableOpacity
+        key={index}
+        onPress={this.handleClick.bind(this, user, index)}
+        style={{width: 80, alignItems: 'center'}}>
+        <Text style={{fontSize: 20}}>
           {user}
         </Text>
       </TouchableOpacity>

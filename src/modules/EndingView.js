@@ -1,16 +1,27 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
+import {connect} from 'react-redux';
 import Hemmo from '../components/Hemmo';
+import * as NavigationState from '../modules/navigation/NavigationState';
 import SpeechBubble from '../components/SpeechBubble';
 
 import {
   StyleSheet,
   Text,
+  TouchableOpacity,
   View
 } from 'react-native';
 
 var phrases = require('../../phrases.json');
 
 const EndingView = React.createClass({
+
+  propTypes: {
+    dispatch: PropTypes.func.isRequired
+  },
+
+  startOver() {
+    this.props.dispatch(NavigationState.resetRoute());
+  },
 
   render() {
 
@@ -20,9 +31,11 @@ const EndingView = React.createClass({
       <View style={styles.container}>
         <Hemmo x={230} y={120}/>
         <View style={styles.info}>
-          <Text style={styles.font}>
-            {phrases['deliveredBy']}
-          </Text>
+          <TouchableOpacity onPress={this.startOver}>
+            <Text style={styles.font}>
+              {phrases['deliveredBy']}
+            </Text>
+          </TouchableOpacity>
         </View>
         {speechBubble}
       </View>
@@ -54,4 +67,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default EndingView;
+export default connect()(EndingView);
