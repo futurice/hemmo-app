@@ -51,54 +51,47 @@ const HomeView = React.createClass({
     this.props.dispatch(NavigationState.pushRoute({key: 'Settings', allowReturn: true}));
   },
 
+  // TODO: Clean up. Too much repetition atm.
   render() {
 
     var userIcons;
 
     if (this.props.users.size > 0) {
-      // TODO: If there are more than 4 added children, only names of the children are displayed.
-      userIcons = this.props.users.map((user, index) => (
-        <View key={index} style={styles.userRow}>
-          <View>
-            <TouchableHighlight
-              onPress={this.startJourney.bind(this, index)}>
-              <Image style={styles.icon} source={{uri: user.get('image')}}/>
-            </TouchableHighlight>
+      if (this.props.users.size > 4) {
+        userIcons = this.props.users.map((user, index) => (
+          <View key={index} style={styles.userRowWithoutImage}>
+            <View style={styles.nameLabel}>
+              <UserConfigurationButton
+                userIndex={index}
+                viewUserProfile={this.viewUserProfile}
+              />
+              <TouchableHighlight
+                onPress={this.startJourney.bind(this, index)}>
+                <Text style={styles.name}> {user.get('name')} </Text>
+              </TouchableHighlight>
+            </View>
           </View>
-          <View style={styles.nameLabel}>
-            <UserConfigurationButton
-              userIndex={index}
-              viewUserProfile={this.viewUserProfile}
-            />
-            <Text style={styles.name}> {user.get('name')} </Text>
+        ));
+      }
+      else {
+        userIcons = this.props.users.map((user, index) => (
+          <View key={index} style={styles.userRow}>
+            <View>
+              <TouchableHighlight
+                onPress={this.startJourney.bind(this, index)}>
+                <Image style={styles.icon} source={{uri: user.get('image')}}/>
+              </TouchableHighlight>
+            </View>
+            <View style={styles.nameLabel}>
+              <UserConfigurationButton
+                userIndex={index}
+                viewUserProfile={this.viewUserProfile}
+              />
+              <Text style={styles.name}> {user.get('name')} </Text>
+            </View>
           </View>
-        </View>
-      ));
-
-      // userIcons = (
-      //   <ListView
-      //   contentContainerStyle = {styles.list}
-      //   dataSource = {ds.cloneWithRows(this.props.users.toArray())}
-      //   renderRow = {
-      //     (rowData, secId, rowId) =>
-      //       <View style={styles.userRow}>
-      //         <View>
-      //           <TouchableHighlight
-      //             onPress={this.startJourney.bind(this, rowData.get('id'))}>
-      //             <Image style={styles.icon} source={{uri: rowData.get('image')}}/>
-      //           </TouchableHighlight>
-      //         </View>
-      //         <View style={styles.nameLabel}>
-      //           <UserConfigurationButton
-      //             userIndex={rowData.get('id')}
-      //             user={rowData}
-      //             viewUserProfile={this.viewUserProfile}
-      //           />
-      //           <Text style={styles.name}> {sec} </Text>
-      //         </View>
-      //       </View>
-      //   }
-      // />);
+        ));
+      }
       bubbleText = 'userIsKnown';
     }
     else {
@@ -109,11 +102,10 @@ const HomeView = React.createClass({
             <Text style={styles.name}> Nimi </Text>
           </View>
         </View>);
-
       bubbleText = 'userIsUnknown';
     }
 
-    var speechBubble = <SpeechBubble text={bubbleText} position={{x: 20, y: 100, triangle: 70}}/>;
+    var speechBubble = <SpeechBubble text={bubbleText} position={{x: 20, y: 20, triangle: 140}}/>;
 
     return (
       <View style={styles.container}>
@@ -122,11 +114,11 @@ const HomeView = React.createClass({
           <View style={styles.settingsButton}>
             <TouchableHighlight
               onPress={this.openSettings}>
-              <Icon name='cog' size={40} style={styles.button}/>
+              <Icon name='cog' size={40} color={'green'}/>
             </TouchableHighlight>
           </View>
 
-          <Hemmo x={120} y={120}/>
+          <Hemmo x={120} y={160}/>
         </View>
 
         <View style={styles.rightcolumn}>

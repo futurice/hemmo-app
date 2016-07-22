@@ -8,7 +8,7 @@ import ActivityViewContainer from '../activity/main/ActivityViewContainer';
 import ThumbVoteViewContainer from '../activity/thumbs/ThumbVoteViewContainer';
 import RecordViewContainer from '../activity/record/RecordViewContainer';
 import EmotionViewContainer from '../emotions/EmotionViewContainer';
-import NewRound from '../activity/NewRound';
+import NewRound from '../NewRound';
 import EndingView from '../EndingView';
 
 const NavigationView = React.createClass({

@@ -11,7 +11,7 @@ import {
   View
 } from 'react-native';
 
-var styles = require('../styles.js');
+var styles = require('./styles.js');
 var activities = require('../activities.js');
 
 //TODO: Separate rendering to smaller components.

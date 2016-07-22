@@ -15,7 +15,7 @@ import {
 } from 'react-native';
 
 var TimerMixin = require('react-timer-mixin');
-var styles = require('../styles.js');
+var styles = require('./styles.js');
 var activities = require('../activities.js');
 var buttonPanel;
 

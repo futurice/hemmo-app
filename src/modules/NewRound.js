@@ -1,10 +1,10 @@
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
-import Hemmo from '../../components/Hemmo';
-import Button from '../../components/Button';
-import * as NavigationState from '../../modules/navigation/NavigationState';
-import * as UserState from '../../modules/user/UserState';
-import SpeechBubble from '../../components/SpeechBubble';
+import Hemmo from '../components/Hemmo';
+import Button from '../components/Button';
+import * as NavigationState from '../modules/navigation/NavigationState';
+import * as UserState from '../modules/user/UserState';
+import SpeechBubble from '../components/SpeechBubble';
 
 import {
   StyleSheet,

@@ -71,10 +71,10 @@ export function resetCurrentUser() {
   };
 }
 
-export function setCurrentUserValue(variable, newValue) {
+export function setCurrentUserValue(destination, value) {
   return {
     type: SET_CURRENT_USER_VALUE,
-    payload: {destination: variable, value: newValue}
+    payload: {destination, value}
   };
 }
 
@@ -122,7 +122,7 @@ export default function UserStateReducer(state = initialState, action = {}) {
 
     case REMOVE_USER:
       var tmp = state.get('users').slice();
-      tmp = tmp.filter(function deleteUser(index) {return index !== action.payload; });
+      tmp = tmp.filter(function deleteUser(user, index) {return index !== action.payload; });
       return state
         .set('users', tmp);
 

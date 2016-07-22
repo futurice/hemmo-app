@@ -14,7 +14,6 @@ const UserConfigurationButton = React.createClass({
   },
 
   viewUserProfile() {
-    console.log('this.props.userIndex ' + this.props.userIndex);
     this.props.viewUserProfile(this.props.userIndex);
   },
 
