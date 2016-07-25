@@ -45,6 +45,7 @@
     "react-native-passcode-auth": "^1.0.0",
     "react-native-popup-menu": "^0.5.2",
     "react-native-progress-bar": "^0.1.2",
+    "react-native-progress-bar-classic": "^1.2.0",
     "react-native-vector-icons": "^2.0.3",
     "react-redux": "^4.4.5",
     "redux": "^3.4.0",
