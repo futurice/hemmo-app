@@ -1,7 +1,8 @@
 import React, {PropTypes} from 'react';
-import {Map} from 'immutable';
-import * as UserState from '../../modules/user/UserState';
-import SubActivityView from './SubActivityView';
+import {Map, List} from 'immutable';
+import * as UserState from '../../../modules/user/UserState';
+import SubActivityView from '../sub/SubActivityView';
+import SpeechBubbleView from '../../../components/SpeechBubbleView';
 import {
   Image,
   TouchableHighlight,
@@ -10,18 +11,22 @@ import {
 } from 'react-native';
 
 var styles = require('./mainStyles.js');
-var activities = require('./activities.js');
+var activities = require('../activities.js');
 var activityWidth;
+var speechBubble;
 
 const MainActivityView = React.createClass({
 
   propTypes: {
     dispatch: PropTypes.func.isRequired,
-    onNavigate: PropTypes.func.isRequired
+    onNavigate: PropTypes.func.isRequired,
+    savedActivities: PropTypes.instanceOf(List),
+    activityIndex: PropTypes.number.isRequired
   },
 
   getInitialState() {
     return {
+      showBubble: true,
       showSubActivities: false,
       chosenMainActivity: Map()
     };
@@ -32,17 +37,32 @@ const MainActivityView = React.createClass({
   },
 
   openSubActivities(activity) {
-    this.props.dispatch(UserState.saveAnswer('MainActivity', activity.get('id')));
-    this.setState({showSubActivities: true, chosenMainActivity: activity});
+    this.props.dispatch(UserState.saveAnswer(this.props.activityIndex, 'main', activity.get('id')));
+    this.setState({showSubActivities: true, chosenMainActivity: activity, showBubble: true});
   },
 
   closeSubActivities() {
     this.setState({showSubActivities: false});
   },
 
-  render() {
+  hideBubble() {
+    this.setState({showBubble: false});
+  },
 
-    console.log('Rendering MainActivityView');
+  renderBubble(text, index) {
+    if (this.state.showBubble === true) {
+      return (<SpeechBubbleView
+        text={text}
+        hideBubble={this.hideBubble}
+        position={{x: 15, y: 140, triangle: 150}}
+        maIndex={index}/>);
+    }
+    else {
+      return null;
+    }
+  },
+
+  render() {
 
     const activityViews = activities.map((activity) => (
       <View key={activity.get('key')} style={styles.activity}>
@@ -63,8 +83,15 @@ const MainActivityView = React.createClass({
         <SubActivityView
           chosenMainActivity={this.state.chosenMainActivity}
           dispatch={this.props.dispatch}
-          closeSubActivities={this.closeSubActivities}/>);
+          closeSubActivities={this.closeSubActivities}
+          activityIndex={this.props.activityIndex}/>);
+
+      speechBubble = this.renderBubble('subActivity', this.state.chosenMainActivity.get('id'));
     }
+    else {
+      speechBubble = this.renderBubble('mainActivity');
+    }
+
     return (
       <View style={styles.container}>
         <View style={styles.row}>
@@ -78,13 +105,13 @@ const MainActivityView = React.createClass({
           <View style={styles.hemmo}>
             <Image resizeMode={'contain'}
               style={styles.hemmoImage}
-              source={require('../../../assets/Hemmo.jpg')}/>
+              source={require('../../../../assets/Hemmo.jpg')}/>
           </View>
           {activityViews[4]}
         </View>
 
         {subActivities}
-
+        {speechBubble}
       </View>
     );
   }

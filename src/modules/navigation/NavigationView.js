@@ -2,13 +2,14 @@ import React, {PropTypes} from 'react';
 import {
   Navigator
 } from 'react-native';
-import AppRouter from '../AppRouter';
 import SettingsViewContainer from '../settings/SettingsViewContainer';
 import HomeViewContainer from '../home/HomeViewContainer';
-import ActivityViewContainer from '../activity/ActivityViewContainer';
-import ThumbVoteViewContainer from '../feedback/thumbs/ThumbVoteViewContainer';
-import RecordViewContainer from '../feedback/record/RecordViewContainer';
-import NewRound from '../feedback/NewRound';
+import ActivityViewContainer from '../activity/main/ActivityViewContainer';
+import ThumbVoteViewContainer from '../activity/thumbs/ThumbVoteViewContainer';
+import RecordViewContainer from '../activity/record/RecordViewContainer';
+import EmotionViewContainer from '../emotions/EmotionViewContainer';
+import NewRound from '../NewRound';
+import EndingView from '../EndingView';
 
 const NavigationView = React.createClass({
   propTypes: {
@@ -20,7 +21,6 @@ const NavigationView = React.createClass({
   //TODO: Move to AppRouter somehow
   renderScene(route, navigator) {
     this.navigator = navigator;
-    console.log('ROUTE ' + route.key);
     if (route.key === 'Home') {
       return <HomeViewContainer onNavigate={this.props.onNavigate}/>;
     }
@@ -39,13 +39,18 @@ const NavigationView = React.createClass({
     else if (route.key === 'NewRound') {
       return <NewRound/>;
     }
+    else if (route.key === 'Emotions') {
+      return <EmotionViewContainer/>;
+    }
+    else if (route.key === 'End') {
+      return <EndingView/>;
+    }
     return null;
   },
 
   render() {
     var index = this.props.navigationState.index;
     var routes = this.props.navigationState.children;
-    console.log('ROUTING index ' + index);
 
     return (
       <Navigator

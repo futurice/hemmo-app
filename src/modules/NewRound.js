@@ -1,8 +1,10 @@
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
-import Hemmo from '../../components/Hemmo';
-import Button from '../../components/Button';
-import * as NavigationState from '../../modules/navigation/NavigationState';
+import Hemmo from '../components/Hemmo';
+import Button from '../components/Button';
+import * as NavigationState from '../modules/navigation/NavigationState';
+import * as UserState from '../modules/user/UserState';
+import SpeechBubble from '../components/SpeechBubble';
 
 import {
   StyleSheet,
@@ -17,10 +19,18 @@ const NewRound = React.createClass({
 
   newRound() {
     this.props.dispatch(NavigationState.resetRoute());
-    this.props.dispatch(NavigationState.pushRoute({key: 'Activity'}));
+    this.props.dispatch(UserState.addActivity());
+    this.props.dispatch(NavigationState.pushRoute({key: 'Activity', allowReturn: false}));
+  },
+
+  continue() {
+    this.props.dispatch(UserState.resetActivity());
+    this.props.dispatch(NavigationState.pushRoute({key: 'Emotions', allowReturn: false}));
   },
 
   render() {
+    var speechBubble = <SpeechBubble text={"newRound"} position={{x: 10, y: 100, triangle: 220}}/>;
+
     return (
       <View style={styles.container}>
         <View style={styles.column}>
@@ -34,8 +44,9 @@ const NewRound = React.createClass({
         <View style={styles.column}>
           <Button
             style={styles.button} highlightStyle={styles.buttonHighlight}
-            onPress={this.newRound} text={'Jatka'} icon={''}/>
+            onPress={this.continue} text={'Jatka'} icon={''}/>
         </View>
+        {speechBubble}
       </View>
     );
   }

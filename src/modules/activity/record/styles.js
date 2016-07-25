@@ -12,6 +12,13 @@ const styles = StyleSheet.create({
     flex: 3,
     flexDirection: 'column'
   },
+  rightColumn: {
+    flex: 2,
+    flexDirection: 'column'
+  },
+  hemmoRow: {
+    flex: 3
+  },
   titleRow: {
     flex: 1,
     padding: 20,
@@ -23,25 +30,9 @@ const styles = StyleSheet.create({
   subTitle: {
     fontSize: 10
   },
-  actionRow: {
-    flex: 2,
-    marginLeft: 30,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  rightColumn: {
-    flex: 2,
-    flexDirection: 'column'
-  },
-  hemmoRow: {
-    flex: 3
-  },
   extraRow: {
-    flex: 1,
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center'
+    alignItems: 'center'
   },
   writeButton: {
     flex: 2,
@@ -57,21 +48,11 @@ const styles = StyleSheet.create({
     flex: 1,
     borderWidth: 1,
     borderRadius: 10,
-    marginHorizontal: 10
+    margin: 10
   },
   skipButtonHighlight: {
     flex: 1,
     borderRadius: 10
-  },
-  button: {
-    flexDirection: 'row',
-    justifyContent: 'center'
-  },
-  text: {
-    textAlign: 'center'
-  },
-  voteButton: {
-    margin: 15
   },
   writingContainer: {
     position: 'absolute',
@@ -96,15 +77,42 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
     justifyContent: 'flex-start'
   },
+  textForm: {
+    margin: 15,
+    textAlignVertical: 'top'
+  },
   closeButton: {
     color: 'rgb(74, 79, 77)',
     position: 'absolute',
     top: 10,
     right: 15
   },
-  textForm: {
-    margin: 15,
-    textAlignVertical: 'top'
+  recordRow: {
+    flex: 2,
+    marginLeft: 30,
+    padding: 20,
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  buttonArea: {
+    width: 130,
+    height: 130,
+    borderWidth: 1,
+    borderRadius: 65,
+    backgroundColor: 'rgb(240, 234, 234)',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  rec: {
+    width: 90,
+    height: 90,
+    borderRadius: 45,
+    backgroundColor: 'rgb(246, 30, 30)'
+  },
+  recHighlight: {
+    width: 90,
+    height: 90,
+    borderRadius: 45
   }
 });
 

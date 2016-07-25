@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import {Map} from 'immutable';
-import * as NavigationState from '../../modules/navigation/NavigationState';
-import * as UserState from '../../modules/user/UserState';
+import * as NavigationState from '../../../modules/navigation/NavigationState';
+import * as UserState from '../../../modules/user/UserState';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import {
@@ -19,7 +19,8 @@ const SubActivityView = React.createClass({
   propTypes: {
     chosenMainActivity: PropTypes.instanceOf(Map),
     dispatch: PropTypes.func.isRequired,
-    closeSubActivities: PropTypes.func.isRequired
+    closeSubActivities: PropTypes.func.isRequired,
+    activityIndex: PropTypes.number.isRequired
   },
 
   componentWillMount() {
@@ -64,13 +65,12 @@ const SubActivityView = React.createClass({
     }
   },
 
-  chooseActivity(subActivity, index) {
-    this.props.dispatch(UserState.saveAnswer('SubActivity', index));
-    this.props.dispatch(NavigationState.pushRoute({key: 'Thumbs'}));
+  chooseActivity(subActivity, subIndex) {
+    this.props.dispatch(UserState.saveAnswer(this.props.activityIndex, 'sub', subIndex));
+    this.props.dispatch(NavigationState.pushRoute({key: 'Thumbs', allowReturn: true}));
   },
 
   render() {
-
     const subActivityViews = this.props.chosenMainActivity.get('subActivities').map((subActivity, index) => (
       <View
         key={subActivity}
@@ -104,7 +104,7 @@ const SubActivityView = React.createClass({
         <View style={styles.activityBar}>
           {subActivityViews}
         </View>
-        <Icon onPress={this.closeModal} name='times-circle' size={40} style={styles.closeButton}/>
+        <Icon onPress={this.closeSubActivities} name='times-circle' size={40} style={styles.closeButton}/>
       </View>
     );
   }

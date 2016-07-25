@@ -1,35 +1,60 @@
 import React, {PropTypes} from 'react';
-import {Map} from 'immutable';
+import {List} from 'immutable';
 import Hemmo from '../../../components/Hemmo';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import * as UserState from '../../../modules/user/UserState';
 import * as NavigationState from '../../../modules/navigation/NavigationState';
+import SpeechBubbleView from '../../../components/SpeechBubbleView';
 
 import {
   Text,
   View
 } from 'react-native';
 
-var styles = require('../styles.js');
-var activities = require('../../activity/activities.js');
+var styles = require('./styles.js');
+var activities = require('../activities.js');
 
 //TODO: Separate rendering to smaller components.
-
 const ThumbVote = React.createClass({
 
   propTypes: {
-    answers: PropTypes.instanceOf(Map),
-    dispatch: PropTypes.func.isRequired
+    savedActivities: PropTypes.instanceOf(List),
+    dispatch: PropTypes.func.isRequired,
+    activityIndex: PropTypes.number.isRequired
+  },
+
+  getInitialState() {
+    return {
+      showBubble: true
+    };
   },
 
   vote(vote) {
-    this.props.dispatch(UserState.saveAnswer('Thumb', vote));
-    this.props.dispatch(NavigationState.pushRoute({key: 'Record'}));
+    this.props.dispatch(UserState.saveAnswer(this.props.activityIndex, 'thumb', vote));
+    this.props.dispatch(NavigationState.pushRoute({key: 'Record', allowReturn: true}));
+  },
+
+  hideBubble() {
+    this.setState({showBubble: false});
+  },
+
+  renderBubble(text, i, j) {
+    if (this.state.showBubble === true) {
+      return (<SpeechBubbleView
+        text={text}
+        hideBubble={this.hideBubble}
+        position={{x: 15, y: 320, triangle: 120}}
+        maIndex={i}
+        saIndex={j}/>);
+    }
+    else {
+      return null;
+    }
   },
 
   renderTitlePanel() {
-    var i = this.props.answers.get('MainActivity');
-    var j = this.props.answers.get('SubActivity');
+    var i = this.props.savedActivities.get(this.props.activityIndex).get('main');
+    var j = this.props.savedActivities.get(this.props.activityIndex).get('sub');
     return (
       <View style={styles.titleRow}>
         <Text style={styles.mainTitle}>{activities[i].get('key')}</Text>
@@ -66,6 +91,10 @@ const ThumbVote = React.createClass({
       </View>
     );
 
+    var j = this.props.savedActivities.get(this.props.activityIndex).get('sub');
+    var i = this.props.savedActivities.get(this.props.activityIndex).get('main');
+    var speechBubble = this.renderBubble('subActivity', i, j);
+
     return (
       <View style={styles.container}>
         <View style={styles.leftColumn}>
@@ -74,9 +103,10 @@ const ThumbVote = React.createClass({
         </View>
         <View style={styles.rightColumn}>
           <View style={styles.hemmoRow}>
-            <Hemmo x={40} y={40}/>
+            <Hemmo x={40} y={100}/>
           </View>
         </View>
+        {speechBubble}
       </View>
     );
   }

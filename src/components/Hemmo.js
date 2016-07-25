@@ -29,21 +29,20 @@ class Hemmo extends React.Component {
 
   render() {
     return (
-      //TODO: Fix positioning of image (not that important atm)
-      <TouchableWithoutFeedback onPress={this._onPress}>
+      //TODO: Fix positioning and sizing of image (not that important atm)
+      <TouchableWithoutFeedback>
         <View style={[styles.hemmo, {top: this.props.y, left: this.props.x}]}>
           <Image style={styles.hemmo_img} source={require('../../assets/Hemmo.jpg')}/>
         </View>
       </TouchableWithoutFeedback>
     );
   }
-};
+}
 
 Hemmo.propTypes = {
   x: PropTypes.number.isRequired,
   y: PropTypes.number.isRequired
 };
-
 
 const styles = StyleSheet.create({
   hemmo: {

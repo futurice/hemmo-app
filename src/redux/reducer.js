@@ -1,15 +1,11 @@
 import {Map} from 'immutable';
 import {combineReducers} from 'redux-loop';
 import NavigationStateReducer from '../modules/navigation/NavigationState';
-import HomeStateReducer from '../modules/home/HomeState';
 import SessionStateReducer, {RESET_STATE} from '../modules/session/SessionState';
 import SettingsStateReducer from '../modules/settings/SettingsState';
 import UserStateReducer from '../modules/user/UserState';
 
 const reducers = {
-  // Counter sample app state. This can be removed in a live application
-  home: HomeStateReducer,
-
   // @NOTE: By convention, the navigation state must live in a subtree called
   //`navigationState`
   navigationState: NavigationStateReducer,
@@ -18,7 +14,7 @@ const reducers = {
 
   user: UserStateReducer,
 
-  settings: SettingsStateReducer,
+  settings: SettingsStateReducer
 
 };
 
@@ -37,6 +33,10 @@ const namespacedReducer = combineReducers(
 
 export default function mainReducer(state, action) {
   if (action.type === RESET_STATE) {
+    // console.log('main reducer state ' + JSON.stringify(state));
+    // console.log('main reducer action ' + JSON.stringify(action));
+    // console.log('main reducer action payload ' + JSON.stringify(action.payload));
+
     return namespacedReducer(action.payload, action);
   }
 

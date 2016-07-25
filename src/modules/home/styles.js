@@ -14,12 +14,9 @@ const styles = StyleSheet.create({
   },
   rightcolumn: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: 'column',
+    flexWrap: 'wrap',
     alignItems: 'center'
-  },
-  list: {
-    flexDirection: 'row',
-    flexWrap: 'wrap'
   },
   userRow: {
     borderWidth: 1,
@@ -27,6 +24,21 @@ const styles = StyleSheet.create({
     backgroundColor: '#dedede',
     alignItems: 'center',
     margin: 5
+  },
+  userRowWithoutImage: {
+    flex: 1,
+    width: 200,
+    borderWidth: 1,
+    justifyContent: 'center',
+    backgroundColor: '#dedede',
+    alignItems: 'center',
+    margin: 5
+  },
+  emptyRow: {
+    flexDirection: 'column',
+    width: 150,
+    borderWidth: 1,
+    alignItems: 'center'
   },
   icon: {
     height: 110,
@@ -36,24 +48,15 @@ const styles = StyleSheet.create({
   nameLabel: {
     flexDirection: 'row'
   },
+  name: {
+    fontSize: 20
+  },
   settingsButton: {
     alignItems: 'center',
     justifyContent: 'center',
     position: 'absolute',
     bottom: 10,
     left: 10
-  },
-  name: {
-    fontSize: 20
-  },
-  button: {
-    color: 'green'
-  },
-  emptyRow: {
-    flexDirection: 'column',
-    width: 150,
-    borderWidth: 1,
-    alignItems: 'center'
   }
 });
 
