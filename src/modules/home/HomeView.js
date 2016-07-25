@@ -1,14 +1,14 @@
 import * as NavigationState from '../../modules/navigation/NavigationState';
 import * as UserState from '../../modules/user/UserState';
 import React, {PropTypes} from 'react';
-import {List, Map, immutable} from 'immutable';
+import {List, Map} from 'immutable';
 import SpeechBubble from '../../components/SpeechBubble';
 import Hemmo from '../../components/Hemmo';
+import PasswordModal from '../../components/PasswordModal';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import {
   TouchableHighlight,
-  ListView,
   Image,
   Text,
   View
@@ -17,7 +17,6 @@ import {
 var styles = require('./styles.js');
 // var userIcons;
 var bubbleText;
-var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => !immutable.is(r1,r2)});
 
 const HomeView = React.createClass({
 
@@ -30,7 +29,7 @@ const HomeView = React.createClass({
 
   getInitialState() {
     return {
-      dataSource: ds.cloneWithRows(this.props.users.toArray())
+      isModalOpen: false
     };
   },
 
@@ -48,6 +47,14 @@ const HomeView = React.createClass({
   viewUserProfile(userIndex) {
     this.props.dispatch(UserState.setCurrentUser(userIndex));
     this.props.dispatch(NavigationState.pushRoute({key: 'Settings', allowReturn: true}));
+  },
+
+  openModal() {
+    this.setState({isModalOpen: true});
+  },
+
+  closeModal() {
+    this.setState({isModalOpen: false});
   },
 
   // TODO: Clean up. Too much repetition atm.
@@ -97,6 +104,12 @@ const HomeView = React.createClass({
     }
 
     var speechBubble = <SpeechBubble text={bubbleText} position={{x: 20, y: 20, triangle: 140}}/>;
+    if (this.state.isModalOpen === true) {
+      var modal = <PasswordModal onClose={this.closeModal} onSuccess={this.openSettings}/>;
+    }
+    else {
+      modal = null;
+    }
 
     return (
       <View style={styles.container}>
@@ -104,7 +117,7 @@ const HomeView = React.createClass({
 
           <View style={styles.settingsButton}>
             <TouchableHighlight
-              onPress={this.openSettings}>
+              onPress={this.openModal}>
               <Icon name='cog' size={40} color={'green'}/>
             </TouchableHighlight>
           </View>
@@ -116,6 +129,7 @@ const HomeView = React.createClass({
           {userIcons}
         </View>
         {speechBubble}
+        {modal}
       </View>
     );
   }

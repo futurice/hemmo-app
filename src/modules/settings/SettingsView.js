@@ -30,12 +30,10 @@ const SettingsView = React.createClass({
     currentUser: PropTypes.instanceOf(Map)
   },
 
-  getInitialState() {
+  getUserNames() {
     texts = this.props.users.map((user) => user.get('name'));
     texts = texts.concat(['+ Lisää']);
-    return {
-      tabTexts: texts
-    };
+    return texts;
   },
 
   saveUser() {
@@ -44,15 +42,16 @@ const SettingsView = React.createClass({
       Alert.alert('Puuttuvia tietoja', 'Varmistathan, että kaikki kohdat on täytetty ennen jatkamista.');
     }
     else {
-      // If id == null, new user is created. Otherwise users[id] will be edited.
+
+      var newId = this.props.users.size;
+
       if (this.props.currentUser.get('id') === null) {
+        this.props.dispatch(UserState.setCurrentUserValue('id', newId));
         this.props.dispatch(UserState.createUser(this.props.currentUser));
       }
       else {
         this.props.dispatch(UserState.editUser(this.props.currentUser));
       }
-      // TODO: Check if adding was successful!
-      this.props.dispatch(NavigationState.popRoute());
     }
   },
 
@@ -75,7 +74,7 @@ const SettingsView = React.createClass({
 
   remove() {
     this.props.dispatch(UserState.removeUser(this.props.currentUser.get('id')));
-    this.props.dispatch(NavigationState.popRoute());
+    this.props.dispatch(UserState.resetCurrentUser());
   },
 
   getChangedName(e) {
@@ -100,15 +99,13 @@ const SettingsView = React.createClass({
     });
   },
 
-  addTab(index) {
+  addTab() {
     this.props.dispatch(UserState.resetCurrentUser());
-    // this.setState({tabTexts: this.state.tabTexts.push('+ Lisää')});
-    console.log('tabTexts ' + this.state.tabTexts + index);
   },
 
   handleClick(user, index) {
     if (user === '+ Lisää') {
-      this.addTab(index);
+      this.addTab();
     }
     else {
       this.viewUserProfile(index);
@@ -121,6 +118,8 @@ const SettingsView = React.createClass({
 
   render() {
 
+    console.log('Lisätyt lapset ' + this.props.users);
+
     if (this.props.currentUser.get('id') !== null)
     {
       removeButton = (<Button
@@ -130,8 +129,8 @@ const SettingsView = React.createClass({
     else {
       removeButton = null;
     }
-
-    var tabs = this.state.tabTexts.map((user, index) => (
+    var tabTexts = this.getUserNames();
+    var tabs = tabTexts.map((user, index) => (
       <TouchableOpacity
         key={index}
         onPress={this.handleClick.bind(this, user, index)}

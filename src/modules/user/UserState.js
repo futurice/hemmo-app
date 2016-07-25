@@ -26,8 +26,6 @@ const ADD_ACTIVITY = 'UserState/ADD_ACTIVITY';
 const RESET_ACTIVITY = 'UserState/RESET_ACTIVITY';
 
 // Action creators
-
-// TODO: Is it necessary that the userList has the answers-maps?
 export function createUser(newUser) {
   return {
     type: CREATE_USER,
@@ -108,7 +106,6 @@ export function resetActivity() {
 // Reducer
 export default function UserStateReducer(state = initialState, action = {}) {
   switch (action.type) {
-    //Adds new kid to the List
     case CREATE_USER:
       return state
         .updateIn(['users'], list => list.push(action.payload));
