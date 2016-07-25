@@ -8,56 +8,29 @@ import {
 
 import {
   Player,
-  Recorder
+  Recorder,
+  MediaStates
 } from 'react-native-audio-toolkit';
 
 class Hemmo extends React.Component {
   constructor(props) {
     super(props);
 
-    //this.player = new Player('https://fruitiex.org/files/rosanna_128kbit.mp3');
-      /*
-    this.player.autoDestroy = false;
-    this.player.prepare();
-    */
-
-    this.recorder = new Recorder('test.mp4', {
+    this.player = new Player('drumsticks.mp3', {
       autoDestroy: false
-    });
-
-    this.recorder.prepare();
+    }).prepare();
 
     this._onPress = this._onPress.bind(this);
-    this._onLongPress = this._onLongPress.bind(this);
-  }
-
-  _onLongPress() {
-    console.log('starting record');
-    this.recorder.record();
   }
 
   _onPress() {
-    console.log('stopping record');
-    this.recorder.stop(() => {
-      console.log('playing');
-      new Player('test.mp4').play();
-    });
-    /*
-    setTimeout(() => {
-      this.player.currentTime = 15;
-    }, 3000);
-
-    setTimeout(() => {
-      console.log('stopping');
-      this.player.stop();
-    }, 6000);
-    */
+    this.player.play();
   }
 
   render() {
     return (
       //TODO: Fix positioning of image (not that important atm)
-      <TouchableWithoutFeedback onLongPress={this._onLongPress} onPress={this._onPress}>
+      <TouchableWithoutFeedback onPress={this._onPress}>
         <View style={[styles.hemmo, {top: this.props.y, left: this.props.x}]}>
           <Image style={styles.hemmo_img} source={require('../../assets/Hemmo.jpg')}/>
         </View>

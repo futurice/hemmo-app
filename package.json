@@ -35,7 +35,7 @@
     "react": "15.0.2",
     "react-dom": "15.0.2",
     "react-native": "^0.26.2",
-    "react-native-audio-toolkit": "futurice/react-native-audio-toolkit",
+    "react-native-audio-toolkit": "1.0.2",
     "react-native-form": "^2.0.6",
     "react-native-gifted-spinner": "0.0.4",
     "react-native-image-picker": "^0.19.5",
