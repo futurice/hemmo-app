@@ -4,7 +4,6 @@ import {
   View,
   Text,
   TextInput,
-  Alert,
   StyleSheet
 } from 'react-native';
 

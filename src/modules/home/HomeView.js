@@ -103,7 +103,7 @@ const HomeView = React.createClass({
       bubbleText = 'userIsUnknown';
     }
 
-    var speechBubble = <SpeechBubble text={bubbleText} position={{x: 20, y: 20, triangle: 140}}/>;
+    var speechBubble = <SpeechBubble text={bubbleText} audioTrack={'longer'} position={{x: 20, y: 20, triangle: 140}}/>;
     if (this.state.isModalOpen === true) {
       var modal = <PasswordModal onClose={this.closeModal} onSuccess={this.openSettings}/>;
     }

@@ -5,6 +5,10 @@ import {
   StyleSheet
 } from 'react-native';
 
+import {
+  Player
+} from 'react-native-audio-toolkit';
+
 var phrases = require('../../phrases.json');
 var bubbleText;
 
@@ -14,7 +18,22 @@ const SpeechBubble = React.createClass({
     text: PropTypes.string.isRequired,
     maIndex: PropTypes.number,
     saIndex: PropTypes.number,
-    position: PropTypes.object.isRequired
+    position: PropTypes.object.isRequired,
+    audioTrack: PropTypes.string
+  },
+
+  componentWillMount() {
+    // var track = this.props.audioTrack + '.mp3';
+    this.player = new Player('longer.mp3').prepare();
+    console.log('this.player.path ' + JSON.stringify(this.player.state));
+  },
+
+  componentDidMount() {
+    this.player.play();
+  },
+
+  componentWillUnmount() {
+    this.player.destroy();
   },
 
   render() {

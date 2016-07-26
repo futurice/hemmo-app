@@ -6,31 +6,28 @@ import {
   TouchableWithoutFeedback
 } from 'react-native';
 
-import {
-  Player,
-  Recorder,
-  MediaStates
-} from 'react-native-audio-toolkit';
+// import {
+//   Player,
+//   Recorder,
+//   MediaStates
+// } from 'react-native-audio-toolkit';
 
 class Hemmo extends React.Component {
   constructor(props) {
     super(props);
 
-    this.player = new Player('drumsticks.mp3', {
-      autoDestroy: false
-    }).prepare();
-
-    this._onPress = this._onPress.bind(this);
+    // this.player = new Player('testsound.mp3').prepare();
+    // this._onPress = this._onPress.bind(this);
   }
 
-  _onPress() {
-    this.player.play();
-  }
+  // componentDidMount() {
+  //   this.player.play();
+  // }
 
   render() {
     return (
       //TODO: Fix positioning and sizing of image (not that important atm)
-      <TouchableWithoutFeedback onPress={() => this._onPress()}>
+      <TouchableWithoutFeedback>
         <View style={[styles.hemmo, {top: this.props.y, left: this.props.x}]}>
           <Image style={styles.hemmo_img} source={require('../../assets/Hemmo.jpg')}/>
         </View>
