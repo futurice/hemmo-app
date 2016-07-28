@@ -8,6 +8,7 @@ import Button from '../../components/Button';
 import {
   NativeModules,
   Image,
+  ScrollView,
   TouchableOpacity,
   Alert,
   Text,
@@ -32,7 +33,9 @@ const SettingsView = React.createClass({
 
   getUserNames() {
     texts = this.props.users.map((user) => user.get('name'));
-    texts = texts.concat(['+ Lisää']);
+    if (this.props.users.size < 6) {
+      texts = texts.concat(['+ Lisää']);
+    }
     return texts;
   },
 
@@ -132,7 +135,7 @@ const SettingsView = React.createClass({
       <TouchableOpacity
         key={index}
         onPress={this.handleClick.bind(this, user, index)}
-        style={{width: 80, alignItems: 'center'}}>
+        style={{marginHorizontal: 5, alignItems: 'center'}}>
         <Text style={{fontSize: 20}}>
           {user}
         </Text>
@@ -156,9 +159,9 @@ const SettingsView = React.createClass({
           </View>
         </View>
 
-        <View style={styles.tabBar}>
+        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={styles.tabBar}>
           {tabs}
-        </View>
+        </ScrollView>
         <View style={styles.form}>
           <View style={styles.leftColumn}>
             <View style={styles.inputField}>

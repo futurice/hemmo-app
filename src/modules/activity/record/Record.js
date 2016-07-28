@@ -86,12 +86,19 @@ const Record = React.createClass({
   renderTitlePanel() {
     var i = this.props.savedActivities.get(this.props.activityIndex).get('main');
     var j = this.props.savedActivities.get(this.props.activityIndex).get('sub');
-    return (
-      <View style={styles.titleRow}>
-        <Text style={styles.mainTitle}>{activities[i].get('key')}</Text>
-        <Text style={styles.subtitle}>{activities[i].get('subActivities').get(j)}</Text>
-      </View>
-    );
+
+    if (i === null || j === null) {
+      console.log('ei otsikoita');
+      return null;
+    }
+    else {
+      return (
+        <View style={styles.titleRow}>
+          <Text style={styles.mainTitle}>{activities[i].get('key')}</Text>
+          <Text style={styles.subtitle}>{activities[i].get('subActivities').get(j)}</Text>
+        </View>
+      );
+    }
   },
 
   renderRecordPanel() {

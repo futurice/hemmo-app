@@ -39,18 +39,25 @@ const PasswordModal = React.createClass({
 
     return (
       <View style={styles.container}>
-        <Text onPress={this.onClose}>
+        <Text style={styles.text}>
           Anna salasana
         </Text>
+
         <Text style={styles.message}>
           {this.state.message}
         </Text>
-        <TextInput style={styles.password} keyboardType={'phone-pad'} onChangeText={(password) => this.setState({password})}
-        value={this.state.password} secureTextEntry={true}/>
+
+        <TextInput
+          style={styles.password}
+          keyboardType={'phone-pad'}
+          onChangeText={(password) => this.setState({password})}
+          value={this.state.password} secureTextEntry={true}/>
+
         <Button
           style={styles.loginButton} highlightStyle={styles.buttonHighlight}
           onPress={this.verifyPassword} text={'Kirjaudu'} icon={''}/>
-        <Text onPress={this.onClose}>
+
+        <Text style={styles.text} onPress={this.onClose}>
           Peruuta
         </Text>
       </View>
@@ -79,7 +86,11 @@ const styles = StyleSheet.create({
   loginButton: {
     backgroundColor: 'rgb(127, 192, 194)',
     borderRadius: 10,
+    margin: 20,
     width: 150
+  },
+  text: {
+    fontSize: 17
   },
   buttonHighlight: {
     borderRadius: 10

@@ -15,8 +15,8 @@ const styles = StyleSheet.create({
   rightcolumn: {
     flex: 1,
     flexDirection: 'column',
-    flexWrap: 'wrap',
-    alignItems: 'center'
+    flexWrap: 'wrap'
+    // alignItems: 'center'
   },
   userRow: {
     borderWidth: 1,

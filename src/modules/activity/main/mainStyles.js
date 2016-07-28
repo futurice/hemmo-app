@@ -35,6 +35,9 @@ const styles = StyleSheet.create({
   },
   hemmoImage: {
     flex: 1
+  },
+  text: {
+    fontSize: 15
   }
 });
 

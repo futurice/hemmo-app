@@ -23,7 +23,7 @@ const SET_CURRENT_USER = 'UserState/SET_CURRENT_USER';
 const SET_CURRENT_USER_VALUE = 'UserState/SET_CURRENT_USER_VALUE';
 const SAVE_ANSWER = 'UserState/SAVE_ANSWER';
 const ADD_ACTIVITY = 'UserState/ADD_ACTIVITY';
-const RESET_ACTIVITY = 'UserState/RESET_ACTIVITY';
+const RESET_ACTIVITIES = 'UserState/RESET_ACTIVITIES';
 
 // Action creators
 export function createUser(newUser) {
@@ -99,7 +99,7 @@ export function saveAnswer(index, destination, answers) {
 
 export function resetActivity() {
   return {
-    type: RESET_ACTIVITY
+    type: RESET_ACTIVITIES
   };
 }
 
@@ -149,7 +149,7 @@ export default function UserStateReducer(state = initialState, action = {}) {
           action.payload.answers);
       }
 
-    case RESET_ACTIVITY:
+    case RESET_ACTIVITIES:
       return state
         .set('activityIndex', -1);
 
