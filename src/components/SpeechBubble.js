@@ -1,4 +1,5 @@
 import React, {PropTypes} from 'react';
+
 import {
   View,
   Text,
@@ -24,12 +25,13 @@ const SpeechBubble = React.createClass({
 
   componentWillMount() {
     // var track = this.props.audioTrack + '.mp3';
-    this.player = new Player('longer.mp3').prepare();
-    console.log('this.player.path ' + JSON.stringify(this.player.state));
+    this.player = new Player('drumsticks.mp3').prepare();
+    // console.log('this.player.path ' + JSON.stringify(this.player.state));
   },
 
   componentDidMount() {
     this.player.play();
+    console.log('state ' + this.player.state);
   },
 
   componentWillUnmount() {
@@ -37,6 +39,7 @@ const SpeechBubble = React.createClass({
   },
 
   render() {
+
     //Text of the speech bubble is related to selected main activity.
     //maIndex is the index of the selected main activity.
     if (this.props.maIndex || this.props.maIndex === 0) {

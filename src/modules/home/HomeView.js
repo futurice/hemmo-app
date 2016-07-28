@@ -15,7 +15,6 @@ import {
 } from 'react-native';
 
 var styles = require('./styles.js');
-// var userIcons;
 var bubbleText;
 
 const HomeView = React.createClass({
@@ -59,7 +58,6 @@ const HomeView = React.createClass({
 
   // TODO: Clean up. Too much repetition atm.
   render() {
-
     var userIcons;
 
     if (this.props.users.size > 0) {

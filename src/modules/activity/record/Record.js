@@ -1,20 +1,18 @@
 import React, {PropTypes} from 'react';
 import {List} from 'immutable';
 import Button from '../../../components/Button';
+import AudioRecorder from '../../../components/AudioRecorder';
 import Hemmo from '../../../components/Hemmo';
+import SpeechBubbleView from '../../../components/SpeechBubbleView';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import * as NavigationState from '../../../modules/navigation/NavigationState';
-import SpeechBubbleView from '../../../components/SpeechBubbleView';
-import ProgressBarClassic from 'react-native-progress-bar-classic';
 
 import {
   Text,
   TextInput,
-  TouchableOpacity,
   View
 } from 'react-native';
 
-var TimerMixin = require('react-timer-mixin');
 var styles = require('./styles.js');
 var activities = require('../activities.js');
 var buttonPanel;
@@ -26,14 +24,13 @@ const Record = React.createClass({
     dispatch: PropTypes.func.isRequired,
     activityIndex: PropTypes.number.isRequired
   },
-  mixins: [TimerMixin],
 
   getInitialState() {
+
     return {
       enableWriting: false,
       showBubble: true,
       progress: 0,
-      recording: false,
       generalFeedbackView: false
     };
   },
@@ -86,16 +83,6 @@ const Record = React.createClass({
     }
   },
 
-  record() {
-    this.setInterval(
-      () => {
-        console.log('Up up up!');
-        this.setState({progress: this.state.progress + 1});
-      },
-      1000
-    );
-  },
-
   renderTitlePanel() {
     var i = this.props.savedActivities.get(this.props.activityIndex).get('main');
     var j = this.props.savedActivities.get(this.props.activityIndex).get('sub');
@@ -109,16 +96,7 @@ const Record = React.createClass({
 
   renderRecordPanel() {
     return (
-      <View style={styles.recordRow}>
-        <View style={styles.buttonArea}>
-          <TouchableOpacity onPress={this.record} style={styles.recHighlight}>
-            <View style={styles.rec}/>
-          </TouchableOpacity>
-        </View>
-        <View style={{flex: 1, marginLeft: 10}}>
-          <ProgressBarClassic valueStyle={'none'} progress={this.state.progress} />
-        </View>
-      </View>
+      <AudioRecorder/>
     );
   },
 

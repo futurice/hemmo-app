@@ -118,8 +118,6 @@ const SettingsView = React.createClass({
 
   render() {
 
-    console.log('Lisätyt lapset ' + this.props.users);
-
     if (this.props.currentUser.get('id') !== null)
     {
       removeButton = (<Button
