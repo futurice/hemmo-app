@@ -34,14 +34,24 @@ const AudioRecorder = React.createClass({
 
     this._progressInterval = setInterval(() => {
       if (this.recorder && this.recorder.isRecording) {// && !this._dragging) {
-        this.setState({progress: this.state.progress + 1});
+        console.log('progress ' + this.state.progress);
+        if (this.state.progress >= 100) {
+          this._toggleRecord();
+        }
+        else {
+          this.setState({progress: this.state.progress + 1});
+        }
       }
-    }, 1000);
+    }, 1200);
   },
 
   componentWillUnmount() {
     //console.log('unmount');
     // TODO
+    this.recorder.destroy();
+    if (this.player) {
+      this.player.destroy();
+    }
     clearInterval(this._progressInterval);
   },
 
