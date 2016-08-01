@@ -3,7 +3,6 @@ import * as UserState from '../../modules/user/UserState';
 import React, {PropTypes} from 'react';
 import {List, Map} from 'immutable';
 import SpeechBubble from '../../components/SpeechBubble';
-import Hemmo from '../../components/Hemmo';
 import PasswordModal from '../../components/PasswordModal';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -103,7 +102,7 @@ const HomeView = React.createClass({
     var speechBubble = (<SpeechBubble
       text={bubbleText}
       audioTrack={'longer'}
-      position={{x: 20, y: 20, triangle: 140}}/>);
+      position={{x: 20, y: 240, triangle: 140}}/>);
     if (this.state.isPasswordModalOpen === true) {
       var passwordModal = <PasswordModal onClose={this.closeModal} onSuccess={this.openSettings}/>;
     }
@@ -112,17 +111,15 @@ const HomeView = React.createClass({
     }
 
     return (
-      <View style={styles.container}>
+        <Image source={require('../../../assets/graphics/1/g113321.png')} style={styles.container}>
         <View style={styles.leftcolumn}>
 
           <View style={styles.settingsButton}>
             <TouchableHighlight
               onPress={this.openModal}>
-              <Icon name='cog' size={40} color={'green'}/>
+              <Image source={require('../../../assets/graphics/1/g113322.png')} style={{height: 40, width: 40}}/>
             </TouchableHighlight>
           </View>
-
-          <Hemmo x={120} y={160}/>
         </View>
 
         <View style={styles.rightcolumn}>
@@ -130,7 +127,7 @@ const HomeView = React.createClass({
         </View>
         {speechBubble}
         {passwordModal}
-      </View>
+        </Image>
     );
   }
 });

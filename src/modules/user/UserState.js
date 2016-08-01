@@ -103,57 +103,79 @@ export function resetActivity() {
   };
 }
 
-// Reducer
-export default function UserStateReducer(state = initialState, action = {}) {
+function usersReducer(state = List(), action) {
   switch (action.type) {
     case CREATE_USER:
       return state
-        .updateIn(['users'], list => list.push(action.payload));
+        .update(list => list.push(action.payload));
 
     case EDIT_USER:
       return state
-        .setIn(['users', action.payload.id], action.payload.values);
+        .set(action.payload.id, action.payload.values);
 
     case REMOVE_USER:
-      var tmp = state.get('users').slice();
+      var tmp = state.slice();
       tmp = tmp.filter(function deleteUser(user, index) {return index !== action.payload; });
-      return state
-        .set('users', tmp);
-
-    case RESET_CURRENT_USER:
-      return state
-        .set('currentUser', action.payload);
-
-    case SET_CURRENT_USER_VALUE:
-      return state
-        .setIn(['currentUser', action.payload.destination], action.payload.value);
-
-    case SET_CURRENT_USER:
-      return state
-      .set('currentUser', state.getIn(['users', action.payload]))
-      .setIn(['currentUser', 'id'], action.payload);
-
-    case ADD_ACTIVITY:
-      return state
-        .update('activityIndex', index => index + 1)
-        .updateIn(['currentUser', 'answers', 'activities'], list => list.push(action.payload));
-
-    case SAVE_ANSWER:
-      if (action.payload.index === null) {
-        return state
-          .setIn(['currentUser', 'answers', action.payload.destination], action.payload.answers);
-      }
-      else {
-        return state
-          .setIn(['currentUser', 'answers', 'activities', action.payload.index, action.payload.destination],
-          action.payload.answers);
-      }
-
-    case RESET_ACTIVITIES:
-      return state
-        .set('activityIndex', -1);
+      return tmp;
 
     default:
       return state;
   }
+}
+
+function currentUserReducer(state = Map(), action, wholeState) {
+  switch (action.type) {
+    case RESET_CURRENT_USER:
+      return action.payload;
+
+    case SET_CURRENT_USER_VALUE:
+      return state
+        .set(action.payload.destination, action.payload.value);
+
+    case SET_CURRENT_USER:
+      return state
+      .set('name', wholeState.getIn(['users', action.payload, 'name']))
+      .set('image', wholeState.getIn(['users', action.payload, 'image']))
+      .set('id', action.payload);
+
+    case ADD_ACTIVITY:
+      return state
+        .updateIn(['answers', 'activities'], list => list.push(action.payload));
+
+    case SAVE_ANSWER:
+      if (action.payload.index === null) {
+        return state
+          .setIn(['answers', action.payload.destination], action.payload.answers);
+      }
+      else {
+        return state
+          .setIn(['answers', 'activities', action.payload.index, action.payload.destination],
+          action.payload.answers);
+      }
+
+    default:
+      return state;
+  }
+}
+
+function activityIndexReducer(state = -1, action) {
+  switch (action.type) {
+
+    case ADD_ACTIVITY:
+      return state + 1;
+
+    case RESET_ACTIVITIES:
+      return -1;
+
+    default:
+      return state;
+  }
+}
+
+// Reducer
+export default function UserStateReducer(state = initialState, action = {}) {
+  return state
+    .set('users', usersReducer(state.get('users'), action))
+    .set('activityIndex', activityIndexReducer(state.get('activityIndex'), action))
+    .set('currentUser', currentUserReducer(state.get('currentUser'), action, state));
 }

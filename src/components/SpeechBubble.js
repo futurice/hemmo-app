@@ -4,7 +4,8 @@ import AudioPlayer from './AudioPlayer';
 import {
   View,
   Text,
-  StyleSheet
+  StyleSheet,
+  Image
 } from 'react-native';
 
 var phrases = require('../../phrases.json');
@@ -39,9 +40,9 @@ const SpeechBubble = React.createClass({
 
     return (
       <View style={[styles.bubble, {top: this.props.position.x, left: this.props.position.y}]}>
-        <View style={styles.bubbleText}>
+        <Image source={require('../../assets/graphics/1/g113326.png')} style={styles.bubbleText}>
           <Text style={styles.text}> {bubbleText} </Text>
-        </View>
+        </Image>
         <View style={[styles.triangle, {left: this.props.position.triangle}]}/>
         <AudioPlayer audioTrack={this.props.audioTrack}/>
       </View>
@@ -54,28 +55,27 @@ const styles = StyleSheet.create({
     position: 'absolute'
   },
   bubbleText: {
-    borderWidth: 2,
-    borderRadius: 15,
-    backgroundColor: 'white',
-    padding: 10
+    height: 210,
+    width: 370,
+    justifyContent: 'center'
   },
   text: {
     fontSize: 15,
     textAlign: 'center'
-  },
-  triangle: {
-    position: 'relative',
-    width: 0,
-    height: 0,
-    borderTopColor: 'black',
-    borderTopWidth: 26,
-    borderLeftColor: 'transparent',
-    borderLeftWidth: 13,
-    borderRightWidth: 13,
-    borderRightColor: 'transparent',
-    borderBottomWidth: 13,
-    borderBottomColor: 'transparent'
   }
+  // triangle: {
+  //   position: 'relative',
+  //   width: 0,
+  //   height: 0,
+  //   borderTopColor: 'black',
+  //   borderTopWidth: 26,
+  //   borderLeftColor: 'transparent',
+  //   borderLeftWidth: 13,
+  //   borderRightWidth: 13,
+  //   borderRightColor: 'transparent',
+  //   borderBottomWidth: 13,
+  //   borderBottomColor: 'transparent'
+  //}
 });
 
 export default SpeechBubble;

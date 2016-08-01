@@ -8,7 +8,9 @@ const styles = StyleSheet.create({
     flex: 1,
     //justifyContent: 'center',
     backgroundColor: 'white',
-    flexDirection: 'row'
+    flexDirection: 'row',
+    height: null,
+    width: null
   },
   leftcolumn: {
     flex: 1

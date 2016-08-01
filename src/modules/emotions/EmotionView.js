@@ -9,6 +9,7 @@ import Button from '../../components/Button';
 import {
   Text,
   TouchableOpacity,
+  Dimensions,
   View
 } from 'react-native';
 
@@ -74,6 +75,8 @@ const EmotionView = React.createClass({
   render() {
 
     var emotionViews = [];
+    var emotionSize = Dimensions.get('window').height / 3.5;
+
     for (var i = 0; i < emotions.length; i++) {
       var checked = null;
       for (var j = 0; j < this.state.selectedEmotions.size; j++) {
@@ -81,14 +84,16 @@ const EmotionView = React.createClass({
           checked = <Icon name={'check'} size={25} style={styles.check}/>;
         }
       }
-      emotionViews.push(<View key={emotions[i]} style={styles.emotion}>
-        <TouchableOpacity style={styles.highlight} onPress={this.selectEmotion.bind(this, emotions[i])}>
-          <Text>
-            {emotions[i]}
-          </Text>
-        </TouchableOpacity>
-        {checked}
-      </View>);
+      emotionViews.push(
+        <View key={emotions[i]} style={[styles.emotion, {height: emotionSize, width: emotionSize}]}>
+          <TouchableOpacity style={styles.highlight} onPress={this.selectEmotion.bind(this, emotions[i])}>
+            <Text>
+              {emotions[i]}
+            </Text>
+          </TouchableOpacity>
+          {checked}
+        </View>
+      );
     }
 
     var speechBubble = this.renderBubble('emotions');
