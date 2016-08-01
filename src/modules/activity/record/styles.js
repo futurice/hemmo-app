@@ -19,23 +19,18 @@ const styles = StyleSheet.create({
   hemmoRow: {
     flex: 3
   },
-  titleRow: {
+  headerWithoutTitles: {
     flex: 1,
-    padding: 20,
-    alignItems: 'center'
-  },
-  mainTitle: {
-    fontSize: 20
-  },
-  subTitle: {
-    fontSize: 10
+    justifyContent: 'center',
+    marginLeft: 50
   },
   extraRow: {
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
+    margin: 10
   },
   writeButton: {
-    flex: 2,
+    flex: 1,
     borderWidth: 1,
     borderRadius: 10,
     marginHorizontal: 10
@@ -47,8 +42,7 @@ const styles = StyleSheet.create({
   skipButton: {
     flex: 1,
     borderWidth: 1,
-    borderRadius: 10,
-    margin: 10
+    borderRadius: 10
   },
   skipButtonHighlight: {
     flex: 1,

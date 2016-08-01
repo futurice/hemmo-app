@@ -3,18 +3,17 @@ import {List} from 'immutable';
 import Button from '../../../components/Button';
 import AudioRecorder from '../../../components/AudioRecorder';
 import Hemmo from '../../../components/Hemmo';
+import TitlePanel from '../../../components/TitlePanel';
 import SpeechBubbleView from '../../../components/SpeechBubbleView';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import * as NavigationState from '../../../modules/navigation/NavigationState';
 
 import {
-  Text,
   TextInput,
   View
 } from 'react-native';
 
 var styles = require('./styles.js');
-var activities = require('../activities.js');
 var buttonPanel;
 
 const Record = React.createClass({
@@ -47,12 +46,18 @@ const Record = React.createClass({
     this.setState({showBubble: false});
   },
 
+  cancel() {
+    this.props.dispatch(NavigationState.popRoute());
+  },
+
   renderBubble(text, x, y, triangle) {
     if (this.state.showBubble === true) {
-      return (<SpeechBubbleView
+      return (
+        <SpeechBubbleView
         text={text}
         hideBubble={this.hideBubble}
-        position={{x, y, triangle}}/>);
+        position={{x, y, triangle}}/>
+      );
     }
     else {
       return null;
@@ -83,24 +88,6 @@ const Record = React.createClass({
     }
   },
 
-  renderTitlePanel() {
-    var i = this.props.savedActivities.get(this.props.activityIndex).get('main');
-    var j = this.props.savedActivities.get(this.props.activityIndex).get('sub');
-
-    if (i === null || j === null) {
-      console.log('ei otsikoita');
-      return null;
-    }
-    else {
-      return (
-        <View style={styles.titleRow}>
-          <Text style={styles.mainTitle}>{activities[i].get('key')}</Text>
-          <Text style={styles.subtitle}>{activities[i].get('subActivities').get(j)}</Text>
-        </View>
-      );
-    }
-  },
-
   renderRecordPanel() {
     return (
       <AudioRecorder/>
@@ -108,13 +95,17 @@ const Record = React.createClass({
   },
 
   renderButtonPanel(icon, text, onPress) {
-    var saveOrWriteButton = (<Button
+    var saveOrWriteButton = (
+      <Button
       style={styles.writeButton} highlightStyle={styles.writeButtonHighlight}
-      onPress={onPress} text={text} icon={icon}/>);
+      onPress={onPress} text={text} icon={icon}/>
+    );
 
-    var skipButton = (<Button
+    var skipButton = (
+      <Button
       style={styles.skipButton} highlightStyle={styles.skipButtonHighlight}
-      onPress={this.skip} text={'Ohita'} icon={'angle-right'}/>);
+      onPress={this.skip} text={'Ohita'} icon={'angle-right'}/>
+    );
 
     return (
       <View style={styles.extraRow}>
@@ -147,13 +138,23 @@ const Record = React.createClass({
     if (this.props.activityIndex === -1) {
       if (this.state.generalFeedbackView === false) {
         speechBubble = this.renderBubble('emotionFeedback', 40, 180, 260);
+        var titlePanel = (
+          <View style={styles.headerWithoutTitles}>
+            <Icon onPress={this.cancel} size={30} name={'angle-left'}/>
+          </View>
+        );
       }
       else {
         speechBubble = this.renderBubble('generalFeedback', 20, 260, 180);
       }
     }
     else {
-      var titlePanel = this.renderTitlePanel();
+      titlePanel = (
+        <TitlePanel
+        activityIndex={this.props.activityIndex}
+        savedActivities={this.props.savedActivities}
+        dispatch={this.props.dispatch}/>
+      );
       speechBubble = this.renderBubble('record', 10, 150, 330);
     }
 

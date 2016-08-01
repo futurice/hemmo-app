@@ -19,17 +19,6 @@ const styles = StyleSheet.create({
   hemmoRow: {
     flex: 3
   },
-  titleRow: {
-    flex: 1,
-    padding: 20,
-    alignItems: 'center'
-  },
-  mainTitle: {
-    fontSize: 20
-  },
-  subTitle: {
-    fontSize: 10
-  },
   actionRow: {
     flex: 2,
     marginLeft: 30,

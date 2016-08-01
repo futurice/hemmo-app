@@ -2,17 +2,16 @@ import React, {PropTypes} from 'react';
 import {List} from 'immutable';
 import Hemmo from '../../../components/Hemmo';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import TitlePanel from '../../../components/TitlePanel';
 import * as UserState from '../../../modules/user/UserState';
 import * as NavigationState from '../../../modules/navigation/NavigationState';
 import SpeechBubbleView from '../../../components/SpeechBubbleView';
 
 import {
-  Text,
   View
 } from 'react-native';
 
 var styles = require('./styles.js');
-var activities = require('../activities.js');
 
 //TODO: Separate rendering to smaller components.
 const ThumbVote = React.createClass({
@@ -40,27 +39,18 @@ const ThumbVote = React.createClass({
 
   renderBubble(text, i, j) {
     if (this.state.showBubble === true) {
-      return (<SpeechBubbleView
+      return (
+        <SpeechBubbleView
         text={text}
         hideBubble={this.hideBubble}
         position={{x: 15, y: 320, triangle: 120}}
         maIndex={i}
-        saIndex={j}/>);
+        saIndex={j}/>
+      );
     }
     else {
       return null;
     }
-  },
-
-  renderTitlePanel() {
-    var i = this.props.savedActivities.get(this.props.activityIndex).get('main');
-    var j = this.props.savedActivities.get(this.props.activityIndex).get('sub');
-    return (
-      <View style={styles.titleRow}>
-        <Text style={styles.mainTitle}>{activities[i].get('key')}</Text>
-        <Text style={styles.subtitle}>{activities[i].get('subActivities').get(j)}</Text>
-      </View>
-    );
   },
 
   renderThumbButtons() {
@@ -83,8 +73,15 @@ const ThumbVote = React.createClass({
 
   render() {
 
-    var titlePanel = this.renderTitlePanel();
+    var titlePanel = (
+      <TitlePanel
+      activityIndex={this.props.activityIndex}
+      savedActivities={this.props.savedActivities}
+      dispatch={this.props.dispatch}/>
+    );
+
     var thumbs = this.renderThumbButtons();
+
     var actionPanel = (
       <View style={styles.actionRow}>
         {thumbs}

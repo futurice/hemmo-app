@@ -146,7 +146,7 @@ const AudioRecorder = React.createClass({
             {button}
         </View>
         <View style={{flex: 1, marginLeft: 10}}>
-          <ProgressBarClassic valueStyle={'none'} progress={this.state.progress} />
+          <ProgressBarClassic style={styles.progressBar} valueStyle={'none'} progress={this.state.progress} />
         </View>
       </View>
     );
@@ -172,8 +172,8 @@ const styles = StyleSheet.create({
   },
   containerStyleSquare: {
     borderWidth: 1,
-    height: 80,
-    width: 80,
+    height: 60,
+    width: 60,
     backgroundColor: 'black'
   },
   containerStyleCircle: {
@@ -191,10 +191,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   highlightSquare: {
-    height: 80,
-    width: 80,
+    height: 60,
+    width: 60,
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  progressBar: {
+    borderColor: 'black'
   }
 });
 
