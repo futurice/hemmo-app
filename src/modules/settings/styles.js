@@ -1,5 +1,6 @@
 import {
-  StyleSheet
+  StyleSheet,
+  Platform
 } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -32,6 +33,10 @@ const styles = StyleSheet.create({
     left: 30,
     right: 30
   },
+  tab: {
+    fontSize: 20,
+    height: 30
+  },
   form: {
     borderWidth: 1,
     flex: 5,
@@ -52,6 +57,7 @@ const styles = StyleSheet.create({
   },
   inputField: {
     flex: 1,
+    paddingHorizontal: 10,
     flexDirection: 'row',
     alignItems: 'center'
   },
@@ -60,12 +66,26 @@ const styles = StyleSheet.create({
     flex: 2,
     fontSize: 20
   },
+  textInputView: {
+    alignItems: 'center',
+    flex: 4
+  },
   input: {
     textAlign: 'center',
     fontSize: 20,
-    margin: 10,
-    borderRadius: 10,
-    flex: 4
+    ...Platform.select({
+      ios: {
+        height: 40,
+        fontSize: 20,
+        borderWidth: 1,
+        borderRadius: 10,
+        borderColor: 'gray',
+        backgroundColor: 'rgba(209, 209, 209, 0.59)'
+      },
+      android: {
+        fontSize: 20
+      }
+    })
   },
   imagefield: {
     flex: 3,

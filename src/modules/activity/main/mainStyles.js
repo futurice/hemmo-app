@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
   highlight: {
     flex: 1,
     flexWrap: 'wrap',
-    margin: 15,
+    margin: 10,
     borderRadius: 10
   },
   activityImage: {
@@ -30,13 +30,12 @@ const styles = StyleSheet.create({
   },
   hemmo: {
     flex: 1,
-    margin: 7,
     alignItems: 'center'
   },
-  hemmoImage: {
-    flex: 1
-  },
   text: {
+    position: 'absolute',
+    top: 140,
+    left: 80,
     fontSize: 15
   }
 });

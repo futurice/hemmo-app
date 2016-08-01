@@ -4,10 +4,11 @@ import * as UserState from '../../../modules/user/UserState';
 import * as NavigationState from '../../../modules/navigation/NavigationState';
 import SubActivityView from '../sub/SubActivityView';
 import SpeechBubbleView from '../../../components/SpeechBubbleView';
+import Hemmo from '../../../components/Hemmo';
+
 import {
   Image,
   Text,
-  Alert,
   TouchableHighlight,
   Dimensions,
   View
@@ -22,7 +23,6 @@ const MainActivityView = React.createClass({
 
   propTypes: {
     dispatch: PropTypes.func.isRequired,
-    onNavigate: PropTypes.func.isRequired,
     savedActivities: PropTypes.instanceOf(List),
     activityIndex: PropTypes.number.isRequired
   },
@@ -60,10 +60,6 @@ const MainActivityView = React.createClass({
     this.props.dispatch(NavigationState.pushRoute({key: 'Record', allowReturn: true}));
   },
 
-  hideBubble() {
-    this.setState({showBubble: false});
-  },
-
   renderBubble(text, index) {
     if (this.state.showBubble === true) {
       return (<SpeechBubbleView
@@ -75,6 +71,10 @@ const MainActivityView = React.createClass({
     else {
       return null;
     }
+  },
+
+  hideBubble() {
+    this.setState({showBubble: false});
   },
 
   render() {
@@ -118,9 +118,7 @@ const MainActivityView = React.createClass({
         <View style={styles.row}>
           {activityViews[3]}
           <View style={styles.hemmo}>
-            <Image resizeMode={'contain'}
-              style={styles.hemmoImage}
-              source={require('../../../../assets/Hemmo.jpg')}/>
+            <Hemmo x={40} y={0}/>
             <Text onPress={this.other} style={styles.text}>Muuta</Text>
           </View>
           {activityViews[4]}

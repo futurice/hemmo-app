@@ -26,7 +26,6 @@ const SettingsView = React.createClass({
 
   propTypes: {
     dispatch: PropTypes.func.isRequired,
-    onNavigate: PropTypes.func.isRequired,
     users: PropTypes.instanceOf(List),
     currentUser: PropTypes.instanceOf(Map)
   },
@@ -136,7 +135,7 @@ const SettingsView = React.createClass({
         key={index}
         onPress={this.handleClick.bind(this, user, index)}
         style={{marginHorizontal: 5, alignItems: 'center'}}>
-        <Text style={{fontSize: 20}}>
+        <Text style={styles.tab}>
           {user}
         </Text>
       </TouchableOpacity>
@@ -171,11 +170,13 @@ const SettingsView = React.createClass({
               <Text style={styles.label}>
                 Nimi
               </Text>
-              <TextInput
-                style={styles.input}
-                ref = 'name'
-                onChange = {this.getChangedName}
-                value={this.props.currentUser.get('name')}/>
+              <View style={styles.textInputView}>
+                <TextInput
+                  style={styles.input}
+                  ref = 'name'
+                  onChange = {this.getChangedName}
+                  value={this.props.currentUser.get('name')}/>
+              </View>
             </View>
             <View style={styles.imagefield}>
              <Image

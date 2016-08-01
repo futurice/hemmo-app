@@ -1,5 +1,6 @@
 import {
-  StyleSheet
+  StyleSheet,
+  Platform
 } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -43,7 +44,15 @@ const styles = StyleSheet.create({
   icon: {
     height: 110,
     width: 120,
-    borderWidth: 10
+    ...Platform.select({
+      ios: {
+        borderWidth: 4,
+        borderColor: '#dedede'
+      },
+      android: {
+        borderWidth: 10
+      }
+    })
   },
   nameLabel: {
     flexDirection: 'row'

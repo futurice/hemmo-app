@@ -4,6 +4,7 @@ import {
   View,
   Text,
   TextInput,
+  Platform,
   StyleSheet
 } from 'react-native';
 
@@ -47,11 +48,14 @@ const PasswordModal = React.createClass({
           {this.state.message}
         </Text>
 
-        <TextInput
-          style={styles.password}
-          keyboardType={'phone-pad'}
-          onChangeText={(password) => this.setState({password})}
-          value={this.state.password} secureTextEntry={true}/>
+        <View style={styles.passwordView}>
+          <TextInput
+            style={styles.password}
+            keyboardType={'phone-pad'}
+            onChangeText={(password) => this.setState({password})}
+            value={this.state.password}
+            secureTextEntry={true}/>
+        </View>
 
         <Button
           style={styles.loginButton} highlightStyle={styles.buttonHighlight}
@@ -76,8 +80,19 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0
   },
+  passwordView: {
+    alignItems: 'center'
+  },
   password: {
     width: 300,
+    ...Platform.select({
+      ios: {
+        height: 40,
+        borderWidth: 1,
+        borderColor: 'gray',
+        backgroundColor: 'rgba(209, 209, 209, 0.59)'
+      }
+    }),
     textAlign: 'center'
   },
   message: {

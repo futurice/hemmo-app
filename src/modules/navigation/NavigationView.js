@@ -21,14 +21,16 @@ const NavigationView = React.createClass({
   //TODO: Move to AppRouter somehow
   renderScene(route, navigator) {
     this.navigator = navigator;
+    // console.log('NAVIGATOR ' + util.inspect(navigator));
+
     if (route.key === 'Home') {
-      return <HomeViewContainer onNavigate={this.props.onNavigate}/>;
+      return <HomeViewContainer/>;
     }
     else if (route.key === 'Settings') {
-      return <SettingsViewContainer onNavigate={this.props.onNavigate}/>;
+      return <SettingsViewContainer/>;
     }
     else if (route.key === 'Activity') {
-      return <ActivityViewContainer onNavigate={this.props.onNavigate}/>;
+      return <ActivityViewContainer/>;
     }
     else if (route.key === 'Record') {
       return <RecordViewContainer/>;
@@ -60,7 +62,7 @@ const NavigationView = React.createClass({
           if (route.sceneConfig) {
             return route.sceneConfig;
           }
-          return Navigator.SceneConfigs.FloatFromRight;
+          return Navigator.SceneConfigs.HorizontalSwipeJump;
         }}
       />
     );

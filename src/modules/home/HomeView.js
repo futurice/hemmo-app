@@ -21,14 +21,13 @@ const HomeView = React.createClass({
 
   propTypes: {
     dispatch: PropTypes.func.isRequired,
-    onNavigate: PropTypes.func.isRequired,
     users: PropTypes.instanceOf(List),
     currentUser: PropTypes.instanceOf(Map)
   },
 
   getInitialState() {
     return {
-      isModalOpen: false
+      isPasswordModalOpen: false
     };
   },
 
@@ -49,11 +48,11 @@ const HomeView = React.createClass({
   },
 
   openModal() {
-    this.setState({isModalOpen: true});
+    this.setState({isPasswordModalOpen: true});
   },
 
   closeModal() {
-    this.setState({isModalOpen: false});
+    this.setState({isPasswordModalOpen: false});
   },
 
   // TODO: Clean up. Too much repetition atm.
@@ -101,12 +100,15 @@ const HomeView = React.createClass({
       bubbleText = 'userIsUnknown';
     }
 
-    var speechBubble = <SpeechBubble text={bubbleText} audioTrack={'longer'} position={{x: 20, y: 20, triangle: 140}}/>;
-    if (this.state.isModalOpen === true) {
-      var modal = <PasswordModal onClose={this.closeModal} onSuccess={this.openSettings}/>;
+    var speechBubble = (<SpeechBubble
+      text={bubbleText}
+      audioTrack={'longer'}
+      position={{x: 20, y: 20, triangle: 140}}/>);
+    if (this.state.isPasswordModalOpen === true) {
+      var passwordModal = <PasswordModal onClose={this.closeModal} onSuccess={this.openSettings}/>;
     }
     else {
-      modal = null;
+      passwordModal = null;
     }
 
     return (
@@ -127,7 +129,7 @@ const HomeView = React.createClass({
           {userIcons}
         </View>
         {speechBubble}
-        {modal}
+        {passwordModal}
       </View>
     );
   }

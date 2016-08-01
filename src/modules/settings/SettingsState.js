@@ -1,5 +1,7 @@
 import {Map} from 'immutable';
 
+// NOTE: Not needed anywhere?
+
 // Initial state
 const initialState = Map({
   loading: false
