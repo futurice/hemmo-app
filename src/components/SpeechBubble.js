@@ -1,14 +1,11 @@
 import React, {PropTypes} from 'react';
+import AudioPlayer from './AudioPlayer';
 
 import {
   View,
   Text,
   StyleSheet
 } from 'react-native';
-
-import {
-  Player
-} from 'react-native-audio-toolkit';
 
 var phrases = require('../../phrases.json');
 var bubbleText;
@@ -23,23 +20,7 @@ const SpeechBubble = React.createClass({
     audioTrack: PropTypes.string
   },
 
-  componentWillMount() {
-    // var track = this.props.audioTrack + '.mp3';
-    this.player = new Player('drumsticks.mp3').prepare();
-    // console.log('this.player.path ' + JSON.stringify(this.player.state));
-  },
-
-  componentDidMount() {
-    this.player.play();
-    console.log('state ' + this.player.state);
-  },
-
-  componentWillUnmount() {
-    this.player.destroy();
-  },
-
   render() {
-
     //Text of the speech bubble is related to selected main activity.
     //maIndex is the index of the selected main activity.
     if (this.props.maIndex || this.props.maIndex === 0) {
@@ -62,6 +43,7 @@ const SpeechBubble = React.createClass({
           <Text style={styles.text}> {bubbleText} </Text>
         </View>
         <View style={[styles.triangle, {left: this.props.position.triangle}]}/>
+        <AudioPlayer audioTrack={this.props.audioTrack}/>
       </View>
     );
   }

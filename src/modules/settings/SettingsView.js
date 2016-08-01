@@ -145,9 +145,12 @@ const SettingsView = React.createClass({
     return (
       <View style={styles.container}>
         <View style={styles.titleBar}>
-          <View style={styles.titleBarSection}>
-            <Icon onPress={this.cancel} size={30} name={'angle-left'}/>
-          </View>
+          <TouchableOpacity onPress={this.cancel} style={styles.titleBarSection}>
+            <View style={styles.titleBarSection}>
+              <Icon onPress={this.cancel} size={30} name={'angle-left'} style={{marginRight: 10}}/>
+              <Text>Takaisin</Text>
+            </View>
+          </TouchableOpacity>
 
           <View style={styles.titleBarSection}>
             <Icon size={30} name={'cog'}/>

@@ -33,8 +33,7 @@ const AudioRecorder = React.createClass({
     this._reloadRecorder();
 
     this._progressInterval = setInterval(() => {
-      if (this.recorder && this.recorder.isRecording) {// && !this._dragging) {
-        console.log('progress ' + this.state.progress);
+      if (this.recorder && this.recorder.isRecording) {
         if (this.state.progress >= 100) {
           this._toggleRecord();
         }
@@ -46,8 +45,6 @@ const AudioRecorder = React.createClass({
   },
 
   componentWillUnmount() {
-    //console.log('unmount');
-    // TODO
     this.recorder.destroy();
     if (this.player) {
       this.player.destroy();
@@ -55,22 +52,18 @@ const AudioRecorder = React.createClass({
     clearInterval(this._progressInterval);
   },
 
-  _updateState(err) {
-    console.log('this.recorder ' + JSON.stringify(this.recorder));
+  _updateState() {
     this.setState({
       recordButton: this.recorder && this.recorder.isRecording ? 'Stop' : 'Record',
       recordButtonDisabled: !this.recorder
     });
-
-    console.log('state after update ' + JSON.stringify(this.state));
   },
 
   _reloadRecorder() {
     if (this.recorder) {
-      console.log('destroyed old one');
       this.recorder.destroy();
     }
-    // console.log('filename ' + filename);
+
     this.recorder = new Recorder(filename, {
       bitrate: 256000,
       channels: 2,
@@ -79,22 +72,22 @@ const AudioRecorder = React.createClass({
       //format: 'ac3', // autodetected
       //encoder: 'aac', // autodetected
     }).prepare();
-    console.log('recorder ' + JSON.stringify(this.recorder));
 
     this._updateState();
   },
 
   _reloadPlayer() {
-    console.log('täällä ollaan soitinta luomassa');
     if (this.player) {
       this.player.destroy();
+    }
+    if (this.recorder) {
+      this.recorder.destroy();
     }
 
     this.player = new Player(filename, {
       autoDestroy: false
     }).prepare((err) => {
       if (err) {
-        console.log('error at _reloadPlayer():');
         console.log(err);
       } else {
         this.player.looping = this.state.loopButtonStatus;
@@ -116,7 +109,6 @@ const AudioRecorder = React.createClass({
 
     this.recorder.toggleRecord((err, stopped) => {
       if (err) {
-        console.log('ERRROR');
         this.setState({
           error: err.message
         });
