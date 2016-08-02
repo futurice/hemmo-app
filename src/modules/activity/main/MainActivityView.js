@@ -14,6 +14,7 @@ import {
   View
 } from 'react-native';
 
+var graphics = require('../../../components/graphics.js');
 var styles = require('./mainStyles.js');
 var activities = require('../activities.js');
 var activityWidth;
@@ -37,7 +38,7 @@ const MainActivityView = React.createClass({
 
   componentWillMount() {
     this.emptySelections();
-    activityWidth = Dimensions.get('window').width / 3 - 20;
+    activityWidth = Dimensions.get('window').width / 4;
   },
 
   emptySelections() {
@@ -64,7 +65,7 @@ const MainActivityView = React.createClass({
     if (this.state.showBubble === true) {
       return (<SpeechBubbleView
         text={text}
-        bubbleType={require('../../../../assets/graphics/puhekupla_norm.png')}
+        bubbleType={require('../../../../assets/graphics/bubbles/puhekupla_vasen.png')}
         hideBubble={this.hideBubble}
         style={{x: 15, y: 140}}
         maIndex={index}/>);
@@ -81,26 +82,25 @@ const MainActivityView = React.createClass({
   render() {
 
     const activityViews = activities.map((activity) => (
-      <View key={activity.get('key')} style={styles.activity}>
+      <Image source={graphics.get('nelio')} key={activity.get('key')} style={[styles.activity, {width: null, height: null}]}>
         <TouchableHighlight
           style={styles.highlight}
           onPress={this.openSubActivities.bind(this, activity)}>
             <Image
-              resizeMode={'contain'}
               style={[styles.activityImage, {width: activityWidth}]}
               source={activity.get('imageRoute')}/>
         </TouchableHighlight>
-      </View>
+      </Image>
     ));
 
-    if (this.state.showSubActivities === true)
-    {
+    if (this.state.showSubActivities === true) {
       var subActivities = (
         <SubActivityView
           chosenMainActivity={this.state.chosenMainActivity}
           dispatch={this.props.dispatch}
           closeSubActivities={this.closeSubActivities}
-          activityIndex={this.props.activityIndex}/>);
+          activityIndex={this.props.activityIndex}/>
+        );
 
       speechBubble = this.renderBubble('subActivity', this.state.chosenMainActivity.get('id'));
     }
@@ -109,7 +109,7 @@ const MainActivityView = React.createClass({
     }
 
     return (
-      <View style={styles.container}>
+      <Image source={graphics.get('tausta_perus2')} style={styles.container}>
         <View style={styles.row}>
           {activityViews[0]}
           {activityViews[1]}
@@ -119,7 +119,7 @@ const MainActivityView = React.createClass({
         <View style={styles.row}>
           {activityViews[3]}
           <View style={styles.hemmo}>
-            <Hemmo x={40} y={0}/>
+            <Image source={graphics.get('hemmo_pieni')} style={{width: 120, height: 150}}/>
             <Text onPress={this.other} style={styles.text}>Muuta</Text>
           </View>
           {activityViews[4]}
@@ -127,7 +127,7 @@ const MainActivityView = React.createClass({
 
         {subActivities}
         {speechBubble}
-      </View>
+      </Image>
     );
   }
 });

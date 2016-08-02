@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 
 var styles = require('./styles.js');
+var graphics = require('../../components/graphics.js');
 
 const HomeView = React.createClass({
 
@@ -79,7 +80,7 @@ const HomeView = React.createClass({
         }
         else {
           userIcons.push(
-            <Image source={require('../../../assets/graphics/1/kehys.png')} key={i} style={styles.userRow}>
+            <Image source={graphics.get('kehys_iso')} key={i} style={styles.userRow}>
               <TouchableHighlight
                 onPress={this.startJourney.bind(this, i)}>
                 <Image style={styles.icon} source={{uri: this.props.users.get(i).get('image')}}/>
@@ -103,8 +104,8 @@ const HomeView = React.createClass({
           <SpeechBubbleView
             text={'userIsKnown'}
             hideBubble={this.hideBubble}
-            bubbleType={require('../../../assets/graphics/puhekupla_norm.png')}
-            style={{top: 20, left: 280, height: 260, width: 300, margin: 60}}/>
+            bubbleType={graphics.get('puhekupla_vasen2')}
+            style={{top: 40, left: 280, height: 250, width: 285, margin: 20, marginTop: 20}}/>
           );
       }
       else {
@@ -114,7 +115,7 @@ const HomeView = React.createClass({
 
     else {
       userIcons.push(
-        <Image source={require('../../../assets/graphics/1/kehys.png')} key={0} style={styles.userRow}>
+        <Image source={graphics.get('kehys_iso')} key={0} style={styles.userRow}>
           <Image source={require('../../../assets/default-icon.png')} style={styles.icon}/>
           <View>
             <Text style={styles.name}> Nimi </Text>
@@ -126,7 +127,7 @@ const HomeView = React.createClass({
       speechBubble = (
         <SpeechBubble
           text={'userIsUnknown'}
-          bubbleType={require('../../../assets/graphics/1/puhekupla_aset.png')}
+          bubbleType={graphics.get('puhekupla_aset')}
           style={{top: 20, left: 230, height: 200, width: 355, margin: 40}}/>
       );
     }
@@ -139,12 +140,12 @@ const HomeView = React.createClass({
     }
 
     return (
-      <Image source={require('../../../assets/graphics/1/tausta_hemmolla.png')} style={styles.container}>
+      <Image source={graphics.get('tausta_hemmolla')} style={styles.container}>
         <View style={styles.leftcolumn}>
           <View style={styles.settingsButton}>
             <TouchableHighlight onPress={this.openPasswordModal}>
               <Image
-                source={require('../../../assets/graphics/1/asetukset.png')}
+                source={graphics.get('nappula_aset')}
                 style={{height: 40, width: 40}}/>
             </TouchableHighlight>
           </View>

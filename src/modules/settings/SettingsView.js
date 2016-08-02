@@ -18,6 +18,7 @@ import {
 
 var styles = require('./styles.js');
 var options = require('./image-picker-options');
+var graphics = require('../../components/graphics.js');
 var ImagePicker = NativeModules.ImagePickerManager;
 var removeButton;
 var texts;
@@ -133,7 +134,7 @@ const SettingsView = React.createClass({
     var tabs = tabTexts.map((user, index) => (
       <TouchableOpacity key={index} onPress={this.handleClick.bind(this, user, index)}>
         <Image
-          source={require('../../../assets/graphics/2/valilehti_tyhja.png')}
+          source={graphics.get('valilehti_tyhja')}
           onPress={this.handleClick.bind(this, user, index)}
           style={styles.tab}>
           <Text style={styles.tabText}>
@@ -144,10 +145,10 @@ const SettingsView = React.createClass({
     ));
 
     return (
-      <Image source={require('../../../assets/graphics/1/tausta.png')} style={styles.container}>
+      <Image source={graphics.get('tausta_perus')} style={styles.container}>
         <View style={styles.titleBar}>
           <TouchableOpacity onPress={this.cancel} style={styles.titleBarSection}>
-            <Image source={require('../../../assets/graphics/2/takaisin.png')} onPress={this.cancel} style={styles.backButton}/>
+            <Image source={graphics.get('nappula_takaisin')} onPress={this.cancel} style={styles.backButton}/>
           </TouchableOpacity>
 
           <View style={styles.titleBarSection}>
@@ -155,7 +156,7 @@ const SettingsView = React.createClass({
             <Text> Asetukset </Text>
           </View>
         </View>
-        <Image source={require('../../../assets/graphics/2/pohja_asetukset.png')} style={styles.form}>
+        <Image source={graphics.get('tausta_asetukset')} style={styles.form}>
           <View style={styles.leftColumn}>
             <View style={styles.inputField}>
               <Text style={styles.label}>
@@ -176,7 +177,7 @@ const SettingsView = React.createClass({
 
              <TouchableOpacity onPress={this.openImageGallery}>
                <Image
-                 source={require('../../../assets/graphics/2/nappula_uusikuva.png')}
+                 source={graphics.get('nappula_uusikuva')}
                  style={{marginLeft: 10, width: 145, height: 55}}/>
              </TouchableOpacity>
 
@@ -188,7 +189,7 @@ const SettingsView = React.createClass({
               <View style={styles.buttonfield}>
                 <TouchableOpacity onPress={this.saveUser}>
                   <Image
-                    source={require('../../../assets/graphics/2/nappula_tallenna.png')}
+                    source={graphics.get('nappula_tallenna')}
                     style={{width: 145, height: 35}}/>
                 </TouchableOpacity>
                 <View style={styles.bottomRow}>

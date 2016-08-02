@@ -43,7 +43,7 @@ const ThumbVote = React.createClass({
         <SpeechBubbleView
         text={text}
         hideBubble={this.hideBubble}
-        bubbleType={require('../../../../assets/graphics/puhekupla_norm.png')}
+        bubbleType={require('../../../../assets/graphics/bubbles/puhekupla_vasen.png')}
         style={{x: 15, y: 320}}
         maIndex={i}
         saIndex={j}/>

@@ -55,7 +55,7 @@ const Record = React.createClass({
       return (
         <SpeechBubbleView
         text={text}
-        bubbleType={require('../../../../assets/graphics/puhekupla_norm.png')}
+        bubbleType={require('../../../../assets/graphics/bubbles/puhekupla_vasen.png')}
         hideBubble={this.hideBubble}
         style={{x, y}}/>
       );

@@ -32,7 +32,7 @@ const NewRound = React.createClass({
     var speechBubble = (
       <SpeechBubble
       text={"newRound"}
-      bubbleType={require('../../assets/graphics/puhekupla_norm.png')}
+      bubbleType={require('../../assets/graphics/bubbles/puhekupla_vasen.png')}
       style={{x: 10, y: 100}}/>
     );
 

@@ -46,8 +46,17 @@ const SpeechBubble = React.createClass({
 
     return (
       <View style={[styles.bubble, {top: this.props.style.top, left: this.props.style.left}]}>
-        <Image source={this.props.bubbleType} style={[styles.bubbleText, {height: this.props.style.height, width: this.props.style.width}]}>
-          <Text style={[styles.text, {margin: this.props.style.margin}]}>
+        <Image
+          source={this.props.bubbleType}
+          style={[styles.bubbleText, {
+            height: this.props.style.height,
+            width: this.props.style.width
+          }]}>
+          <Text
+          style={[styles.text, {
+            marginTop: this.props.style.marginTop,
+            margin: this.props.style.margin
+          }]}>
             {bubbleText}
           </Text>
         </Image>
@@ -66,7 +75,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   text: {
-    marginTop: 70,
     fontSize: 17,
     textAlign: 'center'
   }
