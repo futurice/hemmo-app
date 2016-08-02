@@ -6,16 +6,14 @@ import {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    width: null,
+    height: null,
     flexDirection: 'column',
     alignItems: 'center',
     backgroundColor: 'white'
   },
   titleBar: {
-    flexDirection: 'row',
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0
+    flexDirection: 'row'
   },
   titleBarSection: {
     flex: 1,
@@ -25,27 +23,35 @@ const styles = StyleSheet.create({
   },
   tabBar: {
     flexDirection: 'row',
-    backgroundColor: 'rgb(214, 214, 214)',
-    borderWidth: 1,
+    // backgroundColor: 'rgb(214, 214, 214)',
+    // borderWidth: 1,
     position: 'absolute',
-    borderBottomColor: 'white',
-    top: 40,
-    left: 30,
+    // borderBottomColor: 'white',
+    top: 44,
+    left: 5,
     right: 30
   },
   tab: {
-    fontSize: 20,
-    height: 30
+    marginHorizontal: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 118,
+    height: 27
+  },
+  tabText: {
+    width: 90,
+    fontSize: 15
   },
   form: {
-    borderWidth: 1,
+    height: null,
+    width: null,
     flex: 5,
     flexDirection: 'row',
     position: 'absolute',
-    top: 70,
-    left: 10,
+    top: 40,
+    bottom: 40,
     right: 10,
-    bottom: 10
+    left: 10
   },
   leftColumn: {
     flex: 5,
@@ -57,6 +63,7 @@ const styles = StyleSheet.create({
   },
   inputField: {
     flex: 1,
+    paddingTop: 50,
     paddingHorizontal: 10,
     flexDirection: 'row',
     alignItems: 'center'
@@ -138,6 +145,11 @@ const styles = StyleSheet.create({
   removebutton: {
     borderRadius: 10,
     width: 100
+  },
+  backButton: {
+    height: 30,
+    width: 20,
+    marginRight: 10
   }
 });
 

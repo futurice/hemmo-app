@@ -29,7 +29,12 @@ const NewRound = React.createClass({
   },
 
   render() {
-    var speechBubble = <SpeechBubble text={"newRound"} position={{x: 10, y: 100, triangle: 220}}/>;
+    var speechBubble = (
+      <SpeechBubble
+      text={"newRound"}
+      bubbleType={require('../../assets/graphics/puhekupla_norm.png')}
+      style={{x: 10, y: 100}}/>
+    );
 
     return (
       <View style={styles.container}>

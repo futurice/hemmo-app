@@ -1,6 +1,6 @@
 {
-  "userIsUnknown": "Moikka, näyttää siltä etten tiedä kuka olet.\nKäy asetuksissa lisäämässä nimesi ja kuvasi.",
-  "userIsKnown": "Moikka, kiva kun tulit taas juttelemaan\nkanssani. Nyt voit kertoa siitä,\nmillaista sinulla oli viime kerralla tukiperheessä.\nOlen apunasi alusta loppuun,\njoten ei huolta, osaat kyllä!",
+  "userIsUnknown": "Moikka, näyttää siltä etten tiedä kuka olet. Käy asetuksissa lisäämässä nimesi ja kuvasi.",
+  "userIsKnown": "Moikka, kiva kun tulit taas juttelemaan kanssani. Nyt voit kertoa siitä, millaista sinulla oli viime kerralla tukiperheessä. Olen apunasi alusta loppuun, joten ei huolta, osaat kyllä!",
   "mainActivity": "Kertoisitko minulle mikä sinulle jäi erityisesti mieleen\nviime kerrastasi tukiperheessä? Liittyikö se puuhailuun -\nleikkimiseen ja pelaamiseen - ulkoiluun ja retkeilyyn -\nyhdessä vietettyyn aikaan tai lemmikkeihin ja kotieläimiin?\nTai voit myös kertoa minulle jostain ihan muusta asiasta\ntukiperheessä.",
   "subActivity": [
     {"text": "Kerro minulle vielä hieman tarkemmin?\nLeivoitteko tai kokkailitteko, puuhasitteko tai askartelitteko,\nluitko itseksesi, teittekö kotihommia tai rakentelitteko,\nnikkaroitteko tai korjailitte?",

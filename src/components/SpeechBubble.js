@@ -17,33 +17,41 @@ const SpeechBubble = React.createClass({
     text: PropTypes.string.isRequired,
     maIndex: PropTypes.number,
     saIndex: PropTypes.number,
-    position: PropTypes.object.isRequired,
+    bubbleType: PropTypes.number,
+    style: PropTypes.object.isRequired,
     audioTrack: PropTypes.string
   },
 
-  render() {
+  renderBubbleText() {
     //Text of the speech bubble is related to selected main activity.
     //maIndex is the index of the selected main activity.
     if (this.props.maIndex || this.props.maIndex === 0) {
       //Text of the speech bubble is related to selected sub activity.
       //saIndex is the index of the selected sub activity.
       if (this.props.saIndex || this.props.saIndex === 0) {
-        bubbleText = phrases[this.props.text][this.props.maIndex].subTexts[this.props.saIndex].subText;
+        return phrases[this.props.text][this.props.maIndex].subTexts[this.props.saIndex].subText;
       }
       else {
-        bubbleText = phrases[this.props.text][this.props.maIndex].text;
+        return phrases[this.props.text][this.props.maIndex].text;
       }
     }
     else {
-      bubbleText = phrases[this.props.text];
+      return phrases[this.props.text];
     }
+  },
+
+  render() {
+
+    bubbleText = this.renderBubbleText();
 
     return (
-      <View style={[styles.bubble, {top: this.props.position.x, left: this.props.position.y}]}>
-        <Image source={require('../../assets/graphics/1/g113326.png')} style={styles.bubbleText}>
-          <Text style={styles.text}> {bubbleText} </Text>
+      <View style={[styles.bubble, {top: this.props.style.top, left: this.props.style.left}]}>
+        <Image source={this.props.bubbleType} style={[styles.bubbleText, {height: this.props.style.height, width: this.props.style.width}]}>
+          <Text style={[styles.text, {margin: this.props.style.margin}]}>
+            {bubbleText}
+          </Text>
         </Image>
-        <View style={[styles.triangle, {left: this.props.position.triangle}]}/>
+        {/*<View style={[styles.triangle, {left: this.props.position.triangle}]}/>*/}
         <AudioPlayer audioTrack={this.props.audioTrack}/>
       </View>
     );
@@ -55,27 +63,13 @@ const styles = StyleSheet.create({
     position: 'absolute'
   },
   bubbleText: {
-    height: 210,
-    width: 370,
     justifyContent: 'center'
   },
   text: {
-    fontSize: 15,
+    marginTop: 70,
+    fontSize: 17,
     textAlign: 'center'
   }
-  // triangle: {
-  //   position: 'relative',
-  //   width: 0,
-  //   height: 0,
-  //   borderTopColor: 'black',
-  //   borderTopWidth: 26,
-  //   borderLeftColor: 'transparent',
-  //   borderLeftWidth: 13,
-  //   borderRightWidth: 13,
-  //   borderRightColor: 'transparent',
-  //   borderBottomWidth: 13,
-  //   borderBottomColor: 'transparent'
-  //}
 });
 
 export default SpeechBubble;

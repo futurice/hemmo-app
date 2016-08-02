@@ -38,8 +38,9 @@ const EmotionView = React.createClass({
     if (this.state.showBubble === true) {
       return (<SpeechBubbleView
         text={text}
+        bubbleType={require('../../../assets/graphics/puhekupla_norm.png')}
         hideBubble={this.hideBubble}
-        position={{x: 10, y: 150, triangle: 350}}/>);
+        style={{x: 10, y: 150}}/>);
     }
     else {
       return null;

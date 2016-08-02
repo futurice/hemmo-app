@@ -50,13 +50,14 @@ const Record = React.createClass({
     this.props.dispatch(NavigationState.popRoute());
   },
 
-  renderBubble(text, x, y, triangle) {
+  renderBubble(text, x, y) {
     if (this.state.showBubble === true) {
       return (
         <SpeechBubbleView
         text={text}
+        bubbleType={require('../../../../assets/graphics/puhekupla_norm.png')}
         hideBubble={this.hideBubble}
-        position={{x, y, triangle}}/>
+        style={{x, y}}/>
       );
     }
     else {
@@ -137,7 +138,7 @@ const Record = React.createClass({
 
     if (this.props.activityIndex === -1) {
       if (this.state.generalFeedbackView === false) {
-        speechBubble = this.renderBubble('emotionFeedback', 40, 180, 260);
+        speechBubble = this.renderBubble('emotionFeedback', 40, 180);
         var titlePanel = (
           <View style={styles.headerWithoutTitles}>
             <Icon onPress={this.cancel} size={30} name={'angle-left'}/>
@@ -145,7 +146,7 @@ const Record = React.createClass({
         );
       }
       else {
-        speechBubble = this.renderBubble('generalFeedback', 20, 260, 180);
+        speechBubble = this.renderBubble('generalFeedback', 20, 260);
       }
     }
     else {
@@ -155,7 +156,7 @@ const Record = React.createClass({
         savedActivities={this.props.savedActivities}
         dispatch={this.props.dispatch}/>
       );
-      speechBubble = this.renderBubble('record', 10, 150, 330);
+      speechBubble = this.renderBubble('record', 10, 150);
     }
 
     var actionPanel = this.renderRecordPanel();

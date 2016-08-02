@@ -131,40 +131,31 @@ const SettingsView = React.createClass({
     }
     var tabTexts = this.getUserNames();
     var tabs = tabTexts.map((user, index) => (
-      <TouchableOpacity
-        key={index}
-        onPress={this.handleClick.bind(this, user, index)}
-        style={{marginHorizontal: 5, alignItems: 'center'}}>
-        <Text style={styles.tab}>
-          {user}
-        </Text>
+      <TouchableOpacity key={index} onPress={this.handleClick.bind(this, user, index)}>
+        <Image
+          source={require('../../../assets/graphics/2/valilehti_tyhja.png')}
+          onPress={this.handleClick.bind(this, user, index)}
+          style={styles.tab}>
+          <Text style={styles.tabText}>
+            {user}
+          </Text>
+        </Image>
       </TouchableOpacity>
     ));
 
     return (
-      <View style={styles.container}>
+      <Image source={require('../../../assets/graphics/1/tausta.png')} style={styles.container}>
         <View style={styles.titleBar}>
           <TouchableOpacity onPress={this.cancel} style={styles.titleBarSection}>
-            <View style={styles.titleBarSection}>
-              <Icon onPress={this.cancel} size={30} name={'angle-left'} style={{marginRight: 10}}/>
-              <Text>Takaisin</Text>
-            </View>
+            <Image source={require('../../../assets/graphics/2/takaisin.png')} onPress={this.cancel} style={styles.backButton}/>
           </TouchableOpacity>
 
           <View style={styles.titleBarSection}>
             <Icon size={30} name={'cog'}/>
             <Text> Asetukset </Text>
           </View>
-
-          <View style={styles.titleBarSection}>
-            <Icon size={30} name={'volume-off'}/>
-          </View>
         </View>
-
-        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={styles.tabBar}>
-          {tabs}
-        </ScrollView>
-        <View style={styles.form}>
+        <Image source={require('../../../assets/graphics/2/pohja_asetukset.png')} style={styles.form}>
           <View style={styles.leftColumn}>
             <View style={styles.inputField}>
               <Text style={styles.label}>
@@ -182,18 +173,24 @@ const SettingsView = React.createClass({
              <Image
                style={styles.icon}
                source={{uri: this.props.currentUser.get('image')}}/>
-             <Button
-               style={styles.changeImageButton} highlightStyle={styles.changeImageHighlight}
-               onPress={this.openImageGallery} text={'Ota uusi kuva'} icon={'camera'}/>
+
+             <TouchableOpacity onPress={this.openImageGallery}>
+               <Image
+                 source={require('../../../assets/graphics/2/nappula_uusikuva.png')}
+                 style={{marginLeft: 10, width: 145, height: 55}}/>
+             </TouchableOpacity>
+
             </View>
           </View>
 
           <View style={styles.rightColumn}>
             <View style={styles.rightColumn}>
               <View style={styles.buttonfield}>
-                <Button
-                  style={styles.savebutton} highlightStyle={styles.save_touchable}
-                  onPress={this.saveUser} text={'Tallenna'} icon={''}/>
+                <TouchableOpacity onPress={this.saveUser}>
+                  <Image
+                    source={require('../../../assets/graphics/2/nappula_tallenna.png')}
+                    style={{width: 145, height: 35}}/>
+                </TouchableOpacity>
                 <View style={styles.bottomRow}>
                   <Button
                     style={styles.cancelbutton} highlightStyle={styles.buttonHighlight}
@@ -203,8 +200,11 @@ const SettingsView = React.createClass({
               </View>
             </View>
           </View>
-        </View>
-      </View>
+        </Image>
+        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={styles.tabBar}>
+          {tabs}
+        </ScrollView>
+      </Image>
     );
   }
 });

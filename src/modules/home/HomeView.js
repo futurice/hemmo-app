@@ -3,8 +3,8 @@ import * as UserState from '../../modules/user/UserState';
 import React, {PropTypes} from 'react';
 import {List, Map} from 'immutable';
 import SpeechBubble from '../../components/SpeechBubble';
+import SpeechBubbleView from '../../components/SpeechBubbleView';
 import PasswordModal from '../../components/PasswordModal';
-import Icon from 'react-native-vector-icons/FontAwesome';
 
 import {
   TouchableHighlight,
@@ -14,7 +14,6 @@ import {
 } from 'react-native';
 
 var styles = require('./styles.js');
-var bubbleText;
 
 const HomeView = React.createClass({
 
@@ -26,7 +25,8 @@ const HomeView = React.createClass({
 
   getInitialState() {
     return {
-      isPasswordModalOpen: false
+      isPasswordModalOpen: false,
+      showBubble: true
     };
   },
 
@@ -41,93 +41,119 @@ const HomeView = React.createClass({
     this.props.dispatch(NavigationState.pushRoute({key: 'Activity', allowReturn: true}));
   },
 
-  viewUserProfile(userIndex) {
-    this.props.dispatch(UserState.setCurrentUser(userIndex));
-    this.props.dispatch(NavigationState.pushRoute({key: 'Settings', allowReturn: true}));
-  },
-
-  openModal() {
+  openPasswordModal() {
     this.setState({isPasswordModalOpen: true});
   },
 
-  closeModal() {
+  closePasswordModal() {
     this.setState({isPasswordModalOpen: false});
+  },
+
+  hideBubble() {
+    this.setState({showBubble: false});
   },
 
   // TODO: Clean up. Too much repetition atm.
   render() {
-    var userIcons;
+    var userIcons = [];
 
     if (this.props.users.size > 0) {
-      if (this.props.users.size > 4) {
-        userIcons = this.props.users.map((user, index) => (
-          <View key={index} style={styles.userRowWithoutImage}>
-            <View style={styles.nameLabel}>
-              <TouchableHighlight
-                onPress={this.startJourney.bind(this, index)}>
-                <Text style={styles.name}> {user.get('name')} </Text>
-              </TouchableHighlight>
+      for (var i = 0; i < this.props.users.size; i++) {
+
+        var name = <Text style={styles.name}> {this.props.users.get(i).get('name')} </Text>;
+
+        /* If app has more than 4 children in it, only names of the children are displayed */
+        if (this.props.users.size > 4) {
+          userIcons.push(
+            <View key={i} style={styles.userRowWithoutImage}>
+              <View>
+                <TouchableHighlight
+                  onPress={this.startJourney.bind(this, i)}>
+                  {name}
+                </TouchableHighlight>
+              </View>
             </View>
-          </View>
-        ));
+          );
+
+          var rightcolumn = <View style={styles.rightcolumn}>{userIcons}</View>;
+        }
+        else {
+          userIcons.push(
+            <Image source={require('../../../assets/graphics/1/kehys.png')} key={i} style={styles.userRow}>
+              <TouchableHighlight
+                onPress={this.startJourney.bind(this, i)}>
+                <Image style={styles.icon} source={{uri: this.props.users.get(i).get('image')}}/>
+              </TouchableHighlight>
+              <View>
+                {name}
+              </View>
+            </Image>
+          );
+
+          rightcolumn = (
+            <View style={[styles.rightcolumn, {flexDirection: 'column', flexWrap: 'wrap'}]}>
+              {userIcons}
+            </View>
+          );
+        }
+      }
+
+      if (this.state.showBubble === true) {
+        var speechBubble = (
+          <SpeechBubbleView
+            text={'userIsKnown'}
+            hideBubble={this.hideBubble}
+            bubbleType={require('../../../assets/graphics/puhekupla_norm.png')}
+            style={{top: 20, left: 280, height: 260, width: 300, margin: 60}}/>
+          );
       }
       else {
-        userIcons = this.props.users.map((user, index) => (
-          <View key={index} style={styles.userRow}>
-            <View>
-              <TouchableHighlight
-                onPress={this.startJourney.bind(this, index)}>
-                <Image style={styles.icon} source={{uri: user.get('image')}}/>
-              </TouchableHighlight>
-            </View>
-            <View style={styles.nameLabel}>
-              <Text style={styles.name}> {user.get('name')} </Text>
-            </View>
-          </View>
-        ));
+        speechBubble = null;
       }
-      bubbleText = 'userIsKnown';
-    }
-    else {
-      userIcons = (
-        <View style={styles.emptyRow}>
-          <Image style={styles.icon} source={require('../../../assets/default-icon.png')}/>
-          <View style={styles.nameLabel}>
-            <Text style={styles.name}> Nimi </Text>
-          </View>
-        </View>);
-      bubbleText = 'userIsUnknown';
     }
 
-    var speechBubble = (<SpeechBubble
-      text={bubbleText}
-      audioTrack={'longer'}
-      position={{x: 20, y: 240, triangle: 140}}/>);
+    else {
+      userIcons.push(
+        <Image source={require('../../../assets/graphics/1/kehys.png')} key={0} style={styles.userRow}>
+          <Image source={require('../../../assets/default-icon.png')} style={styles.icon}/>
+          <View>
+            <Text style={styles.name}> Nimi </Text>
+          </View>
+        </Image>
+      );
+
+      rightcolumn = <View style={[styles.rightcolumn, {flexDirection: 'row'}]}>{userIcons}</View>;
+      speechBubble = (
+        <SpeechBubble
+          text={'userIsUnknown'}
+          bubbleType={require('../../../assets/graphics/1/puhekupla_aset.png')}
+          style={{top: 20, left: 230, height: 200, width: 355, margin: 40}}/>
+      );
+    }
+
     if (this.state.isPasswordModalOpen === true) {
-      var passwordModal = <PasswordModal onClose={this.closeModal} onSuccess={this.openSettings}/>;
+      var passwordModal = <PasswordModal onClose={this.closePasswordModal} onSuccess={this.openSettings}/>;
     }
     else {
       passwordModal = null;
     }
 
     return (
-        <Image source={require('../../../assets/graphics/1/g113321.png')} style={styles.container}>
+      <Image source={require('../../../assets/graphics/1/tausta_hemmolla.png')} style={styles.container}>
         <View style={styles.leftcolumn}>
-
           <View style={styles.settingsButton}>
-            <TouchableHighlight
-              onPress={this.openModal}>
-              <Image source={require('../../../assets/graphics/1/g113322.png')} style={{height: 40, width: 40}}/>
+            <TouchableHighlight onPress={this.openPasswordModal}>
+              <Image
+                source={require('../../../assets/graphics/1/asetukset.png')}
+                style={{height: 40, width: 40}}/>
             </TouchableHighlight>
           </View>
         </View>
 
-        <View style={styles.rightcolumn}>
-          {userIcons}
-        </View>
+        {rightcolumn}
         {speechBubble}
         {passwordModal}
-        </Image>
+      </Image>
     );
   }
 });

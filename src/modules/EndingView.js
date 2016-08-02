@@ -25,7 +25,12 @@ const EndingView = React.createClass({
 
   render() {
 
-    var speechBubble = <SpeechBubble text={"ending"} position={{x: 10, y: 200, triangle: 70}}/>;
+    var speechBubble = (
+      <SpeechBubble
+        text={"ending"}
+        bubbleType={require('../../assets/graphics/puhekupla_norm.png')}
+        style={{x: 10, y: 200}}/>
+    );
 
     return (
       <View style={styles.container}>

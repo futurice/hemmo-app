@@ -64,8 +64,9 @@ const MainActivityView = React.createClass({
     if (this.state.showBubble === true) {
       return (<SpeechBubbleView
         text={text}
+        bubbleType={require('../../../../assets/graphics/puhekupla_norm.png')}
         hideBubble={this.hideBubble}
-        position={{x: 15, y: 140, triangle: 150}}
+        style={{x: 15, y: 140}}
         maIndex={index}/>);
     }
     else {

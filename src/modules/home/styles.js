@@ -1,7 +1,10 @@
 import {
   StyleSheet,
-  Platform
+  Dimensions
 } from 'react-native';
+
+const height = Dimensions.get('window').height / 2 - 20;
+const width = height * 0.8;
 
 const styles = StyleSheet.create({
   container: {
@@ -17,50 +20,30 @@ const styles = StyleSheet.create({
   },
   rightcolumn: {
     flex: 1,
-    flexDirection: 'column',
-    flexWrap: 'wrap'
-    // alignItems: 'center'
+    alignItems: 'center'
   },
   userRow: {
-    borderWidth: 1,
-    width: 120,
-    backgroundColor: '#dedede',
+    height,
+    width,
+    margin: 10,
     alignItems: 'center',
-    margin: 5
+    justifyContent: 'center'
   },
   userRowWithoutImage: {
     flex: 1,
-    width: 200,
-    borderWidth: 1,
+    width: 300,
+    margin: 5,
+    borderWidth: 2,
     justifyContent: 'center',
     backgroundColor: '#dedede',
-    alignItems: 'center',
-    margin: 5
-  },
-  emptyRow: {
-    flexDirection: 'column',
-    width: 150,
-    borderWidth: 1,
     alignItems: 'center'
   },
   icon: {
-    height: 110,
-    width: 120,
-    ...Platform.select({
-      ios: {
-        borderWidth: 4,
-        borderColor: '#dedede'
-      },
-      android: {
-        borderWidth: 10
-      }
-    })
-  },
-  nameLabel: {
-    flexDirection: 'row'
+    height: width - 15,
+    width: width - 15
   },
   name: {
-    fontSize: 20
+    fontSize: 25
   },
   settingsButton: {
     alignItems: 'center',
