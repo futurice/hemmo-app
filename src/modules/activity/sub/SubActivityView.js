@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 import {
   View,
+  Image,
   Dimensions,
   TouchableHighlight,
   Text
@@ -13,6 +14,7 @@ import {
 
 var coordinates = [];
 var styles = require('./subStyles.js');
+var graphics = require('../../../components/graphics.js');
 
 const SubActivityView = React.createClass({
 
@@ -97,7 +99,7 @@ const SubActivityView = React.createClass({
     ));
 
     return (
-      <View style={styles.container}>
+      <Image source={graphics.get('tausta_levea')} style={styles.container}>
         <View style={styles.titleBar}>
           <Text style={styles.title}>{this.props.chosenMainActivity.get('key')}</Text>
         </View>
@@ -105,7 +107,7 @@ const SubActivityView = React.createClass({
           {subActivityViews}
         </View>
         <Icon onPress={this.closeSubActivities} name='times-circle' size={40} style={styles.closeButton}/>
-      </View>
+      </Image>
     );
   }
 });

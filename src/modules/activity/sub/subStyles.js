@@ -5,13 +5,16 @@ import {
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    backgroundColor: 'rgba(233, 233, 233, 0.93)',
-    borderWidth: 2,
-    borderRadius: 20,
     top: 5,
     left: 5,
     right: 5,
     bottom: 5,
+    width: null,
+    height: null,
+
+    // backgroundColor: 'rgba(233, 233, 233, 0.93)',
+    // borderWidth: 2,
+    // borderRadius: 20,
     flexDirection: 'row',
     flexWrap: 'wrap'
   },

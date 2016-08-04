@@ -136,7 +136,8 @@ function currentUserReducer(state = Map(), action, wholeState) {
       return state
       .set('name', wholeState.getIn(['users', action.payload, 'name']))
       .set('image', wholeState.getIn(['users', action.payload, 'image']))
-      .set('id', action.payload);
+      .set('id', action.payload)
+      .set('answers', wholeState.getIn(['users', action.payload, 'answers']));
 
     case ADD_ACTIVITY:
       return state

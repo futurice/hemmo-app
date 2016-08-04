@@ -1,17 +1,17 @@
 {
   "userIsUnknown": "Moikka, näyttää siltä etten tiedä kuka olet. Käy asetuksissa lisäämässä nimesi ja kuvasi.",
   "userIsKnown": "Moikka, kiva kun tulit taas juttelemaan kanssani. Nyt voit kertoa siitä, millaista sinulla oli viime kerralla tukiperheessä. Olen apunasi alusta loppuun, joten ei huolta, osaat kyllä!",
-  "mainActivity": "Kertoisitko minulle mikä sinulle jäi erityisesti mieleen\nviime kerrastasi tukiperheessä? Liittyikö se puuhailuun -\nleikkimiseen ja pelaamiseen - ulkoiluun ja retkeilyyn -\nyhdessä vietettyyn aikaan tai lemmikkeihin ja kotieläimiin?\nTai voit myös kertoa minulle jostain ihan muusta asiasta\ntukiperheessä.",
+  "mainActivity": "Kertoisitko minulle mikä sinulle jäi erityisesti mieleen viime kerrastasi tukiperheessä? Liittyikö se puuhailuun - leikkimiseen ja pelaamiseen - ulkoiluun ja retkeilyyn - yhdessä vietettyyn aikaan tai lemmikkeihin ja kotieläimiin? Tai voit myös kertoa minulle jostain ihan muusta asiasta tukiperheessä.",
   "subActivity": [
-    {"text": "Kerro minulle vielä hieman tarkemmin?\nLeivoitteko tai kokkailitteko, puuhasitteko tai askartelitteko,\nluitko itseksesi, teittekö kotihommia tai rakentelitteko,\nnikkaroitteko tai korjailitte?",
+    {"text": "Kerro minulle vielä hieman tarkemmin? Leivoitteko tai kokkailitteko, puuhasitteko tai askartelitteko, luitko itseksesi, teittekö kotihommia tai rakentelitteko, nikkaroitteko tai korjailitte?",
     "subTexts": [
       {"subText": "Millaista oli leipoa tai kokkailla?"},
       {"subText": "Millaista oli tehdä kotihommia?"},
       {"subText": "Millaista oli piirtää tai askarrella?"},
       {"subText": "Millaista oli lukea?"},
-      {"subText": "Millaista oli rakennella, nikkaroida\ntai korjailla?"}
+      {"subText": "Millaista oli rakennella, nikkaroida tai korjailla?"}
       ]},
-    {"text": "Kerro minulle vielä hieman tarkemmin?\nUlkoilitteko, paistoitteko makkaraa, retkeilittekö, teittekö pihahommia, kävittekö leikkipuistossa, kalastitteko\ntai mökkeilittekö?",
+    {"text": "Kerro minulle vielä hieman tarkemmin? Ulkoilitteko, paistoitteko makkaraa, retkeilittekö, teittekö pihahommia, kävittekö leikkipuistossa, kalastitteko tai mökkeilittekö?",
       "subTexts": [
         {"subText": "Millaista oli ulkoilla?"},
         {"subText": "Millaista oli paistaa makkaraa?"},
@@ -21,7 +21,7 @@
         {"subText": "Millaista oli kalastaa?"},
         {"subText": "Millaista oli mökkeillä?"}
         ]},
-    {"text": "Kerro minulle vielä hieman tarkemmin?\nLeikittekö, pelasitteko lautapelejä, pelasitteko videopelejä, liikuitteko tai uitteko?",
+    {"text": "Kerro minulle vielä hieman tarkemmin? Leikittekö, pelasitteko lautapelejä, pelasitteko videopelejä, liikuitteko tai uitteko?",
       "subTexts": [
         {"subText": "Millaista oli leikkiä?"},
         {"subText": "Millaista oli pelata lautapelejä?"},
@@ -29,7 +29,7 @@
         {"subText": "Millaista oli liikkua?"},
         {"subText": "Millaista oli uida?"}
         ]},
-    {"text": "Kerro minulle vielä hieman tarkemmin?\nSaunoitteko, juttelitteko, kyläilittekö, katselitteko elokuvaa tai\nluitteko yhdessä?",
+    {"text": "Kerro minulle vielä hieman tarkemmin? Saunoitteko, juttelitteko, kyläilittekö, katselitteko elokuvaa tai luitteko yhdessä?",
       "subTexts": [
         {"subText": "Millaista oli saunoa?"},
         {"subText": "Millaista oli jutella?"},
@@ -37,7 +37,7 @@
         {"subText": "Millaista oli katsella elokuvia?"},
         {"subText": "Millaista oli lukea yhdessä?"}
         ]},
-    {"text": "Kerro minulle vielä hieman tarkemmin?\nKoira, kissa, hevonen vai muita eläimiä?",
+    {"text": "Kerro minulle vielä hieman tarkemmin? Koira, kissa, hevonen vai muita eläimiä?",
       "subTexts": [
         {"subText": "Millaista oli hoitaa koiraa?"},
         {"subText": "Millaista oli hoitaa kissaa?"},
@@ -45,12 +45,12 @@
         {"subText": "Millaista oli hoitaa muita eläimiä?"}
         ]}
   ],
-  "record": "Kertoisitko minulle vielä mikä siitä erityisesti jäi\nmieleen? Paina pyöreää punaista nappia niin\naloitetaan tallennus. Kun olet valmis, paina samalta paikalta\nmustaa nappia.",
-  "newRound": "Tahdotko kertoa vielä jostain muustakin, mitä teitte?\nVai siirtyä eteenpäin?",
-  "emotions": "Millainen olo sinulle jäi koko viime kerrastasi tukiperheessä?\nValitse näistä omaa oloasi vastaavia kuvia,\ntai kerro minulle puhumalla tai kirjoittamalla.",
+  "record": "Kertoisitko minulle vielä mikä siitä erityisesti jäi mieleen? Paina pyöreää punaista nappia niin aloitetaan tallennus. Kun olet valmis, paina samalta paikalta mustaa nappia.",
+  "newRound": "Tahdotko kertoa vielä jostain muustakin, mitä teitte? Vai siirtyä eteenpäin?",
+  "emotions": "Millainen olo sinulle jäi koko viime kerrastasi tukiperheessä? Valitse näistä omaa oloasi vastaavia kuvia, tai kerro minulle puhumalla tai kirjoittamalla.",
   "emotionFeedback": "Kerro tarkemmin miksi sinusta tuntui siltä?",
-  "generalFeedback": "Haluaisitko vielä lopuksi kertoa\nminulle jotain muuta?",
-  "ending": "Kiitos että kerroit minulle.\nMinusta on kiva kuulla mitä sanottavaa sinulla on,\nkerrothan kuulumisesi taas seuraavan\nkerran jälkeen.",
+  "generalFeedback": "Haluaisitko vielä lopuksi kertoa minulle jotain muuta?",
+  "ending": "Kiitos että kerroit minulle. Minusta on kiva kuulla mitä sanottavaa sinulla on, kerrothan kuulumisesi taas seuraavan kerran jälkeen.",
   "saved": "Tallennettu",
   "deliveredBy": "Mitä olet Hemmolle kertonut, sen kuuntelee Pelastakaa Lasten työntekijä"
 }

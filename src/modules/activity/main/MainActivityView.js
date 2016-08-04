@@ -4,7 +4,6 @@ import * as UserState from '../../../modules/user/UserState';
 import * as NavigationState from '../../../modules/navigation/NavigationState';
 import SubActivityView from '../sub/SubActivityView';
 import SpeechBubbleView from '../../../components/SpeechBubbleView';
-import Hemmo from '../../../components/Hemmo';
 
 import {
   Image,
@@ -65,9 +64,9 @@ const MainActivityView = React.createClass({
     if (this.state.showBubble === true) {
       return (<SpeechBubbleView
         text={text}
-        bubbleType={require('../../../../assets/graphics/bubbles/puhekupla_vasen.png')}
+        bubbleType={require('../../../../assets/graphics/bubbles/puhekupla_vasen2.png')}
         hideBubble={this.hideBubble}
-        style={{x: 15, y: 140}}
+        style={{top: 60, left: 320, height: 210, width: 240, margin: 15, fontSize: 12}}
         maIndex={index}/>);
     }
     else {

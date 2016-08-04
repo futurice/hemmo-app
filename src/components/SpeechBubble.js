@@ -55,7 +55,8 @@ const SpeechBubble = React.createClass({
           <Text
           style={[styles.text, {
             marginTop: this.props.style.marginTop,
-            margin: this.props.style.margin
+            margin: this.props.style.margin,
+            fontSize: this.props.style.fontSize
           }]}>
             {bubbleText}
           </Text>
@@ -75,7 +76,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   text: {
-    fontSize: 17,
     textAlign: 'center'
   }
 });
