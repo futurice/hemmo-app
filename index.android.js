@@ -11,7 +11,7 @@ const PepperoniAppTemplate = React.createClass({
 
   componentWillMount() {
     BackAndroid.addEventListener('hardwareBackPress', this.navigateBack);
-    setConfiguration('URL_ROOT', 'http://localhost:3000');
+    setConfiguration('API_ROOT', 'http://localhost:3001');
   },
 
   navigateBack() {

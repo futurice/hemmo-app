@@ -9,6 +9,7 @@ import {
   Image,
   Dimensions,
   TouchableHighlight,
+  TouchableOpacity,
   Text
 } from 'react-native';
 
@@ -82,18 +83,17 @@ const SubActivityView = React.createClass({
           width: coordinates[index].width,
           height: coordinates[index].height}]}>
           <TouchableHighlight
-            style={{borderRadius: coordinates[index].height / 2}}
             onPress={this.chooseActivity.bind(this, subActivity, index)}>
-            <View
+            <Image
+              source={graphics.get('ympyra_keski')}
               key={subActivity}
               style={[styles.activityCircle, {
                 height: coordinates[index].height * 0.7,
-                width: coordinates[index].height * 0.7,
-                borderRadius: coordinates[index].height / 2}]}>
+                width: coordinates[index].height * 0.7}]}>
                   <Text style={styles.activityFont}>
                     {subActivity}
                   </Text>
-            </View>
+            </Image>
           </TouchableHighlight>
       </View>
     ));
@@ -106,7 +106,12 @@ const SubActivityView = React.createClass({
         <View style={styles.activityBar}>
           {subActivityViews}
         </View>
-        <Icon onPress={this.closeSubActivities} name='times-circle' size={40} style={styles.closeButton}/>
+        <TouchableOpacity onPress={this.closeSubActivities} style={styles.closeButton}>
+          <Image
+            source={graphics.get('nappula_rasti')}
+            onPress={this.closeSubActivities}
+            style={styles.closeButton}/>
+        </TouchableOpacity>
       </Image>
     );
   }

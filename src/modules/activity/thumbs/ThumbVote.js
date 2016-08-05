@@ -1,6 +1,5 @@
 import React, {PropTypes} from 'react';
 import {List} from 'immutable';
-import Hemmo from '../../../components/Hemmo';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import TitlePanel from '../../../components/TitlePanel';
 import * as UserState from '../../../modules/user/UserState';
@@ -8,9 +7,11 @@ import * as NavigationState from '../../../modules/navigation/NavigationState';
 import SpeechBubbleView from '../../../components/SpeechBubbleView';
 
 import {
-  View
+  View,
+  Image
 } from 'react-native';
 
+var graphics = require('../../../components/graphics.js');
 var styles = require('./styles.js');
 
 //TODO: Separate rendering to smaller components.
@@ -43,8 +44,8 @@ const ThumbVote = React.createClass({
         <SpeechBubbleView
         text={text}
         hideBubble={this.hideBubble}
-        bubbleType={require('../../../../assets/graphics/bubbles/puhekupla_vasen.png')}
-        style={{x: 15, y: 320}}
+        bubbleType={graphics.get('puhekupla_oikea')}
+        style={{top: 150, left: 220, height: 110, width: 180, margin: 15, fontSize: 12}}
         maIndex={i}
         saIndex={j}/>
       );
@@ -94,18 +95,16 @@ const ThumbVote = React.createClass({
     var speechBubble = this.renderBubble('subActivity', i, j);
 
     return (
-      <View style={styles.container}>
-        <View style={styles.leftColumn}>
+      <Image source={graphics.get('tausta_perus2')} style={styles.container}>
+        <Image source={graphics.get('tausta_kapea')} style={styles.leftColumn}>
           {titlePanel}
           {actionPanel}
-        </View>
+        </Image>
         <View style={styles.rightColumn}>
-          <View style={styles.hemmoRow}>
-            <Hemmo x={40} y={100}/>
-          </View>
+          <Image source={graphics.get('hemmo_keski')} style={{height: 180, width: 140}}/>
         </View>
         {speechBubble}
-      </View>
+      </Image>
     );
   }
 });

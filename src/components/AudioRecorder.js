@@ -1,6 +1,8 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import {
   View,
+  Image,
+  TouchableOpacity,
   StyleSheet
 } from 'react-native';
 import Button from './Button';
@@ -13,9 +15,15 @@ import {
 
 let filename = 'test.mp4';
 var TimerMixin = require('react-timer-mixin');
+var graphics = require('./graphics.js');
 
 const AudioRecorder = React.createClass({
+  propTypes: {
+    save: PropTypes.func.isRequired
+  },
+
   mixins: [TimerMixin],
+
   getInitialState() {
     return {
       recordButton: 'Preparing...',
@@ -112,27 +120,34 @@ const AudioRecorder = React.createClass({
         this.setState({
           error: err.message
         });
+        this._updateState();
       }
       if (stopped) {
-        this._reloadPlayer();
+        this.props.save('file');
+        // this._reloadPlayer();
       }
-      this._updateState();
+      else {
+        this._updateState();
+      }
     });
   },
 
   renderRecordButton() {
     if (this.state.recordButton === 'Record') {
-      var containerStyle = styles.containerStyleCircle;
-      var highlight = styles.highlightCircle;
+      return (
+        <TouchableOpacity onPress={() => this._toggleRecord()} style={styles.highlightCircle}>
+          <Image source={graphics.get('nappula_rec')} style={styles.containerStyleCircle}/>
+        </TouchableOpacity>);
     }
     else if (this.state.recordButton === 'Stop') {
-      containerStyle = styles.containerStyleSquare;
-      highlight = styles.highlightSquare;
+      return (
+        <TouchableOpacity onPress={() => this._toggleRecord()} style={styles.highlightSquare}>
+          <Image source={graphics.get('nappula_stop')} style={styles.containerStyleSquare}/>
+        </TouchableOpacity>);
     }
-
-    return (<Button
-      style={containerStyle} highlightStyle={highlight}
-      onPress={() => this._toggleRecord()} text={''} icon={''}/>);
+    else {
+      return null;
+    }
   },
 
   render() {
@@ -140,11 +155,8 @@ const AudioRecorder = React.createClass({
     var button = this.renderRecordButton();
 
     return (
-
       <View style={styles.recordRow}>
-        <View style={styles.buttonArea}>
-            {button}
-        </View>
+        {button}
         <View style={{flex: 1, marginLeft: 10}}>
           <ProgressBarClassic style={styles.progressBar} valueStyle={'none'} progress={this.state.progress} />
         </View>
@@ -161,38 +173,23 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center'
   },
-  buttonArea: {
-    width: 130,
-    height: 130,
-    borderWidth: 2,
-    borderRadius: 65,
-    backgroundColor: 'rgb(240, 234, 234)',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
   containerStyleSquare: {
-    borderWidth: 1,
-    height: 60,
-    width: 60,
-    backgroundColor: 'black'
+    height: 120,
+    width: 120
   },
   containerStyleCircle: {
-    borderWidth: 1,
-    height: 80,
-    width: 80,
-    borderRadius: 40,
-    backgroundColor: 'red'
+    height: 120,
+    width: 120
   },
   highlightCircle: {
-    borderRadius: 40,
-    height: 80,
-    width: 80,
+    height: 120,
+    width: 120,
     alignItems: 'center',
     justifyContent: 'center'
   },
   highlightSquare: {
-    height: 60,
-    width: 60,
+    height: 120,
+    width: 120,
     alignItems: 'center',
     justifyContent: 'center'
   },

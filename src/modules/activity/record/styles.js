@@ -6,15 +6,22 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     backgroundColor: 'white',
-    flex: 1
+    flex: 1,
+    width: null,
+    height: null
   },
   leftColumn: {
-    flex: 3,
+    margin: 10,
+    height: 320,
+    width: 370,
     flexDirection: 'column'
   },
   rightColumn: {
     flex: 2,
-    flexDirection: 'column'
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    justifyContent: 'center',
+    paddingBottom: 10
   },
   hemmoRow: {
     flex: 3
@@ -30,18 +37,25 @@ const styles = StyleSheet.create({
     margin: 10
   },
   writeButton: {
-    flex: 1,
+    width: 150,
+    height: 30,
+    position: 'absolute',
+    alignItems: 'center',
+    justifyContent: 'center',
+    bottom: 10,
+    right: 20,
     borderWidth: 1,
-    borderRadius: 10,
-    marginHorizontal: 10
+    borderRadius: 10
   },
   writeButtonHighlight: {
-    flex: 2,
+    width: 150,
+    height: 30,
     borderRadius: 10
   },
   skipButton: {
-    flex: 1,
     borderWidth: 1,
+    backgroundColor: 'white',
+    padding: 2,
     borderRadius: 10
   },
   skipButtonHighlight: {

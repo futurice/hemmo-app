@@ -5,6 +5,7 @@ const initialState = Map({
   users: List([
     Map({
       name: 'Hemmo',
+      token: null,
       image: '../../assets/default-icon.png',
       answers: Map({
         activities: List()
@@ -31,6 +32,7 @@ export function createUser(newUser) {
     type: CREATE_USER,
     payload: Map({
       name: newUser.get('name'),
+      token: newUser.get('token'),
       image: newUser.get('image'),
       answers: Map({
         activities: List()})})
@@ -38,12 +40,14 @@ export function createUser(newUser) {
 }
 
 export function editUser(user) {
+  console.log('user token ' + user.get('token'));
   return {
     type: EDIT_USER,
     payload: {
       id: user.get('id'),
       values: Map({
         name: user.get('name'),
+        token: user.get('token'),
         image: user.get('image'),
         answers: Map({
           activities: List()})
@@ -62,7 +66,7 @@ export function removeUser(id) {
 export function resetCurrentUser() {
   return {
     type: RESET_CURRENT_USER,
-    payload: Map({id: null, name: '', image: null, answers: Map({activities: List()})})
+    payload: Map({id: null, token: '', name: '', image: null, answers: Map({activities: List()})})
   };
 }
 
@@ -136,6 +140,7 @@ function currentUserReducer(state = Map(), action, wholeState) {
       return state
       .set('name', wholeState.getIn(['users', action.payload, 'name']))
       .set('image', wholeState.getIn(['users', action.payload, 'image']))
+      .set('token', wholeState.getIn(['users', action.payload, 'token']))
       .set('id', action.payload)
       .set('answers', wholeState.getIn(['users', action.payload, 'answers']));
 

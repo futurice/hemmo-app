@@ -1,15 +1,17 @@
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
-import Hemmo from '../components/Hemmo';
-import Button from '../components/Button';
 import * as NavigationState from '../modules/navigation/NavigationState';
 import * as UserState from '../modules/user/UserState';
 import SpeechBubble from '../components/SpeechBubble';
 
 import {
   StyleSheet,
-  View
+  Image,
+  View,
+  TouchableOpacity
 } from 'react-native';
+
+var graphics = require('../components/graphics.js');
 
 const NewRound = React.createClass({
 
@@ -37,22 +39,22 @@ const NewRound = React.createClass({
     );
 
     return (
-      <View style={styles.container}>
+      <Image source={graphics.get('tausta_perus2')} style={styles.container}>
         <View style={styles.column}>
-          <Button
-            style={styles.button} highlightStyle={styles.buttonHighlight}
-            onPress={this.newRound} text={'Takaisin'} icon={''}/>
+          <TouchableOpacity onPress={this.newRound}>
+            <Image source={graphics.get('nappula_uudestaan')} style={styles.button}/>
+          </TouchableOpacity>
         </View>
         <View style={styles.centercolumn}>
-          <Hemmo x={10} y={80}/>
+          <Image source={graphics.get('hemmo_keski')} style={{height: 180, width: 140}}/>
         </View>
         <View style={styles.column}>
-          <Button
-            style={styles.button} highlightStyle={styles.buttonHighlight}
-            onPress={this.continue} text={'Jatka'} icon={''}/>
+          <TouchableOpacity onPress={this.continue}>
+            <Image source={graphics.get('nappula_seuraava2')} style={styles.button}/>
+          </TouchableOpacity>
         </View>
         {speechBubble}
-      </View>
+      </Image>
     );
   }
 });
@@ -61,7 +63,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    height: null,
+    width: null
   },
   column: {
     flex: 2,
@@ -70,7 +74,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   centercolumn: {
-    flex: 1
+    flex: 1,
+    paddingTop: 20,
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   button: {
     height: 150,

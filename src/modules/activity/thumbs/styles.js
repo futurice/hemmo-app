@@ -6,22 +6,22 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     backgroundColor: 'white',
-    flex: 1
+    flex: 1,
+    width: null,
+    height: null
   },
   leftColumn: {
-    flex: 3,
+    margin: 10,
+    height: 320,
+    width: 370,
     flexDirection: 'column'
   },
   rightColumn: {
-    flex: 2,
-    flexDirection: 'column'
-  },
-  hemmoRow: {
-    flex: 3
+    alignItems: 'center',
+    justifyContent: 'flex-end'
   },
   actionRow: {
     flex: 2,
-    marginLeft: 30,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center'

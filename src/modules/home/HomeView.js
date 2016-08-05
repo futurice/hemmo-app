@@ -1,10 +1,13 @@
-import * as NavigationState from '../../modules/navigation/NavigationState';
-import * as UserState from '../../modules/user/UserState';
+import * as NavigationState from '../navigation/NavigationState';
+import * as UserState from '../user/UserState';
+import * as SessionState from '../session/SessionState';
 import React, {PropTypes} from 'react';
 import {List, Map} from 'immutable';
 import SpeechBubble from '../../components/SpeechBubble';
 import SpeechBubbleView from '../../components/SpeechBubbleView';
 import PasswordModal from '../../components/PasswordModal';
+import {setAuthenticationToken} from '../../utils/authentication';
+import {post} from '../../utils/api';
 
 import {
   TouchableHighlight,
@@ -37,9 +40,16 @@ const HomeView = React.createClass({
   },
 
   startJourney(id) {
-    this.props.dispatch(UserState.setCurrentUser(id));
+    this.props.dispatch(UserState.setCurrentUser(id))
+      .then(setAuthenticationToken(this.props.currentUser.get('token')))
+      .then(this.startSession());
     this.props.dispatch(UserState.addActivity());
     this.props.dispatch(NavigationState.pushRoute({key: 'Activity', allowReturn: true}));
+  },
+
+  startSession() {
+    post('/session/')
+      .then(result => this.props.dispatch(SessionState.setSessionId(result.sessionId)));
   },
 
   openPasswordModal() {

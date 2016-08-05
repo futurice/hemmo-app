@@ -4,6 +4,7 @@ import React, {PropTypes} from 'react';
 import {List, Map} from 'immutable';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Button from '../../components/Button';
+import {post} from '../../utils/api';
 
 import {
   NativeModules,
@@ -50,7 +51,12 @@ const SettingsView = React.createClass({
 
       if (this.props.currentUser.get('id') === null) {
         this.props.dispatch(UserState.setCurrentUserValue('id', newId));
-        this.props.dispatch(UserState.createUser(this.props.currentUser));
+
+        var name = this.props.currentUser.get('name');
+
+        post('/register/', {name})
+          .then(result => this.props.dispatch(UserState.setCurrentUserValue('token', 'Bearer ' + result.token))
+          .then(this.props.dispatch(UserState.createUser(this.props.currentUser))));
       }
       else {
         this.props.dispatch(UserState.editUser(this.props.currentUser));

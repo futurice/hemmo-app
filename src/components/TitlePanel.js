@@ -4,11 +4,13 @@ import * as NavigationState from '../modules/navigation/NavigationState';
 import {
   View,
   Text,
+  Image,
+  TouchableOpacity,
   StyleSheet
 } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
 
 var activities = require('../modules/activity/activities.js');
+var graphics = require('./graphics.js');
 
 const TitlePanel = React.createClass({
 
@@ -33,7 +35,9 @@ const TitlePanel = React.createClass({
     else {
       return (
         <View style={styles.titleRow}>
-          <Icon onPress={this.cancel} size={30} name={'angle-left'} style={{flex: 1, marginLeft: 30}}/>
+          <TouchableOpacity onPress={this.cancel}>
+            <Image source={graphics.get('nappula_takaisin')} style={styles.backButton}/>
+          </TouchableOpacity>
           <View style={styles.titles}>
             <Text style={styles.mainTitle}>{activities[i].get('key')}</Text>
             <Text style={styles.subtitle}>{activities[i].get('subActivities').get(j)}</Text>
@@ -62,6 +66,11 @@ const styles = StyleSheet.create({
   },
   subTitle: {
     fontSize: 10
+  },
+  backButton: {
+    margin: 30,
+    height: 40,
+    width: 25
   }
 });
 

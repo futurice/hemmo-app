@@ -1,17 +1,16 @@
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
-import Hemmo from '../components/Hemmo';
 import * as NavigationState from '../modules/navigation/NavigationState';
 import SpeechBubble from '../components/SpeechBubble';
 
 import {
   StyleSheet,
-  Text,
+  Image,
   TouchableOpacity,
   View
 } from 'react-native';
 
-var phrases = require('../../phrases.json');
+var graphics = require('../components/graphics.js');
 
 const EndingView = React.createClass({
 
@@ -28,22 +27,20 @@ const EndingView = React.createClass({
     var speechBubble = (
       <SpeechBubble
         text={"ending"}
-        bubbleType={require('../../assets/graphics/bubbles/puhekupla_vasen.png')}
-        style={{x: 10, y: 200}}/>
+        bubbleType={graphics.get('puhekupla_oikea')}
+        style={{top: 30, left: 130, height: 160, width: 260, margin: 55, fontSize: 12}}/>
     );
 
     return (
-      <View style={styles.container}>
-        <Hemmo x={230} y={120}/>
+      <Image source={graphics.get('tausta_perus')} style={styles.container}>
+        <Image source={graphics.get('hemmo_keski')} style={styles.hemmo}/>
         <View style={styles.info}>
           <TouchableOpacity onPress={this.startOver}>
-            <Text style={styles.font}>
-              {phrases['deliveredBy']}
-            </Text>
+            <Image source={graphics.get('lopetusteksti')} style={styles.endingText}/>
           </TouchableOpacity>
         </View>
         {speechBubble}
-      </View>
+      </Image>
     );
   }
 });
@@ -51,24 +48,29 @@ const EndingView = React.createClass({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    width: null,
+    height: null
+  },
+  endingText: {
+    height: 140,
+    width: 155
   },
   info: {
     position: 'absolute',
     left: 30,
-    bottom: 30,
-    height: 140,
-    width: 140,
-    borderRadius: 60,
-    borderWidth: 1,
-    padding: 5,
-    backgroundColor: 'green',
-    alignItems: 'center',
-    justifyContent: 'center'
+    bottom: 30
   },
   font: {
     fontSize: 13,
     textAlign: 'center'
+  },
+  hemmo: {
+    height: 250,
+    width: 195,
+    position: 'absolute',
+    bottom: 50,
+    right: 20
   }
 });
 

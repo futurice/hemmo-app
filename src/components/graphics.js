@@ -2,7 +2,7 @@ import {Map} from 'immutable';
 
 var graphics = Map({
   'tausta_perus2': require('../../assets/graphics/backgrounds/tausta_perus2.png'),
-  'tausta_perus': require('../../assets/graphics/backgrounds/tausta_perus2.png'),
+  'tausta_perus': require('../../assets/graphics/backgrounds/tausta_perus.png'),
   'kehys_iso': require('../../assets/graphics/backgrounds/kehys_iso.png'),
   'kehys_keski': require('../../assets/graphics/backgrounds/kehys_keski.png'),
   'kehys_pieni': require('../../assets/graphics/backgrounds/kehys_pieni.png'),

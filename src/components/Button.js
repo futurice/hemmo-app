@@ -20,7 +20,7 @@ const Button = React.createClass({
   render() {
 
     if (this.props.icon !== '') {
-      var icon = <Icon size={30} name={this.props.icon}/>;
+      var icon = <Icon size={25} name={this.props.icon}/>;
     }
 
     return (
@@ -42,7 +42,7 @@ const Button = React.createClass({
 
 const styles = StyleSheet.create({
   button: {
-    padding: 5,
+    // padding: 5,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center'

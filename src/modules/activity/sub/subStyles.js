@@ -37,7 +37,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   activityCircle: {
-    borderWidth: 2,
     justifyContent: 'center',
     backgroundColor: 'white'
   },
@@ -45,10 +44,11 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   closeButton: {
-    color: 'green',
     position: 'absolute',
+    right: 0,
     top: 0,
-    right: 5
+    width: 40,
+    height: 40
   }
 });
 

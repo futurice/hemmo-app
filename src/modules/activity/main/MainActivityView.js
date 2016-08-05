@@ -24,7 +24,8 @@ const MainActivityView = React.createClass({
   propTypes: {
     dispatch: PropTypes.func.isRequired,
     savedActivities: PropTypes.instanceOf(List),
-    activityIndex: PropTypes.number.isRequired
+    activityIndex: PropTypes.number.isRequired,
+    currentUser: PropTypes.instanceOf(Map)
   },
 
   getInitialState() {
