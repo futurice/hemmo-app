@@ -13,10 +13,13 @@ import {
   TouchableHighlight,
   Image,
   Text,
+  Dimensions,
   View
 } from 'react-native';
 
 var styles = require('./styles.js');
+var height;
+var width;
 var graphics = require('../../components/graphics.js');
 
 const HomeView = React.createClass({
@@ -32,6 +35,11 @@ const HomeView = React.createClass({
       isPasswordModalOpen: false,
       showBubble: true
     };
+  },
+
+  componentWillMount() {
+    height = Dimensions.get('window').height / 2 - 30;
+    width = height * 0.8;
   },
 
   openSettings() {
@@ -90,7 +98,7 @@ const HomeView = React.createClass({
         }
         else {
           userIcons.push(
-            <Image source={graphics.get('kehys_iso')} key={i} style={styles.userRow}>
+            <Image source={graphics.get('kehys_iso')} key={i} style={[styles.userRow, {height, width}]}>
               <TouchableHighlight
                 onPress={this.startJourney.bind(this, i)}>
                 <Image style={styles.icon} source={{uri: this.props.users.get(i).get('image')}}/>
@@ -102,7 +110,7 @@ const HomeView = React.createClass({
           );
 
           rightcolumn = (
-            <View style={[styles.rightcolumn, {flexDirection: 'column', flexWrap: 'wrap'}]}>
+            <View style={[styles.rightcolumn, {flexDirection: 'row', flexWrap: 'wrap'}]}>
               {userIcons}
             </View>
           );

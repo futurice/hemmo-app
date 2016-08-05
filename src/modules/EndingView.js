@@ -6,8 +6,7 @@ import SpeechBubble from '../components/SpeechBubble';
 import {
   StyleSheet,
   Image,
-  TouchableOpacity,
-  View
+  TouchableOpacity
 } from 'react-native';
 
 var graphics = require('../components/graphics.js');
@@ -26,19 +25,17 @@ const EndingView = React.createClass({
 
     var speechBubble = (
       <SpeechBubble
-        text={"ending"}
+        text={'ending'}
         bubbleType={graphics.get('puhekupla_oikea')}
-        style={{top: 30, left: 130, height: 160, width: 260, margin: 55, fontSize: 12}}/>
+        style={{top: 30, left: 130, height: 160, width: 260, margin: 45, fontSize: 14}}/>
     );
 
     return (
       <Image source={graphics.get('tausta_perus')} style={styles.container}>
         <Image source={graphics.get('hemmo_keski')} style={styles.hemmo}/>
-        <View style={styles.info}>
-          <TouchableOpacity onPress={this.startOver}>
+          <TouchableOpacity onPress={this.startOver} style={styles.info}>
             <Image source={graphics.get('lopetusteksti')} style={styles.endingText}/>
           </TouchableOpacity>
-        </View>
         {speechBubble}
       </Image>
     );
@@ -48,22 +45,17 @@ const EndingView = React.createClass({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
     width: null,
     height: null
-  },
-  endingText: {
-    height: 140,
-    width: 155
   },
   info: {
     position: 'absolute',
     left: 30,
     bottom: 30
   },
-  font: {
-    fontSize: 13,
-    textAlign: 'center'
+  endingText: {
+    height: 142,
+    width: 155
   },
   hemmo: {
     height: 250,

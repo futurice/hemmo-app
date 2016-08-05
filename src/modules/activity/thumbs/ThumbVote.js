@@ -42,12 +42,12 @@ const ThumbVote = React.createClass({
     if (this.state.showBubble === true) {
       return (
         <SpeechBubbleView
-        text={text}
-        hideBubble={this.hideBubble}
-        bubbleType={graphics.get('puhekupla_oikea')}
-        style={{top: 150, left: 220, height: 110, width: 180, margin: 15, fontSize: 12}}
-        maIndex={i}
-        saIndex={j}/>
+          text={text}
+          hideBubble={this.hideBubble}
+          bubbleType={graphics.get('puhekupla_oikea')}
+          style={{top: 150, left: 220, height: 110, width: 180, margin: 15, fontSize: 12}}
+          maIndex={i}
+          saIndex={j}/>
       );
     }
     else {

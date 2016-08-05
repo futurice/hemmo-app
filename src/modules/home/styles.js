@@ -3,7 +3,7 @@ import {
   Dimensions
 } from 'react-native';
 
-const height = Dimensions.get('window').height / 2 - 20;
+const height = Dimensions.get('window').height / 2 - 30;
 const width = height * 0.8;
 
 const styles = StyleSheet.create({
@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: 300,
     margin: 5,
+    marginRight: 20,
     borderWidth: 2,
     justifyContent: 'center',
     backgroundColor: '#dedede',
@@ -40,7 +41,7 @@ const styles = StyleSheet.create({
   },
   icon: {
     height: width - 15,
-    width: width - 15
+    width: width - 10
   },
   name: {
     fontSize: 25
