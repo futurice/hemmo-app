@@ -1,12 +1,12 @@
 import * as NavigationState from '../navigation/NavigationState';
 import * as UserState from '../user/UserState';
-import * as SessionState from '../session/SessionState';
 import React, {PropTypes} from 'react';
 import {List, Map} from 'immutable';
 import SpeechBubble from '../../components/SpeechBubble';
 import SpeechBubbleView from '../../components/SpeechBubbleView';
 import PasswordModal from '../../components/PasswordModal';
 import {setAuthenticationToken} from '../../utils/authentication';
+import {setSessionId} from '../../utils/session';
 import {post} from '../../utils/api';
 
 import {
@@ -57,7 +57,7 @@ const HomeView = React.createClass({
 
   startSession() {
     post('/session/')
-      .then(result => this.props.dispatch(SessionState.setSessionId(result.sessionId)));
+      .then(result => setSessionId(result.sessionId));
   },
 
   openPasswordModal() {
@@ -101,7 +101,9 @@ const HomeView = React.createClass({
             <Image source={graphics.get('kehys_iso')} key={i} style={[styles.userRow, {height, width}]}>
               <TouchableHighlight
                 onPress={this.startJourney.bind(this, i)}>
-                <Image style={styles.icon} source={{uri: this.props.users.get(i).get('image')}}/>
+                <Image
+                  style={{height: height * 0.7, width: width - 10}}
+                  source={{uri: this.props.users.get(i).get('image')}}/>
               </TouchableHighlight>
               <View>
                 {name}

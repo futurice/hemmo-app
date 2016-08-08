@@ -25,8 +25,8 @@ const TitlePanel = React.createClass({
   },
 
   render() {
-    var i = this.props.savedActivities.get(this.props.activityIndex).get('main');
-    var j = this.props.savedActivities.get(this.props.activityIndex).get('sub');
+    var i = this.props.savedActivities.get(this.props.activityIndex).get('main').get('content');
+    var j = this.props.savedActivities.get(this.props.activityIndex).get('sub').get('content');
 
     if (i === null || j === null) {
       console.log('ei otsikoita');

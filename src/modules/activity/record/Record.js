@@ -7,6 +7,7 @@ import SpeechBubbleView from '../../../components/SpeechBubbleView';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import * as NavigationState from '../../../modules/navigation/NavigationState';
 import * as UserState from '../../../modules/user/UserState';
+import {post} from '../../../utils/api';
 
 import {
   TextInput,
@@ -15,6 +16,7 @@ import {
 } from 'react-native';
 
 var graphics = require('../../../components/graphics.js');
+var activities = require('../activities.js');
 var styles = require('./styles.js');
 
 const Record = React.createClass({
@@ -52,6 +54,61 @@ const Record = React.createClass({
     this.props.dispatch(NavigationState.popRoute());
   },
 
+  setText(e) {
+    this.setState({text: e.nativeEvent.text});
+  },
+
+  saveText() {
+    /* Ei välttämättä tarvitse tallettaa stateen mutta pidetään tämä nyt täällä vielä toistaiseksi :D */
+    if (this.state.text === '') {
+      var answer = 'empty';
+    }
+    else {
+      answer = this.state.text;
+    }
+    var question = 'Kertoisitko siitä lisää?';
+    var type = 'text';
+
+    post('/content/', {contentType: type, answer, question})
+      .then(
+        result => {
+          this.props.dispatch(
+            UserState.saveAnswer(
+              this.props.activityIndex, 'text', answer, result.contentId
+            )
+          );
+          this.moveToNext();
+        }
+      );
+  },
+
+  saveAnswers(type) {
+    console.log('Coming soon! ' + type);
+    this.moveToNext();
+  },
+
+  skip() {
+    this.moveToNext();
+  },
+
+  moveToNext() {
+    if (this.props.activityIndex === -1) {
+      /* QUESTION was 'How did you feel?' */
+      if (this.state.generalFeedbackView === false) {
+        this.setState({enableWriting: false, showBubble: true, progress: 0, generalFeedbackView: true});
+        this.props.dispatch(NavigationState.pushRoute({key: 'Record', allowReturn: false}));
+      }
+      /* QUESTION was 'Do you have anything else you want to tell me?' */
+      else {
+        this.props.dispatch(NavigationState.pushRoute({key: 'End', allowReturn: false}));
+      }
+    }
+    /* QUESTION was 'What did you do during the visit?' */
+    else {
+      this.props.dispatch(NavigationState.pushRoute({key: 'NewRound', allowReturn: false}));
+    }
+  },
+
   renderBubble(text) {
     if (this.state.showBubble === true) {
       return (
@@ -67,51 +124,9 @@ const Record = React.createClass({
     }
   },
 
-  setText(e) {
-    this.setState({text: e.nativeEvent.text});
-  },
-
-  saveText() {
-    /* Ei välttämättä tarvitse tallettaa stateen mutta pidetään tämä nyt täällä vielä toistaiseksi :D */
-    this.props.dispatch(UserState.saveAnswer(this.props.activityIndex, 'text', this.state.text));
-    this.save('text');
-
-    this.moveToNext();
-  },
-
-  save(type) {
-    console.log('lets save this! ' + type);
-    if (type === 'text') {
-      console.log('tallennetaan tekstiä');
-    }
-    else {
-      console.log('Coming soon!');
-    }
-    this.moveToNext();
-  },
-
-  skip() {
-    this.moveToNext();
-  },
-
-  moveToNext() {
-    if (this.props.activityIndex === -1) {
-      if (this.state.generalFeedbackView === false) {
-        this.setState({enableWriting: false, showBubble: true, progress: 0, generalFeedbackView: true});
-        this.props.dispatch(NavigationState.pushRoute({key: 'Record', allowReturn: false}));
-      }
-      else {
-        this.props.dispatch(NavigationState.pushRoute({key: 'End', allowReturn: false}));
-      }
-    }
-    else {
-      this.props.dispatch(NavigationState.pushRoute({key: 'NewRound', allowReturn: false}));
-    }
-  },
-
   renderRecordPanel() {
     return (
-      <AudioRecorder save={this.save}/>
+      <AudioRecorder saveAnswers={this.saveAnswers}/>
     );
   },
 

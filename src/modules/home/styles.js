@@ -1,10 +1,6 @@
 import {
-  StyleSheet,
-  Dimensions
+  StyleSheet
 } from 'react-native';
-
-const height = Dimensions.get('window').height / 2 - 30;
-const width = height * 0.8;
 
 const styles = StyleSheet.create({
   container: {
@@ -23,8 +19,6 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   userRow: {
-    height,
-    width,
     margin: 10,
     alignItems: 'center',
     justifyContent: 'center'
@@ -38,10 +32,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#dedede',
     alignItems: 'center'
-  },
-  icon: {
-    height: width - 15,
-    width: width - 10
   },
   name: {
     fontSize: 25

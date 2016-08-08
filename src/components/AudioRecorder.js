@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
   StyleSheet
 } from 'react-native';
-import Button from './Button';
 import ProgressBarClassic from 'react-native-progress-bar-classic';
 
 import {
@@ -19,7 +18,7 @@ var graphics = require('./graphics.js');
 
 const AudioRecorder = React.createClass({
   propTypes: {
-    save: PropTypes.func.isRequired
+    saveAnswers: PropTypes.func.isRequired
   },
 
   mixins: [TimerMixin],
@@ -123,7 +122,7 @@ const AudioRecorder = React.createClass({
         this._updateState();
       }
       if (stopped) {
-        this.props.save('file');
+        this.props.saveAnswers('file');
         // this._reloadPlayer();
       }
       else {

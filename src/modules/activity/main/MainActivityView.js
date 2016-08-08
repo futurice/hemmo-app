@@ -4,6 +4,7 @@ import * as UserState from '../../../modules/user/UserState';
 import * as NavigationState from '../../../modules/navigation/NavigationState';
 import SubActivityView from '../sub/SubActivityView';
 import SpeechBubbleView from '../../../components/SpeechBubbleView';
+import {post} from '../../../utils/api';
 
 import {
   Image,
@@ -48,8 +49,25 @@ const MainActivityView = React.createClass({
   },
 
   openSubActivities(activity) {
-    this.props.dispatch(UserState.saveAnswer(this.props.activityIndex, 'main', activity.get('id')));
+    this.saveAnswer(activity);
     this.setState({showSubActivities: true, chosenMainActivity: activity, showBubble: true});
+  },
+
+  saveAnswer(activity) {
+    var answer = activity.get('key');
+    var question = 'Mitä teitte';
+    var type = 'text';
+
+    post('/content/', {contentType: type, answer, question})
+      .then(
+        result =>
+          this.props.dispatch(UserState.saveAnswer(
+            this.props.activityIndex,
+            'main',
+            activity.get('id'),
+            result.contentId)
+          )
+      );
   },
 
   closeSubActivities() {

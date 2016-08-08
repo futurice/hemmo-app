@@ -40,7 +40,6 @@ export function createUser(newUser) {
 }
 
 export function editUser(user) {
-  console.log('user token ' + user.get('token'));
   return {
     type: EDIT_USER,
     payload: {
@@ -88,16 +87,16 @@ export function addActivity() {
   return {
     type: ADD_ACTIVITY,
     payload: Map({
-      main: null,
-      sub: null,
-      thumb: null})
+      main: Map(),
+      sub: Map(),
+      thumb: Map()})
   };
 }
 
-export function saveAnswer(index, destination, answers) {
+export function saveAnswer(index, destination, answers, contentId) {
   return {
     type: SAVE_ANSWER,
-    payload: {index, destination, answers}
+    payload: {index, destination, answers, contentId}
   };
 }
 
@@ -155,8 +154,18 @@ function currentUserReducer(state = Map(), action, wholeState) {
       }
       else {
         return state
-          .setIn(['answers', 'activities', action.payload.index, action.payload.destination],
-          action.payload.answers);
+          .setIn([
+            'answers',
+            'activities',
+            action.payload.index,
+            action.payload.destination,
+            'content'], action.payload.answers)
+          .setIn([
+            'answers',
+            'activities',
+            action.payload.index,
+            action.payload.destination,
+            'contentId'], action.payload.contentId);
       }
 
     default:

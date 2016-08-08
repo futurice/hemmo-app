@@ -2,6 +2,7 @@ import Promise from 'bluebird';
 import HttpError from 'standard-http-error';
 import {getConfiguration} from '../utils/configuration';
 import {getAuthenticationToken} from '../utils/authentication';
+import {getSessionId} from '../utils/session';
 
 const EventEmitter = require('event-emitter');
 
@@ -99,8 +100,10 @@ async function sendRequest(method, path, body) {
     const endpoint = url(path);
     console.log('end point = ' + endpoint);
     const token = await getAuthenticationToken();
+    const sessionId = await getSessionId();
+    console.log('sessionId ' + sessionId);
     console.log('token = ' + token);
-    const headers = getRequestHeaders(body, token);
+    const headers = getRequestHeaders(body, token, sessionId);
     console.log('headers = ' + JSON.stringify(headers));
     const options = body
       ? {method, headers, body: JSON.stringify(body)}
@@ -145,13 +148,18 @@ async function handleResponse(path, response) {
   }
 }
 
-function getRequestHeaders(body, token) {
+function getRequestHeaders(body, token, sessionId) {
   const headers = body
     ? {'Accept': 'application/json', 'Content-Type': 'application/json'}
     : {'Accept': 'application/json'};
 
   if (token) {
-    return {...headers, Authorization: token};
+    if (sessionId) {
+      return {...headers, Authorization: token, session: sessionId};
+    }
+    else {
+      return {...headers, Authorization: token};
+    }
   }
 
   return headers;

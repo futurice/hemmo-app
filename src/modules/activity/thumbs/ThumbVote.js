@@ -2,9 +2,10 @@ import React, {PropTypes} from 'react';
 import {List} from 'immutable';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import TitlePanel from '../../../components/TitlePanel';
-import * as UserState from '../../../modules/user/UserState';
+// import * as UserState from '../../../modules/user/UserState';
 import * as NavigationState from '../../../modules/navigation/NavigationState';
 import SpeechBubbleView from '../../../components/SpeechBubbleView';
+import {post} from '../../../utils/api';
 
 import {
   View,
@@ -13,6 +14,11 @@ import {
 
 var graphics = require('../../../components/graphics.js');
 var styles = require('./styles.js');
+var thumb_values = [
+  {value: 1, text: 'like', icon: 'thumbs-up'},
+  {value: 0, text: 'neutral', icon: 'meh-o'},
+  {value: -1, text: 'dislike', icon: 'thumbs-down'}
+];
 
 //TODO: Separate rendering to smaller components.
 const ThumbVote = React.createClass({
@@ -30,8 +36,21 @@ const ThumbVote = React.createClass({
   },
 
   vote(vote) {
-    this.props.dispatch(UserState.saveAnswer(this.props.activityIndex, 'thumb', vote));
-    this.props.dispatch(NavigationState.pushRoute({key: 'Record', allowReturn: true}));
+
+    var answer = thumb_values[vote].text;
+    var question = 'Millaista se oli?';
+    var type = 'like';
+
+    post('/content/', {contentType: type, answer, question})
+      .then(
+        result => {
+          console.log('result was ' + result);
+          this.props.dispatch(
+            NavigationState.pushRoute({key: 'Record', allowReturn: true})
+          );
+
+        }
+      );
   },
 
   hideBubble() {
@@ -57,14 +76,13 @@ const ThumbVote = React.createClass({
 
   renderThumbButtons() {
     var thumbs = [];
-    var icons = [{icon: 'thumbs-up'}, {icon: 'meh-o'}, {icon: 'thumbs-down'}];
 
     for (var i = 0; i <= 2; i++) {
       thumbs.push(
         <View key={i}>
           <Icon
             onPress={this.vote.bind(this, i)}
-            name={icons[i].icon}
+            name={thumb_values[i].icon}
             size={100}
             style={styles.voteButton}/>
         </View>
@@ -90,8 +108,8 @@ const ThumbVote = React.createClass({
       </View>
     );
 
-    var j = this.props.savedActivities.get(this.props.activityIndex).get('sub');
-    var i = this.props.savedActivities.get(this.props.activityIndex).get('main');
+    var j = this.props.savedActivities.get(this.props.activityIndex).get('sub').get('content');
+    var i = this.props.savedActivities.get(this.props.activityIndex).get('main').get('content');
     var speechBubble = this.renderBubble('subActivity', i, j);
 
     return (
