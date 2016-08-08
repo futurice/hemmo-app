@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import {List} from 'immutable';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import TitlePanel from '../../../components/TitlePanel';
-// import * as UserState from '../../../modules/user/UserState';
+import * as UserState from '../../../modules/user/UserState';
 import * as NavigationState from '../../../modules/navigation/NavigationState';
 import SpeechBubbleView from '../../../components/SpeechBubbleView';
 import {post} from '../../../utils/api';
@@ -44,11 +44,13 @@ const ThumbVote = React.createClass({
     post('/content/', {contentType: type, answer, question})
       .then(
         result => {
-          console.log('result was ' + result);
+          this.props.dispatch(
+            UserState.saveAnswer(this.props.activityIndex, 'thumb', answer, result.contentId)
+          );
+
           this.props.dispatch(
             NavigationState.pushRoute({key: 'Record', allowReturn: true})
           );
-
         }
       );
   },

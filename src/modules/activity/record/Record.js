@@ -72,39 +72,37 @@ const Record = React.createClass({
     post('/content/', {contentType: type, answer, question})
       .then(
         result => {
-          this.props.dispatch(
-            UserState.saveAnswer(
-              this.props.activityIndex, 'text', answer, result.contentId
-            )
-          );
-          this.moveToNext();
+          this.continue(result.contentId);
         }
       );
   },
 
   saveAnswers(type) {
     console.log('Coming soon! ' + type);
-    this.moveToNext();
+    this.continue();
   },
 
   skip() {
-    this.moveToNext();
+    this.continue();
   },
 
-  moveToNext() {
+  continue(contentId) {
     if (this.props.activityIndex === -1) {
       /* QUESTION was 'How did you feel?' */
       if (this.state.generalFeedbackView === false) {
+        this.props.dispatch(UserState.saveAnswer(null, 'emotion_text', this.state.text, contentId));
         this.setState({enableWriting: false, showBubble: true, progress: 0, generalFeedbackView: true});
         this.props.dispatch(NavigationState.pushRoute({key: 'Record', allowReturn: false}));
       }
       /* QUESTION was 'Do you have anything else you want to tell me?' */
       else {
+        this.props.dispatch(UserState.saveAnswer(null, 'general', this.state.text, contentId));
         this.props.dispatch(NavigationState.pushRoute({key: 'End', allowReturn: false}));
       }
     }
     /* QUESTION was 'What did you do during the visit?' */
     else {
+      this.props.dispatch(UserState.saveAnswer(this.props.activityIndex, 'text', this.state.text, contentId));
       this.props.dispatch(NavigationState.pushRoute({key: 'NewRound', allowReturn: false}));
     }
   },
@@ -113,10 +111,10 @@ const Record = React.createClass({
     if (this.state.showBubble === true) {
       return (
         <SpeechBubbleView
-        text={text}
-        bubbleType={graphics.get('puhekupla_oikea')}
-        hideBubble={this.hideBubble}
-        style={{top: 110, left: 140, height: 160, width: 265, margin: 15, fontSize: 12}}/>
+          text={text}
+          bubbleType={graphics.get('puhekupla_oikea')}
+          hideBubble={this.hideBubble}
+          style={{top: 110, left: 140, height: 160, width: 265, margin: 15, fontSize: 12}}/>
       );
     }
     else {

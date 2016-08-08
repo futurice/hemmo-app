@@ -1,6 +1,9 @@
 import {
-  StyleSheet
+  StyleSheet,
+  Dimensions
 } from 'react-native';
+
+var height = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
   container: {
@@ -12,8 +15,8 @@ const styles = StyleSheet.create({
   },
   leftColumn: {
     margin: 10,
-    height: 320,
-    width: 370,
+    height: height * 0.9,
+    width: height + 10,
     flexDirection: 'column'
   },
   rightColumn: {

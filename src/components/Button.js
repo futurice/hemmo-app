@@ -42,7 +42,7 @@ const Button = React.createClass({
 
 const styles = StyleSheet.create({
   button: {
-    // padding: 5,
+    paddingHorizontal: 10,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center'

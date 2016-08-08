@@ -1,6 +1,13 @@
 import {Map} from 'immutable';
+import {
+  Dimensions
+} from 'react-native';
 
 var graphics = Map({
+  'screen_width': Dimensions.get('window').width,
+  'screen_height': Dimensions.get('window').height,
+
+  /* backgrounds */
   'tausta_perus2': require('../../assets/graphics/backgrounds/tausta_perus2.png'),
   'tausta_perus': require('../../assets/graphics/backgrounds/tausta_perus.png'),
   'kehys_iso': require('../../assets/graphics/backgrounds/kehys_iso.png'),
@@ -15,12 +22,14 @@ var graphics = Map({
   'ympyra_keski': require('../../assets/graphics/backgrounds/ympyra_keski.png'),
   'ympyra_pieni': require('../../assets/graphics/backgrounds/ympyra_pieni.png'),
 
+  /* speech bubbles */
   'puhekupla_aset': require('../../assets/graphics/bubbles/puhekupla_aset.png'),
   'puhekupla_oikea': require('../../assets/graphics/bubbles/puhekupla_oikea.png'),
   'puhekupla_tallennettu': require('../../assets/graphics/bubbles/puhekupla_tallennettu.png'),
   'puhekupla_vasen': require('../../assets/graphics/bubbles/puhekupla_vasen.png'),
   'puhekupla_vasen2': require('../../assets/graphics/bubbles/puhekupla_vasen2.png'),
 
+  /* buttons */
   'nappula_aset': require('../../assets/graphics/buttons/nappula_aset.png'),
   'nappula_kirjoita': require('../../assets/graphics/buttons/nappula_kirjoita.png'),
   'nappula_ohita': require('../../assets/graphics/buttons/nappula_ohita.png'),

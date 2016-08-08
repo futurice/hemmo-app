@@ -1,6 +1,10 @@
 import {
-  StyleSheet
+  StyleSheet,
+  Dimensions
 } from 'react-native';
+
+var height = Dimensions.get('window').height;
+var width = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
   container: {
@@ -12,8 +16,8 @@ const styles = StyleSheet.create({
   },
   leftColumn: {
     margin: 10,
-    height: 320,
-    width: 370,
+    height: height * 0.9,
+    width: height + 10,
     flexDirection: 'column'
   },
   rightColumn: {
@@ -37,29 +41,30 @@ const styles = StyleSheet.create({
     margin: 10
   },
   writeButton: {
-    width: 150,
-    height: 30,
+    width: width / 5,
     position: 'absolute',
     alignItems: 'center',
     justifyContent: 'center',
     bottom: 10,
-    right: 20,
+    right: 10,
     borderWidth: 1,
     borderRadius: 10
   },
   writeButtonHighlight: {
-    width: 150,
-    height: 30,
+    width: width / 5,
     borderRadius: 10
   },
   skipButton: {
     borderWidth: 1,
+    width: width / 8,
     backgroundColor: 'white',
     padding: 2,
+    marginRight: 15,
     borderRadius: 10
   },
   skipButtonHighlight: {
     flex: 1,
+    width: width / 8,
     borderRadius: 10
   },
   writingContainer: {

@@ -104,12 +104,6 @@ const AudioRecorder = React.createClass({
     });
 
     this.player.play();
-
-    // this._updateState();
-    //
-    // this.player.on('ended', () => {
-    //   this._updateState();
-    // });
   },
 
   _toggleRecord() {
@@ -123,7 +117,6 @@ const AudioRecorder = React.createClass({
       }
       if (stopped) {
         this.props.saveAnswers('file');
-        // this._reloadPlayer();
       }
       else {
         this._updateState();

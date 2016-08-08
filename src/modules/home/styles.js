@@ -1,11 +1,13 @@
 import {
-  StyleSheet
+  StyleSheet,
+  Dimensions
 } from 'react-native';
+
+var width = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    //justifyContent: 'center',
     backgroundColor: 'white',
     flexDirection: 'row',
     height: null,
@@ -25,7 +27,7 @@ const styles = StyleSheet.create({
   },
   userRowWithoutImage: {
     flex: 1,
-    width: 300,
+    width: width * 0.5,
     margin: 5,
     marginRight: 20,
     borderWidth: 2,

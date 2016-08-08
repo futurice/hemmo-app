@@ -11,15 +11,12 @@ const styles = StyleSheet.create({
     bottom: 5,
     width: null,
     height: null,
-
-    // backgroundColor: 'rgba(233, 233, 233, 0.93)',
-    // borderWidth: 2,
-    // borderRadius: 20,
     flexDirection: 'row',
     flexWrap: 'wrap'
   },
   titleBar: {
     flex: 1,
+    margin: 15,
     alignItems: 'center',
     flexDirection: 'column'
   },
@@ -38,7 +35,8 @@ const styles = StyleSheet.create({
   },
   activityCircle: {
     justifyContent: 'center',
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    padding: 10
   },
   activityFont: {
     textAlign: 'center'

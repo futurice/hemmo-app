@@ -57,10 +57,10 @@ const SubActivityView = React.createClass({
         var bottomRow = ((n / rows) - 0.5);
         perRow = (i === 1) ? bottomRow : topRow;
       }
-      fixValue = (i === 1) ? 20 : 10;
+      fixValue = (i === 1) ? 20 : 0;
       var width = screenWidth / perRow;
       for (var j = 0; j < perRow; j++) {
-        var x = j * width - fixValue;
+        var x = j * width - fixValue - 10;
         var y = i * height - fixValue;
         coordinates.push({x,y, width, height});
       }
@@ -96,6 +96,7 @@ const SubActivityView = React.createClass({
           width: coordinates[index].width,
           height: coordinates[index].height}]}>
           <TouchableHighlight
+            style={{borderRadius: (coordinates[index].height * 0.7) / 2}}
             onPress={this.chooseActivity.bind(this, subActivity, index)}>
             <Image
               source={graphics.get('ympyra_keski')}
