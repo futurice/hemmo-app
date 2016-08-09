@@ -105,7 +105,7 @@ const EmotionView = React.createClass({
           <Image
             source={graphics.get('ympyra_keski')}
             style={[styles.emotion, {height: emotionSize, width: emotionSize}]}>
-            <Text> {emotions[i]} </Text>
+            <Text style={styles.font}> {emotions[i]} </Text>
           </Image>
           {checked}
         </TouchableOpacity>

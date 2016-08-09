@@ -11,12 +11,12 @@ import {post} from '../../../utils/api';
 
 import {
   TextInput,
+  TouchableOpacity,
   Image,
   View
 } from 'react-native';
 
 var graphics = require('../../../components/graphics.js');
-var activities = require('../activities.js');
 var styles = require('./styles.js');
 
 const Record = React.createClass({
@@ -148,7 +148,9 @@ const Record = React.createClass({
             underlineColorAndroid = 'transparent'
             style={styles.textForm}/>
         </View>
-        <Icon onPress={this.disableWriting} name='times-circle' size={40} style={styles.closeButton}/>
+        <TouchableOpacity onPress={this.disableWriting} style={styles.closeButton}>
+          <Image source={graphics.get('nappula_rasti')} style={styles.closeButton}/>
+        </TouchableOpacity>
       </View>
     );
   },
@@ -161,9 +163,9 @@ const Record = React.createClass({
       if (this.state.generalFeedbackView === false) {
         speechBubble = this.renderBubble('emotionFeedback');
         var titlePanel = (
-          <View style={styles.headerWithoutTitles}>
-            <Icon onPress={this.cancel} size={30} name={'angle-left'}/>
-          </View>
+          <TouchableOpacity onPress={this.cancel}>
+            <Image source={graphics.get('nappula_takaisin')} style={styles.returnButton}/>
+          </TouchableOpacity>
         );
       }
       else {

@@ -36,7 +36,8 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   name: {
-    fontSize: 25
+    fontSize: 25,
+    fontFamily: 'Gill Sans'
   },
   settingsButton: {
     alignItems: 'center',

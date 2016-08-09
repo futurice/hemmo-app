@@ -8,19 +8,16 @@ import PasswordModal from '../../components/PasswordModal';
 import {setAuthenticationToken} from '../../utils/authentication';
 import {setSessionId} from '../../utils/session';
 import {post} from '../../utils/api';
-import {getScreenHeight, getScreenWidth} from '../../services/screenSize';
+import {getScreenHeight} from '../../services/screenSize';
 
 import {
   TouchableHighlight,
   Image,
   Text,
-  Dimensions,
   View
 } from 'react-native';
 
 var styles = require('./styles.js');
-var height;
-var width;
 var graphics = require('../../components/graphics.js');
 
 const HomeView = React.createClass({

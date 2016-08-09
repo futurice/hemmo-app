@@ -62,10 +62,12 @@ const styles = StyleSheet.create({
   },
   mainTitle: {
     fontSize: 20,
-    textAlign: 'center'
+    textAlign: 'center',
+    fontFamily: 'Gill Sans'
   },
   subTitle: {
-    fontSize: 10
+    fontSize: 10,
+    fontFamily: 'Gill Sans'
   },
   backButton: {
     margin: 30,

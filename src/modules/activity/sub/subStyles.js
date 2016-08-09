@@ -21,7 +21,8 @@ const styles = StyleSheet.create({
     flexDirection: 'column'
   },
   title: {
-    fontSize: 20
+    fontSize: 20,
+    fontFamily: 'Gill Sans'
   },
   activityBar: {
     position: 'absolute',
@@ -39,7 +40,8 @@ const styles = StyleSheet.create({
     padding: 10
   },
   activityFont: {
-    textAlign: 'center'
+    textAlign: 'center',
+    fontFamily: 'Gill Sans'
   },
   closeButton: {
     position: 'absolute',

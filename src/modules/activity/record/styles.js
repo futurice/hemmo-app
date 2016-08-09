@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   headerWithoutTitles: {
     flex: 1,
     justifyContent: 'center',
-    marginLeft: 50
+    marginHorizontal: 100
   },
   extraRow: {
     flexDirection: 'row',
@@ -94,11 +94,17 @@ const styles = StyleSheet.create({
     margin: 15,
     textAlignVertical: 'top'
   },
+  returnButton: {
+    margin: 30,
+    height: 40,
+    width: 25
+  },
   closeButton: {
-    color: 'rgb(74, 79, 77)',
     position: 'absolute',
-    top: 10,
-    right: 15
+    right: 0,
+    top: 0,
+    width: 40,
+    height: 40
   }
 });
 

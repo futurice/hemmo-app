@@ -18,6 +18,9 @@ const styles = StyleSheet.create({
     height: null,
     width: null
   },
+  font: {
+    fontFamily: 'Gill Sans'
+  },
   emotionColumn: {
     flex: 4,
     paddingVertical: 20,
