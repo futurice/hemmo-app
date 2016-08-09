@@ -8,6 +8,7 @@ import PasswordModal from '../../components/PasswordModal';
 import {setAuthenticationToken} from '../../utils/authentication';
 import {setSessionId} from '../../utils/session';
 import {post} from '../../utils/api';
+import {getScreenHeight, getScreenWidth} from '../../services/screenSize';
 
 import {
   TouchableHighlight,
@@ -35,11 +36,6 @@ const HomeView = React.createClass({
       isPasswordModalOpen: false,
       showBubble: true
     };
-  },
-
-  componentWillMount() {
-    height = Dimensions.get('window').height / 2 - 30;
-    width = height * 0.8;
   },
 
   openSettings() {
@@ -75,11 +71,18 @@ const HomeView = React.createClass({
   // TODO: Clean up. Too much repetition atm.
   render() {
     var userIcons = [];
+    var h = getScreenHeight() / 2 - 30;
+    var w = h * 0.8;
 
     if (this.props.users.size > 0) {
       for (var i = 0; i < this.props.users.size; i++) {
 
-        var name = <Text style={styles.name}> {this.props.users.get(i).get('name')} </Text>;
+        var name = (
+          <Text
+            ellipsizeMode='tail'
+            numberOfLines={1}
+            style={styles.name}> {this.props.users.get(i).get('name')} </Text>
+        );
 
         /* If app has more than 4 children in it, only names of the children are displayed */
         if (this.props.users.size > 4) {
@@ -98,14 +101,17 @@ const HomeView = React.createClass({
         }
         else {
           userIcons.push(
-            <Image source={graphics.get('kehys_iso')} key={i} style={[styles.userRow, {height, width}]}>
+            <Image
+              source={graphics.get('kehys_iso')}
+              key={i}
+              style={[styles.userRow, {height: h , width: w}]}>
               <TouchableHighlight
                 onPress={this.startJourney.bind(this, i)}>
                 <Image
-                  style={{height: height * 0.7, width: width - 10}}
+                  style={{height: h * 0.7, width: w - 10}}
                   source={{uri: this.props.users.get(i).get('image')}}/>
               </TouchableHighlight>
-              <View>
+              <View style={{width: w - 10}}>
                 {name}
               </View>
             </Image>

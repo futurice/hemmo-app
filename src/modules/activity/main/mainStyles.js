@@ -1,6 +1,9 @@
+import {getScreenWidth, getScreenHeight} from '../../../services/screenSize';
 import {
   StyleSheet
 } from 'react-native';
+
+var w = getScreenWidth();
 
 const styles = StyleSheet.create({
   container: {
@@ -22,24 +25,22 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
     flexWrap: 'wrap'
-    // margin: 10,
-    // borderRadius: 10
   },
   activityImage: {
     flex: 1
-    // borderWidth: 4,
-    // borderColor: 'gray',
-    // borderRadius: 10
   },
   hemmo: {
     flex: 1,
-    alignItems: 'center'
+    alignItems: 'center',
+    flexDirection: 'column'
   },
   text: {
     position: 'absolute',
-    top: 135,
+    bottom: 5,
     left: 70,
-    fontSize: 20
+    textAlign: 'center',
+    fontSize: 20,
+    fontFamily: 'Gill Sans'
   }
 });
 

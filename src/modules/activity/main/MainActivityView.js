@@ -5,6 +5,7 @@ import * as NavigationState from '../../../modules/navigation/NavigationState';
 import SubActivityView from '../sub/SubActivityView';
 import SpeechBubbleView from '../../../components/SpeechBubbleView';
 import {post} from '../../../utils/api';
+import {getScreenWidth, getScreenHeight} from '../../../services/screenSize';
 
 import {
   Image,
@@ -17,7 +18,6 @@ import {
 var graphics = require('../../../components/graphics.js');
 var styles = require('./mainStyles.js');
 var activities = require('../activities.js');
-var activityWidth;
 var speechBubble;
 
 const MainActivityView = React.createClass({
@@ -39,7 +39,6 @@ const MainActivityView = React.createClass({
 
   componentWillMount() {
     this.emptySelections();
-    activityWidth = Dimensions.get('window').width / 4;
   },
 
   emptySelections() {
@@ -79,13 +78,13 @@ const MainActivityView = React.createClass({
     this.props.dispatch(NavigationState.pushRoute({key: 'Record', allowReturn: true}));
   },
 
-  renderBubble(text, index) {
+  renderBubble(text, h, w, index) {
     if (this.state.showBubble === true) {
       return (<SpeechBubbleView
         text={text}
-        bubbleType={require('../../../../assets/graphics/bubbles/puhekupla_vasen2.png')}
+        bubbleType={graphics.get('puhekupla_vasen2')}
         hideBubble={this.hideBubble}
-        style={{top: 60, left: 320, height: 210, width: 240, margin: 15, fontSize: 12}}
+        style={{top: h * 0.25, left: w * 0.5, height: 210, width: 240, margin: 15, fontSize: 11}}
         maIndex={index}/>);
     }
     else {
@@ -98,9 +97,15 @@ const MainActivityView = React.createClass({
   },
 
   render() {
+    var activityWidth = Dimensions.get('window').width / 4;
+    var h = getScreenHeight();
+    var w = getScreenWidth();
 
     const activityViews = activities.map((activity) => (
-      <Image source={graphics.get('nelio')} key={activity.get('key')} style={[styles.activity, {width: null, height: null}]}>
+      <Image
+        source={graphics.get('nelio')}
+        key={activity.get('key')}
+        style={[styles.activity, {width: null, height: null}]}>
         <TouchableHighlight
           style={styles.highlight}
           onPress={this.openSubActivities.bind(this, activity)}>
@@ -119,11 +124,10 @@ const MainActivityView = React.createClass({
           closeSubActivities={this.closeSubActivities}
           activityIndex={this.props.activityIndex}/>
         );
-
-      speechBubble = this.renderBubble('subActivity', this.state.chosenMainActivity.get('id'));
+      speechBubble = this.renderBubble('subActivity', h, w, this.state.chosenMainActivity.get('id'));
     }
     else {
-      speechBubble = this.renderBubble('mainActivity');
+      speechBubble = this.renderBubble('mainActivity', h, w);
     }
 
     return (

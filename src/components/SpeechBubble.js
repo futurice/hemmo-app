@@ -45,7 +45,12 @@ const SpeechBubble = React.createClass({
     bubbleText = this.renderBubbleText();
 
     return (
-      <View style={[styles.bubble, {top: this.props.style.top, left: this.props.style.left}]}>
+      <View
+        style={[styles.bubble, {
+          top: this.props.style.top,
+          right: this.props.style.right,
+          left: this.props.style.left}
+        ]}>
         <Image
           source={this.props.bubbleType}
           style={[styles.bubbleText, {
@@ -53,15 +58,14 @@ const SpeechBubble = React.createClass({
             width: this.props.style.width
           }]}>
           <Text
-          style={[styles.text, {
-            marginTop: this.props.style.marginTop,
-            margin: this.props.style.margin,
-            fontSize: this.props.style.fontSize
-          }]}>
+            style={[styles.text, {
+              marginTop: this.props.style.marginTop,
+              margin: this.props.style.margin,
+              fontSize: this.props.style.fontSize
+            }]}>
             {bubbleText}
           </Text>
         </Image>
-        {/*<View style={[styles.triangle, {left: this.props.position.triangle}]}/>*/}
         <AudioPlayer audioTrack={this.props.audioTrack}/>
       </View>
     );

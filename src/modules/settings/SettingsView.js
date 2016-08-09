@@ -55,7 +55,8 @@ const SettingsView = React.createClass({
         var name = this.props.currentUser.get('name');
 
         post('/register/', {name})
-          .then(result => this.props.dispatch(UserState.setCurrentUserValue('token', 'Bearer ' + result.token))
+          .then(
+            result => this.props.dispatch(UserState.setCurrentUserValue('token', 'Bearer ' + result.token))
           .then(this.props.dispatch(UserState.createUser(this.props.currentUser))));
       }
       else {
@@ -143,7 +144,7 @@ const SettingsView = React.createClass({
           source={graphics.get('valilehti_tyhja')}
           onPress={this.handleClick.bind(this, user, index)}
           style={styles.tab}>
-          <Text style={styles.tabText}>
+          <Text ellipsizeMode='tail' numberOfLines={1} style={styles.tabText}>
             {user}
           </Text>
         </Image>
