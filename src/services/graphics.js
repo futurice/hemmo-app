@@ -1,9 +1,10 @@
-import {getScreenWidth, getScreenHeight} from './screenSize';
+import {getScreenHeight} from './screenSize';
 var graphics = require('../components/graphics.js');
 
-export function getSize(name) {
+export function getSize(name, size) {
+
   var ratio = graphics.get(name).get('ratio');
-  var height = getScreenHeight() * 0.9;
+  var height = getScreenHeight() * size;
   var width = height * ratio;
 
   return {height, width};

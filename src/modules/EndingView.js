@@ -2,14 +2,13 @@ import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
 import * as NavigationState from '../modules/navigation/NavigationState';
 import SpeechBubble from '../components/SpeechBubble';
+import {getSize, getImage} from '../services/graphics';
 
 import {
   StyleSheet,
   Image,
   TouchableOpacity
 } from 'react-native';
-
-var graphics = require('../components/graphics.js');
 
 const EndingView = React.createClass({
 
@@ -26,15 +25,15 @@ const EndingView = React.createClass({
     var speechBubble = (
       <SpeechBubble
         text={'ending'}
-        bubbleType={graphics.get('puhekupla_oikea')}
-        style={{top: 30, left: 130, height: 160, width: 260, margin: 45, fontSize: 14}}/>
+        bubbleType={'puhekupla_oikea'}
+        style={{top: 40, left: 100, margin: 45, fontSize: 14, size: 0.5}}/>
     );
 
     return (
-      <Image source={graphics.get('tausta_perus')} style={styles.container}>
-        <Image source={graphics.get('hemmo_keski')} style={styles.hemmo}/>
+      <Image source={getImage('tausta_perus')} style={styles.container}>
+        <Image source={getImage('hemmo_keski')} style={[styles.hemmo, getSize('hemmo_keski', 0.8)]}/>
           <TouchableOpacity onPress={this.startOver} style={styles.info}>
-            <Image source={graphics.get('lopetusteksti')} style={styles.endingText}/>
+            <Image source={getImage('lopetusteksti')} style={getSize('lopetusteksti', 0.4)}/>
           </TouchableOpacity>
         {speechBubble}
       </Image>
@@ -50,16 +49,10 @@ const styles = StyleSheet.create({
   },
   info: {
     position: 'absolute',
-    left: 30,
-    bottom: 30
-  },
-  endingText: {
-    height: 142,
-    width: 155
+    left: 20,
+    bottom: 20
   },
   hemmo: {
-    height: 250,
-    width: 195,
     position: 'absolute',
     bottom: 50,
     right: 20

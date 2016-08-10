@@ -93,9 +93,7 @@ const styles = StyleSheet.create({
     textAlignVertical: 'top'
   },
   returnButton: {
-    margin: 30,
-    height: 40,
-    width: 25
+    margin: 30
   },
   closeButton: {
     position: 'absolute',

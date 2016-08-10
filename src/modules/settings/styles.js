@@ -27,16 +27,14 @@ const styles = StyleSheet.create({
     // borderWidth: 1,
     position: 'absolute',
     // borderBottomColor: 'white',
-    top: 44,
-    left: 5,
-    right: 30
+    top: 40,
+    left: 10,
+    right: 10
   },
   tab: {
-    marginHorizontal: 5,
+    marginHorizontal: 2,
     alignItems: 'center',
-    justifyContent: 'center',
-    width: 118,
-    height: 27
+    justifyContent: 'center'
   },
   tabText: {
     width: 90,
@@ -147,8 +145,6 @@ const styles = StyleSheet.create({
     width: 100
   },
   backButton: {
-    height: 30,
-    width: 20,
     marginRight: 10
   }
 });

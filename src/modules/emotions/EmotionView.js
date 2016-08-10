@@ -4,17 +4,16 @@ import * as UserState from '../../modules/user/UserState';
 import * as NavigationState from '../../modules/navigation/NavigationState';
 import SpeechBubbleView from '../../components/SpeechBubbleView';
 import {post} from '../../utils/api';
+import {getSize, getImage} from '../../services/graphics';
 
 import {
   Text,
   TouchableOpacity,
   Image,
-  Dimensions,
   View
 } from 'react-native';
 
 var emotions = require('./emotions.js');
-var graphics = require('../../components/graphics.js');
 var styles = require('./styles.js');
 
 const EmotionView = React.createClass({
@@ -39,9 +38,9 @@ const EmotionView = React.createClass({
     if (this.state.showBubble === true) {
       return (<SpeechBubbleView
         text={text}
-        bubbleType={graphics.get('puhekupla_oikea')}
+        bubbleType={'puhekupla_oikea'}
         hideBubble={this.hideBubble}
-        style={{top: 60, left: 200, height: 150, width: 250, margin: 30, fontSize: 12}}/>);
+        style={{top: 60, left: 200, margin: 30, fontSize: 12, size: 0.4}}/>);
     }
     else {
       return null;
@@ -88,23 +87,22 @@ const EmotionView = React.createClass({
   render() {
 
     var emotionViews = [];
-    var emotionSize = Dimensions.get('window').height / 3.5;
 
     for (var i = 0; i < emotions.length; i++) {
       var checked = null;
       for (var j = 0; j < this.state.selectedEmotions.size; j++) {
         if (emotions[i] === this.state.selectedEmotions.get(j)) {
-          checked = <Image source={graphics.get('valittu')} style={styles.check}/>;
+          checked = <Image source={getImage('valittu')} style={[styles.check, getSize('valittu', 0.1)]}/>;
         }
       }
       emotionViews.push(
         <TouchableOpacity
           key={emotions[i]}
-          style={styles.highlight}
+          style={[styles.highlight, getSize('ympyra_keski', 0.30)]}
           onPress={this.selectEmotion.bind(this, emotions[i])}>
           <Image
-            source={graphics.get('ympyra_keski')}
-            style={[styles.emotion, {height: emotionSize, width: emotionSize}]}>
+            source={getImage('ympyra_keski')}
+            style={[styles.emotion, getSize('ympyra_keski', 0.30)]}>
             <Text style={styles.font}> {emotions[i]} </Text>
           </Image>
           {checked}
@@ -115,16 +113,17 @@ const EmotionView = React.createClass({
     var speechBubble = this.renderBubble('emotions');
 
     return (
-      <Image source={graphics.get('tausta_perus2')} style={styles.container}>
-        <Image source={graphics.get('tausta_levea')} style={styles.emotionContainer}>
+      <Image source={getImage('tausta_perus2')} style={styles.container}>
+        <Image source={getImage('tausta_levea')} style={styles.emotionContainer}>
           <View style={styles.emotionColumn}>
             {emotionViews}
           </View>
           <View style={styles.hemmoColumn}>
-            <Image source={graphics.get('hemmo_keski')} style={{height: 180, width: 140, marginRight: 30}}/>
+            <Image
+              source={getImage('hemmo_keski')} style={[{marginRight: 30}, getSize('hemmo_keski', 0.45)]}/>
           </View>
           <TouchableOpacity onPress={this.save} style={styles.saveButton}>
-            <Image source={graphics.get('nappula_seuraava')} style={{height: 30, width: 110}}/>
+            <Image source={getImage('nappula_seuraava')} style={getSize('nappula_seuraava', 0.1)}/>
           </TouchableOpacity>
           {speechBubble}
         </Image>

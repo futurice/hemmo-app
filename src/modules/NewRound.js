@@ -3,16 +3,13 @@ import {connect} from 'react-redux';
 import * as NavigationState from '../modules/navigation/NavigationState';
 import * as UserState from '../modules/user/UserState';
 import SpeechBubbleView from '../components/SpeechBubbleView';
-import {getScreenHeight, getScreenWidth} from '../services/screenSize';
+import {getSize, getImage} from '../services/graphics';
 
 import {
   StyleSheet,
-  Platform,
   Image,
   TouchableOpacity
 } from 'react-native';
-
-var graphics = require('../components/graphics.js');
 
 const NewRound = React.createClass({
 
@@ -42,16 +39,13 @@ const NewRound = React.createClass({
   },
 
   render() {
-    var height = getScreenHeight();
-    var width = getScreenWidth();
-
     if (this.state.showBubble === true) {
       var speechBubble = (
         <SpeechBubbleView
           text={'newRound'}
           hideBubble={this.hideBubble}
-          bubbleType={graphics.get('puhekupla_vasen')}
-          style={{top: 70, left: 330, height: 160, width: 265, margin: 40, fontSize: 16}}/>
+          bubbleType={'puhekupla_vasen'}
+          style={{top: 70, left: 330, margin: 40, fontSize: 16, size: 0.4}}/>
       );
     }
     else {
@@ -59,21 +53,21 @@ const NewRound = React.createClass({
     }
 
     return (
-      <Image source={graphics.get('tausta_perus2')} style={styles.container}>
+      <Image source={getImage('tausta_perus2')} style={styles.container}>
           <TouchableOpacity onPress={this.newRound}>
             <Image
-              source={graphics.get('nappula_uudestaan')}
-              style={{height: height / 2, width: height / 2}}/>
+              source={getImage('nappula_uudestaan')}
+              style={getSize('nappula_uudestaan', 0.5)}/>
           </TouchableOpacity>
 
           <Image
-            source={graphics.get('hemmo_keski')}
-            style={{height: height * 0.8, width: width * 0.4}}/>
+            source={getImage('hemmo_keski')}
+            style={getSize('hemmo_keski', 0.7)}/>
 
           <TouchableOpacity onPress={this.continue}>
             <Image
-              source={graphics.get('nappula_seuraava2')}
-              style={{height: height / 2, width: height / 2}}/>
+              source={getImage('nappula_seuraava2')}
+              style={getSize('nappula_seuraava2', 0.5)}/>
           </TouchableOpacity>
         {speechBubble}
       </Image>

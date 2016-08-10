@@ -8,20 +8,16 @@ import PasswordModal from '../../components/PasswordModal';
 import {setAuthenticationToken} from '../../utils/authentication';
 import {setSessionId} from '../../utils/session';
 import {post} from '../../utils/api';
-import {getScreenHeight, getScreenWidth} from '../../services/screenSize';
+import {getSize, getImage} from '../../services/graphics';
 
 import {
   TouchableHighlight,
   Image,
   Text,
-  Dimensions,
   View
 } from 'react-native';
 
 var styles = require('./styles.js');
-var height;
-var width;
-var graphics = require('../../components/graphics.js');
 
 const HomeView = React.createClass({
 
@@ -71,8 +67,6 @@ const HomeView = React.createClass({
   // TODO: Clean up. Too much repetition atm.
   render() {
     var userIcons = [];
-    var h = getScreenHeight() / 2 - 30;
-    var w = h * 0.8;
 
     if (this.props.users.size > 0) {
       for (var i = 0; i < this.props.users.size; i++) {
@@ -100,18 +94,19 @@ const HomeView = React.createClass({
           var rightcolumn = <View style={styles.rightcolumn}>{userIcons}</View>;
         }
         else {
+          var iconSize = getSize('kehys_iso', 0.3).height;
           userIcons.push(
             <Image
-              source={graphics.get('kehys_iso')}
+              source={getImage('kehys_iso')}
               key={i}
-              style={[styles.userRow, {height: h , width: w}]}>
+              style={[styles.userRow, getSize('kehys_iso', 0.4)]}>
               <TouchableHighlight
                 onPress={this.startJourney.bind(this, i)}>
                 <Image
-                  style={{height: h * 0.7, width: w - 10}}
+                  style={{height: iconSize, width: iconSize}}
                   source={{uri: this.props.users.get(i).get('image')}}/>
               </TouchableHighlight>
-              <View style={{width: w - 10}}>
+              <View style={{width: iconSize}}>
                 {name}
               </View>
             </Image>
@@ -130,8 +125,8 @@ const HomeView = React.createClass({
           <SpeechBubbleView
             text={'userIsKnown'}
             hideBubble={this.hideBubble}
-            bubbleType={graphics.get('puhekupla_vasen2')}
-            style={{top: 40, left: 280, height: 250, width: 285, margin: 20, marginTop: 20}}/>
+            bubbleType={'puhekupla_vasen2'}
+            style={{top: 40, left: 280, margin: 20, marginTop: 20, size: 0.6}}/>
           );
       }
       else {
@@ -140,9 +135,10 @@ const HomeView = React.createClass({
     }
 
     else {
+      iconSize = getSize('kehys_iso', 0.3).height;
       userIcons.push(
-        <Image source={graphics.get('kehys_iso')} key={0} style={[styles.userRow, {height: h, width: w}]}>
-          <Image source={graphics.get('default_image')} style={{height: h * 0.7, width: w - 10}}/>
+        <Image source={getImage('kehys_iso')} key={0} style={[styles.userRow, getSize('kehys_iso', 0.4)]}>
+          <Image source={getImage('default_image')} style={{height: iconSize, width: iconSize}}/>
           <View>
             <Text style={styles.name}> Nimi </Text>
           </View>
@@ -153,8 +149,8 @@ const HomeView = React.createClass({
       speechBubble = (
         <SpeechBubble
           text={'userIsUnknown'}
-          bubbleType={graphics.get('puhekupla_aset')}
-          style={{top: 20, left: 230, height: 200, width: 355, margin: 40}}/>
+          bubbleType={'puhekupla_aset'}
+          style={{top: 40, left: 230, margin: 40, size: 0.5}}/>
       );
     }
 
@@ -166,13 +162,13 @@ const HomeView = React.createClass({
     }
 
     return (
-      <Image source={graphics.get('tausta_hemmolla')} style={styles.container}>
+      <Image source={getImage('tausta_hemmolla')} style={styles.container}>
         <View style={styles.leftcolumn}>
           <View style={styles.settingsButton}>
             <TouchableHighlight onPress={this.openPasswordModal}>
               <Image
-                source={graphics.get('nappula_aset')}
-                style={{height: 40, width: 40}}/>
+                source={getImage('nappula_aset')}
+                style={getSize('nappula_aset', 0.15)}/>
             </TouchableHighlight>
           </View>
         </View>

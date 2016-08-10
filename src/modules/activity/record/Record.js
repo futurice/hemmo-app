@@ -16,7 +16,6 @@ import {
   View
 } from 'react-native';
 
-var graphics = require('../../../components/graphics.js');
 var styles = require('./styles.js');
 
 const Record = React.createClass({
@@ -112,9 +111,9 @@ const Record = React.createClass({
       return (
         <SpeechBubbleView
           text={text}
-          bubbleType={graphics.get('puhekupla_oikea')}
+          bubbleType={'puhekupla_oikea'}
           hideBubble={this.hideBubble}
-          style={{top: 110, left: 140, height: 160, width: 265, margin: 15, fontSize: 12}}/>
+          style={{top: 100, left: 100, margin: 30, fontSize: 14, size: 0.5}}/>
       );
     }
     else {
@@ -149,7 +148,7 @@ const Record = React.createClass({
             style={styles.textForm}/>
         </View>
         <TouchableOpacity onPress={this.disableWriting} style={styles.closeButton}>
-          <Image source={graphics.get('nappula_rasti')} style={styles.closeButton}/>
+          <Image source={getImage('nappula_rasti')} style={styles.closeButton}/>
         </TouchableOpacity>
       </View>
     );
@@ -164,7 +163,7 @@ const Record = React.createClass({
         speechBubble = this.renderBubble('emotionFeedback');
         var titlePanel = (
           <TouchableOpacity onPress={this.cancel}>
-            <Image source={graphics.get('nappula_takaisin')} style={styles.returnButton}/>
+            <Image source={getImage('nappula_takaisin')} style={[styles.returnButton, getSize('nappula_takaisin', 0.15)]}/>
           </TouchableOpacity>
         );
       }
@@ -196,13 +195,13 @@ const Record = React.createClass({
     }
     return (
       <Image source={getImage('tausta_perus2')} style={styles.container}>
-        <Image source={getImage('tausta_kapea')} style={[styles.leftColumn, getSize('tausta_kapea')]}>
+        <Image source={getImage('tausta_kapea')} style={[styles.leftColumn, getSize('tausta_kapea', 0.9)]}>
           {titlePanel}
           {actionPanel}
           {saveOrWriteButton}
         </Image>
         <View style={styles.rightColumn}>
-          <Image source={graphics.get('hemmo_keski')} style={{height: 180, width: 140}}/>
+          <Image source={getImage('hemmo_keski')} style={getSize('hemmo_keski', 0.7)}/>
           <Button
             style={styles.skipButton} highlightStyle={styles.skipButtonHighlight}
             onPress={this.skip} text={'Ohita'} icon={'angle-right'}/>
