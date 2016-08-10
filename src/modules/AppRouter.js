@@ -11,8 +11,6 @@ export default function AppRouter(props) {
   const onNavigate = props.onNavigate;
   const key = props.route.key;
 
-  console.log('NAVIGATION KEY ON ' + key);
-
   if (key === 'Home') {
     return <HomeViewContainer onNavigate={onNavigate}/>;
   }

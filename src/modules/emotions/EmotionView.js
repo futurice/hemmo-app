@@ -50,14 +50,12 @@ const EmotionView = React.createClass({
   save() {
 
     var answer = JSON.stringify([...this.state.selectedEmotions]);
-    console.log('answer was ' + answer);
     var question = 'Miksi sinusta tuntui siltä?';
     var type = 'text';
 
     post('/content/', {contentType: type, answer, question})
       .then(
         result => {
-          console.log('contentId was ' + result);
           this.props.dispatch(UserState.saveAnswer(null, 'emotions', this.state.selectedEmotions));
           this.props.dispatch(NavigationState.pushRoute({key: 'Record', allowReturn: true}));
         }

@@ -41,7 +41,7 @@ const PasswordModal = React.createClass({
     return (
       <View style={styles.container}>
         <Text style={styles.text}>
-          Anna salasana
+          Anna salasana ( = 1234 )
         </Text>
 
         <Text style={styles.message}>

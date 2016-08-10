@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react';
-import {View, StyleSheet, AppState, Platform, Alert} from 'react-native';
+import {View, StyleSheet, AppState, Platform, Dimensions} from 'react-native';
 import NavigationViewContainer from './navigation/NavigationViewContainer';
 import AppRouter from './AppRouter';
 import Spinner from 'react-native-gifted-spinner';
@@ -24,15 +24,10 @@ const AppView = React.createClass({
   },
 
   componentDidMount() {
-
-    // Alert.alert('Component did mount!', 'Mwahaha');
     Orientation.lockToLandscape();
-    // if (Platform.OS === 'ios') {
-    //   AppState.addEventListener('change', this._handleAppStateChange);
-    // }
-    // else if (Platform.OS === 'android') {
-    //   console.log('android state changes still not implemented :< Sry! ');
-    // }
+    // this.setScreenSize();
+    AppState.addEventListener('change', this._handleAppStateChange);
+
     /* Haetaan viimeisin tila */
     snapshotUtil.resetSnapshot()
       .then(snapshot => {
@@ -40,13 +35,11 @@ const AppView = React.createClass({
 
         /* Jos viimeisin tila löytyi */
         if (snapshot) {
-          // Alert.alert('Resetting snapshot', 'jee');
-          dispatch(SessionState.resetSessionStateFromSnapshot(snapshot));
-            // .then(this.resetRoute());
+          dispatch(SessionState.resetSessionStateFromSnapshot(snapshot))
+            .then(this.resetRoute());
         }
         /* Ei löytynyt. Aloitetaan alusta */
         else {
-          // Alert.alert('Init snapshot', 'jee');
           dispatch(SessionState.initializeSessionState());
         }
 
@@ -57,31 +50,22 @@ const AppView = React.createClass({
       });
   },
 
-  resetRoute() {
-    this.props.dispatch(NavigationState.resetRoute());
-    // snapshotUtil.resetSnapshot()
-    //   .then(snapshot => {
-    //     const {dispatch} = this.props;
-    //     if (snapshot) {
-    //       dispatch(NavigationState.resetSessionStateFromSnapshot(snapshot));
-    //     }
-    //     else {
-    //       dispatch(NavigationState.initializeSessionState());
-    //     }
-    //   });
+  _handleAppStateChange() {
+    if (AppState.currentState === 'active') {
+      Orientation.lockToLandscape();
+    }
   },
 
-  /* IOS app state changes handled,
-  expect for the situation when user closes app through open application menu */
-  // _handleAppStateChange() {
-  //   // console.log('App state changed!');
-  //   // var previous = this.state.currentState;
-  //   // this.setState({currentState: AppState.currentState, previous});
-  //   if (AppState.currentState === 'background') {
-  //     console.log('Closed the app!');
-  //     // this.resetState();
-  //   }
-  // },
+  setScreenSize() {
+    var height = Dimensions.get('window').height;
+    var width = Dimensions.get('window').width;
+
+    console.log('screen height ' + height + ' and width ' + width);
+  },
+
+  resetRoute() {
+    this.props.dispatch(NavigationState.resetRoute());
+  },
 
   render() {
     if (!this.props.isReady) {
