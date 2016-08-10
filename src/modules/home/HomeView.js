@@ -8,16 +8,19 @@ import PasswordModal from '../../components/PasswordModal';
 import {setAuthenticationToken} from '../../utils/authentication';
 import {setSessionId} from '../../utils/session';
 import {post} from '../../utils/api';
-import {getScreenHeight} from '../../services/screenSize';
+import {getScreenHeight, getScreenWidth} from '../../services/screenSize';
 
 import {
   TouchableHighlight,
   Image,
   Text,
+  Dimensions,
   View
 } from 'react-native';
 
 var styles = require('./styles.js');
+var height;
+var width;
 var graphics = require('../../components/graphics.js');
 
 const HomeView = React.createClass({
@@ -138,8 +141,8 @@ const HomeView = React.createClass({
 
     else {
       userIcons.push(
-        <Image source={graphics.get('kehys_iso')} key={0} style={styles.userRow}>
-          <Image source={require('../../../assets/default-icon.png')} style={styles.icon}/>
+        <Image source={graphics.get('kehys_iso')} key={0} style={[styles.userRow, {height: h, width: w}]}>
+          <Image source={graphics.get('default_image')} style={{height: h * 0.7, width: w - 10}}/>
           <View>
             <Text style={styles.name}> Nimi </Text>
           </View>

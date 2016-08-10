@@ -1,4 +1,5 @@
 import {Map} from 'immutable';
+import {getScreenWidth, getScreenHeight} from '../services/screenSize';
 import {
   Dimensions
 } from 'react-native';
@@ -6,9 +7,11 @@ import {
 var graphics = Map({
   'screen_width': Dimensions.get('window').width,
   'screen_height': Dimensions.get('window').height,
+  'default_image': require('../../assets/default-icon.png'),
 
   /* backgrounds */
-  'tausta_perus2': require('../../assets/graphics/backgrounds/tausta_perus2.png'),
+  'tausta_perus2': Map({
+    image: require('../../assets/graphics/backgrounds/tausta_perus2.png')}),
   'tausta_perus': require('../../assets/graphics/backgrounds/tausta_perus.png'),
   'kehys_iso': require('../../assets/graphics/backgrounds/kehys_iso.png'),
   'kehys_keski': require('../../assets/graphics/backgrounds/kehys_keski.png'),
@@ -16,7 +19,9 @@ var graphics = Map({
   'nelio': require('../../assets/graphics/backgrounds/nelio.png'),
   'tausta_asetukset': require('../../assets/graphics/backgrounds/tausta_asetukset.png'),
   'tausta_hemmolla': require('../../assets/graphics/backgrounds/tausta_hemmolla.png'),
-  'tausta_kapea': require('../../assets/graphics/backgrounds/tausta_kapea.png'),
+  'tausta_kapea': Map({
+    image: require('../../assets/graphics/backgrounds/tausta_kapea.png'),
+    ratio: 1.1415}),
   'tausta_levea': require('../../assets/graphics/backgrounds/tausta_levea.png'),
   'ympyra_iso': require('../../assets/graphics/backgrounds/ympyra_iso.png'),
   'ympyra_keski': require('../../assets/graphics/backgrounds/ympyra_keski.png'),

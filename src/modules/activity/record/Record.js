@@ -4,10 +4,10 @@ import Button from '../../../components/Button';
 import AudioRecorder from '../../../components/AudioRecorder';
 import TitlePanel from '../../../components/TitlePanel';
 import SpeechBubbleView from '../../../components/SpeechBubbleView';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import * as NavigationState from '../../../modules/navigation/NavigationState';
 import * as UserState from '../../../modules/user/UserState';
 import {post} from '../../../utils/api';
+import {getSize, getImage} from '../../../services/graphics';
 
 import {
   TextInput,
@@ -195,8 +195,8 @@ const Record = React.createClass({
 
     }
     return (
-      <Image source={graphics.get('tausta_perus2')} style={styles.container}>
-        <Image source={graphics.get('tausta_kapea')} style={styles.leftColumn}>
+      <Image source={getImage('tausta_perus2')} style={styles.container}>
+        <Image source={getImage('tausta_kapea')} style={[styles.leftColumn, getSize('tausta_kapea')]}>
           {titlePanel}
           {actionPanel}
           {saveOrWriteButton}

@@ -6,6 +6,7 @@ import * as UserState from '../../../modules/user/UserState';
 import * as NavigationState from '../../../modules/navigation/NavigationState';
 import SpeechBubbleView from '../../../components/SpeechBubbleView';
 import {post} from '../../../utils/api';
+import {getSize, getImage} from '../../../services/graphics';
 
 import {
   View,
@@ -115,11 +116,11 @@ const ThumbVote = React.createClass({
     var speechBubble = this.renderBubble('subActivity', i, j);
 
     return (
-      <Image source={graphics.get('tausta_perus2')} style={styles.container}>
-        <Image source={graphics.get('tausta_kapea')} style={styles.leftColumn}>
-          {titlePanel}
-          {actionPanel}
-        </Image>
+      <Image source={getImage('tausta_perus2')} style={styles.container}>
+          <Image source={getImage('tausta_kapea')} style={[styles.leftColumn, getSize('tausta_kapea')]}>
+            {titlePanel}
+            {actionPanel}
+          </Image>
         <View style={styles.rightColumn}>
           <Image source={graphics.get('hemmo_keski')} style={{height: 180, width: 140}}/>
         </View>

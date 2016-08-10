@@ -2,16 +2,7 @@ import {Map, List} from 'immutable';
 
 // Initial state. user Hemmo created for testing.
 const initialState = Map({
-  users: List([
-    Map({
-      name: 'Hemmo',
-      token: null,
-      image: '../../assets/default-icon.png',
-      answers: Map({
-        activities: List()
-      })
-    })
-  ]),
+  users: List(),
   currentUser: Map(),
   activityIndex: -1
 });

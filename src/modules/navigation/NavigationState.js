@@ -13,7 +13,9 @@ const initialState = fromJS({
 // that the user can not return to anyway.
 
 // Actions
+export const INITIALIZE_STATE = 'NavigationState/INITIALIZE_STATE';
 const RESET_ROUTE = 'NavigationState/RESET_ROUTE';
+export const RESET_STATE = 'NavigationState/RESET_STATE';
 const PUSH_ROUTE = 'NavigationState/PUSH_ROUTE';
 const POP_ROUTE = 'NavigationState/POP_ROUTE';
 const NAVIGATION_COMPLETED = 'NavigationState/NAVIGATION_COMPLETED';
@@ -40,9 +42,25 @@ export function navigationCompleted() {
   return {type: NAVIGATION_COMPLETED};
 }
 
+export function resetSessionStateFromSnapshot(state) {
+  return {
+    type: RESET_STATE,
+    payload: state
+  };
+}
+
+export function initializeSessionState() {
+  return {
+    type: INITIALIZE_STATE
+  };
+}
+
 export default function NavigationReducer(state = initialState, action) {
   switch (action.type) {
+
+    case INITIALIZE_STATE:
     case RESET_ROUTE:
+    case RESET_STATE:
       return initialState;
 
     case PUSH_ROUTE:

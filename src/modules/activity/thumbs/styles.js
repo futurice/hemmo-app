@@ -15,8 +15,8 @@ const styles = StyleSheet.create({
   },
   leftColumn: {
     margin: 10,
-    height: height * 0.9,
-    width: height + 10,
+    // height: height * 0.9,
+    // width: height + 10,
     flexDirection: 'column'
   },
   rightColumn: {
