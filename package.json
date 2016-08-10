@@ -53,7 +53,8 @@
     "redux-logger": "^2.6.1",
     "redux-loop": "^2.1.0",
     "redux-promise": "^0.5.3",
-    "redux-thunk": "^2.0.1"
+    "redux-thunk": "^2.0.1",
+    "standard-http-error": "^2.0.0"
   },
   "devDependencies": {
     "babel-cli": "^6.9.0",
