@@ -3,9 +3,7 @@ import {Map} from 'immutable';
 let configuration = Map();
 
 export function setConfiguration(name, value) {
-  console.log('Configuring!');
   configuration = configuration.set(name, value);
-  console.log('configuration ' + configuration);
 }
 
 export function setAll(properties) {

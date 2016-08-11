@@ -16,8 +16,6 @@ const styles = StyleSheet.create({
   },
   leftColumn: {
     margin: 10,
-    height: height * 0.9,
-    width: height + 10,
     flexDirection: 'column'
   },
   rightColumn: {
@@ -95,9 +93,7 @@ const styles = StyleSheet.create({
     textAlignVertical: 'top'
   },
   returnButton: {
-    margin: 30,
-    height: 40,
-    width: 25
+    margin: 30
   },
   closeButton: {
     position: 'absolute',

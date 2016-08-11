@@ -1,4 +1,5 @@
 import React, {PropTypes} from 'react';
+import {getSize, getImage} from '../services/graphics';
 import {
   View,
   Image,
@@ -14,7 +15,6 @@ import {
 
 let filename = 'test.mp4';
 var TimerMixin = require('react-timer-mixin');
-var graphics = require('./graphics.js');
 
 const AudioRecorder = React.createClass({
   propTypes: {
@@ -127,14 +127,16 @@ const AudioRecorder = React.createClass({
   renderRecordButton() {
     if (this.state.recordButton === 'Record') {
       return (
-        <TouchableOpacity onPress={() => this._toggleRecord()} style={styles.highlightCircle}>
-          <Image source={graphics.get('nappula_rec')} style={styles.containerStyleCircle}/>
+        <TouchableOpacity
+          onPress={() => this._toggleRecord()} style={[styles.highlightCircle, getSize('nappula_rec', 0.4)]}>
+          <Image source={getImage('nappula_rec')} style={getSize('nappula_rec', 0.4)}/>
         </TouchableOpacity>);
     }
     else if (this.state.recordButton === 'Stop') {
       return (
-        <TouchableOpacity onPress={() => this._toggleRecord()} style={styles.highlightSquare}>
-          <Image source={graphics.get('nappula_stop')} style={styles.containerStyleSquare}/>
+        <TouchableOpacity
+          onPress={() => this._toggleRecord()} style={[styles.highlightSquare, getSize('nappula_stop', 0.4)]}>
+          <Image source={getImage('nappula_stop')} style={getSize('nappula_stop', 0.4)}/>
         </TouchableOpacity>);
     }
     else {
@@ -165,23 +167,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center'
   },
-  containerStyleSquare: {
-    height: 120,
-    width: 120
-  },
-  containerStyleCircle: {
-    height: 120,
-    width: 120
-  },
   highlightCircle: {
-    height: 120,
-    width: 120,
     alignItems: 'center',
     justifyContent: 'center'
   },
   highlightSquare: {
-    height: 120,
-    width: 120,
     alignItems: 'center',
     justifyContent: 'center'
   },

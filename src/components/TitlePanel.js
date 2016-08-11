@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react';
 import {List} from 'immutable';
 import * as NavigationState from '../modules/navigation/NavigationState';
+import {getSize, getImage} from '../services/graphics';
 import {
   View,
   Text,
@@ -10,7 +11,6 @@ import {
 } from 'react-native';
 
 var activities = require('../modules/activity/activities.js');
-var graphics = require('./graphics.js');
 
 const TitlePanel = React.createClass({
 
@@ -29,14 +29,15 @@ const TitlePanel = React.createClass({
     var j = this.props.savedActivities.get(this.props.activityIndex).get('sub').get('content');
 
     if (i === null || j === null) {
-      console.log('ei otsikoita');
       return null;
     }
     else {
       return (
         <View style={styles.titleRow}>
           <TouchableOpacity onPress={this.cancel}>
-            <Image source={graphics.get('nappula_takaisin')} style={styles.backButton}/>
+            <Image
+              source={getImage('nappula_takaisin')}
+              style={[styles.backButton, getSize('nappula_takaisin', 0.15)]}/>
           </TouchableOpacity>
           <View style={styles.titles}>
             <Text style={styles.mainTitle}>{activities[i].get('key')}</Text>
@@ -70,9 +71,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Gill Sans'
   },
   backButton: {
-    margin: 30,
-    height: 40,
-    width: 25
+    margin: 30
   }
 });
 

@@ -6,6 +6,8 @@ import SubActivityView from '../sub/SubActivityView';
 import SpeechBubbleView from '../../../components/SpeechBubbleView';
 import {post} from '../../../utils/api';
 import {getScreenWidth, getScreenHeight} from '../../../services/screenSize';
+import {getSize, getImage} from '../../../services/graphics';
+
 
 import {
   Image,
@@ -15,7 +17,6 @@ import {
   View
 } from 'react-native';
 
-var graphics = require('../../../components/graphics.js');
 var styles = require('./mainStyles.js');
 var activities = require('../activities.js');
 var speechBubble;
@@ -82,9 +83,9 @@ const MainActivityView = React.createClass({
     if (this.state.showBubble === true) {
       return (<SpeechBubbleView
         text={text}
-        bubbleType={graphics.get('puhekupla_vasen2')}
+        bubbleType={'puhekupla_vasen2'}
         hideBubble={this.hideBubble}
-        style={{top: h * 0.25, left: w * 0.5, height: 210, width: 240, margin: 15, fontSize: 11}}
+        style={{top: h * 0.25, left: w * 0.5, margin: 20, fontSize: 12, size: 0.6}}
         maIndex={index}/>);
     }
     else {
@@ -103,7 +104,7 @@ const MainActivityView = React.createClass({
 
     const activityViews = activities.map((activity) => (
       <Image
-        source={graphics.get('nelio')}
+        source={getImage('nelio')}
         key={activity.get('key')}
         style={[styles.activity, {width: null, height: null}]}>
         <TouchableHighlight
@@ -131,7 +132,7 @@ const MainActivityView = React.createClass({
     }
 
     return (
-      <Image source={graphics.get('tausta_perus2')} style={styles.container}>
+      <Image source={getImage('tausta_perus2')} style={styles.container}>
         <View style={styles.row}>
           {activityViews[0]}
           {activityViews[1]}
@@ -141,7 +142,7 @@ const MainActivityView = React.createClass({
         <View style={styles.row}>
           {activityViews[3]}
           <View style={styles.hemmo}>
-            <Image source={graphics.get('hemmo_pieni')} style={{width: 120, height: 150}}/>
+            <Image source={getImage('hemmo_pieni')} style={getSize('hemmo_pieni', 0.4)}/>
             <Text onPress={this.other} style={styles.text}>Muuta</Text>
           </View>
           {activityViews[4]}

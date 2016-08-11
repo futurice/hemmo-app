@@ -6,13 +6,13 @@ import * as UserState from '../../../modules/user/UserState';
 import * as NavigationState from '../../../modules/navigation/NavigationState';
 import SpeechBubbleView from '../../../components/SpeechBubbleView';
 import {post} from '../../../utils/api';
+import {getSize, getImage} from '../../../services/graphics';
 
 import {
   View,
   Image
 } from 'react-native';
 
-var graphics = require('../../../components/graphics.js');
 var styles = require('./styles.js');
 var thumb_values = [
   {value: 1, text: 'like', icon: 'thumbs-up'},
@@ -65,8 +65,8 @@ const ThumbVote = React.createClass({
         <SpeechBubbleView
           text={text}
           hideBubble={this.hideBubble}
-          bubbleType={graphics.get('puhekupla_oikea')}
-          style={{top: 150, left: 220, height: 110, width: 180, margin: 15, fontSize: 12}}
+          bubbleType={'puhekupla_oikea'}
+          style={{top: 120, left: 160, margin: 15, fontSize: 15, size: 0.5}}
           maIndex={i}
           saIndex={j}/>
       );
@@ -115,13 +115,13 @@ const ThumbVote = React.createClass({
     var speechBubble = this.renderBubble('subActivity', i, j);
 
     return (
-      <Image source={graphics.get('tausta_perus2')} style={styles.container}>
-        <Image source={graphics.get('tausta_kapea')} style={styles.leftColumn}>
-          {titlePanel}
-          {actionPanel}
-        </Image>
+      <Image source={getImage('tausta_perus2')} style={styles.container}>
+          <Image source={getImage('tausta_kapea')} style={[styles.leftColumn, getSize('tausta_kapea', 0.95)]}>
+            {titlePanel}
+            {actionPanel}
+          </Image>
         <View style={styles.rightColumn}>
-          <Image source={graphics.get('hemmo_keski')} style={{height: 180, width: 140}}/>
+          <Image source={getImage('hemmo_keski')} style={getSize('hemmo_keski', 0.7)}/>
         </View>
         {speechBubble}
       </Image>

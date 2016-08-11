@@ -3,10 +3,12 @@ import {Map} from 'immutable';
 import * as NavigationState from '../../../modules/navigation/NavigationState';
 import * as UserState from '../../../modules/user/UserState';
 import {post} from '../../../utils/api';
+import {getSize, getImage} from '../../../services/graphics';
+import {getScreenWidth, getScreenHeight} from '../../../services/screenSize';
+
 import {
   View,
   Image,
-  Dimensions,
   TouchableHighlight,
   TouchableOpacity,
   Text
@@ -14,7 +16,6 @@ import {
 
 var coordinates = [];
 var styles = require('./subStyles.js');
-var graphics = require('../../../components/graphics.js');
 
 const SubActivityView = React.createClass({
 
@@ -38,8 +39,8 @@ const SubActivityView = React.createClass({
 
     coordinates = [];
     var n = this.props.chosenMainActivity.get('subActivities').size;
-    var screenWidth = Dimensions.get('window').width;
-    var screenHeight = Dimensions.get('window').height - 20;
+    var screenWidth = getScreenWidth();
+    var screenHeight = getScreenHeight() - 20;
 
     var height = screenHeight / 2;
 
@@ -62,7 +63,7 @@ const SubActivityView = React.createClass({
       for (var j = 0; j < perRow; j++) {
         var x = j * width - fixValue - 10;
         var y = i * height - fixValue;
-        coordinates.push({x,y, width, height});
+        coordinates.push({x, y, width, height});
       }
     }
   },
@@ -99,11 +100,9 @@ const SubActivityView = React.createClass({
             style={{borderRadius: (coordinates[index].height * 0.7) / 2}}
             onPress={this.chooseActivity.bind(this, subActivity, index)}>
             <Image
-              source={graphics.get('ympyra_keski')}
+              source={getImage('ympyra_keski')}
               key={subActivity}
-              style={[styles.activityCircle, {
-                height: coordinates[index].height * 0.7,
-                width: coordinates[index].height * 0.7}]}>
+              style={[styles.activityCircle, getSize('ympyra_keski', 0.35)]}>
                   <Text style={styles.activityFont}>
                     {subActivity}
                   </Text>
@@ -113,7 +112,7 @@ const SubActivityView = React.createClass({
     ));
 
     return (
-      <Image source={graphics.get('tausta_levea')} style={styles.container}>
+      <Image source={getImage('tausta_levea')} style={styles.container}>
         <View style={styles.titleBar}>
           <Text style={styles.title}>{this.props.chosenMainActivity.get('key')}</Text>
         </View>
@@ -122,9 +121,9 @@ const SubActivityView = React.createClass({
         </View>
         <TouchableOpacity onPress={this.closeSubActivities} style={styles.closeButton}>
           <Image
-            source={graphics.get('nappula_rasti')}
+            source={getImage('nappula_rasti')}
             onPress={this.closeSubActivities}
-            style={styles.closeButton}/>
+            style={[styles.closeButton, getSize('nappula_rasti', 0.1)]}/>
         </TouchableOpacity>
       </Image>
     );

@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react';
 import AudioPlayer from './AudioPlayer';
+import {getSize, getImage} from '../services/graphics';
 
 import {
   View,
@@ -17,7 +18,7 @@ const SpeechBubble = React.createClass({
     text: PropTypes.string.isRequired,
     maIndex: PropTypes.number,
     saIndex: PropTypes.number,
-    bubbleType: PropTypes.number,
+    bubbleType: PropTypes.string,
     style: PropTypes.object.isRequired,
     audioTrack: PropTypes.string
   },
@@ -52,11 +53,8 @@ const SpeechBubble = React.createClass({
           left: this.props.style.left}
         ]}>
         <Image
-          source={this.props.bubbleType}
-          style={[styles.bubbleText, {
-            height: this.props.style.height,
-            width: this.props.style.width
-          }]}>
+          source={getImage(this.props.bubbleType)}
+          style={[styles.bubbleText, getSize(this.props.bubbleType, this.props.style.size)]}>
           <Text
             style={[styles.text, {
               marginTop: this.props.style.marginTop,

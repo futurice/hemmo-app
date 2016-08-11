@@ -15,7 +15,6 @@ export default connect(
       // Android back button is handled separately in index.android.js
       if (action.type === 'back' || action.type === 'BackAction') {
         dispatch(popRoute());
-        console.log('POPPING DONE');
       } else if (action.type === 'animation-completed') {
         dispatch(navigationCompleted());
       }

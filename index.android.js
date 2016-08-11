@@ -7,7 +7,7 @@ import {setConfiguration} from './src/utils/configuration';
 import {AppRegistry, BackAndroid} from 'react-native';
 import * as NavigationStateActions from './src/modules/navigation/NavigationState';
 
-const PepperoniAppTemplate = React.createClass({
+const Hemmo = React.createClass({
 
   componentWillMount() {
     BackAndroid.addEventListener('hardwareBackPress', this.navigateBack);
@@ -17,20 +17,13 @@ const PepperoniAppTemplate = React.createClass({
   navigateBack() {
     const navigationState = store.getState().get('navigationState');
 
-    // if we are in the beginning of our tab stack
     if (navigationState.get('index') === 0) {
-
-      // if we are not in the first tab, switch tab to the leftmost one
-      // if (navigationState.get('index') !== 0) {
-      //   store.dispatch(NavigationStateActions.switchTab(0));
-      //   return true;
-      // }
-
-      // otherwise let OS handle the back button action
       return false;
     }
-    var currentIndex = navigationState.get('index');
-    var allowReturn = navigationState.getIn(['children', currentIndex, 'allowReturn']);
+
+    /* Check if returning from current page is allowed */
+    var currentPageIndex = navigationState.get('index');
+    var allowReturn = navigationState.getIn(['children', currentPageIndex, 'allowReturn']);
     if (allowReturn === false) {
       return true;
     }
@@ -48,4 +41,4 @@ const PepperoniAppTemplate = React.createClass({
   }
 });
 
-AppRegistry.registerComponent('PepperoniAppTemplate', () => PepperoniAppTemplate);
+AppRegistry.registerComponent('Hemmo', () => Hemmo);

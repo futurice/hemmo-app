@@ -11,12 +11,8 @@ export async function resetSnapshot() {
   return null;
 }
 
+/* executed everytime a state is updated */
 export async function saveSnapshot(state) {
-
-  // console.log('state ' + JSON.stringify(state));
-
-  // console.log('Users jotka tallennetaan ' + JSON.stringify(state.getIn(['user', 'users'])));
-
   await persist(state.toJS());
 }
 

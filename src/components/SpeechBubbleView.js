@@ -13,7 +13,7 @@ const SpeechBubbleView = React.createClass({
     maIndex: PropTypes.number, // index of the selected main activity
     saIndex: PropTypes.number, // index of the selected sub activity
     hideBubble: PropTypes.func.isRequired,
-    bubbleType: PropTypes.number,
+    bubbleType: PropTypes.string,
     style: PropTypes.object.isRequired
   },
 

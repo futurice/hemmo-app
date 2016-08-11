@@ -23,15 +23,13 @@ const styles = StyleSheet.create({
   },
   emotionColumn: {
     flex: 4,
-    paddingVertical: 20,
+    paddingLeft: 20,
     flexDirection: 'column',
     flexWrap: 'wrap',
     justifyContent: 'center'
   },
   check: {
     position: 'absolute',
-    height: 30,
-    width: 30,
     top: 0,
     right: 10
   },
@@ -48,9 +46,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 50,
-    margin: 4,
-    height: 105,
-    width: 105
+    margin: 6
   },
   saveButton: {
     position: 'absolute',

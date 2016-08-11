@@ -1,9 +1,6 @@
-import {getScreenWidth, getScreenHeight} from '../../../services/screenSize';
 import {
   StyleSheet
 } from 'react-native';
-
-var w = getScreenWidth();
 
 const styles = StyleSheet.create({
   container: {
