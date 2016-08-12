@@ -11,7 +11,7 @@ const AudioPlayer = React.createClass({
 
   componentWillMount() {
     this.player = new Player('/audio/' + this.props.audioTrack).prepare();
-    console.log('this.player path ' + this.player._path);
+    // console.log('this.player path ' + this.player._path);
     // console.log('this.player.path ' + JSON.stringify(this.player.state));
   },
 

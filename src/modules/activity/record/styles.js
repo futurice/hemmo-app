@@ -17,38 +17,42 @@ const styles = StyleSheet.create({
     margin: 10,
     flexDirection: 'column'
   },
-  button: {
-    position: 'absolute',
-    alignItems: 'center',
-    justifyContent: 'center',
-    bottom: 10,
-    right: 10
+  buttonRow: {
+    flex: 1,
+    alignItems: 'flex-end',
+    justifyContent: 'flex-end',
+    paddingRight: 20,
+    paddingBottom: 20
   },
   rightColumn: {
     flex: 2,
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-    justifyContent: 'center'
+    flexDirection: 'column'
   },
   headerWithoutTitles: {
     flex: 1,
     justifyContent: 'center',
     marginHorizontal: 100
   },
+  hemmoRow: {
+    flex: 6,
+    alignItems: 'flex-end',
+    justifyContent: 'flex-end'
+  },
   extraRow: {
     flexDirection: 'row',
     alignItems: 'center',
     margin: 10
   },
-  skipButton: {
-    position: 'absolute',
-    bottom: 10,
-    right: 20
+  skipRow: {
+    flex: 1
   },
   skipButtonHighlight: {
     flex: 1,
     width: width / 8,
-    borderRadius: 10
+    borderRadius: 10,
+    position: 'absolute',
+    right: 20,
+    bottom: 10
   },
   writingContainer: {
     position: 'absolute',

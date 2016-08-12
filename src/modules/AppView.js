@@ -35,8 +35,8 @@ const AppView = React.createClass({
 
         /* Jos viimeisin tila löytyi */
         if (snapshot) {
-          dispatch(SessionState.resetSessionStateFromSnapshot(snapshot))
-            .then(this.resetRoute());
+          dispatch(SessionState.resetSessionStateFromSnapshot(snapshot));
+            // .then(this.resetRoute());
         }
         /* Ei löytynyt. Aloitetaan alusta */
         else {

@@ -48,7 +48,6 @@ const SpeechBubble = React.createClass({
   render() {
 
     bubbleText = this.renderBubbleText();
-    console.log('bubbleText ' + bubbleText);
 
     return (
       <View

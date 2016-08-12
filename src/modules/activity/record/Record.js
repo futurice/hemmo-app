@@ -158,11 +158,13 @@ const Record = React.createClass({
 
   renderButton(text, onPress) {
     return (
-      <TouchableOpacity onPress={onPress}>
-        <Image
-          source={getImage(text)}
-          style={[styles.button, getSize(text, 0.1)]}/>
-      </TouchableOpacity>
+      <View style={styles.buttonRow}>
+        <TouchableOpacity onPress={onPress}>
+          <Image
+            source={getImage('nappula_kirjoita')}
+            style={getSize('nappula_kirjoita', 0.1)}/>
+        </TouchableOpacity>
+      </View>
     );
   },
 
@@ -209,9 +211,9 @@ const Record = React.createClass({
     else {
       titlePanel = (
         <TitlePanel
-        activityIndex={this.props.activityIndex}
-        savedActivities={this.props.savedActivities}
-        dispatch={this.props.dispatch}/>
+          activityIndex={this.props.activityIndex}
+          savedActivities={this.props.savedActivities}
+          dispatch={this.props.dispatch}/>
       );
       speechBubble = this.renderBubble('record');
     }
@@ -220,11 +222,9 @@ const Record = React.createClass({
 
     if (this.state.enableWriting === true) {
       var writingView = this.renderWritingPanel();
-      // buttonPanel = this.renderButtonPanel('save', 'Tallenna', this.saveText);
       var saveOrWriteButton = this.renderButton('nappula_tallenna', this.saveText);
     }
     else {
-      // buttonPanel = this.renderButtonPanel('pencil', 'Kirjoita', this.enableWriting);
       saveOrWriteButton = this.renderButton('nappula_kirjoita', this.enableWriting);
 
     }
@@ -236,12 +236,16 @@ const Record = React.createClass({
           {saveOrWriteButton}
         </Image>
         <View style={styles.rightColumn}>
-          <Image source={getImage('hemmo_keski')} style={getSize('hemmo_keski', 0.7)}/>
-          <TouchableOpacity onPress={this.skip} style={styles.skipButtonHighlight}>
-            <Image
-              source={getImage('nappula_ohita')}
-              style={[styles.skipButton, getSize('nappula_ohita', 0.1)]}/>
-          </TouchableOpacity>
+          <View style={styles.hemmoRow}>
+            <Image source={getImage('hemmo_keski')} style={getSize('hemmo_keski', 0.7)}/>
+          </View>
+          <View style={styles.skipRow}>
+            <TouchableOpacity onPress={this.skip} style={styles.skipButtonHighlight}>
+              <Image
+                source={getImage('nappula_ohita')}
+                style={[styles.skipButton, getSize('nappula_ohita', 0.1)]}/>
+            </TouchableOpacity>
+          </View>
         </View>
         {writingView}
         {speechBubble}
