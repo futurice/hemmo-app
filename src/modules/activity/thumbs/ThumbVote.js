@@ -38,10 +38,10 @@ const ThumbVote = React.createClass({
   vote(vote) {
 
     var answer = thumb_values[vote].text;
-    var question = 'Millaista se oli?';
+    var question = 'Millaista se oli';
     var type = 'like';
 
-    post('/content/', {contentType: type, answer, question})
+    post('/content', {contentType: type, answer, question})
       .then(
         result => {
           this.props.dispatch(

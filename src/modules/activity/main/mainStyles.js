@@ -14,14 +14,11 @@ const styles = StyleSheet.create({
   },
   activity: {
     flex: 1,
-    margin: 10,
-    alignItems: 'center',
-    justifyContent: 'center'
+    padding: 10
   },
   highlight: {
     flex: 1,
-    padding: 10,
-    flexWrap: 'wrap'
+    margin: 10
   },
   activityImage: {
     flex: 1

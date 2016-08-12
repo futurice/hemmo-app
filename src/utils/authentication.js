@@ -7,7 +7,7 @@ export function getAuthenticationToken() {
 }
 
 export async function setAuthenticationToken(token) {
-  // console.log('token is ' + token);
+  console.log('token is ' + token);
   return AsyncStorage.setItem(AUTHENTICATION_STORAGE_KEY, token);
 }
 

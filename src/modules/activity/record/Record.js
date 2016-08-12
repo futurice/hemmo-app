@@ -1,12 +1,11 @@
 import React, {PropTypes} from 'react';
 import {List} from 'immutable';
-import Button from '../../../components/Button';
 import AudioRecorder from '../../../components/AudioRecorder';
 import TitlePanel from '../../../components/TitlePanel';
 import SpeechBubbleView from '../../../components/SpeechBubbleView';
 import * as NavigationState from '../../../modules/navigation/NavigationState';
 import * as UserState from '../../../modules/user/UserState';
-import {post} from '../../../utils/api';
+import {put, post} from '../../../utils/api';
 import {getSize, getImage} from '../../../services/graphics';
 
 import {
@@ -65,19 +64,49 @@ const Record = React.createClass({
     else {
       answer = this.state.text;
     }
-    var question = 'Kertoisitko siitä lisää?';
+    var question = 'Kerro tarkemmin';
     var type = 'text';
 
-    post('/content/', {contentType: type, answer, question})
+    post('/content', {contentType: type, answer, question})
       .then(
         result => {
+          console.log('contentId ' + result.contentId);
           this.continue(result.contentId);
         }
       );
   },
 
-  saveAnswers(type) {
-    console.log('Coming soon! ' + type);
+  saveAnswers(file) {
+    console.log('Coming soon! ' + file);
+    var answer = 'empty';
+    var question = 'Kerro tarkemmin';
+    var type = 'multipart/form-data';
+
+    post('/content', {contentType: type, answer, question})
+      .then(
+        result => {
+          console.log('contentId ' + result.contentId);
+          put('/attachment/' + result.contentId, {file})
+            .then(res => {
+              console.log('result from upload is ' + res.contentId);
+              this.continue(res.contentId);
+            });
+        }
+      );
+
+    /*  post('/content/', {contentType: type, answer, question})
+        .then(
+          result => {
+            this.props.dispatch(
+              UserState.saveAnswer(this.props.activityIndex, 'thumb', answer, result.contentId)
+            );
+
+            this.props.dispatch(
+              NavigationState.pushRoute({key: 'Record', allowReturn: true})
+            );
+          }
+        );*/
+
     this.continue();
   },
 
@@ -113,7 +142,7 @@ const Record = React.createClass({
           text={text}
           bubbleType={'puhekupla_oikea'}
           hideBubble={this.hideBubble}
-          style={{top: 100, left: 100, margin: 30, fontSize: 14, size: 0.5}}/>
+          style={{top: 100, left: 100, margin: 30, fontSize: 16, size: 0.5}}/>
       );
     }
     else {
@@ -127,11 +156,13 @@ const Record = React.createClass({
     );
   },
 
-  renderButton(icon, text, onPress) {
+  renderButton(text, onPress) {
     return (
-      <Button
-      style={styles.writeButton} highlightStyle={styles.writeButtonHighlight}
-      onPress={onPress} text={text} icon={icon}/>
+      <TouchableOpacity onPress={onPress}>
+        <Image
+          source={getImage(text)}
+          style={[styles.button, getSize(text, 0.1)]}/>
+      </TouchableOpacity>
     );
   },
 
@@ -148,7 +179,9 @@ const Record = React.createClass({
             style={styles.textForm}/>
         </View>
         <TouchableOpacity onPress={this.disableWriting} style={styles.closeButton}>
-          <Image source={getImage('nappula_rasti')} style={styles.closeButton}/>
+          <Image
+            source={getImage('nappula_rasti')}
+            style={[styles.closeButton, getSize('nappula_rasti', 0.1)]}/>
         </TouchableOpacity>
       </View>
     );
@@ -163,7 +196,9 @@ const Record = React.createClass({
         speechBubble = this.renderBubble('emotionFeedback');
         var titlePanel = (
           <TouchableOpacity onPress={this.cancel}>
-            <Image source={getImage('nappula_takaisin')} style={[styles.returnButton, getSize('nappula_takaisin', 0.15)]}/>
+            <Image
+              source={getImage('nappula_takaisin')}
+              style={[styles.returnButton, getSize('nappula_takaisin', 0.15)]}/>
           </TouchableOpacity>
         );
       }
@@ -186,15 +221,15 @@ const Record = React.createClass({
     if (this.state.enableWriting === true) {
       var writingView = this.renderWritingPanel();
       // buttonPanel = this.renderButtonPanel('save', 'Tallenna', this.saveText);
-      var saveOrWriteButton = this.renderButton('save', 'Tallenna', this.saveText);
+      var saveOrWriteButton = this.renderButton('nappula_tallenna', this.saveText);
     }
     else {
       // buttonPanel = this.renderButtonPanel('pencil', 'Kirjoita', this.enableWriting);
-      saveOrWriteButton = this.renderButton('pencil', 'Kirjoita', this.enableWriting);
+      saveOrWriteButton = this.renderButton('nappula_kirjoita', this.enableWriting);
 
     }
     return (
-      <Image source={getImage('tausta_perus2')} style={styles.container}>
+      <Image source={getImage('tausta_perus')} style={styles.container}>
         <Image source={getImage('tausta_kapea')} style={[styles.leftColumn, getSize('tausta_kapea', 0.9)]}>
           {titlePanel}
           {actionPanel}
@@ -202,9 +237,11 @@ const Record = React.createClass({
         </Image>
         <View style={styles.rightColumn}>
           <Image source={getImage('hemmo_keski')} style={getSize('hemmo_keski', 0.7)}/>
-          <Button
-            style={styles.skipButton} highlightStyle={styles.skipButtonHighlight}
-            onPress={this.skip} text={'Ohita'} icon={'angle-right'}/>
+          <TouchableOpacity onPress={this.skip} style={styles.skipButtonHighlight}>
+            <Image
+              source={getImage('nappula_ohita')}
+              style={[styles.skipButton, getSize('nappula_ohita', 0.1)]}/>
+          </TouchableOpacity>
         </View>
         {writingView}
         {speechBubble}

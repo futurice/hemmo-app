@@ -5,6 +5,7 @@ export default connect(
   state => ({
     savedActivities: state.getIn(['user', 'currentUser', 'answers', 'activities']),
     activityIndex: state.getIn(['user', 'activityIndex']),
-    currentUser: state.getIn(['user', 'currentUser'])
+    currentUser: state.getIn(['user', 'currentUser']),
+    isReady: state.getIn(['session', 'isReady'])
   })
 )(MainActivityView);

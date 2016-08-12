@@ -8,10 +8,6 @@ const initialState = fromJS({
   }]
 });
 
-// TODO: ATM all the views are saved to navigation state, but possibly it could be
-// edited so that the navigation stack doesn't hold information about the views
-// that the user can not return to anyway.
-
 // Actions
 export const INITIALIZE_STATE = 'NavigationState/INITIALIZE_STATE';
 const RESET_ROUTE = 'NavigationState/RESET_ROUTE';

@@ -116,7 +116,8 @@ const AudioRecorder = React.createClass({
         this._updateState();
       }
       if (stopped) {
-        this.props.saveAnswers('file');
+        console.log('this path ' + JSON.stringify(this.recorder._path));
+        this.props.saveAnswers(this.recorder._path);
       }
       else {
         this._updateState();

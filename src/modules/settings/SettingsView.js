@@ -54,7 +54,7 @@ const SettingsView = React.createClass({
 
         var name = this.props.currentUser.get('name');
 
-        post('/register/', {name})
+        post('/register', {name})
           .then(
             result => this.props.dispatch(UserState.setCurrentUserValue('token', 'Bearer ' + result.token))
           .then(this.props.dispatch(UserState.createUser(this.props.currentUser))));

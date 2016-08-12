@@ -70,10 +70,10 @@ const SubActivityView = React.createClass({
 
   chooseActivity(subActivity, subIndex) {
     var answer = subActivity;
-    var question = 'Kertoisitko tarkemmin';
+    var question = 'Mita teitte (tarkemmin)';
     var type = 'text';
 
-    post('/content/', {contentType: type, answer, question})
+    post('/content', {contentType: type, answer, question})
       .then(
         result => {
           this.props.dispatch(

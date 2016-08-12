@@ -4,10 +4,10 @@ import * as UserState from '../../../modules/user/UserState';
 import * as NavigationState from '../../../modules/navigation/NavigationState';
 import SubActivityView from '../sub/SubActivityView';
 import SpeechBubbleView from '../../../components/SpeechBubbleView';
+import LoadingSpinner from '../../../components/LoadingSpinner';
 import {post} from '../../../utils/api';
 import {getScreenWidth, getScreenHeight} from '../../../services/screenSize';
 import {getSize, getImage} from '../../../services/graphics';
-
 
 import {
   Image,
@@ -25,6 +25,7 @@ const MainActivityView = React.createClass({
 
   propTypes: {
     dispatch: PropTypes.func.isRequired,
+    isReady: PropTypes.bool,
     savedActivities: PropTypes.instanceOf(List),
     activityIndex: PropTypes.number.isRequired,
     currentUser: PropTypes.instanceOf(Map)
@@ -50,24 +51,24 @@ const MainActivityView = React.createClass({
 
   openSubActivities(activity) {
     this.saveAnswer(activity);
-    this.setState({showSubActivities: true, chosenMainActivity: activity, showBubble: true});
   },
 
   saveAnswer(activity) {
     var answer = activity.get('key');
-    var question = 'Mitä teitte';
+    var question = 'Mita teitte';
     var type = 'text';
 
-    post('/content/', {contentType: type, answer, question})
-      .then(
-        result =>
-          this.props.dispatch(UserState.saveAnswer(
+    post('/content', {contentType: type, answer, question})
+      .then(result =>
+        this.props.dispatch(
+          UserState.saveAnswer(
             this.props.activityIndex,
             'main',
             activity.get('id'),
             result.contentId)
           )
-      );
+      )
+        .then(() => this.setState({showSubActivities: true, chosenMainActivity: activity, showBubble: true}));
   },
 
   closeSubActivities() {
@@ -103,18 +104,18 @@ const MainActivityView = React.createClass({
     var w = getScreenWidth();
 
     const activityViews = activities.map((activity) => (
-      <Image
-        source={getImage('nelio')}
-        key={activity.get('key')}
-        style={[styles.activity, {width: null, height: null}]}>
-        <TouchableHighlight
-          style={styles.highlight}
-          onPress={this.openSubActivities.bind(this, activity)}>
-            <Image
-              style={[styles.activityImage, {width: activityWidth}]}
-              source={activity.get('imageRoute')}/>
-        </TouchableHighlight>
-      </Image>
+      <TouchableHighlight
+        style={styles.highlight}
+        onPress={this.openSubActivities.bind(this, activity)}>
+        <Image
+          source={getImage('nelio')}
+          key={activity.get('key')}
+          style={[styles.activity, {width: null, height: null}]}>
+          <Image
+            style={[styles.activityImage, {width: activityWidth}]}
+            source={activity.get('imageRoute')}/>
+        </Image>
+      </TouchableHighlight>
     ));
 
     if (this.state.showSubActivities === true) {
@@ -129,6 +130,12 @@ const MainActivityView = React.createClass({
     }
     else {
       speechBubble = this.renderBubble('mainActivity', h, w);
+    }
+
+    if (!this.props.isReady) {
+      return (
+        <LoadingSpinner/>
+      );
     }
 
     return (

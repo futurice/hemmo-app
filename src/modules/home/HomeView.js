@@ -1,11 +1,12 @@
 import * as NavigationState from '../navigation/NavigationState';
 import * as UserState from '../user/UserState';
+import * as SessionState from '../session/SessionState';
 import React, {PropTypes} from 'react';
 import {List, Map} from 'immutable';
 import SpeechBubble from '../../components/SpeechBubble';
 import SpeechBubbleView from '../../components/SpeechBubbleView';
 import PasswordModal from '../../components/PasswordModal';
-import {setAuthenticationToken} from '../../utils/authentication';
+import {setAuthenticationToken, getAuthenticationToken} from '../../utils/authentication';
 import {setSessionId} from '../../utils/session';
 import {post} from '../../utils/api';
 import {getSize, getImage} from '../../services/graphics';
@@ -40,6 +41,7 @@ const HomeView = React.createClass({
   },
 
   startJourney(id) {
+    this.props.dispatch(SessionState.startPreparing());
     this.props.dispatch(UserState.setCurrentUser(id))
       .then(setAuthenticationToken(this.props.currentUser.get('token')))
       .then(this.startSession());
@@ -48,8 +50,16 @@ const HomeView = React.createClass({
   },
 
   startSession() {
-    post('/session/')
-      .then(result => setSessionId(result.sessionId));
+    post('/session')
+      .then(result => {
+        console.log('new session started! ' + result.sessionId);
+        setSessionId(result.sessionId);
+        getAuthenticationToken()
+          .then(token => {
+            console.log('Authentication token is ' + token);
+            this.props.dispatch(SessionState.finishPreparing());
+          });
+      });
   },
 
   openPasswordModal() {

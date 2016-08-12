@@ -3,7 +3,6 @@ import {
   Dimensions
 } from 'react-native';
 
-var height = Dimensions.get('window').height;
 var width = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
@@ -18,15 +17,18 @@ const styles = StyleSheet.create({
     margin: 10,
     flexDirection: 'column'
   },
+  button: {
+    position: 'absolute',
+    alignItems: 'center',
+    justifyContent: 'center',
+    bottom: 10,
+    right: 10
+  },
   rightColumn: {
     flex: 2,
     flexDirection: 'row',
     alignItems: 'flex-end',
-    justifyContent: 'center',
-    paddingBottom: 10
-  },
-  hemmoRow: {
-    flex: 3
+    justifyContent: 'center'
   },
   headerWithoutTitles: {
     flex: 1,
@@ -38,27 +40,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     margin: 10
   },
-  writeButton: {
-    width: width / 5,
-    position: 'absolute',
-    alignItems: 'center',
-    justifyContent: 'center',
-    bottom: 10,
-    right: 10,
-    borderWidth: 1,
-    borderRadius: 10
-  },
-  writeButtonHighlight: {
-    width: width / 5,
-    borderRadius: 10
-  },
   skipButton: {
-    borderWidth: 1,
-    width: width / 8,
-    backgroundColor: 'white',
-    padding: 2,
-    marginRight: 15,
-    borderRadius: 10
+    position: 'absolute',
+    bottom: 10,
+    right: 20
   },
   skipButtonHighlight: {
     flex: 1,
@@ -90,6 +75,8 @@ const styles = StyleSheet.create({
   },
   textForm: {
     margin: 15,
+    flex: 1,
+    fontSize: 20,
     textAlignVertical: 'top'
   },
   returnButton: {
@@ -98,9 +85,7 @@ const styles = StyleSheet.create({
   closeButton: {
     position: 'absolute',
     right: 0,
-    top: 0,
-    width: 40,
-    height: 40
+    top: 0
   }
 });
 
