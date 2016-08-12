@@ -83,6 +83,42 @@ export async function request(method, path, body, suppressRedBox) {
   }
 }
 
+export async function xhr(method, path, body, suppressRedBox) {
+  try {
+    const token = await getAuthenticationToken();
+    const sessionId = await getSessionId();
+
+    return new Promise((resolve, reject) => {
+      const endpoint = url(path);
+
+      var req = new XMLHttpRequest();
+      req.open(method, endpoint);
+      req.setRequestHeader('Authorization', token);
+      req.setRequestHeader('Session', sessionId);
+
+      req.onreadystatechange = (e) => {
+        if (req.readyState !== 4) {
+          return;
+        }
+
+        if (req.status === 200) {
+          resolve(req.responseText);
+        } else {
+          reject(new Error(`Status: ${req.readyState}: ${req.responseText}`));
+        }
+      };
+
+      req.send(body);
+    });
+  }
+  catch (error) {
+    if (!suppressRedBox) {
+      logError(error, url(path), method);
+    }
+    throw error;
+  }
+}
+
 /**
  * Takes a relative path and makes it a full URL to API server
  */
@@ -106,7 +142,7 @@ async function sendRequest(method, path, body) {
     // console.log('sessionId ' + sessionId);
     // console.log('token = ' + token);
     const headers = getRequestHeaders(body, token, sessionId);
-    // console.log('headers = ' + JSON.stringify(headers));
+    console.log('headers = ' + JSON.stringify(headers));
     const options = body
       ? {method, headers, body: JSON.stringify(body)}
       : {method, headers};

@@ -5,7 +5,7 @@ import TitlePanel from '../../../components/TitlePanel';
 import SpeechBubbleView from '../../../components/SpeechBubbleView';
 import * as NavigationState from '../../../modules/navigation/NavigationState';
 import * as UserState from '../../../modules/user/UserState';
-import {put, post} from '../../../utils/api';
+import {put, post, xhr} from '../../../utils/api';
 import {getSize, getImage} from '../../../services/graphics';
 
 import {
@@ -76,21 +76,31 @@ const Record = React.createClass({
       );
   },
 
-  saveAnswers(file) {
-    console.log('Coming soon! ' + file);
-    var answer = 'empty';
+  saveAnswers(filePath) {
     var question = 'Kerro tarkemmin';
-    var type = 'multipart/form-data';
 
-    post('/content', {contentType: type, answer, question})
+    console.log('grepme: sending file: ' + filePath);
+
+    var body = new FormData();
+    var file = {
+      uri: 'file:///data/user/0/com.pepperoniapptemplate/files/test.mp4',
+      type: 'audio/mp4',
+      name: 'file'
+    };
+
+    body.append('file', file);
+
+    post('/content', {contentType: 'audio', question})
       .then(
         result => {
           console.log('contentId ' + result.contentId);
-          put('/attachment/' + result.contentId, {file})
-            .then(res => {
-              console.log('result from upload is ' + res.contentId);
-              this.continue(res.contentId);
-            });
+
+          xhr('PUT', '/attachment/' + result.contentId, body)
+          .then(
+            result => {
+              this.continue();
+          });
+
         }
       );
 
