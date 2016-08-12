@@ -1,56 +1,91 @@
 {
-  "userIsUnknown": "Moikka, näyttää siltä etten tiedä kuka olet. Käy asetuksissa lisäämässä nimesi ja kuvasi.",
-  "userIsKnown": "Moikka, kiva kun tulit taas juttelemaan kanssani. Nyt voit kertoa siitä, millaista sinulla oli viime kerralla tukiperheessä. Olen apunasi alusta loppuun, joten ei huolta, osaat kyllä!",
-  "mainActivity": "Kertoisitko minulle mikä sinulle jäi erityisesti mieleen viime kerrastasi tukiperheessä? Liittyikö se puuhailuun - leikkimiseen ja pelaamiseen - ulkoiluun ja retkeilyyn - yhdessä vietettyyn aikaan tai lemmikkeihin ja kotieläimiin? Tai voit myös kertoa minulle jostain ihan muusta asiasta tukiperheessä.",
+  "userIsUnknown": {
+    "text": "Moikka, näyttää siltä etten tiedä kuka olet. Käy asetuksissa lisäämässä nimesi ja kuvasi.",
+    "audio": "hemmo_01.wav"
+  },
+  "userIsKnown": {
+    "text": "Moikka, kiva kun tulit taas juttelemaan kanssani. Nyt voit kertoa siitä, millaista sinulla oli viime kerralla tukiperheessä. Olen apunasi alusta loppuun, joten ei huolta, osaat kyllä!",
+    "audio": "hemmo_02.wav"
+  },
+  "mainActivity":{
+    "text": "Kertoisitko minulle mikä sinulle jäi erityisesti mieleen viime kerrastasi tukiperheessä? Liittyikö se puuhailuun - leikkimiseen ja pelaamiseen - ulkoiluun ja retkeilyyn - yhdessä vietettyyn aikaan tai lemmikkeihin ja kotieläimiin? Tai voit myös kertoa minulle jostain ihan muusta asiasta tukiperheessä.",
+    "audio": "hemmo_03.wav"
+  },
   "subActivity": [
     {"text": "Kerro minulle vielä hieman tarkemmin? Leivoitteko tai kokkailitteko, puuhasitteko tai askartelitteko, luitko itseksesi, teittekö kotihommia tai rakentelitteko, nikkaroitteko tai korjailitte?",
+    "audio": "hemmo_05.wav",
     "subTexts": [
-      {"subText": "Millaista oli leipoa tai kokkailla?"},
-      {"subText": "Millaista oli tehdä kotihommia?"},
-      {"subText": "Millaista oli piirtää tai askarrella?"},
-      {"subText": "Millaista oli lukea?"},
-      {"subText": "Millaista oli rakennella, nikkaroida tai korjailla?"}
+      {"subText": "Millaista oli leipoa tai kokkailla?", "audio": "hemmo_14.wav"},
+      {"subText": "Millaista oli tehdä kotihommia?", "audio": "hemmo_15.wav"},
+      {"subText": "Millaista oli piirtää tai askarrella?", "audio": "hemmo_16.wav"},
+      {"subText": "Millaista oli lukea?", "audio": "hemmo_17.wav"},
+      {"subText": "Millaista oli rakennella, nikkaroida tai korjailla?", "audio": "hemmo_18.wav"}
       ]},
     {"text": "Kerro minulle vielä hieman tarkemmin? Ulkoilitteko, paistoitteko makkaraa, retkeilittekö, teittekö pihahommia, kävittekö leikkipuistossa, kalastitteko tai mökkeilittekö?",
+      "audio": "hemmo_06.wav",
       "subTexts": [
-        {"subText": "Millaista oli ulkoilla?"},
-        {"subText": "Millaista oli paistaa makkaraa?"},
-        {"subText": "Millaista oli retkeillä?"},
-        {"subText": "Millaista oli tehdä pihahommia?"},
-        {"subText": "Millaista oli käydä leikkipuistossa?"},
-        {"subText": "Millaista oli kalastaa?"},
-        {"subText": "Millaista oli mökkeillä?"}
+        {"subText": "Millaista oli ulkoilla?", "audio": "hemmo_19.wav"},
+        {"subText": "Millaista oli paistaa makkaraa?", "audio": "hemmo_20.wav"},
+        {"subText": "Millaista oli retkeillä?", "audio": "hemmo_21.wav"},
+        {"subText": "Millaista oli tehdä pihahommia?", "audio": "hemmo_22.wav"},
+        {"subText": "Millaista oli käydä leikkipuistossa?", "audio": "hemmo_23.wav"},
+        {"subText": "Millaista oli kalastaa?", "audio": "hemmo_24.wav"},
+        {"subText": "Millaista oli mökkeillä?", "audio": "hemmo_25.wav"}
         ]},
     {"text": "Kerro minulle vielä hieman tarkemmin? Leikittekö, pelasitteko lautapelejä, pelasitteko videopelejä, liikuitteko tai uitteko?",
+      "audio": "hemmo_07.wav",
       "subTexts": [
-        {"subText": "Millaista oli leikkiä?"},
-        {"subText": "Millaista oli pelata lautapelejä?"},
-        {"subText": "Millaista oli pelata videopelejä?"},
-        {"subText": "Millaista oli liikkua?"},
-        {"subText": "Millaista oli uida?"}
+        {"subText": "Millaista oli leikkiä?", "audio": "hemmo_26.wav"},
+        {"subText": "Millaista oli pelata lautapelejä?", "audio": "hemmo_27.wav"},
+        {"subText": "Millaista oli pelata videopelejä?", "audio": "hemmo_28.wav"},
+        {"subText": "Millaista oli liikunta?", "audio": "hemmo_29.wav"},
+        {"subText": "Millaista oli uiminen?", "audio": "hemmo_30.wav"}
         ]},
     {"text": "Kerro minulle vielä hieman tarkemmin? Saunoitteko, juttelitteko, kyläilittekö, katselitteko elokuvaa tai luitteko yhdessä?",
+      "audio": "hemmo_04.wav",
       "subTexts": [
-        {"subText": "Millaista oli saunoa?"},
-        {"subText": "Millaista oli jutella?"},
-        {"subText": "Millaista oli kyläillä?"},
-        {"subText": "Millaista oli katsella elokuvia?"},
-        {"subText": "Millaista oli lukea yhdessä?"}
+        {"subText": "Millaista oli saunoa?", "audio": "hemmo_09.wav"},
+        {"subText": "Millaista oli jutella?", "audio": "hemmo_10.wav"},
+        {"subText": "Millaista oli kyläillä?", "audio": "hemmo_11.wav"},
+        {"subText": "Millaista oli katsella elokuvia?", "audio": "hemmo_12.wav"},
+        {"subText": "Millaista oli lukea yhdessä?", "audio": "hemmo_13.wav"}
         ]},
     {"text": "Kerro minulle vielä hieman tarkemmin? Koira, kissa, hevonen vai muita eläimiä?",
+      "audio": "hemmo_08.wav",
       "subTexts": [
-        {"subText": "Millaista oli hoitaa koiraa?"},
-        {"subText": "Millaista oli hoitaa kissaa?"},
-        {"subText": "Millaista oli hoitaa hevosta?"},
-        {"subText": "Millaista oli hoitaa muita eläimiä?"}
+        {"subText": "Millaista oli hoitaa koiraa?", "audio": "hemmo_31.wav"},
+        {"subText": "Millaista oli hoitaa kissaa?", "audio": "hemmo_32.wav"},
+        {"subText": "Millaista oli hoitaa hevosta?", "audio": "hemmo_33.wav"},
+        {"subText": "Millaista oli hoitaa muita eläimiä?", "audio": "hemmo_34.wav"}
         ]}
   ],
-  "record": "Kertoisitko minulle vielä mikä siitä erityisesti jäi mieleen? Paina pyöreää punaista nappia niin aloitetaan tallennus. Kun olet valmis, paina samalta paikalta mustaa nappia.",
-  "newRound": "Tahdotko kertoa vielä jostain muustakin, mitä teitte? Vai siirtyä eteenpäin?",
-  "emotions": "Millainen olo sinulle jäi koko viime kerrastasi tukiperheessä? Valitse näistä omaa oloasi vastaavia kuvia, tai kerro minulle puhumalla tai kirjoittamalla.",
-  "emotionFeedback": "Kerro tarkemmin miksi sinusta tuntui siltä?",
-  "generalFeedback": "Haluaisitko vielä lopuksi kertoa minulle jotain muuta?",
-  "ending": "Kiitos että kerroit minulle. Minusta on kiva kuulla mitä sanottavaa sinulla on, kerrothan kuulumisesi taas seuraavan kerran jälkeen.",
-  "saved": "Tallennettu",
+  "record": {
+    "text": "Kertoisitko minulle vielä mikä siitä erityisesti jäi mieleen? Paina pyöreää punaista nappia niin aloitetaan tallennus. Kun olet valmis, paina samalta paikalta mustaa nappia.",
+    "audio": "hemmo_35.wav"
+  },
+  "newRound": {
+    "text": "Tahdotko kertoa vielä jostain muustakin, mitä teitte? Vai siirtyä eteenpäin?",
+    "audio": "hemmo_37.wav"
+  },
+  "emotions": {
+    "text": "Millainen olo sinulle jäi koko viime kerrastasi tukiperheessä? Valitse näistä omaa oloasi vastaavia kuvia, tai kerro minulle puhumalla tai kirjoittamalla.",
+    "audio": "hemmo_38.wav"
+  },
+  "emotionFeedback": {
+    "text": "Kerro tarkemmin miksi sinusta tuntui siltä?",
+    "audio": "hemmo_39.wav"
+  },
+  "generalFeedback": {
+    "text": "Haluaisitko vielä lopuksi kertoa minulle jotain muuta?",
+    "audio": "hemmo_41.wav"
+  },
+  "ending": {
+    "text": "Kiitos että kerroit minulle. Minusta on kiva kuulla mitä sanottavaa sinulla on, kerrothan kuulumisesi taas seuraavan kerran jälkeen.",
+    "audio": "hemmo_42.wav"
+  },
+  "saved": {
+    "text": "Tallennettu",
+    "audio": "hemmo_43.wav"
+  },
   "deliveredBy": "Mitä olet Hemmolle kertonut, sen kuuntelee Pelastakaa Lasten työntekijä"
 }

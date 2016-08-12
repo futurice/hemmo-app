@@ -25,6 +25,8 @@
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		158AFF16B2A5415381B0379B /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 82FB37D38A764748AE94EBF3 /* Ionicons.ttf */; };
 		2B7D3D47072C4CE2BE4E159A /* libRCTOrientation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A06CC405BF034494822D6F9B /* libRCTOrientation.a */; };
+		6224C8C41D5DAAF9002D8516 /* audio in Resources */ = {isa = PBXBuildFile; fileRef = 6224C8C31D5DAAF9002D8516 /* audio */; };
+		6224C8C61D5DAB08002D8516 /* longer.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6224C8C51D5DAB08002D8516 /* longer.mp3 */; };
 		8154A4DE502B41139A61C68A /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 57E7230F999E4A50BC2EAA36 /* Octicons.ttf */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		957CC70DD61E4074BC08BE53 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9C01A6C3AB2E4D13892D39B5 /* Entypo.ttf */; };
@@ -176,6 +178,8 @@
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		2F9CB703FA3D4A67BB80F97E /* libRNImagePicker.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNImagePicker.a; sourceTree = "<group>"; };
 		57E7230F999E4A50BC2EAA36 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
+		6224C8C31D5DAAF9002D8516 /* audio */ = {isa = PBXFileReference; lastKnownFileType = folder; name = audio; path = ../assets/audio; sourceTree = "<group>"; };
+		6224C8C51D5DAB08002D8516 /* longer.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = longer.mp3; path = ../assets/longer.mp3; sourceTree = "<group>"; };
 		74451CEEB5B84CBD8A8FE579 /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
 		76F5B877EA2C437DA62CAD97 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
@@ -406,6 +410,8 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				6224C8C51D5DAB08002D8516 /* longer.mp3 */,
+				6224C8C31D5DAAF9002D8516 /* audio */,
 				13B07FAE1A68108700A75B9A /* PepperoniAppTemplate */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* PepperoniAppTemplateTests */,
@@ -513,6 +519,9 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				KnownAssetTags = (
+					New,
+				);
 				LastUpgradeCheck = 610;
 				ORGANIZATIONNAME = Facebook;
 				TargetAttributes = {
@@ -723,6 +732,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6224C8C61D5DAB08002D8516 /* longer.mp3 in Resources */,
+				6224C8C41D5DAAF9002D8516 /* audio in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				957CC70DD61E4074BC08BE53 /* Entypo.ttf in Resources */,

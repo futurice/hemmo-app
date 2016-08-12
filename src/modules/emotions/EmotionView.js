@@ -53,7 +53,7 @@ const EmotionView = React.createClass({
     var question = 'Millainen olo';
     var type = 'text';
 
-    post('/content/', {contentType: type, answer, question})
+    post('/content', {contentType: type, answer, question})
       .then(
         () => {
           this.props.dispatch(UserState.saveAnswer(null, 'emotions', this.state.selectedEmotions));

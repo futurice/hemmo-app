@@ -10,14 +10,13 @@ const AudioPlayer = React.createClass({
   },
 
   componentWillMount() {
-    // var track = this.props.audioTrack + '.mp3';
-    this.player = new Player('drumsticks.mp3').prepare();
+    this.player = new Player('/audio/' + this.props.audioTrack).prepare();
+    console.log('this.player path ' + this.player._path);
     // console.log('this.player.path ' + JSON.stringify(this.player.state));
   },
 
   componentDidMount() {
     this.player.play();
-    // console.log('state ' + this.player.state);
   },
 
   componentWillUnmount() {

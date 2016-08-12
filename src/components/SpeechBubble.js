@@ -11,6 +11,7 @@ import {
 
 var phrases = require('../../phrases.json');
 var bubbleText;
+var audiotrack;
 
 const SpeechBubble = React.createClass({
 
@@ -30,20 +31,24 @@ const SpeechBubble = React.createClass({
       //Text of the speech bubble is related to selected sub activity.
       //saIndex is the index of the selected sub activity.
       if (this.props.saIndex || this.props.saIndex === 0) {
+        audiotrack = phrases[this.props.text][this.props.maIndex].subTexts[this.props.saIndex].audio;
         return phrases[this.props.text][this.props.maIndex].subTexts[this.props.saIndex].subText;
       }
       else {
+        audiotrack = phrases[this.props.text][this.props.maIndex].audio;
         return phrases[this.props.text][this.props.maIndex].text;
       }
     }
     else {
-      return phrases[this.props.text];
+      audiotrack = phrases[this.props.text].audio;
+      return phrases[this.props.text].text;
     }
   },
 
   render() {
 
     bubbleText = this.renderBubbleText();
+    console.log('bubbleText ' + bubbleText);
 
     return (
       <View
@@ -64,7 +69,7 @@ const SpeechBubble = React.createClass({
             {bubbleText}
           </Text>
         </Image>
-        <AudioPlayer audioTrack={this.props.audioTrack}/>
+        <AudioPlayer audioTrack={audiotrack}/>
       </View>
     );
   }
