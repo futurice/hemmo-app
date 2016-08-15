@@ -49,17 +49,20 @@ const EmotionView = React.createClass({
 
   save() {
 
-    var answer = JSON.stringify([...this.state.selectedEmotions]);
-    var question = 'Millainen olo';
-    var type = 'text';
+    this.props.dispatch(UserState.saveAnswer(null, 'emotions', this.state.selectedEmotions));
+    this.props.dispatch(NavigationState.pushRoute({key: 'Record', allowReturn: true}));
 
-    post('/content', {contentType: type, answer, question})
-      .then(
-        () => {
-          this.props.dispatch(UserState.saveAnswer(null, 'emotions', this.state.selectedEmotions));
-          this.props.dispatch(NavigationState.pushRoute({key: 'Record', allowReturn: true}));
-        }
-      );
+    // var answer = JSON.stringify([...this.state.selectedEmotions]);
+    // var question = 'Millainen olo';
+    // var type = 'text';
+    //
+    // post('/content', {contentType: type, answer, question})
+    //   .then(
+    //     () => {
+    //       this.props.dispatch(UserState.saveAnswer(null, 'emotions', this.state.selectedEmotions));
+    //       this.props.dispatch(NavigationState.pushRoute({key: 'Record', allowReturn: true}));
+    //     }
+    //   );
   },
 
   /* If the emotion hasn't been checked yet, it is added to an array what holds the information

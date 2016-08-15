@@ -36,23 +36,30 @@ const ThumbVote = React.createClass({
   },
 
   vote(vote) {
+    this.props.dispatch(
+      UserState.saveAnswer(this.props.activityIndex, 'thumb', vote)
+    );
 
-    var answer = thumb_values[vote].text;
-    var question = 'Millaista se oli';
-    var type = 'like';
+    this.props.dispatch(
+      NavigationState.pushRoute({key: 'Record', allowReturn: true})
+    );
 
-    post('/content', {contentType: type, answer, question})
-      .then(
-        result => {
-          this.props.dispatch(
-            UserState.saveAnswer(this.props.activityIndex, 'thumb', answer, result.contentId)
-          );
-
-          this.props.dispatch(
-            NavigationState.pushRoute({key: 'Record', allowReturn: true})
-          );
-        }
-      );
+    // var answer = thumb_values[vote].text;
+    // var question = 'Millaista se oli';
+    // var type = 'like';
+    //
+    // post('/content', {contentType: type, answer, question})
+    //   .then(
+    //     result => {
+    //       this.props.dispatch(
+    //         UserState.saveAnswer(this.props.activityIndex, 'thumb', answer, result.contentId)
+    //       );
+    //
+    //       this.props.dispatch(
+    //         NavigationState.pushRoute({key: 'Record', allowReturn: true})
+    //       );
+    //     }
+    //   );
   },
 
   hideBubble() {
@@ -83,7 +90,7 @@ const ThumbVote = React.createClass({
       thumbs.push(
         <View key={i}>
           <Icon
-            onPress={this.vote.bind(this, i)}
+            onPress={this.vote.bind(this, thumb_values[i].value)}
             name={thumb_values[i].icon}
             size={100}
             style={styles.voteButton}/>
@@ -97,9 +104,9 @@ const ThumbVote = React.createClass({
 
     var titlePanel = (
       <TitlePanel
-      activityIndex={this.props.activityIndex}
-      savedActivities={this.props.savedActivities}
-      dispatch={this.props.dispatch}/>
+        activityIndex={this.props.activityIndex}
+        savedActivities={this.props.savedActivities}
+        dispatch={this.props.dispatch}/>
     );
 
     var thumbs = this.renderThumbButtons();
@@ -110,8 +117,8 @@ const ThumbVote = React.createClass({
       </View>
     );
 
-    var j = this.props.savedActivities.get(this.props.activityIndex).get('sub').get('content');
-    var i = this.props.savedActivities.get(this.props.activityIndex).get('main').get('content');
+    var j = this.props.savedActivities.get(this.props.activityIndex).get('sub');
+    var i = this.props.savedActivities.get(this.props.activityIndex).get('main');
     var speechBubble = this.renderBubble('subActivity', i, j);
 
     return (

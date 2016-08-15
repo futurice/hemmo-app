@@ -1,20 +1,21 @@
 import React, {PropTypes} from 'react';
-import {List} from 'immutable';
+import {List, Map} from 'immutable';
 import AudioRecorder from '../../../components/AudioRecorder';
 import TitlePanel from '../../../components/TitlePanel';
 import SpeechBubbleView from '../../../components/SpeechBubbleView';
+import WritingPanel from '../../../components/WritingPanel';
 import * as NavigationState from '../../../modules/navigation/NavigationState';
 import * as UserState from '../../../modules/user/UserState';
 import {put, post} from '../../../utils/api';
 import {getSize, getImage} from '../../../services/graphics';
 
 import {
-  TextInput,
   TouchableOpacity,
   Image,
   View
 } from 'react-native';
 
+var activities = require('../activities.js');
 var styles = require('./styles.js');
 
 const Record = React.createClass({
@@ -22,11 +23,11 @@ const Record = React.createClass({
   propTypes: {
     savedActivities: PropTypes.instanceOf(List),
     dispatch: PropTypes.func.isRequired,
-    activityIndex: PropTypes.number.isRequired
+    activityIndex: PropTypes.number.isRequired,
+    emotions: PropTypes.instanceOf(Map)
   },
 
   getInitialState() {
-
     return {
       text: '',
       enableWriting: false,
@@ -56,82 +57,98 @@ const Record = React.createClass({
     this.setState({text: e.nativeEvent.text});
   },
 
-  saveText() {
-    /* Ei välttämättä tarvitse tallettaa stateen mutta pidetään tämä nyt täällä vielä toistaiseksi :D */
-    if (this.state.text === '') {
-      var answer = 'empty';
-    }
-    else {
-      answer = this.state.text;
-    }
-    var question = 'Kerro tarkemmin';
-    var type = 'text';
+  // saveRecording(file, phase) {
+  //   console.log('Coming soon! ' + file);
+  //   console.log('phase is ' + phase);
+  //   var answer = 'empty';
+  //   var question = 'Kerro tarkemmin';
+  //   var type = 'multipart/form-data';
+  //
+  //   post('/content', {contentType: type, answer, question})
+  //     .then(
+  //       result => {
+  //         console.log('contentId ' + result.contentId);
+  //         put('/attachment/' + result.contentId, {file})
+  //           .then(res => {
+  //             console.log('result from upload is ' + res.contentId);
+  //             this.continue(res.contentId);
+  //           });
+  //       }
+  //     );
+  //   this.continue();
+  // },
 
-    post('/content', {contentType: type, answer, question})
-      .then(
-        result => {
-          console.log('contentId ' + result.contentId);
-          this.continue(result.contentId);
-        }
-      );
+  save(phase, attachmentType) {
+    var questions = [];
+
+    if (phase === 'activities') {
+      questions = this.getActivities();
+      questions = this.getAttachment(attachmentType, 'Millaista se oli?', questions);
+      console.log('ACTIVITIES ' + JSON.stringify(questions));
+    }
+    else if (phase === 'moods') {
+      var moods = this.getMoods();
+      questions = this.getAttachment(attachmentType, 'Miltä sinusta tuntui?', questions);
+      console.log('MOODS ' + moods + ' - ' + JSON.stringify(questions));
+    }
+    else if (phase === 'general') {
+      questions = this.getAttachment(attachmentType, 'Miltä sinusta tuntui?', questions);
+      console.log('GENERAL ' + JSON.stringify(questions));
+    }
+
+    this.continue(phase);
   },
 
-  saveAnswers(file) {
-    console.log('Coming soon! ' + file);
-    var answer = 'empty';
-    var question = 'Kerro tarkemmin';
-    var type = 'multipart/form-data';
+  getActivities() {
+    var questions = [];
 
-    post('/content', {contentType: type, answer, question})
-      .then(
-        result => {
-          console.log('contentId ' + result.contentId);
-          put('/attachment/' + result.contentId, {file})
-            .then(res => {
-              console.log('result from upload is ' + res.contentId);
-              this.continue(res.contentId);
-            });
-        }
-      );
+    var curr = this.props.activityIndex;
+    var mainIndex = this.props.savedActivities.get(curr).get('main');
+    var subIndex = this.props.savedActivities.get(curr).get('sub');
 
-    /*  post('/content/', {contentType: type, answer, question})
-        .then(
-          result => {
-            this.props.dispatch(
-              UserState.saveAnswer(this.props.activityIndex, 'thumb', answer, result.contentId)
-            );
+    var main = activities[mainIndex].get('key');
+    var sub = activities[mainIndex].get('subActivities').get(subIndex);
+    var like = this.props.savedActivities.get(curr).get('thumb');
 
-            this.props.dispatch(
-              NavigationState.pushRoute({key: 'Record', allowReturn: true})
-            );
-          }
-        );*/
+    questions.push({question: 'Mitä teitte?', answer: main});
+    questions.push({question: 'Mitä teitte (tarkemmin)?', answer: sub});
+    questions.push({question: 'Millaista se oli?', like});
 
-    this.continue();
+    return questions;
   },
 
-  skip() {
-    this.continue();
+  getMoods() {
+    var moods = [...this.props.emotions.get('emotions')];
+    return moods;
   },
 
-  continue(contentId) {
-    if (this.props.activityIndex === -1) {
-      /* QUESTION was 'How did you feel?' */
-      if (this.state.generalFeedbackView === false) {
-        this.props.dispatch(UserState.saveAnswer(null, 'emotion_text', this.state.text, contentId));
-        this.setState({enableWriting: false, showBubble: true, progress: 0, generalFeedbackView: true});
-        this.props.dispatch(NavigationState.pushRoute({key: 'Record', allowReturn: false}));
-      }
-      /* QUESTION was 'Do you have anything else you want to tell me?' */
-      else {
-        this.props.dispatch(UserState.saveAnswer(null, 'general', this.state.text, contentId));
-        this.props.dispatch(NavigationState.pushRoute({key: 'End', allowReturn: false}));
-      }
+  getAttachment(attachmentType, question, questions) {
+
+    if (attachmentType === 'text') {
+      questions.push({question, answer: this.state.text});
+      return questions;
     }
-    /* QUESTION was 'What did you do during the visit?' */
-    else {
-      this.props.dispatch(UserState.saveAnswer(this.props.activityIndex, 'text', this.state.text, contentId));
+    else if (attachmentType === 'audio') {
+      console.log('TODO!');
+    }
+
+    return questions;
+  },
+
+  continue(phase) {
+    if (phase === 'activities') {
+      // this.props.dispatch(UserState.saveAnswer
+      //(this.props.activityIndex, 'text', this.state.text, contentId));
       this.props.dispatch(NavigationState.pushRoute({key: 'NewRound', allowReturn: false}));
+    }
+    else if (phase === 'moods') {
+      // this.props.dispatch(UserState.saveAnswer(null, 'emotion_text', this.state.text, contentId));
+      this.setState({enableWriting: false, showBubble: true, progress: 0, generalFeedbackView: true});
+      this.props.dispatch(NavigationState.pushRoute({key: 'Record', allowReturn: false}));
+    }
+    else if (phase === 'general') {
+      // this.props.dispatch(UserState.saveAnswer(null, 'general', this.state.text, contentId));
+      this.props.dispatch(NavigationState.pushRoute({key: 'End', allowReturn: false}));
     }
   },
 
@@ -150,9 +167,9 @@ const Record = React.createClass({
     }
   },
 
-  renderRecordPanel() {
+  renderRecordPanel(phase) {
     return (
-      <AudioRecorder saveAnswers={this.saveAnswers}/>
+      <AudioRecorder save={this.save} phase={phase}/>
     );
   },
 
@@ -170,31 +187,18 @@ const Record = React.createClass({
 
   renderWritingPanel() {
     return (
-      <View style={styles.writingContainer}>
-        <View style={styles.textInput}>
-          <TextInput
-            multiline = {true}
-            numberOfLines = {30}
-            maxLength = {150}
-            onChange = {this.setText}
-            underlineColorAndroid = 'transparent'
-            style={styles.textForm}/>
-        </View>
-        <TouchableOpacity onPress={this.disableWriting} style={styles.closeButton}>
-          <Image
-            source={getImage('nappula_rasti')}
-            style={[styles.closeButton, getSize('nappula_rasti', 0.1)]}/>
-        </TouchableOpacity>
-      </View>
+      <WritingPanel disableWriting={this.disableWriting} setText={this.setText}/>
     );
   },
 
   render() {
 
+    var phase;
     var speechBubble;
 
     if (this.props.activityIndex === -1) {
       if (this.state.generalFeedbackView === false) {
+        phase = 'moods';
         speechBubble = this.renderBubble('emotionFeedback');
         var titlePanel = (
           <TouchableOpacity onPress={this.cancel}>
@@ -205,10 +209,12 @@ const Record = React.createClass({
         );
       }
       else {
+        phase = 'general';
         speechBubble = this.renderBubble('generalFeedback');
       }
     }
     else {
+      phase = 'activities';
       titlePanel = (
         <TitlePanel
           activityIndex={this.props.activityIndex}
@@ -218,11 +224,11 @@ const Record = React.createClass({
       speechBubble = this.renderBubble('record');
     }
 
-    var actionPanel = this.renderRecordPanel();
+    var actionPanel = this.renderRecordPanel(phase);
 
     if (this.state.enableWriting === true) {
       var writingView = this.renderWritingPanel();
-      var saveOrWriteButton = this.renderButton('nappula_tallenna', this.saveText);
+      var saveOrWriteButton = this.renderButton('nappula_tallenna', this.save.bind(this, phase, 'text'));
     }
     else {
       saveOrWriteButton = this.renderButton('nappula_kirjoita', this.enableWriting);
@@ -240,7 +246,7 @@ const Record = React.createClass({
             <Image source={getImage('hemmo_keski')} style={getSize('hemmo_keski', 0.7)}/>
           </View>
           <View style={styles.skipRow}>
-            <TouchableOpacity onPress={this.skip} style={styles.skipButtonHighlight}>
+            <TouchableOpacity onPress={this.save.bind(this, phase, 'skip')} style={styles.skipButtonHighlight}>
               <Image
                 source={getImage('nappula_ohita')}
                 style={[styles.skipButton, getSize('nappula_ohita', 0.1)]}/>

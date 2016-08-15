@@ -54,21 +54,24 @@ const MainActivityView = React.createClass({
   },
 
   saveAnswer(activity) {
-    var answer = activity.get('key');
-    var question = 'Mita teitte';
-    var type = 'text';
 
-    post('/content', {contentType: type, answer, question})
-      .then(result =>
-        this.props.dispatch(
-          UserState.saveAnswer(
-            this.props.activityIndex,
-            'main',
-            activity.get('id'),
-            result.contentId)
-          )
-      )
-        .then(() => this.setState({showSubActivities: true, chosenMainActivity: activity, showBubble: true}));
+    this.props.dispatch(UserState.saveAnswer(this.props.activityIndex, 'main', activity.get('id')));
+    this.setState({showSubActivities: true, chosenMainActivity: activity, showBubble: true});
+    // var answer = activity.get('key');
+    // var question = 'Mita teitte';
+    // var type = 'text';
+    // post('/content', {contentType: type, answer, question})
+    //   .then(result =>
+    //     this.props.dispatch(
+    //       UserState.saveAnswer(
+    //         this.props.activityIndex,
+    //         'main',
+    //         activity.get('id'),
+    //         result.contentId)
+    //       )
+    //   )
+    //     .then(() => this.setState({showSubActivities: true,
+    // chosenMainActivity: activity, showBubble: true}));
   },
 
   closeSubActivities() {

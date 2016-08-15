@@ -56,12 +56,12 @@ const AppView = React.createClass({
     }
   },
 
-  setScreenSize() {
-    var height = Dimensions.get('window').height;
-    var width = Dimensions.get('window').width;
-
-    console.log('screen height ' + height + ' and width ' + width);
-  },
+  // setScreenSize() {
+  //   var height = Dimensions.get('window').height;
+  //   var width = Dimensions.get('window').width;
+  //
+  //   console.log('screen height ' + height + ' and width ' + width);
+  // },
 
   resetRoute() {
     this.props.dispatch(NavigationState.resetRoute());

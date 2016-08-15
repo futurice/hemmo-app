@@ -84,10 +84,10 @@ export function addActivity() {
   };
 }
 
-export function saveAnswer(index, destination, answers, contentId) {
+export function saveAnswer(index, destination, answers) {
   return {
     type: SAVE_ANSWER,
-    payload: {index, destination, answers, contentId}
+    payload: {index, destination, answers}
   };
 }
 
@@ -149,14 +149,7 @@ function currentUserReducer(state = Map(), action, wholeState) {
             'answers',
             'activities',
             action.payload.index,
-            action.payload.destination,
-            'content'], action.payload.answers)
-          .setIn([
-            'answers',
-            'activities',
-            action.payload.index,
-            action.payload.destination,
-            'contentId'], action.payload.contentId);
+            action.payload.destination], action.payload.answers);
       }
 
     default:

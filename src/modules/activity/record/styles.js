@@ -54,35 +54,6 @@ const styles = StyleSheet.create({
     right: 20,
     bottom: 10
   },
-  writingContainer: {
-    position: 'absolute',
-    backgroundColor: 'rgb(177, 177, 177)',
-    borderWidth: 2,
-    borderRadius: 30,
-    top: 20,
-    left: 20,
-    right: 20,
-    bottom: 60,
-    paddingTop: 5,
-    paddingBottom: 5,
-    paddingLeft: 5,
-    paddingRight: 80
-  },
-  textInput: {
-    flex: 1,
-    backgroundColor: 'white',
-    borderTopLeftRadius: 30,
-    borderBottomLeftRadius: 30,
-    borderWidth: 3,
-    borderColor: 'gray',
-    justifyContent: 'flex-start'
-  },
-  textForm: {
-    margin: 15,
-    flex: 1,
-    fontSize: 20,
-    textAlignVertical: 'top'
-  },
   returnButton: {
     margin: 30
   },

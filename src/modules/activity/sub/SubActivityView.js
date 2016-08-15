@@ -69,22 +69,30 @@ const SubActivityView = React.createClass({
   },
 
   chooseActivity(subActivity, subIndex) {
-    var answer = subActivity;
-    var question = 'Mita teitte (tarkemmin)';
-    var type = 'text';
+    this.props.dispatch(
+      UserState.saveAnswer(this.props.activityIndex, 'sub', subIndex)
+    );
 
-    post('/content', {contentType: type, answer, question})
-      .then(
-        result => {
-          this.props.dispatch(
-            UserState.saveAnswer(this.props.activityIndex, 'sub', subIndex, result.contentId)
-          );
+    this.props.dispatch(
+      NavigationState.pushRoute({key: 'Thumbs', allowReturn: true})
+    );
 
-          this.props.dispatch(
-            NavigationState.pushRoute({key: 'Thumbs', allowReturn: true})
-          );
-        }
-      );
+    // var answer = subActivity;
+    // var question = 'Mita teitte (tarkemmin)';
+    // var type = 'text';
+    //
+    // post('/content', {contentType: type, answer, question})
+    //   .then(
+    //     result => {
+    //       this.props.dispatch(
+    //         UserState.saveAnswer(this.props.activityIndex, 'sub', subIndex, result.contentId)
+    //       );
+    //
+    //       this.props.dispatch(
+    //         NavigationState.pushRoute({key: 'Thumbs', allowReturn: true})
+    //       );
+    //     }
+    //   );
   },
 
   render() {

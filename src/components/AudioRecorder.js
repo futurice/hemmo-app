@@ -18,7 +18,8 @@ var TimerMixin = require('react-timer-mixin');
 
 const AudioRecorder = React.createClass({
   propTypes: {
-    saveAnswers: PropTypes.func.isRequired
+    save: PropTypes.func.isRequired,
+    phase: PropTypes.string.isRequired
   },
 
   mixins: [TimerMixin],
@@ -116,8 +117,7 @@ const AudioRecorder = React.createClass({
         this._updateState();
       }
       if (stopped) {
-        console.log('this path ' + JSON.stringify(this.recorder._path));
-        this.props.saveAnswers(this.recorder._path);
+        this.props.save(this.props.phase, 'audio');
       }
       else {
         this._updateState();
