@@ -6,7 +6,7 @@ import SpeechBubbleView from '../../../components/SpeechBubbleView';
 import WritingPanel from '../../../components/WritingPanel';
 import * as NavigationState from '../../../modules/navigation/NavigationState';
 import * as UserState from '../../../modules/user/UserState';
-import {put, post} from '../../../utils/api';
+import {put, post, xhr} from '../../../utils/api';
 import {getSize, getImage} from '../../../services/graphics';
 
 import {
@@ -99,12 +99,42 @@ const Record = React.createClass({
     this.continue(phase);
   },
 
+<<<<<<< HEAD
   getActivities() {
     var questions = [];
 
     var curr = this.props.activityIndex;
     var mainIndex = this.props.savedActivities.get(curr).get('main');
     var subIndex = this.props.savedActivities.get(curr).get('sub');
+=======
+  saveAnswers(filePath) {
+    var question = 'Kerro tarkemmin';
+
+    console.log('grepme: sending file: ' + filePath);
+
+    var body = new FormData();
+    var file = {
+      uri: 'file:///data/user/0/com.pepperoniapptemplate/files/test.mp4',
+      type: 'audio/mp4',
+      name: 'file'
+    };
+
+    body.append('file', file);
+
+    post('/content', {contentType: 'audio', question})
+      .then(
+        result => {
+          console.log('contentId ' + result.contentId);
+
+          xhr('PUT', '/attachment/' + result.contentId, body)
+          .then(
+            result => {
+              this.continue();
+          });
+
+        }
+      );
+>>>>>>> 3fc06ec9b34c72c28ea05b1d084a73725e391561
 
     var main = activities[mainIndex].get('key');
     var sub = activities[mainIndex].get('subActivities').get(subIndex);

@@ -2,7 +2,7 @@ import {AsyncStorage} from 'react-native';
 
 const SESSION_STORAGE_KEY = 'PepperoniState:session';
 
-export function getSessionId() {
+export async function getSessionId() {
   return AsyncStorage.getItem(SESSION_STORAGE_KEY);
 }
 
