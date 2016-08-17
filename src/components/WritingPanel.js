@@ -28,7 +28,7 @@ const WritingPanel = React.createClass({
             underlineColorAndroid = 'transparent'
             style={styles.textForm}/>
         </View>
-        <TouchableOpacity onPress={this.props.disableWriting} style={styles.closeButton}>
+        <TouchableOpacity onPress={this.props.disableWriting} style={[styles.closeButton, getSize('nappula_rasti', 0.1)]}>
           <Image
             source={getImage('nappula_rasti')}
             style={[styles.closeButton, getSize('nappula_rasti', 0.1)]}/>

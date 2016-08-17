@@ -65,25 +65,28 @@ const Record = React.createClass({
     if (phase === 'activities') {
       questions = this.getActivities();
       attachmentQuestion = 'Kertoisitko lisää?';
-      questions = this.getAttachment(attachmentType, attachmentQuestion, questions);
       body = {questions};
     }
     else if (phase === 'moods') {
       moods = this.getMoods();
+      console.log('moods ' + JSON.stringify(moods));
       attachmentQuestion = 'Miltä sinusta tuntui?';
-      questions = this.getAttachment(attachmentType, attachmentQuestion, questions);
       body = {moods, questions};
     }
     else if (phase === 'general') {
       attachmentQuestion = 'Onko sinulla muuta kerrottavaa?';
-      questions = this.getAttachment(attachmentType, attachmentQuestion, questions);
       body = {questions};
+    }
+
+    if (attachmentType === 'text') {
+      body.questions.push({question: attachmentQuestion, answer: this.state.text});
+      console.log('body on ' + JSON.stringify(body));
     }
 
     post('/content', body)
       .then(result => {
+        console.log('result ' + result.contentId);
         if (attachmentType === 'audio') {
-          // console.log('contentId ' + result.contentId);
           var contentId = result.contentId;
           var attachmentBody = new FormData();
           var file = {
@@ -95,10 +98,8 @@ const Record = React.createClass({
           xhr('PUT', '/attachment/' + contentId, attachmentBody)
             .then(res => {
               var parsedResult = JSON.parse(res);
-              console.log('body is ' + JSON.stringify(body));
-              questions.push({question: attachmentQuestion, attachmentId: parsedResult.attachmentId});
-              console.log('questions now ' + JSON.stringify(questions));
-              put('/content/' + contentId, {questions})
+              body.questions.push({question: attachmentQuestion, attachmentId: parsedResult.attachmentId});
+              put('/content/' + contentId, body)
                 .then(r => console.log('result now ' + r.contentId));
             });
         }
@@ -114,30 +115,26 @@ const Record = React.createClass({
     var mainIndex = this.props.savedActivities.get(curr).get('main');
     var subIndex = this.props.savedActivities.get(curr).get('sub');
 
-    var main = activities[mainIndex].get('key');
-    var sub = activities[mainIndex].get('subActivities').get(subIndex);
-    var like = this.props.savedActivities.get(curr).get('thumb');
+    if (mainIndex !== null) {
+      var main = activities[mainIndex].get('key');
+      var sub = activities[mainIndex].get('subActivities').get(subIndex);
+      var like = this.props.savedActivities.get(curr).get('thumb');
 
-    questions.push({question: 'Mitä teitte?', answer: main});
-    questions.push({question: 'Mitä teitte (tarkemmin)?', answer: sub});
-    questions.push({question: 'Millaista se oli?', like});
+      questions.push({question: 'Mitä teitte?', answer: main});
+      questions.push({question: 'Mitä teitte (tarkemmin)?', answer: sub});
+      questions.push({question: 'Millaista se oli?', like});
+    }
+    else {
+      console.log('skipattiin ' + JSON.stringify(questions));
+      questions.push({question: 'Mitä teitte', answer: 'Ohitettu'});
+    }
 
     return questions;
   },
 
   getMoods() {
-    var moods = [...this.props.emotions.get('emotions')];
+    var moods = this.props.emotions.get('emotions');
     return moods;
-  },
-
-  getAttachment(attachmentType, question, questions) {
-
-    if (attachmentType === 'text') {
-      questions.push({question, answer: this.state.text});
-      return questions;
-    }
-
-    return questions;
   },
 
   continue(phase) {
@@ -183,8 +180,8 @@ const Record = React.createClass({
       <View style={styles.buttonRow}>
         <TouchableOpacity onPress={onPress}>
           <Image
-            source={getImage('nappula_kirjoita')}
-            style={getSize('nappula_kirjoita', 0.1)}/>
+            source={getImage(text)}
+            style={getSize(text, 0.1)}/>
         </TouchableOpacity>
       </View>
     );
@@ -197,7 +194,6 @@ const Record = React.createClass({
   },
 
   render() {
-
     var phase;
     var speechBubble;
 
@@ -230,10 +226,11 @@ const Record = React.createClass({
     }
 
     var actionPanel = this.renderRecordPanel(phase);
+    var saveOrWriteButton;
 
     if (this.state.enableWriting === true) {
       var writingView = this.renderWritingPanel();
-      var saveOrWriteButton = this.renderButton('nappula_tallenna', this.save.bind(this, phase, 'text'));
+      saveOrWriteButton = this.renderButton('nappula_tallenna', this.save.bind(this, phase, 'text'));
     }
     else {
       saveOrWriteButton = this.renderButton('nappula_kirjoita', this.enableWriting);

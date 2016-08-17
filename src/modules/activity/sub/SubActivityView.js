@@ -127,7 +127,7 @@ const SubActivityView = React.createClass({
         <View style={styles.activityBar}>
           {subActivityViews}
         </View>
-        <TouchableOpacity onPress={this.closeSubActivities} style={styles.closeButton}>
+        <TouchableOpacity onPress={this.closeSubActivities} style={[styles.closeButton, getSize('nappula_rasti', 0.1)]}>
           <Image
             source={getImage('nappula_rasti')}
             onPress={this.closeSubActivities}
