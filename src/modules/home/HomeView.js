@@ -42,9 +42,11 @@ const HomeView = React.createClass({
 
   startJourney(id) {
     this.props.dispatch(SessionState.startPreparing());
+
     this.props.dispatch(UserState.setCurrentUser(id))
-      .then(setAuthenticationToken(this.props.currentUser.get('token')))
-      .then(this.startSession());
+      .then(setAuthenticationToken(this.props.currentUser.get('token'))
+        .then(this.startSession()));
+
     this.props.dispatch(UserState.addActivity());
     this.props.dispatch(NavigationState.pushRoute({key: 'Activity', allowReturn: true}));
   },
@@ -52,13 +54,8 @@ const HomeView = React.createClass({
   startSession() {
     post('/session')
       .then(result => {
-        console.log('new session started! ' + result.sessionId);
         setSessionId(result.sessionId);
-        getAuthenticationToken()
-          .then(token => {
-            console.log('Authentication token is ' + token);
-            this.props.dispatch(SessionState.finishPreparing());
-          });
+        this.props.dispatch(SessionState.finishPreparing());
       });
   },
 

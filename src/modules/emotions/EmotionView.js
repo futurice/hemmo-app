@@ -3,7 +3,7 @@ import {List} from 'immutable';
 import * as UserState from '../../modules/user/UserState';
 import * as NavigationState from '../../modules/navigation/NavigationState';
 import SpeechBubbleView from '../../components/SpeechBubbleView';
-import {post} from '../../utils/api';
+// import {post} from '../../utils/api';
 import {getSize, getImage} from '../../services/graphics';
 
 import {
@@ -48,14 +48,9 @@ const EmotionView = React.createClass({
   },
 
   save() {
-
     this.props.dispatch(UserState.saveAnswer(null, 'emotions', this.state.selectedEmotions));
     this.props.dispatch(NavigationState.pushRoute({key: 'Record', allowReturn: true}));
 
-    // var answer = JSON.stringify([...this.state.selectedEmotions]);
-    // var question = 'Millainen olo';
-    // var type = 'text';
-    //
     // post('/content', {contentType: type, answer, question})
     //   .then(
     //     () => {

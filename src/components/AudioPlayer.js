@@ -9,7 +9,6 @@ const AudioPlayer = React.createClass({
   },
 
   componentWillMount() {
-
     var audioTrack;
 
     if (Platform.OS === 'ios') {
@@ -18,10 +17,8 @@ const AudioPlayer = React.createClass({
     else {
       audioTrack = this.props.audioTrack;
     }
-    console.log('audiotrack ' + audioTrack);
+
     this.player = new Player(audioTrack).prepare();
-    // console.log('this.player path ' + this.player._path);
-    // console.log('this.player.path ' + JSON.stringify(this.player.state));
   },
 
   componentDidMount() {

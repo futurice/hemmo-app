@@ -9,7 +9,7 @@ import {
   Image
 } from 'react-native';
 
-var phrases = require('../../phrases.json');
+var phrases = require('./phrases.json');
 var bubbleText;
 var audiotrack;
 

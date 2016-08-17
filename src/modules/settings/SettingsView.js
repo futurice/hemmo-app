@@ -72,7 +72,7 @@ const SettingsView = React.createClass({
   verifyRemove() {
     Alert.alert(
       'Oletko varma?',
-      'Haluatko varmasti poistaa käyttäjän x?',
+      'Haluatko varmasti poistaa käyttäjän ' + this.props.currentUser.get('name') + '?',
       [{
         text: 'Kyllä',
         onPress: this.remove
@@ -96,7 +96,7 @@ const SettingsView = React.createClass({
     ImagePicker.showImagePicker(options, (response) => {
 
       if (response.didCancel) {
-        console.log('User cancelled image picker');
+        return;
       }
       else if (response.customButton) {
         this.props.dispatch(UserState.setCurrentUserValue('image', null));

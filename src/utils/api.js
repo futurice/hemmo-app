@@ -32,7 +32,7 @@ export async function get(path, suppressRedBox) {
  */
 export async function post(path, body, suppressRedBox) {
   // console.log('path = ' + path);
-  console.log('body = ' + JSON.stringify(body));
+  // console.log('body = ' + JSON.stringify(body));
   return bodyOf(request('post', path, body, suppressRedBox));
 }
 
@@ -69,7 +69,7 @@ export async function del(path, suppressRedBox) {
 export async function request(method, path, body, suppressRedBox) {
   try {
     const response = await sendRequest(method, path, body, suppressRedBox);
-    console.log('lets handle response ' + path);
+    // console.log('lets handle response ' + path);
     return handleResponse(
       path,
       response
@@ -84,6 +84,9 @@ export async function request(method, path, body, suppressRedBox) {
 }
 
 export async function xhr(method, path, body, suppressRedBox) {
+
+  console.log('path was ' + path);
+  console.log('body was ' + JSON.stringify(body));
   try {
     const token = await getAuthenticationToken();
     const sessionId = await getSessionId();
@@ -142,7 +145,7 @@ async function sendRequest(method, path, body) {
     // console.log('sessionId ' + sessionId);
     // console.log('token = ' + token);
     const headers = getRequestHeaders(body, token, sessionId);
-    console.log('headers = ' + JSON.stringify(headers));
+    // console.log('headers = ' + JSON.stringify(headers));
     const options = body
       ? {method, headers, body: JSON.stringify(body)}
       : {method, headers};

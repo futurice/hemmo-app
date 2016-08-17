@@ -5,7 +5,7 @@ import TitlePanel from '../../../components/TitlePanel';
 import SpeechBubbleView from '../../../components/SpeechBubbleView';
 import WritingPanel from '../../../components/WritingPanel';
 import * as NavigationState from '../../../modules/navigation/NavigationState';
-import * as UserState from '../../../modules/user/UserState';
+// import * as UserState from '../../../modules/user/UserState';
 import {put, post, xhr} from '../../../utils/api';
 import {getSize, getImage} from '../../../services/graphics';
 
@@ -57,84 +57,68 @@ const Record = React.createClass({
     this.setState({text: e.nativeEvent.text});
   },
 
-  // saveRecording(file, phase) {
-  //   console.log('Coming soon! ' + file);
-  //   console.log('phase is ' + phase);
-  //   var answer = 'empty';
-  //   var question = 'Kerro tarkemmin';
-  //   var type = 'multipart/form-data';
-  //
-  //   post('/content', {contentType: type, answer, question})
-  //     .then(
-  //       result => {
-  //         console.log('contentId ' + result.contentId);
-  //         put('/attachment/' + result.contentId, {file})
-  //           .then(res => {
-  //             console.log('result from upload is ' + res.contentId);
-  //             this.continue(res.contentId);
-  //           });
-  //       }
-  //     );
-  //   this.continue();
-  // },
-
   save(phase, attachmentType) {
     var questions = [];
+    var moods = [];
+    var body;
+    var attachmentQuestion;
 
     if (phase === 'activities') {
       questions = this.getActivities();
-      questions = this.getAttachment(attachmentType, 'Millaista se oli?', questions);
-      console.log('ACTIVITIES ' + JSON.stringify(questions));
+      attachmentQuestion = 'Millaista se oli?';
+      questions = this.getAttachment(attachmentType, attachmentQuestion, questions);
+      body = {questions};
+      console.log('ACTIVITIES ' + JSON.stringify(body));
     }
     else if (phase === 'moods') {
-      var moods = this.getMoods();
-      questions = this.getAttachment(attachmentType, 'Miltä sinusta tuntui?', questions);
-      console.log('MOODS ' + moods + ' - ' + JSON.stringify(questions));
+      moods = this.getMoods();
+      attachmentQuestion = 'Miltä sinusta tuntui?';
+      questions = this.getAttachment(attachmentType, attachmentQuestion, questions);
+      body = {moods, questions};
+      console.log('MOODS ' + JSON.stringify(body));
     }
     else if (phase === 'general') {
-      questions = this.getAttachment(attachmentType, 'Miltä sinusta tuntui?', questions);
-      console.log('GENERAL ' + JSON.stringify(questions));
+      attachmentQuestion = 'Onko sinulla muuta kerrottavaa?';
+      questions = this.getAttachment(attachmentType, attachmentQuestion, questions);
+      body = {questions};
+      console.log('GENERAL ' + JSON.stringify(body));
     }
+
+    post('/content', {moods: [], questions: []})
+      .then(result => {
+        if (attachmentType === 'audio') {
+          // console.log('contentId ' + result.contentId);
+          var contentId = result.contentId;
+          var attachmentBody = new FormData();
+          var file = {
+            uri: 'file:///data/user/0/com.pepperoniapptemplate/files/test.mp4',
+            type: 'audio/mp4',
+            name: 'file'
+          };
+          attachmentBody.append('file', file);
+          xhr('PUT', '/attachment/' + contentId, attachmentBody)
+            .then(res => {
+              var parsedResult = JSON.parse(res);
+              // console.log('res is ' + parsedResult.attachmentId);
+              console.log('body is ' + JSON.stringify(body));
+              // console.log('content id ' + contentId);
+              body.questions.push({question: attachmentQuestion, attachmentId: parsedResult.attachmentId});
+              console.log('questions now ' + JSON.stringify(questions));
+              put('/content/' + contentId, body)
+                .then(r => console.log('result now ' + r.contentId));
+            });
+        }
+      });
 
     this.continue(phase);
   },
 
-<<<<<<< HEAD
   getActivities() {
     var questions = [];
 
     var curr = this.props.activityIndex;
     var mainIndex = this.props.savedActivities.get(curr).get('main');
     var subIndex = this.props.savedActivities.get(curr).get('sub');
-=======
-  saveAnswers(filePath) {
-    var question = 'Kerro tarkemmin';
-
-    console.log('grepme: sending file: ' + filePath);
-
-    var body = new FormData();
-    var file = {
-      uri: 'file:///data/user/0/com.pepperoniapptemplate/files/test.mp4',
-      type: 'audio/mp4',
-      name: 'file'
-    };
-
-    body.append('file', file);
-
-    post('/content', {contentType: 'audio', question})
-      .then(
-        result => {
-          console.log('contentId ' + result.contentId);
-
-          xhr('PUT', '/attachment/' + result.contentId, body)
-          .then(
-            result => {
-              this.continue();
-          });
-
-        }
-      );
->>>>>>> 3fc06ec9b34c72c28ea05b1d084a73725e391561
 
     var main = activities[mainIndex].get('key');
     var sub = activities[mainIndex].get('subActivities').get(subIndex);
@@ -157,9 +141,6 @@ const Record = React.createClass({
     if (attachmentType === 'text') {
       questions.push({question, answer: this.state.text});
       return questions;
-    }
-    else if (attachmentType === 'audio') {
-      console.log('TODO!');
     }
 
     return questions;

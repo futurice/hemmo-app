@@ -1,11 +1,6 @@
 import {Map} from 'immutable';
-import {
-  Dimensions
-} from 'react-native';
 
 var graphics = Map({
-  'screen_width': Dimensions.get('window').width,
-  'screen_height': Dimensions.get('window').height,
   'default_image': Map({
     image: require('../../assets/default-icon.png')}),
 
