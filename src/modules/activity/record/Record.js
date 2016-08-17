@@ -92,7 +92,7 @@ const Record = React.createClass({
           var contentId = result.contentId;
           var attachmentBody = new FormData();
           var file = {
-            uri: attachmentPath,
+            uri: `file://${attachmentPath}`,
             type: 'audio/mp4',
             name: 'file'
           };
