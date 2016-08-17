@@ -5,7 +5,6 @@ import TitlePanel from '../../../components/TitlePanel';
 import SpeechBubbleView from '../../../components/SpeechBubbleView';
 import WritingPanel from '../../../components/WritingPanel';
 import * as NavigationState from '../../../modules/navigation/NavigationState';
-// import * as UserState from '../../../modules/user/UserState';
 import {put, post, xhr} from '../../../utils/api';
 import {getSize, getImage} from '../../../services/graphics';
 
@@ -65,26 +64,23 @@ const Record = React.createClass({
 
     if (phase === 'activities') {
       questions = this.getActivities();
-      attachmentQuestion = 'Millaista se oli?';
+      attachmentQuestion = 'Kertoisitko lisää?';
       questions = this.getAttachment(attachmentType, attachmentQuestion, questions);
       body = {questions};
-      console.log('ACTIVITIES ' + JSON.stringify(body));
     }
     else if (phase === 'moods') {
       moods = this.getMoods();
       attachmentQuestion = 'Miltä sinusta tuntui?';
       questions = this.getAttachment(attachmentType, attachmentQuestion, questions);
       body = {moods, questions};
-      console.log('MOODS ' + JSON.stringify(body));
     }
     else if (phase === 'general') {
       attachmentQuestion = 'Onko sinulla muuta kerrottavaa?';
       questions = this.getAttachment(attachmentType, attachmentQuestion, questions);
       body = {questions};
-      console.log('GENERAL ' + JSON.stringify(body));
     }
 
-    post('/content', {moods: [], questions: []})
+    post('/content', body)
       .then(result => {
         if (attachmentType === 'audio') {
           // console.log('contentId ' + result.contentId);
@@ -99,12 +95,10 @@ const Record = React.createClass({
           xhr('PUT', '/attachment/' + contentId, attachmentBody)
             .then(res => {
               var parsedResult = JSON.parse(res);
-              // console.log('res is ' + parsedResult.attachmentId);
               console.log('body is ' + JSON.stringify(body));
-              // console.log('content id ' + contentId);
-              body.questions.push({question: attachmentQuestion, attachmentId: parsedResult.attachmentId});
+              questions.push({question: attachmentQuestion, attachmentId: parsedResult.attachmentId});
               console.log('questions now ' + JSON.stringify(questions));
-              put('/content/' + contentId, body)
+              put('/content/' + contentId, {questions})
                 .then(r => console.log('result now ' + r.contentId));
             });
         }
