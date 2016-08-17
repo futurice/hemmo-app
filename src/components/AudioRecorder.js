@@ -29,6 +29,7 @@ const AudioRecorder = React.createClass({
       recordButton: 'Preparing...',
       recordButtonDisabled: true,
       progress: 0,
+      filePath: null,
 
       error: null
     };
@@ -79,7 +80,13 @@ const AudioRecorder = React.createClass({
       quality: 'max'
       //format: 'ac3', // autodetected
       //encoder: 'aac', // autodetected
-    }).prepare();
+    }).prepare((err, filePath) => {
+      if (err) {
+        console.error(err);
+      }
+
+      this.setState({filePath});
+    });
 
     this._updateState();
   },
@@ -117,7 +124,7 @@ const AudioRecorder = React.createClass({
         this._updateState();
       }
       if (stopped) {
-        this.props.save(this.props.phase, 'audio');
+        this.props.save(this.props.phase, 'audio', this.state.filePath);
       }
       else {
         this._updateState();

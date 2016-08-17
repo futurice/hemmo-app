@@ -56,7 +56,7 @@ const Record = React.createClass({
     this.setState({text: e.nativeEvent.text});
   },
 
-  save(phase, attachmentType) {
+  save(phase, attachmentType, attachmentPath) {
     var questions = [];
     var moods = [];
     var body;
@@ -92,7 +92,7 @@ const Record = React.createClass({
           var contentId = result.contentId;
           var attachmentBody = new FormData();
           var file = {
-            uri: 'file:///data/user/0/com.pepperoniapptemplate/files/test.mp4',
+            uri: attachmentPath,
             type: 'audio/mp4',
             name: 'file'
           };
