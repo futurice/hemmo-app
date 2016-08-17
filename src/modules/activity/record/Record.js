@@ -80,7 +80,9 @@ const Record = React.createClass({
 
     if (attachmentType === 'text') {
       body.questions.push({question: attachmentQuestion, answer: this.state.text});
-      console.log('body on ' + JSON.stringify(body));
+    }
+    else if (attachmentType === 'skipped') {
+      body.questions.push({question: attachmentQuestion, answer: 'Ohitettu'});
     }
 
     post('/content', body)
@@ -139,17 +141,13 @@ const Record = React.createClass({
 
   continue(phase) {
     if (phase === 'activities') {
-      // this.props.dispatch(UserState.saveAnswer
-      //(this.props.activityIndex, 'text', this.state.text, contentId));
       this.props.dispatch(NavigationState.pushRoute({key: 'NewRound', allowReturn: false}));
     }
     else if (phase === 'moods') {
-      // this.props.dispatch(UserState.saveAnswer(null, 'emotion_text', this.state.text, contentId));
       this.setState({enableWriting: false, showBubble: true, progress: 0, generalFeedbackView: true});
       this.props.dispatch(NavigationState.pushRoute({key: 'Record', allowReturn: false}));
     }
     else if (phase === 'general') {
-      // this.props.dispatch(UserState.saveAnswer(null, 'general', this.state.text, contentId));
       this.props.dispatch(NavigationState.pushRoute({key: 'End', allowReturn: false}));
     }
   },
@@ -248,7 +246,7 @@ const Record = React.createClass({
             <Image source={getImage('hemmo_keski')} style={getSize('hemmo_keski', 0.7)}/>
           </View>
           <View style={styles.skipRow}>
-            <TouchableOpacity onPress={this.save.bind(this, phase, 'skip')} style={styles.skipButtonHighlight}>
+            <TouchableOpacity onPress={this.save.bind(this, phase, 'skipped')} style={styles.skipButtonHighlight}>
               <Image
                 source={getImage('nappula_ohita')}
                 style={[styles.skipButton, getSize('nappula_ohita', 0.1)]}/>

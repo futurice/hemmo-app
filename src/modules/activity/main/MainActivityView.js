@@ -5,7 +5,6 @@ import * as NavigationState from '../../../modules/navigation/NavigationState';
 import SubActivityView from '../sub/SubActivityView';
 import SpeechBubbleView from '../../../components/SpeechBubbleView';
 import LoadingSpinner from '../../../components/LoadingSpinner';
-import {post} from '../../../utils/api';
 import {getScreenWidth, getScreenHeight} from '../../../services/screenSize';
 import {getSize, getImage} from '../../../services/graphics';
 

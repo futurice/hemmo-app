@@ -5,7 +5,6 @@ import TitlePanel from '../../../components/TitlePanel';
 import * as UserState from '../../../modules/user/UserState';
 import * as NavigationState from '../../../modules/navigation/NavigationState';
 import SpeechBubbleView from '../../../components/SpeechBubbleView';
-import {post} from '../../../utils/api';
 import {getSize, getImage} from '../../../services/graphics';
 
 import {
@@ -43,23 +42,6 @@ const ThumbVote = React.createClass({
     this.props.dispatch(
       NavigationState.pushRoute({key: 'Record', allowReturn: true})
     );
-
-    // var answer = thumb_values[vote].text;
-    // var question = 'Millaista se oli';
-    // var type = 'like';
-    //
-    // post('/content', {contentType: type, answer, question})
-    //   .then(
-    //     result => {
-    //       this.props.dispatch(
-    //         UserState.saveAnswer(this.props.activityIndex, 'thumb', answer, result.contentId)
-    //       );
-    //
-    //       this.props.dispatch(
-    //         NavigationState.pushRoute({key: 'Record', allowReturn: true})
-    //       );
-    //     }
-    //   );
   },
 
   hideBubble() {

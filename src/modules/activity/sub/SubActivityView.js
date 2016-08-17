@@ -2,7 +2,6 @@ import React, {PropTypes} from 'react';
 import {Map} from 'immutable';
 import * as NavigationState from '../../../modules/navigation/NavigationState';
 import * as UserState from '../../../modules/user/UserState';
-import {post} from '../../../utils/api';
 import {getSize, getImage} from '../../../services/graphics';
 import {getScreenWidth, getScreenHeight} from '../../../services/screenSize';
 
@@ -76,23 +75,6 @@ const SubActivityView = React.createClass({
     this.props.dispatch(
       NavigationState.pushRoute({key: 'Thumbs', allowReturn: true})
     );
-
-    // var answer = subActivity;
-    // var question = 'Mita teitte (tarkemmin)';
-    // var type = 'text';
-    //
-    // post('/content', {contentType: type, answer, question})
-    //   .then(
-    //     result => {
-    //       this.props.dispatch(
-    //         UserState.saveAnswer(this.props.activityIndex, 'sub', subIndex, result.contentId)
-    //       );
-    //
-    //       this.props.dispatch(
-    //         NavigationState.pushRoute({key: 'Thumbs', allowReturn: true})
-    //       );
-    //     }
-    //   );
   },
 
   render() {
