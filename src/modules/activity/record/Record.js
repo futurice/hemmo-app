@@ -128,7 +128,7 @@ const Record = React.createClass({
     }
     else {
       console.log('skipattiin ' + JSON.stringify(questions));
-      questions.push({question: 'Mitä teitte', answer: 'Ohitettu'});
+      questions.push({question: 'Mitä teitte', answer: 'Muuta'});
     }
 
     return questions;
