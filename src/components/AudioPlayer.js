@@ -1,11 +1,12 @@
 import React, {PropTypes} from 'react';
-import {Platform} from 'react-native';
+import {Platform, DeviceEventEmitter} from 'react-native';
 import {Player} from 'react-native-audio-toolkit';
 
 const AudioPlayer = React.createClass({
 
   propTypes: {
-    audioTrack: PropTypes.string
+    audioTrack: PropTypes.string,
+    onEnd: PropTypes.func.isRequired
   },
 
   componentWillMount() {
@@ -19,6 +20,13 @@ const AudioPlayer = React.createClass({
     }
 
     this.player = new Player(audioTrack).prepare();
+    this.player.on('ended', () => {
+      console.log('loppui!');
+      this.props.onEnd();
+    });
+    // DeviceEventEmitter.addListener('RCTAudioPlayerEvent:' + this.player._playerId, (payload: Event) => {
+    //   this._handleEvent(payload.event, payload.data);
+    // });
   },
 
   componentDidMount() {
@@ -29,6 +37,17 @@ const AudioPlayer = React.createClass({
     this.player.destroy();
   },
 
+  // _handleEvent(event, data) {
+  //   super();
+  //   switch (event) {
+  //     case 'ended':
+  //       console.log('nauhoite loppui!!');
+  //       break;
+  //     default: {
+  //       break;
+  //     }
+  //   }
+  // },
   render() {
     return null;
   }

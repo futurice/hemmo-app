@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react';
 import AudioPlayer from './AudioPlayer';
 import {getSize, getImage} from '../services/graphics';
+import TimerMixin from 'react-timer-mixin';
 
 import {
   View,
@@ -21,8 +22,11 @@ const SpeechBubble = React.createClass({
     saIndex: PropTypes.number,
     bubbleType: PropTypes.string,
     style: PropTypes.object.isRequired,
-    audioTrack: PropTypes.string
+    audioTrack: PropTypes.string,
+    hideBubble: PropTypes.func
   },
+
+  mixins: [TimerMixin],
 
   renderBubbleText() {
     //Text of the speech bubble is related to selected main activity.
@@ -43,6 +47,13 @@ const SpeechBubble = React.createClass({
       audiotrack = phrases[this.props.text].audio;
       return phrases[this.props.text].text;
     }
+  },
+
+  onEnd() {
+    this.setTimeout(
+      () => { this.props.hideBubble(); },
+      2000
+    );
   },
 
   render() {
@@ -68,7 +79,7 @@ const SpeechBubble = React.createClass({
             {bubbleText}
           </Text>
         </Image>
-        <AudioPlayer audioTrack={audiotrack}/>
+        <AudioPlayer onEnd={this.onEnd} audioTrack={audiotrack}/>
       </View>
     );
   }
