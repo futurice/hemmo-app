@@ -23,10 +23,7 @@ const styles = StyleSheet.create({
   },
   tabBar: {
     flexDirection: 'row',
-    // backgroundColor: 'rgb(214, 214, 214)',
-    // borderWidth: 1,
     position: 'absolute',
-    // borderBottomColor: 'white',
     top: 40,
     left: 10,
     right: 10
@@ -102,35 +99,17 @@ const styles = StyleSheet.create({
     height: 120,
     width: 120
   },
-  changeImageButton: {
-    backgroundColor: '#c2c2c2',
-    borderRadius: 10,
-    width: 140,
-    marginLeft: 10
-  },
-  changeImageHighlight: {
-    padding: 10,
-    borderRadius: 10
-  },
   buttonfield: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center'
   },
   bottomRow: {
-    flexDirection: 'row'
+    flexDirection: 'row',
+    marginTop: 50
   },
   savebutton: {
-    backgroundColor: 'green',
-    borderRadius: 10,
-    padding: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 20
-  },
-  save_touchable: {
-    borderRadius: 10,
-    justifyContent: 'center'
+
   },
   cancelbutton: {
     borderRadius: 10,
