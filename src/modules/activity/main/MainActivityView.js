@@ -3,6 +3,7 @@ import {Map, List} from 'immutable';
 import * as UserState from '../../../modules/user/UserState';
 import * as NavigationState from '../../../modules/navigation/NavigationState';
 import SubActivityView from '../sub/SubActivityView';
+import Hemmo from '../../../components/Hemmo';
 import SpeechBubbleView from '../../../components/SpeechBubbleView';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 import {getScreenWidth, getScreenHeight} from '../../../services/screenSize';
@@ -85,6 +86,10 @@ const MainActivityView = React.createClass({
     this.setState({showBubble: false});
   },
 
+  restartAudioAndText() {
+    this.setState({showBubble: true});
+  },
+
   render() {
     var activityWidth = Dimensions.get('window').width / 4;
     var h = getScreenHeight();
@@ -136,7 +141,7 @@ const MainActivityView = React.createClass({
         <View style={styles.row}>
           {activityViews[3]}
           <View style={styles.hemmo}>
-            <Image source={getImage('hemmo_pieni')} style={getSize('hemmo_pieni', 0.4)}/>
+            <Hemmo image={'hemmo_pieni'} size={0.4} restartAudioAndText={this.restartAudioAndText}/>
             <Text onPress={this.other} style={styles.text}>Muuta</Text>
           </View>
           {activityViews[4]}

@@ -50,8 +50,9 @@ const SpeechBubble = React.createClass({
   },
 
   onEnd() {
+    console.log('ending!');
     this.setTimeout(
-      () => { this.props.hideBubble(); },
+      () => { console.log('hiding!'); this.props.hideBubble(); },
       2000
     );
   },

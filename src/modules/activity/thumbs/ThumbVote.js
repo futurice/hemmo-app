@@ -2,6 +2,7 @@ import React, {PropTypes} from 'react';
 import {List} from 'immutable';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import TitlePanel from '../../../components/TitlePanel';
+import Hemmo from '../../../components/Hemmo';
 import * as UserState from '../../../modules/user/UserState';
 import * as NavigationState from '../../../modules/navigation/NavigationState';
 import SpeechBubbleView from '../../../components/SpeechBubbleView';
@@ -46,6 +47,10 @@ const ThumbVote = React.createClass({
 
   hideBubble() {
     this.setState({showBubble: false});
+  },
+
+  restartAudioAndText() {
+    this.setState({showBubble: true});
   },
 
   renderBubble(text, i, j) {
@@ -110,7 +115,7 @@ const ThumbVote = React.createClass({
             {actionPanel}
           </Image>
         <View style={styles.rightColumn}>
-          <Image source={getImage('hemmo_keski')} style={getSize('hemmo_keski', 0.7)}/>
+          <Hemmo image={'hemmo_keski'} size={0.7} restartAudioAndText={this.restartAudioAndText}/>
         </View>
         {speechBubble}
       </Image>

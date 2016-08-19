@@ -2,6 +2,7 @@ import React, {PropTypes} from 'react';
 import {List, Map} from 'immutable';
 import AudioRecorder from '../../../components/AudioRecorder';
 import TitlePanel from '../../../components/TitlePanel';
+import Hemmo from '../../../components/Hemmo';
 import SpeechBubbleView from '../../../components/SpeechBubbleView';
 import WritingPanel from '../../../components/WritingPanel';
 import * as NavigationState from '../../../modules/navigation/NavigationState';
@@ -46,6 +47,10 @@ const Record = React.createClass({
 
   hideBubble() {
     this.setState({showBubble: false});
+  },
+
+  restartAudioAndText() {
+    this.setState({showBubble: true});
   },
 
   cancel() {
@@ -240,7 +245,7 @@ const Record = React.createClass({
         </Image>
         <View style={styles.rightColumn}>
           <View style={styles.hemmoRow}>
-            <Image source={getImage('hemmo_keski')} style={getSize('hemmo_keski', 0.7)}/>
+            <Hemmo image={'hemmo_keski'} size={0.7} restartAudioAndText={this.restartAudioAndText}/>
           </View>
           <View style={styles.skipRow}>
             <TouchableOpacity

@@ -14,7 +14,9 @@ const styles = StyleSheet.create({
     width: null
   },
   leftcolumn: {
-    flex: 1
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   rightcolumn: {
     flex: 1,

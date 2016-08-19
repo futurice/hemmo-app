@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import * as NavigationState from '../modules/navigation/NavigationState';
 import * as UserState from '../modules/user/UserState';
 import SpeechBubbleView from '../components/SpeechBubbleView';
+import Hemmo from '../components/Hemmo';
 import {getSize, getImage} from '../services/graphics';
 
 import {
@@ -38,6 +39,10 @@ const NewRound = React.createClass({
     this.setState({showBubble: false});
   },
 
+  restartAudioAndText() {
+    this.setState({showBubble: true});
+  },
+
   render() {
     if (this.state.showBubble === true) {
       var speechBubble = (
@@ -60,9 +65,7 @@ const NewRound = React.createClass({
               style={getSize('nappula_uudestaan', 0.5)}/>
           </TouchableOpacity>
 
-          <Image
-            source={getImage('hemmo_keski')}
-            style={getSize('hemmo_keski', 0.7)}/>
+          <Hemmo image={'hemmo_keski'} size={0.7} restartAudioAndText={this.restartAudioAndText}/>
 
           <TouchableOpacity onPress={this.continue}>
             <Image

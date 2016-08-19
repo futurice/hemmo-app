@@ -3,6 +3,7 @@ import {List} from 'immutable';
 import * as UserState from '../../modules/user/UserState';
 import * as NavigationState from '../../modules/navigation/NavigationState';
 import SpeechBubbleView from '../../components/SpeechBubbleView';
+import Hemmo from '../../components/Hemmo';
 import {getSize, getImage} from '../../services/graphics';
 
 import {
@@ -31,6 +32,10 @@ const EmotionView = React.createClass({
 
   hideBubble() {
     this.setState({showBubble: false});
+  },
+
+  restartAudioAndText() {
+    this.setState({showBubble: true});
   },
 
   renderBubble(text) {
@@ -106,8 +111,7 @@ const EmotionView = React.createClass({
             {emotionViews}
           </View>
           <View style={styles.hemmoColumn}>
-            <Image
-              source={getImage('hemmo_keski')} style={[{marginRight: 30}, getSize('hemmo_keski', 0.45)]}/>
+            <Hemmo image={'hemmo_keski'} size={0.45} restartAudioAndText={this.restartAudioAndText}/>
           </View>
           <TouchableOpacity onPress={this.save} style={styles.saveButton}>
             <Image source={getImage('nappula_seuraava')} style={getSize('nappula_seuraava', 0.1)}/>

@@ -18,6 +18,7 @@ const SpeechBubbleView = React.createClass({
   },
 
   hideBubble() {
+    console.log('hide bubble speech bubble view');
     this.props.hideBubble();
   },
 
@@ -27,7 +28,7 @@ const SpeechBubbleView = React.createClass({
         <SpeechBubble
           text={this.props.text}
           style={this.props.style}
-          hideBubble={this.props.hideBubble}
+          hideBubble={this.hideBubble}
           bubbleType={this.props.bubbleType}
           maIndex={this.props.maIndex}
           saIndex={this.props.saIndex}/>

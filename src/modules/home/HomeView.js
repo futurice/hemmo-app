@@ -3,10 +3,10 @@ import * as UserState from '../user/UserState';
 import * as SessionState from '../session/SessionState';
 import React, {PropTypes} from 'react';
 import {List, Map} from 'immutable';
-import SpeechBubble from '../../components/SpeechBubble';
 import SpeechBubbleView from '../../components/SpeechBubbleView';
+import Hemmo from '../../components/Hemmo';
 import PasswordModal from '../../components/PasswordModal';
-import {setAuthenticationToken, getAuthenticationToken} from '../../utils/authentication';
+import {setAuthenticationToken} from '../../utils/authentication';
 import {setSessionId} from '../../utils/session';
 import {post} from '../../utils/api';
 import {getSize, getImage} from '../../services/graphics';
@@ -70,6 +70,10 @@ const HomeView = React.createClass({
 
   hideBubble() {
     this.setState({showBubble: false});
+  },
+
+  restartAudioAndText() {
+    this.setState({showBubble: true});
   },
 
   // TODO: Clean up. Too much repetition atm.
@@ -158,12 +162,18 @@ const HomeView = React.createClass({
       );
 
       rightcolumn = <View style={[styles.rightcolumn, {flexDirection: 'row'}]}>{userIcons}</View>;
-      speechBubble = (
-        <SpeechBubble
+      if (this.state.showBubble === true) {
+        speechBubble = (
+        <SpeechBubbleView
           text={'userIsUnknown'}
+          hideBubble={this.hideBubble}
           bubbleType={'puhekupla_aset'}
           style={{top: 40, left: 230, margin: 40, size: 0.5}}/>
-      );
+        );
+      }
+      else {
+        speechBubble = null;
+      }
     }
 
     if (this.state.isPasswordModalOpen === true) {
@@ -174,8 +184,9 @@ const HomeView = React.createClass({
     }
 
     return (
-      <Image source={getImage('tausta_hemmolla')} style={styles.container}>
+      <Image source={getImage('tausta_perus2')} style={styles.container}>
         <View style={styles.leftcolumn}>
+          <Hemmo image={'hemmo_keski'} size={0.8} restartAudioAndText={this.restartAudioAndText}/>
           <View style={styles.settingsButton}>
             <TouchableHighlight onPress={this.openPasswordModal}>
               <Image
