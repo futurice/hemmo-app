@@ -14,6 +14,7 @@ import {getSize, getImage} from '../../services/graphics';
 import {
   TouchableHighlight,
   Image,
+  Dimensions,
   Text,
   View
 } from 'react-native';
@@ -87,15 +88,19 @@ const HomeView = React.createClass({
 
         /* If app has more than 4 children in it, only names of the children are displayed */
         if (this.props.users.size > 4) {
+          var rowHeight = Dimensions.get('window').height / this.props.users.size - 15;
           userIcons.push(
-            <View key={i} style={styles.userRowWithoutImage}>
-              <View>
-                <TouchableHighlight
-                  onPress={this.startJourney.bind(this, i)}>
-                  {name}
-                </TouchableHighlight>
+            <TouchableHighlight
+              style={[styles.rowWithSmallImageTouchable, {height: rowHeight}]}
+              key={i}
+              onPress={this.startJourney.bind(this, i)}>
+              <View style={styles.rowWithSmallImage}>
+                <Image
+                  style={[styles.smallIcon, {height: rowHeight - 10, width: rowHeight - 10}]}
+                  source={{uri: this.props.users.get(i).get('image')}}/>
+                <Text style={styles.name}> {name} </Text>
               </View>
-            </View>
+            </TouchableHighlight>
           );
 
           var rightcolumn = <View style={styles.rightcolumn}>{userIcons}</View>;

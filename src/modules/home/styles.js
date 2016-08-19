@@ -25,15 +25,26 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
-  userRowWithoutImage: {
-    flex: 1,
-    width: width * 0.5,
+  rowWithSmallImageTouchable: {
+    // flex: 1,
+    width: width * 0.4,
     margin: 5,
     marginRight: 20,
     borderWidth: 2,
+    backgroundColor: 'white'
+  },
+  rowWithSmallImage: {
+    flex: 1,
+    flexDirection: 'row',
+    width: width * 0.5,
     justifyContent: 'center',
-    backgroundColor: '#dedede',
     alignItems: 'center'
+  },
+  smallIcon: {
+    position: 'absolute',
+    top: 2,
+    left: 2,
+    bottom: 2
   },
   name: {
     fontSize: 25,
