@@ -14,9 +14,9 @@ import {
 
 var styles = require('./styles.js');
 var thumb_values = [
-  {value: 1, text: 'like', icon: 'thumbs-up'},
+  {value: 1, text: 'like', icon: 'smile-o'},
   {value: 0, text: 'neutral', icon: 'meh-o'},
-  {value: -1, text: 'dislike', icon: 'thumbs-down'}
+  {value: -1, text: 'dislike', icon: 'frown-o'}
 ];
 
 //TODO: Separate rendering to smaller components.
@@ -105,7 +105,7 @@ const ThumbVote = React.createClass({
 
     return (
       <Image source={getImage('tausta_perus2')} style={styles.container}>
-          <Image source={getImage('tausta_kapea')} style={[styles.leftColumn, getSize('tausta_kapea', 0.95)]}>
+          <Image source={getImage('tausta_kapea')} style={[styles.leftColumn, getSize('tausta_kapea', 0.90)]}>
             {titlePanel}
             {actionPanel}
           </Image>

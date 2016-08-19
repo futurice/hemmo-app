@@ -64,17 +64,16 @@ const Record = React.createClass({
 
     if (phase === 'activities') {
       questions = this.getActivities();
-      attachmentQuestion = 'Kertoisitko lisää?';
+      attachmentQuestion = 'Mikä siitä jäi mieleen?';
       body = {questions};
     }
     else if (phase === 'moods') {
       moods = this.getMoods();
-      console.log('moods ' + JSON.stringify(moods));
-      attachmentQuestion = 'Miltä sinusta tuntui?';
+      attachmentQuestion = 'Miksi sinusta tuntui siltä?';
       body = {moods, questions};
     }
     else if (phase === 'general') {
-      attachmentQuestion = 'Onko sinulla muuta kerrottavaa?';
+      attachmentQuestion = 'Onko sinulla jotain muuta kerrottavaa?';
       body = {questions};
     }
 
@@ -87,7 +86,6 @@ const Record = React.createClass({
 
     post('/content', body)
       .then(result => {
-        console.log('result ' + result.contentId);
         if (attachmentType === 'audio') {
           var contentId = result.contentId;
           var attachmentBody = new FormData();
@@ -127,7 +125,6 @@ const Record = React.createClass({
       questions.push({question: 'Millaista se oli?', like});
     }
     else {
-      console.log('skipattiin ' + JSON.stringify(questions));
       questions.push({question: 'Mitä teitte', answer: 'Muuta'});
     }
 
@@ -246,7 +243,9 @@ const Record = React.createClass({
             <Image source={getImage('hemmo_keski')} style={getSize('hemmo_keski', 0.7)}/>
           </View>
           <View style={styles.skipRow}>
-            <TouchableOpacity onPress={this.save.bind(this, phase, 'skipped')} style={styles.skipButtonHighlight}>
+            <TouchableOpacity
+              onPress={this.save.bind(this, phase, 'skipped')}
+              style={styles.skipButtonHighlight}>
               <Image
                 source={getImage('nappula_ohita')}
                 style={[styles.skipButton, getSize('nappula_ohita', 0.1)]}/>

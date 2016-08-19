@@ -32,10 +32,16 @@ const SettingsView = React.createClass({
     currentUser: PropTypes.instanceOf(Map)
   },
 
+  getInitialState() {
+    return {
+      disabled: true
+    };
+  },
+
   getUserNames() {
     texts = this.props.users.map((user) => user.get('name'));
     if (this.props.users.size < 6) {
-      texts = texts.concat(['+ Lisää']);
+      texts = texts.concat(['+ Lisää lapsi']);
     }
     return texts;
   },
@@ -47,8 +53,9 @@ const SettingsView = React.createClass({
     }
     else {
 
-      var newId = this.props.users.size;
+      this.setState({disabled: true});
 
+      var newId = this.props.users.size;
       if (this.props.currentUser.get('id') === null) {
         this.props.dispatch(UserState.setCurrentUserValue('id', newId));
 
@@ -88,6 +95,9 @@ const SettingsView = React.createClass({
   },
 
   getChangedName(e) {
+    if (this.state.disabled === true) {
+      this.setState({disabled: false});
+    }
     this.props.dispatch(UserState.setCurrentUserValue('name', e.nativeEvent.text));
   },
 
@@ -103,6 +113,7 @@ const SettingsView = React.createClass({
       }
       else {
         const source = {uri: response.uri, isStatic: true};
+        this.setState({disabled: false});
 
         this.props.dispatch(UserState.setCurrentUserValue('image', source.uri));
       }
@@ -196,10 +207,12 @@ const SettingsView = React.createClass({
           <View style={styles.rightColumn}>
             <View style={styles.rightColumn}>
               <View style={styles.buttonfield}>
-                <TouchableOpacity onPress={this.saveUser}>
+                <TouchableOpacity
+                  disabled={this.state.disabled}
+                  onPress={this.saveUser}>
                   <Image
                     source={getImage('nappula_tallenna')}
-                    style={getSize('nappula_tallenna', 0.1)}/>
+                    style={[getSize('nappula_tallenna', 0.1), {opacity: this.state.disabled ? 0.2 : 1}]}/>
                 </TouchableOpacity>
                 <View style={styles.bottomRow}>
                   <Button

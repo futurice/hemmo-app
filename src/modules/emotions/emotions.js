@@ -1,12 +1,12 @@
 var emotions = [
   'Iloinen',
   'Surullinen',
-  'Riehakas',
+  'Jännittynyt',
+  'Pelokas',
   'Vihainen',
-  'Tunne',
-  'Tunne1',
-  'Tunne2',
-  'Muu tunne'
+  'Innostunut',
+  'Rauhallinen',
+  'Yksinäinen'
 ];
 
 module.exports = emotions;

@@ -36,7 +36,6 @@ const AudioRecorder = React.createClass({
   },
 
   componentWillMount() {
-    console.log('RECORDER WILL MOUNT! ');
     this.recorder = null;
     this.lastSeek = 0;
 

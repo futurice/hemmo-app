@@ -113,7 +113,7 @@ const HomeView = React.createClass({
                   style={{height: iconSize, width: iconSize}}
                   source={{uri: this.props.users.get(i).get('image')}}/>
               </TouchableHighlight>
-              <View style={{width: iconSize}}>
+              <View style={{width: iconSize, alignItems: 'center'}}>
                 {name}
               </View>
             </Image>
