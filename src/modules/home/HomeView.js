@@ -36,6 +36,10 @@ const HomeView = React.createClass({
     };
   },
 
+  componentWillMount() {
+    this.props.dispatch(UserState.resetCurrentUser());
+  },
+
   openSettings() {
     this.props.dispatch(UserState.resetCurrentUser());
     this.props.dispatch(NavigationState.pushRoute({key: 'Settings', allowReturn: true}));
@@ -43,13 +47,20 @@ const HomeView = React.createClass({
 
   startJourney(id) {
     this.props.dispatch(SessionState.startPreparing());
+    console.log('id ' + id);
 
     this.props.dispatch(UserState.setCurrentUser(id))
-      .then(setAuthenticationToken(this.props.currentUser.get('token'))
-        .then(this.startSession()));
-
-    this.props.dispatch(UserState.addActivity());
-    this.props.dispatch(NavigationState.pushRoute({key: 'Activity', allowReturn: true}));
+      .then(
+        () => {
+          console.log('this.props.currentUser ' + JSON.stringify(this.props.users.get(id).get('token')));
+          setAuthenticationToken(this.props.users.get(id).get('token'))
+        .then(() => {
+          this.startSession();
+          console.log('started session');
+          this.props.dispatch(UserState.addActivity());
+          this.props.dispatch(NavigationState.pushRoute({key: 'Activity', allowReturn: true}));
+        });}
+      );
   },
 
   startSession() {

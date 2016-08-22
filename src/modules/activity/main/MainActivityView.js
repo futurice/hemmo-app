@@ -4,6 +4,7 @@ import * as UserState from '../../../modules/user/UserState';
 import * as NavigationState from '../../../modules/navigation/NavigationState';
 import SubActivityView from '../sub/SubActivityView';
 import Hemmo from '../../../components/Hemmo';
+import SettingsButton from '../../../components/SettingsButton';
 import SpeechBubbleView from '../../../components/SpeechBubbleView';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 import {getScreenWidth, getScreenHeight} from '../../../services/screenSize';

@@ -1,7 +1,10 @@
 import React, {PropTypes} from 'react';
-import {View, StyleSheet, AppState, Dimensions} from 'react-native';
+import {View, StyleSheet, AppState, BackAndroid} from 'react-native';
 import NavigationViewContainer from './navigation/NavigationViewContainer';
 import AppRouter from './AppRouter';
+import UserState from './user/UserState';
+import {Map, List} from 'immutable';
+import SettingsButton from '../components/SettingsButton';
 import Spinner from 'react-native-gifted-spinner';
 import * as snapshotUtil from '../utils/snapshot';
 import * as NavigationState from '../modules/navigation/NavigationState';
@@ -13,7 +16,10 @@ import Orientation from 'react-native-orientation';
 const AppView = React.createClass({
   propTypes: {
     isReady: PropTypes.bool.isRequired,
-    dispatch: PropTypes.func.isRequired
+    dispatch: PropTypes.func.isRequired,
+    currentUser: PropTypes.instanceOf(Map),
+    currentPage: PropTypes.number,
+    pages: PropTypes.instanceOf(List)
   },
 
   getInitialState() {
@@ -67,6 +73,10 @@ const AppView = React.createClass({
     this.props.dispatch(NavigationState.resetRoute());
   },
 
+  end() {
+    this.props.dispatch(NavigationState.resetRoute());
+  },
+
   render() {
     if (!this.props.isReady) {
       return (
@@ -76,9 +86,29 @@ const AppView = React.createClass({
       );
     }
 
+    if (this.props.currentUser.get('id') !== null) {
+      if (this.props.pages.get(this.props.currentPage - 1).get('key') === 'Emotions') {
+        var phase = 'Emotions';
+      }
+      else {
+        phase = 'Other';
+      }
+
+      var currentUser = (
+        <SettingsButton
+          resetRoute={this.resetRoute}
+          phase={phase}
+          currentUser={this.props.currentUser}
+          end={this.end}/>);
+    }
+    else {
+      currentUser = null;
+    }
+
     return (
       <View style={{flex: 1}}>
         <NavigationViewContainer router={AppRouter} />
+        {currentUser}
       </View>
     );
   }

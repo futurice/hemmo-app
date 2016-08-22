@@ -125,7 +125,7 @@ const SettingsView = React.createClass({
   },
 
   handleClick(user, index) {
-    if (user === '+ Lisää') {
+    if (user === '+ Lisää ') {
       this.addTab();
     }
     else {

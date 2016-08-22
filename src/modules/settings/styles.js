@@ -108,9 +108,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: 50
   },
-  savebutton: {
-
-  },
   cancelbutton: {
     borderRadius: 10,
     width: 100

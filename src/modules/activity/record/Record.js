@@ -6,8 +6,9 @@ import Hemmo from '../../../components/Hemmo';
 import SpeechBubbleView from '../../../components/SpeechBubbleView';
 import WritingPanel from '../../../components/WritingPanel';
 import * as NavigationState from '../../../modules/navigation/NavigationState';
-import {put, post, xhr} from '../../../utils/api';
 import {getSize, getImage} from '../../../services/graphics';
+import {save} from '../../../services/save';
+
 
 import {
   TouchableOpacity,
@@ -15,7 +16,6 @@ import {
   View
 } from 'react-native';
 
-var activities = require('../activities.js');
 var styles = require('./styles.js');
 
 const Record = React.createClass({
@@ -24,7 +24,7 @@ const Record = React.createClass({
     savedActivities: PropTypes.instanceOf(List),
     dispatch: PropTypes.func.isRequired,
     activityIndex: PropTypes.number.isRequired,
-    emotions: PropTypes.instanceOf(Map)
+    answers: PropTypes.instanceOf(Map)
   },
 
   getInitialState() {
@@ -62,83 +62,13 @@ const Record = React.createClass({
   },
 
   save(phase, attachmentType, attachmentPath) {
-    var questions = [];
-    var moods = [];
-    var body;
-    var attachmentQuestion;
-
-    if (phase === 'activities') {
-      questions = this.getActivities();
-      attachmentQuestion = 'Mikä siitä jäi mieleen?';
-      body = {questions};
-    }
-    else if (phase === 'moods') {
-      moods = this.getMoods();
-      attachmentQuestion = 'Miksi sinusta tuntui siltä?';
-      body = {moods, questions};
-    }
-    else if (phase === 'general') {
-      attachmentQuestion = 'Onko sinulla jotain muuta kerrottavaa?';
-      body = {questions};
-    }
-
-    if (attachmentType === 'text') {
-      body.questions.push({question: attachmentQuestion, answer: this.state.text});
-    }
-    else if (attachmentType === 'skipped') {
-      body.questions.push({question: attachmentQuestion, answer: 'Ohitettu'});
-    }
-
-    post('/content', body)
-      .then(result => {
-        if (attachmentType === 'audio') {
-          var contentId = result.contentId;
-          var attachmentBody = new FormData();
-          var file = {
-            uri: `file://${attachmentPath}`,
-            type: 'audio/mp4',
-            name: 'file'
-          };
-          attachmentBody.append('file', file);
-          xhr('PUT', '/attachment/' + contentId, attachmentBody)
-            .then(res => {
-              var parsedResult = JSON.parse(res);
-              body.questions.push({question: attachmentQuestion, attachmentId: parsedResult.attachmentId});
-              put('/content/' + contentId, body)
-                .then(r => console.log('result now ' + r.contentId));
-            });
-        }
-      });
-
+    save(phase,
+      attachmentType,
+      attachmentPath,
+      this.state.text,
+      this.props.activityIndex,
+      this.props.answers);
     this.continue(phase);
-  },
-
-  getActivities() {
-    var questions = [];
-
-    var curr = this.props.activityIndex;
-    var mainIndex = this.props.savedActivities.get(curr).get('main');
-    var subIndex = this.props.savedActivities.get(curr).get('sub');
-
-    if (mainIndex !== null) {
-      var main = activities[mainIndex].get('key');
-      var sub = activities[mainIndex].get('subActivities').get(subIndex);
-      var like = this.props.savedActivities.get(curr).get('thumb');
-
-      questions.push({question: 'Mitä teitte?', answer: main});
-      questions.push({question: 'Mitä teitte (tarkemmin)?', answer: sub});
-      questions.push({question: 'Millaista se oli?', like});
-    }
-    else {
-      questions.push({question: 'Mitä teitte', answer: 'Muuta'});
-    }
-
-    return questions;
-  },
-
-  getMoods() {
-    var moods = this.props.emotions.get('emotions');
-    return moods;
   },
 
   continue(phase) {

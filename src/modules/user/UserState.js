@@ -3,8 +3,9 @@ import {Map, List} from 'immutable';
 // Initial state. user Hemmo created for testing.
 const initialState = Map({
   users: List(),
-  currentUser: Map(),
-  activityIndex: -1
+  currentUser: Map({
+    activityIndex: -1
+  })
 });
 
 const CREATE_USER = 'UserState/CREATE_USER';
@@ -56,7 +57,13 @@ export function removeUser(id) {
 export function resetCurrentUser() {
   return {
     type: RESET_CURRENT_USER,
-    payload: Map({id: null, token: '', name: '', image: null, answers: Map({activities: List()})})
+    payload: Map({
+      id: null,
+      activityIndex: -1,
+      token: '',
+      name: '',
+      image: null,
+      answers: Map({activities: List()})})
   };
 }
 
@@ -137,7 +144,12 @@ function currentUserReducer(state = Map(), action, wholeState) {
 
     case ADD_ACTIVITY:
       return state
-        .updateIn(['answers', 'activities'], list => list.push(action.payload));
+        .updateIn(['answers', 'activities'], list => list.push(action.payload))
+        .update('activityIndex', value => value + 1);
+
+    case RESET_ACTIVITIES:
+      return state
+        .set('activityIndex', -1);
 
     case SAVE_ANSWER:
       if (action.payload.index === null) {
@@ -157,25 +169,25 @@ function currentUserReducer(state = Map(), action, wholeState) {
       return state;
   }
 }
-
-function activityIndexReducer(state = -1, action) {
-  switch (action.type) {
-
-    case ADD_ACTIVITY:
-      return state + 1;
-
-    case RESET_ACTIVITIES:
-      return -1;
-
-    default:
-      return state;
-  }
-}
+//
+// function activityIndexReducer(state = -1, action) {
+//   switch (action.type) {
+//
+//     case ADD_ACTIVITY:
+//       return state + 1;
+//
+//     case RESET_ACTIVITIES:
+//       return -1;
+//
+//     default:
+//       return state;
+//   }
+// }
 
 // Reducer
 export default function UserStateReducer(state = initialState, action = {}) {
   return state
     .set('users', usersReducer(state.get('users'), action))
-    .set('activityIndex', activityIndexReducer(state.get('activityIndex'), action))
+    // .setIn(['currentUser', 'activityIndex'], activityIndexReducer(state.getIn(['currentUser', 'activityIndex']), action))
     .set('currentUser', currentUserReducer(state.get('currentUser'), action, state));
 }
