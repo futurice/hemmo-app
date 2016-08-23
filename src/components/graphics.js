@@ -5,11 +5,14 @@ var graphics = Map({
     image: require('../../assets/default-icon.png')}),
 
   /* backgrounds */
+  'tausta_perus': Map({
+    image: require('../../assets/graphics/backgrounds/tausta_perus.png'),
+    ratio: 1.7777}),
   'tausta_perus2': Map({
     image: require('../../assets/graphics/backgrounds/tausta_perus2.png'),
     ratio: 1.7777}),
-  'tausta_perus': Map({
-    image: require('../../assets/graphics/backgrounds/tausta_perus.png'),
+  'tausta_perus3': Map({
+    image: require('../../assets/graphics/backgrounds/tausta_perus3.png'),
     ratio: 1.7777}),
   'kehys_iso': Map({
     image: require('../../assets/graphics/backgrounds/kehys_iso.png'),
@@ -20,12 +23,15 @@ var graphics = Map({
   'kehys_pieni': Map({
     image: require('../../assets/graphics/backgrounds/kehys_pieni.png'),
     ratio: 0.7970}),
+  'kehys_palkki': Map({
+    image: require('../../assets/graphics/backgrounds/kehys_palkki.png'),
+    ratio: 4.207}),
   'nelio': Map({
     image: require('../../assets/graphics/backgrounds/nelio.png'),
     ratio: 1.2484}),
   'tausta_asetukset': Map({
     image: require('../../assets/graphics/backgrounds/tausta_asetukset.png'),
-    ratio: 2.1582}),
+    ratio: 2.409}),
   'tausta_hemmolla': Map({
     image: require('../../assets/graphics/backgrounds/tausta_hemmolla.png'),
     ratio: 1.7777}),
@@ -99,6 +105,24 @@ var graphics = Map({
   'nappula_uusikuva': Map({
     image: require('../../assets/graphics/buttons/nappula_uusikuva.png'),
     ratio: 2.6111}),
+  'peukku_alas_0': Map({
+    image: require('../../assets/graphics/buttons/peukku_alas_0.png'),
+    ratio: 1}),
+  'peukku_alas_1': Map({
+    image: require('../../assets/graphics/buttons/peukku_alas_1.png'),
+    ratio: 1}),
+  'peukku_keski_0': Map({
+    image: require('../../assets/graphics/buttons/peukku_keski_0.png'),
+    ratio: 1}),
+  'peukku_keski_1': Map({
+    image: require('../../assets/graphics/buttons/peukku_keski_1.png'),
+    ratio: 1}),
+  'peukku_ylos_0': Map({
+    image: require('../../assets/graphics/buttons/peukku_ylos_0.png'),
+    ratio: 1}),
+  'peukku_ylos_1': Map({
+    image: require('../../assets/graphics/buttons/peukku_ylos_1.png'),
+    ratio: 1}),
 
   'hemmo_iso': Map({
     image: require('../../assets/graphics/others/hemmo_iso.png'),
@@ -120,10 +144,16 @@ var graphics = Map({
     ratio: 3.5490}),
   'valilehti_tyhja': Map({
     image: require('../../assets/graphics/others/valilehti_tyhja.png'),
-    ratio: 3.5490}),
+    ratio: 2.185}),
   'valittu': Map({
     image: require('../../assets/graphics/others/valittu.png'),
-    ratio: 1.0377})
+    ratio: 1.0377}),
+  'ikoni_kyna': Map({
+    image: require('../../assets/graphics/others/ikoni_kyna.png'),
+    ratio: 1}),
+  'ikoni_tallenna': Map({
+    image: require('../../assets/graphics/others/ikoni_tallenna.png'),
+    ratio: 1})
 });
 
 module.exports = graphics;

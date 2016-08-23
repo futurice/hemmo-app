@@ -195,7 +195,7 @@ const HomeView = React.createClass({
     }
 
     return (
-      <Image source={getImage('tausta_perus2')} style={styles.container}>
+      <Image source={getImage('tausta_perus3')} style={styles.container}>
         <View style={styles.leftcolumn}>
           <Hemmo image={'hemmo_keski'} size={0.8} restartAudioAndText={this.restartAudioAndText}/>
           <View style={styles.settingsButton}>

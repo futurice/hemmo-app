@@ -8,9 +8,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: null,
     height: null,
-    flexDirection: 'column',
-    alignItems: 'center',
-    backgroundColor: 'white'
+    alignItems: 'center'
   },
   titleBar: {
     flexDirection: 'row'
@@ -22,31 +20,29 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   tabBar: {
-    flexDirection: 'row',
     position: 'absolute',
-    top: 40,
-    left: 10,
-    right: 10
+    top: 55,
+    left: 20,
+    right: 15
+  },
+  font: {
+    fontFamily: 'Gill Sans'
   },
   tab: {
-    marginHorizontal: 2,
     alignItems: 'center',
     justifyContent: 'center'
   },
   tabText: {
-    width: 90,
+    width: null,
+    margin: 10,
     fontSize: 15
   },
   form: {
-    height: null,
-    width: null,
-    flex: 5,
-    flexDirection: 'row',
     position: 'absolute',
-    top: 40,
-    bottom: 40,
-    right: 10,
-    left: 10
+    top: 90,
+    left: 20,
+    right: 20,
+    flexDirection: 'row'
   },
   leftColumn: {
     flex: 5,
@@ -58,7 +54,7 @@ const styles = StyleSheet.create({
   },
   inputField: {
     flex: 1,
-    paddingTop: 50,
+    paddingTop: 20,
     paddingHorizontal: 10,
     flexDirection: 'row',
     alignItems: 'center'
@@ -82,7 +78,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 10,
         borderColor: 'gray',
-        backgroundColor: 'rgba(209, 209, 209, 0.59)'
+        backgroundColor: 'rgba(209, 209, 209, 0.29)'
       },
       android: {
         fontSize: 20
@@ -96,8 +92,8 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   icon: {
-    height: 120,
-    width: 120
+    flex: 1,
+    margin: 10
   },
   buttonfield: {
     flex: 1,

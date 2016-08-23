@@ -37,12 +37,14 @@ const SettingsButton = React.createClass({
   },
 
   saveAndReset() {
-    save(this.props.phase,
-      'skipped',
-      null,
-      'Ohitettu',
-      this.props.currentUser.get('activityIndex'),
-      this.props.currentUser.get('answers'));
+    if (this.props.phase !== 'Do nothing') {
+      save(this.props.phase,
+        'skipped',
+        null,
+        'Ohitettu',
+        this.props.currentUser.get('activityIndex'),
+        this.props.currentUser.get('answers'));
+    }
     this.props.resetRoute();
   },
 

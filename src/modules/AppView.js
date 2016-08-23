@@ -87,19 +87,34 @@ const AppView = React.createClass({
     }
 
     if (this.props.currentUser.get('id') !== null) {
+
+      var phase;
+      var showSettingsCircle = true;
+
       if (this.props.pages.get(this.props.currentPage - 1).get('key') === 'Emotions') {
-        var phase = 'Emotions';
+        phase = 'Emotions';
+      }
+      else if (this.props.pages.get(this.props.currentPage).get('key') === 'Settings') {
+        showSettingsCircle = false;
+      }
+      if (this.props.currentPage === 1) {
+        phase = 'Do nothing';
       }
       else {
         phase = 'Other';
       }
 
-      var currentUser = (
-        <SettingsButton
-          resetRoute={this.resetRoute}
-          phase={phase}
-          currentUser={this.props.currentUser}
-          end={this.end}/>);
+      if (showSettingsCircle === true) {
+        var currentUser = (
+          <SettingsButton
+            resetRoute={this.resetRoute}
+            phase={phase}
+            currentUser={this.props.currentUser}
+            end={this.end}/>);
+      }
+      else {
+        currentUser = null;
+      }
     }
     else {
       currentUser = null;

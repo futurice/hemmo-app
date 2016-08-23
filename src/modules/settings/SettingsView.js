@@ -125,7 +125,7 @@ const SettingsView = React.createClass({
   },
 
   handleClick(user, index) {
-    if (user === '+ Lisää ') {
+    if (user === '+ Lisää lapsi') {
       this.addTab();
     }
     else {
@@ -154,8 +154,8 @@ const SettingsView = React.createClass({
         <Image
           source={getImage('valilehti_tyhja')}
           onPress={this.handleClick.bind(this, user, index)}
-          style={[styles.tab, getSize('valilehti_tyhja', 0.1)]}>
-          <Text ellipsizeMode='tail' numberOfLines={1} style={styles.tabText}>
+          style={[styles.tab, getSize('valilehti_tyhja', 0.12)]}>
+          <Text ellipsizeMode='tail' numberOfLines={1} style={[styles.tabText, styles.font]}>
             {user}
           </Text>
         </Image>
@@ -173,13 +173,16 @@ const SettingsView = React.createClass({
 
           <View style={styles.titleBarSection}>
             <Icon size={30} name={'cog'}/>
-            <Text> Asetukset </Text>
+            <Text style={styles.font}> Asetukset </Text>
           </View>
         </View>
-        <Image source={getImage('tausta_asetukset')} style={styles.form}>
+        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={styles.tabBar}>
+          {tabs}
+        </ScrollView>
+        <Image source={getImage('tausta_asetukset')} style={[styles.form, getSize('tausta_asetukset', 0.66)]}>
           <View style={styles.leftColumn}>
             <View style={styles.inputField}>
-              <Text style={styles.label}>
+              <Text style={[styles.label, styles.font]}>
                 Nimi
               </Text>
               <View style={styles.textInputView}>
@@ -191,14 +194,15 @@ const SettingsView = React.createClass({
               </View>
             </View>
             <View style={styles.imagefield}>
+            <Image source={getImage('nelio')} style={getSize('nelio', 0.35)}>
              <Image
                style={styles.icon}
                source={{uri: this.props.currentUser.get('image')}}/>
-
+            </Image>
              <TouchableOpacity onPress={this.openImageGallery}>
                <Image
                  source={getImage('nappula_uusikuva')}
-                 style={[{marginLeft: 10}, getSize('nappula_uusikuva', 0.15)]}/>
+                 style={[{marginLeft: 20}, getSize('nappula_uusikuva', 0.12)]}/>
              </TouchableOpacity>
 
             </View>
@@ -224,9 +228,6 @@ const SettingsView = React.createClass({
             </View>
           </View>
         </Image>
-        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={styles.tabBar}>
-          {tabs}
-        </ScrollView>
       </Image>
     );
   }
