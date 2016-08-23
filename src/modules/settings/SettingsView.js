@@ -120,10 +120,6 @@ const SettingsView = React.createClass({
     });
   },
 
-  addTab() {
-    this.props.dispatch(UserState.resetCurrentUser());
-  },
-
   handleClick(user, index) {
     if (user === '+ Lisää lapsi') {
       this.addTab();
@@ -131,6 +127,10 @@ const SettingsView = React.createClass({
     else {
       this.viewUserProfile(index);
     }
+  },
+
+  addTab() {
+    this.props.dispatch(UserState.resetCurrentUser());
   },
 
   viewUserProfile(index) {
@@ -149,22 +149,27 @@ const SettingsView = React.createClass({
       removeButton = null;
     }
     var tabTexts = this.getUserNames();
-    var tabs = tabTexts.map((user, index) => (
-      <TouchableOpacity key={index} onPress={this.handleClick.bind(this, user, index)}>
+    var tabs = tabTexts.map((user, index) => {
+      if (index === this.props.currentUser.get('id') ||
+        (this.props.currentUser.get('id') === null && index === tabTexts.size - 1)) {
+        var fontWeight = 'bold';
+      }
+      return <TouchableOpacity key={index} onPress={this.handleClick.bind(this, user, index)}>
         <Image
           source={getImage('valilehti_tyhja')}
           onPress={this.handleClick.bind(this, user, index)}
           style={[styles.tab, getSize('valilehti_tyhja', 0.12)]}>
-          <Text ellipsizeMode='tail' numberOfLines={1} style={[styles.tabText, styles.font]}>
+          <Text ellipsizeMode='tail' numberOfLines={1} style={[styles.tabText, styles.font, {fontWeight}]}>
             {user}
           </Text>
         </Image>
-      </TouchableOpacity>
-    ));
+      </TouchableOpacity>;
+    });
 
     return (
       <Image source={getImage('tausta_perus')} style={styles.container}>
         <View style={styles.titleBar}>
+
           <TouchableOpacity onPress={this.cancel} style={styles.titleBarSection}>
             <Image
               source={getImage('nappula_takaisin')}
@@ -175,16 +180,21 @@ const SettingsView = React.createClass({
             <Icon size={30} name={'cog'}/>
             <Text style={styles.font}> Asetukset </Text>
           </View>
+
         </View>
+
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={styles.tabBar}>
           {tabs}
         </ScrollView>
+
         <Image source={getImage('tausta_asetukset')} style={[styles.form, getSize('tausta_asetukset', 0.66)]}>
           <View style={styles.leftColumn}>
             <View style={styles.inputField}>
+
               <Text style={[styles.label, styles.font]}>
                 Nimi
               </Text>
+
               <View style={styles.textInputView}>
                 <TextInput
                   style={styles.input}
@@ -192,25 +202,27 @@ const SettingsView = React.createClass({
                   onChange = {this.getChangedName}
                   value={this.props.currentUser.get('name')}/>
               </View>
+
             </View>
             <View style={styles.imagefield}>
-            <Image source={getImage('nelio')} style={getSize('nelio', 0.35)}>
-             <Image
-               style={styles.icon}
-               source={{uri: this.props.currentUser.get('image')}}/>
-            </Image>
-             <TouchableOpacity onPress={this.openImageGallery}>
+              <Image source={getImage('nelio')} style={getSize('nelio', 0.35)}>
                <Image
-                 source={getImage('nappula_uusikuva')}
-                 style={[{marginLeft: 20}, getSize('nappula_uusikuva', 0.12)]}/>
-             </TouchableOpacity>
+                 style={styles.icon}
+                 source={{uri: this.props.currentUser.get('image')}}/>
+              </Image>
 
+              <TouchableOpacity onPress={this.openImageGallery}>
+                <Image
+                  source={getImage('nappula_uusikuva')}
+                  style={[{marginLeft: 20}, getSize('nappula_uusikuva', 0.12)]}/>
+              </TouchableOpacity>
             </View>
           </View>
 
           <View style={styles.rightColumn}>
             <View style={styles.rightColumn}>
               <View style={styles.buttonfield}>
+
                 <TouchableOpacity
                   disabled={this.state.disabled}
                   onPress={this.saveUser}>
@@ -218,12 +230,14 @@ const SettingsView = React.createClass({
                     source={getImage('nappula_tallenna')}
                     style={[getSize('nappula_tallenna', 0.1), {opacity: this.state.disabled ? 0.2 : 1}]}/>
                 </TouchableOpacity>
+
                 <View style={styles.bottomRow}>
                   <Button
                     style={styles.cancelbutton} highlightStyle={styles.buttonHighlight}
                     onPress={this.cancel} text={'Peruuta'} icon={''}/>
                   {removeButton}
                 </View>
+
               </View>
             </View>
           </View>
