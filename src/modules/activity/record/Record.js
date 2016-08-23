@@ -9,7 +9,6 @@ import * as NavigationState from '../../../modules/navigation/NavigationState';
 import {getSize, getImage} from '../../../services/graphics';
 import {save} from '../../../services/save';
 
-
 import {
   TouchableOpacity,
   Image,
@@ -175,7 +174,7 @@ const Record = React.createClass({
         </Image>
         <View style={styles.rightColumn}>
           <View style={styles.hemmoRow}>
-            <Hemmo image={'hemmo_keski'} size={0.7} restartAudioAndText={this.restartAudioAndText}/>
+            <Hemmo image={'hemmo'} size={0.7} restartAudioAndText={this.restartAudioAndText}/>
           </View>
           <View style={styles.skipRow}>
             <TouchableOpacity

@@ -12,7 +12,6 @@ const styles = StyleSheet.create({
   },
   leftColumn: {
     margin: 10,
-
     flexDirection: 'column'
   },
   rightColumn: {

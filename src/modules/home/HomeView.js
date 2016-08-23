@@ -103,18 +103,21 @@ const HomeView = React.createClass({
 
         /* If app has more than 4 children in it, only names of the children are displayed */
         if (this.props.users.size > 4) {
-          var rowHeight = Dimensions.get('window').height / this.props.users.size - 15;
+          var iconHeight = Dimensions.get('window').height / this.props.users.size;
+          var rowHeight = ((Dimensions.get('window').height / this.props.users.size) - 10) / Dimensions.get('window').height;
           userIcons.push(
             <TouchableHighlight
-              style={[styles.rowWithSmallImageTouchable, {height: rowHeight}]}
+              style={[styles.rowWithSmallImageTouchable]}
               key={i}
               onPress={this.startJourney.bind(this, i)}>
-              <View style={styles.rowWithSmallImage}>
+              <Image
+                source={getImage('kehys_palkki')}
+                style={[styles.rowWithSmallImage, getSize('kehys_palkki', rowHeight)]}>
                 <Image
-                  style={[styles.smallIcon, {height: rowHeight - 10, width: rowHeight - 10}]}
+                  style={[styles.smallIcon, {height: iconHeight - 20, width: iconHeight - 20}]}
                   source={{uri: this.props.users.get(i).get('image')}}/>
                 <Text style={styles.name}> {name} </Text>
-              </View>
+              </Image>
             </TouchableHighlight>
           );
 

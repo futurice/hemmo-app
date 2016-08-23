@@ -133,6 +133,9 @@ var graphics = Map({
   'hemmo_pieni': Map({
     image: require('../../assets/graphics/others/hemmo_pieni.png'),
     ratio: 0.8864}),
+  'hemmo': Map({
+    image: require('../../assets/graphics/others/hemmo.png'),
+    ratio: 0.9328}),
   'lopetusteksti': Map({
     image: require('../../assets/graphics/others/lopetusteksti.png'),
     ratio: 1.0958}),

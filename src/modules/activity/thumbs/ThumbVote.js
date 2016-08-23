@@ -10,14 +10,15 @@ import {getSize, getImage} from '../../../services/graphics';
 
 import {
   View,
+  TouchableOpacity,
   Image
 } from 'react-native';
 
 var styles = require('./styles.js');
 var thumb_values = [
-  {value: 1, text: 'like', icon: 'smile-o'},
-  {value: 0, text: 'neutral', icon: 'meh-o'},
-  {value: -1, text: 'dislike', icon: 'frown-o'}
+  {value: 1, text: 'peukku_ylos_0', icon: 'smile-o'},
+  {value: 0, text: 'peukku_keski_0', icon: 'meh-o'},
+  {value: -1, text: 'peukku_alas_0', icon: 'frown-o'}
 ];
 
 //TODO: Separate rendering to smaller components.
@@ -76,11 +77,11 @@ const ThumbVote = React.createClass({
     for (var i = 0; i <= 2; i++) {
       thumbs.push(
         <View key={i}>
-          <Icon
-            onPress={this.vote.bind(this, thumb_values[i].value)}
-            name={thumb_values[i].icon}
-            size={100}
-            style={styles.voteButton}/>
+          <TouchableOpacity onPress={this.vote.bind(this, thumb_values[i].value)}>
+            <Image
+              source={getImage(thumb_values[i].text)}
+              style={[styles.voteButton, getSize(thumb_values[i].text, 0.25)]}/>
+          </TouchableOpacity>
         </View>
       );
     }

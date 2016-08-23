@@ -1,9 +1,6 @@
 import {
-  StyleSheet,
-  Dimensions
+  StyleSheet
 } from 'react-native';
-
-var width = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
   container: {
@@ -28,25 +25,18 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   rowWithSmallImageTouchable: {
-    // flex: 1,
-    width: width * 0.4,
-    margin: 5,
-    marginRight: 20,
-    borderWidth: 2,
+    margin: 2,
     backgroundColor: 'white'
   },
   rowWithSmallImage: {
-    flex: 1,
-    flexDirection: 'row',
-    width: width * 0.5,
     justifyContent: 'center',
     alignItems: 'center'
   },
   smallIcon: {
     position: 'absolute',
-    top: 2,
-    left: 2,
-    bottom: 2
+    top: 5,
+    left: 5,
+    bottom: 5
   },
   name: {
     fontSize: 25,
