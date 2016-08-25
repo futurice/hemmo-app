@@ -33,6 +33,8 @@ const AudioPlayerView = React.createClass({
   },
 
   checkActivity() {
+    console.log('isActive ' + this.props.isActive);
+
     if (this.props.isActive === true) {
       console.log('LETS PLAY');
       this.player.play();

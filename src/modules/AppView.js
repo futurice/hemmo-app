@@ -32,6 +32,7 @@ const AppView = React.createClass({
     Orientation.lockToLandscape();
     // this.setScreenSize();
     AppState.addEventListener('change', this._handleAppStateChange);
+    console.log('state ' + this.state.currentState);
 
     /* Haetaan viimeisin tila */
     snapshotUtil.resetSnapshot()
@@ -41,12 +42,15 @@ const AppView = React.createClass({
         /* Jos viimeisin tila löytyi */
         if (snapshot) {
           dispatch(SessionState.resetSessionStateFromSnapshot(snapshot))
-            .then(this.resetRoute());
+            .then(() => {
+              this.props.dispatch(SessionState.activate());
+              this.resetRoute();});
         }
         /* Ei löytynyt. Aloitetaan alusta */
         else {
           dispatch(SessionState.initializeSessionState());
         }
+
 
         /* Tallennetaan uusin tila aina kun statea päivitetään */
         store.subscribe(() => {
