@@ -124,6 +124,32 @@ var graphics = Map({
     image: require('../../assets/graphics/buttons/peukku_ylos_1.png'),
     ratio: 1}),
 
+    /* emotions */
+  'iloinen': Map({
+    image: require('../../assets/graphics/emotions/iloinen.png'),
+    ratio: 1}),
+  'innostunut': Map({
+    image: require('../../assets/graphics/emotions/innostunut.png'),
+    ratio: 1}),
+  'jannittynyt': Map({
+    image: require('../../assets/graphics/emotions/jannittynyt.png'),
+    ratio: 1}),
+  'pelokas': Map({
+    image: require('../../assets/graphics/emotions/pelokas.png'),
+    ratio: 1}),
+  'rauhallinen': Map({
+    image: require('../../assets/graphics/emotions/rauhallinen.png'),
+    ratio: 1}),
+  'surullinen': Map({
+    image: require('../../assets/graphics/emotions/surullinen.png'),
+    ratio: 1}),
+  'vihainen': Map({
+    image: require('../../assets/graphics/emotions/vihainen.png'),
+    ratio: 1}),
+  'yksinainen': Map({
+    image: require('../../assets/graphics/emotions/yksinainen.png'),
+    ratio: 1}),
+
   'hemmo_iso': Map({
     image: require('../../assets/graphics/others/hemmo_iso.png'),
     ratio: 0.8878}),
@@ -142,9 +168,6 @@ var graphics = Map({
   'otsake_aset': Map({
     image: require('../../assets/graphics/others/otsake_aset.png'),
     ratio: 5.1164}),
-  'valilehti_lisaa': Map({
-    image: require('../../assets/graphics/others/valilehti_lisaa.png'),
-    ratio: 3.5490}),
   'valilehti_tyhja': Map({
     image: require('../../assets/graphics/others/valilehti_tyhja.png'),
     ratio: 2.185}),

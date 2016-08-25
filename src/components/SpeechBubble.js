@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react';
-import AudioPlayer from './AudioPlayer';
+import AudioPlayerViewContainer from '../modules/audioplayer/AudioPlayerViewContainer';
 import {getSize, getImage} from '../services/graphics';
 import TimerMixin from 'react-timer-mixin';
 
@@ -59,6 +59,8 @@ const SpeechBubble = React.createClass({
 
   render() {
 
+    console.log('speechbubble ON');
+
     bubbleText = this.renderBubbleText();
 
     return (
@@ -80,7 +82,7 @@ const SpeechBubble = React.createClass({
             {bubbleText}
           </Text>
         </Image>
-        <AudioPlayer onEnd={this.onEnd} audioTrack={audiotrack}/>
+        <AudioPlayerViewContainer onEnd={this.onEnd} audioTrack={audiotrack}/>
       </View>
     );
   }

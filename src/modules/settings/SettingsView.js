@@ -47,8 +47,9 @@ const SettingsView = React.createClass({
   },
 
   saveUser() {
-    if (this.props.currentUser.get('name') === '' ||
-        this.props.currentUser.get('image') === null) {
+    /*||
+        this.props.currentUser.get('image') === null)*/
+    if (this.props.currentUser.get('name') === '') {
       Alert.alert('Puuttuvia tietoja', 'Varmistathan, että kaikki kohdat on täytetty ennen jatkamista.');
     }
     else {
@@ -64,7 +65,8 @@ const SettingsView = React.createClass({
         post('/register', {name})
           .then(
             result => this.props.dispatch(UserState.setCurrentUserValue('token', 'Bearer ' + result.token))
-          .then(this.props.dispatch(UserState.createUser(this.props.currentUser))));
+              .then(this.props.dispatch(UserState.createUser(this.props.currentUser))))
+          .catch((error) => Alert.alert('Virhe käyttäjän luonnissa!', 'Yritä myöhemmin uudelleen.' + error));
       }
       else {
         this.props.dispatch(UserState.editUser(this.props.currentUser));

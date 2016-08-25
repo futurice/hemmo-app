@@ -1,8 +1,7 @@
 import React, {PropTypes} from 'react';
-import {View, StyleSheet, AppState, BackAndroid} from 'react-native';
+import {View, StyleSheet, AppState} from 'react-native';
 import NavigationViewContainer from './navigation/NavigationViewContainer';
 import AppRouter from './AppRouter';
-import UserState from './user/UserState';
 import {Map, List} from 'immutable';
 import SettingsButton from '../components/SettingsButton';
 import Spinner from 'react-native-gifted-spinner';
@@ -41,8 +40,8 @@ const AppView = React.createClass({
 
         /* Jos viimeisin tila löytyi */
         if (snapshot) {
-          dispatch(SessionState.resetSessionStateFromSnapshot(snapshot));
-            // .then(this.resetRoute());
+          dispatch(SessionState.resetSessionStateFromSnapshot(snapshot))
+            .then(this.resetRoute());
         }
         /* Ei löytynyt. Aloitetaan alusta */
         else {
@@ -56,18 +55,22 @@ const AppView = React.createClass({
       });
   },
 
-  _handleAppStateChange() {
-    if (AppState.currentState === 'active') {
+  _handleAppStateChange(appState) {
+
+    var previous = this.state.currentState;
+
+    this.setState({currentState: appState, previousState: previous});
+
+    if (this.state.currentState === 'active') {
       Orientation.lockToLandscape();
+      console.log('current STATE ON ' + AppState.currentState);
+      this.props.dispatch(SessionState.activate());
+    }
+    else if (this.state.currentState === 'inactive' || this.state.currentState === 'background') {
+      console.log('current STATE ON ' + AppState.currentState);
+      this.props.dispatch(SessionState.deactivate());
     }
   },
-
-  // setScreenSize() {
-  //   var height = Dimensions.get('window').height;
-  //   var width = Dimensions.get('window').width;
-  //
-  //   console.log('screen height ' + height + ' and width ' + width);
-  // },
 
   resetRoute() {
     this.props.dispatch(NavigationState.resetRoute());

@@ -41,7 +41,7 @@ const Record = React.createClass({
   },
 
   disableWriting() {
-    this.setState({enableWriting: false});
+    this.setState({text: '', enableWriting: false});
   },
 
   hideBubble() {

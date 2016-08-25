@@ -93,10 +93,8 @@ const EmotionView = React.createClass({
           style={[styles.highlight, getSize('ympyra_keski', 0.30)]}
           onPress={this.selectEmotion.bind(this, emotions[i])}>
           <Image
-            source={getImage('ympyra_keski')}
-            style={[styles.emotion, getSize('ympyra_keski', 0.30)]}>
-            <Text style={styles.font}> {emotions[i]} </Text>
-          </Image>
+            source={getImage(emotions[i])}
+            style={[styles.emotion, getSize(emotions[i], 0.30)]}/>
           {checked}
         </TouchableOpacity>
       );

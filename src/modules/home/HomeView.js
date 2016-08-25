@@ -15,6 +15,7 @@ import {
   TouchableHighlight,
   Image,
   Dimensions,
+  Alert,
   Text,
   View
 } from 'react-native';
@@ -51,15 +52,12 @@ const HomeView = React.createClass({
 
     this.props.dispatch(UserState.setCurrentUser(id))
       .then(
-        () => {
-          console.log('this.props.currentUser ' + JSON.stringify(this.props.users.get(id).get('token')));
-          setAuthenticationToken(this.props.users.get(id).get('token'))
-        .then(() => {
-          this.startSession();
-          console.log('started session');
-          this.props.dispatch(UserState.addActivity());
-          this.props.dispatch(NavigationState.pushRoute({key: 'Activity', allowReturn: true}));
-        });}
+        setAuthenticationToken(this.props.users.get(id).get('token'))
+          .then(() => {
+            this.startSession();
+            this.props.dispatch(UserState.addActivity());
+            this.props.dispatch(NavigationState.pushRoute({key: 'Activity', allowReturn: true}));
+          })
       );
   },
 
@@ -68,7 +66,8 @@ const HomeView = React.createClass({
       .then(result => {
         setSessionId(result.sessionId);
         this.props.dispatch(SessionState.finishPreparing());
-      });
+      })
+      .catch((error) => Alert.alert('Oops! Jokin meni pieleen!', 'Yritä myöhemmin uudelleen! ' + error));
   },
 
   openPasswordModal() {

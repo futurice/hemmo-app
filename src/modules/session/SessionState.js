@@ -4,14 +4,16 @@ export const RESET_STATE = 'SessionState/RESET';
 export const INITIALIZE_STATE = 'SessionState/INITIALIZE';
 export const SET_SESSIONID = 'SessionState/SET_SESSIONID';
 export const TOGGLE_ISREADY = 'SessionState/TOGGLE_ISREADY';
+export const ACTIVATE = 'SessionState/ACTIVATE';
+export const DEACTIVATE = 'SessionState/DEACTIVATE';
 
 // Initial state
 const initialState = Map({
-  isReady: false
+  isReady: false,
+  isActive: true
 });
 
 export function startPreparing() {
-  console.log('start preparing');
   return {
     type: TOGGLE_ISREADY,
     payload: false
@@ -19,7 +21,6 @@ export function startPreparing() {
 }
 
 export function finishPreparing() {
-  console.log('finish preparing');
   return {
     type: TOGGLE_ISREADY,
     payload: true
@@ -39,6 +40,18 @@ export function initializeSessionState() {
   };
 }
 
+export function activate() {
+  return {
+    type: ACTIVATE
+  };
+}
+
+export function deactivate() {
+  return {
+    type: DEACTIVATE
+  };
+}
+
 // Reducer
 export default function SessionStateReducer(state = initialState, action = {}) {
   switch (action.type) {
@@ -49,6 +62,12 @@ export default function SessionStateReducer(state = initialState, action = {}) {
 
     case TOGGLE_ISREADY:
       return state.set('isReady', action.payload);
+
+    case ACTIVATE:
+      return state.set('isActive', true);
+
+    case DEACTIVATE:
+      return state.set('isActive', false);
 
     default:
       return state;

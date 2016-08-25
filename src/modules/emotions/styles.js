@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   check: {
     position: 'absolute',
     top: 0,
-    right: 10
+    right: 0
   },
   hemmoColumn: {
     flex: 1,

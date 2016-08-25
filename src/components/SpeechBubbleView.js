@@ -18,11 +18,11 @@ const SpeechBubbleView = React.createClass({
   },
 
   hideBubble() {
-    console.log('hide bubble speech bubble view');
     this.props.hideBubble();
   },
 
   render() {
+    console.log('speechbubble view ON');
     return (
       <TouchableOpacity style={styles.touchable} onPress={this.hideBubble}>
         <SpeechBubble
