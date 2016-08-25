@@ -23,7 +23,6 @@ const AudioPlayerView = React.createClass({
 
     this.player = new Player(audioTrack).prepare();
     this.player.on('ended', () => {
-      console.log('loppui!');
       this.props.onEnd();
     });
   },
@@ -33,20 +32,15 @@ const AudioPlayerView = React.createClass({
   },
 
   checkActivity() {
-    console.log('isActive ' + this.props.isActive);
-
     if (this.props.isActive === true) {
-      console.log('LETS PLAY');
       this.player.play();
     }
     else if (this.props.isActive === false) {
-      console.log('lets stop');
       this.player.destroy();
     }
   },
 
   render() {
-    console.log('render');
     this.checkActivity();
 
     return null;

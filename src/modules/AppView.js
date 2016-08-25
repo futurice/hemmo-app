@@ -32,7 +32,6 @@ const AppView = React.createClass({
     Orientation.lockToLandscape();
     // this.setScreenSize();
     AppState.addEventListener('change', this._handleAppStateChange);
-    console.log('state ' + this.state.currentState);
 
     /* Haetaan viimeisin tila */
     snapshotUtil.resetSnapshot()
@@ -67,11 +66,9 @@ const AppView = React.createClass({
 
     if (this.state.currentState === 'active') {
       Orientation.lockToLandscape();
-      console.log('current STATE ON ' + AppState.currentState);
       this.props.dispatch(SessionState.activate());
     }
     else if (this.state.currentState === 'inactive' || this.state.currentState === 'background') {
-      console.log('current STATE ON ' + AppState.currentState);
       this.props.dispatch(SessionState.deactivate());
     }
   },

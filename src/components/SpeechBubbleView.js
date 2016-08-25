@@ -22,7 +22,6 @@ const SpeechBubbleView = React.createClass({
   },
 
   render() {
-    console.log('speechbubble view ON');
     return (
       <TouchableOpacity style={styles.touchable} onPress={this.hideBubble}>
         <SpeechBubble
