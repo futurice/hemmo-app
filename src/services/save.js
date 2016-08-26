@@ -3,7 +3,7 @@ import {put, post, xhr} from '../utils/api';
 
 var activities = require('../modules/activity/activities.js');
 
-export function save(phase, attachmentType, attachmentPath, text, activityIndex, answers) {
+export async function save(phase, attachmentType, attachmentPath, text, activityIndex, answers) {
   var questions = [];
   var moods = [];
   var body = {questions};

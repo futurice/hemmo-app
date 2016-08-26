@@ -22,7 +22,9 @@ const AudioPlayerView = React.createClass({
     }
 
     this.player = new Player(audioTrack).prepare();
+
     this.player.on('ended', () => {
+      console.log('ended');
       this.props.onEnd();
     });
   },

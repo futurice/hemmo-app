@@ -50,6 +50,7 @@ const SpeechBubble = React.createClass({
   },
 
   onEnd() {
+    console.log('täällä ollaan');
     this.setTimeout(
       () => { this.props.hideBubble(); },
       2000

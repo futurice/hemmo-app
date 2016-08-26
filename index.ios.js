@@ -9,7 +9,8 @@ import {AppRegistry} from 'react-native';
 const PepperoniAppTemplate = React.createClass({
 
   componentWillMount() {
-    setConfiguration('API_ROOT', 'http://localhost:3001');
+    setConfiguration('API_ROOT', 'http://hemmo-backend.herokuapp.com');
+    // setConfiguration('API_ROOT', 'http://localhost:3001');
   },
 
   render() {

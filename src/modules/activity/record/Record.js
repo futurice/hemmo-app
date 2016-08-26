@@ -4,6 +4,7 @@ import AudioRecorder from '../../../components/AudioRecorder';
 import TitlePanel from '../../../components/TitlePanel';
 import Hemmo from '../../../components/Hemmo';
 import SpeechBubbleView from '../../../components/SpeechBubbleView';
+import SaveConfirmationWindow from '../../../components/SaveConfirmationWindow';
 import WritingPanel from '../../../components/WritingPanel';
 import * as NavigationState from '../../../modules/navigation/NavigationState';
 import {getSize, getImage} from '../../../services/graphics';
@@ -32,7 +33,8 @@ const Record = React.createClass({
       enableWriting: false,
       showBubble: true,
       progress: 0,
-      generalFeedbackView: false
+      generalFeedbackView: false,
+      showConfirm: false
     };
   },
 
@@ -66,7 +68,19 @@ const Record = React.createClass({
       attachmentPath,
       this.state.text,
       this.props.activityIndex,
-      this.props.answers);
+      this.props.answers)
+       .then(() => this.confirmSave());
+    // this.continue(phase);
+  },
+
+  confirmSave() {
+    console.log('Tallennus onnistui!');
+    this.setState({showConfirm: true});
+
+  },
+
+  closeConfirmationWindow(phase) {
+    this.setState({showConfirm: false});
     this.continue(phase);
   },
 
@@ -124,6 +138,7 @@ const Record = React.createClass({
 
   render() {
     var phase;
+    var saveWasSuccesful;
     var speechBubble;
 
     if (this.props.activityIndex === -1) {
@@ -165,6 +180,11 @@ const Record = React.createClass({
       saveOrWriteButton = this.renderButton('nappula_kirjoita', this.enableWriting);
 
     }
+
+    if (this.state.showConfirm === true) {
+      saveWasSuccesful = <SaveConfirmationWindow phase={phase} closeWindow={this.closeConfirmationWindow}/>;
+    }
+
     return (
       <Image source={getImage('tausta_perus')} style={styles.container}>
         <Image source={getImage('tausta_kapea')} style={[styles.leftColumn, getSize('tausta_kapea', 0.9)]}>
@@ -188,6 +208,7 @@ const Record = React.createClass({
         </View>
         {writingView}
         {speechBubble}
+        {saveWasSuccesful}
       </Image>
     );
   }
