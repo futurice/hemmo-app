@@ -72,14 +72,19 @@ const Record = React.createClass({
       this.state.text,
       this.props.activityIndex,
       this.props.answers)
-       .then(() => this.confirmSave());
+       .then(() => {
+         if (attachmentType === 'audio') {
+           this.confirmSave();
+         }
+         else {
+           this.continue(phase);
+         }
+       });
     // this.continue(phase);
   },
 
   confirmSave() {
-    console.log('Tallennus onnistui!');
     this.setState({showConfirm: true});
-
   },
 
   closeConfirmationWindow(phase) {
@@ -173,16 +178,13 @@ const Record = React.createClass({
     }
 
     var actionPanel = this.renderRecordPanel(phase);
-    var saveOrWriteButton;
+    var writeButton;
 
     if (this.state.enableWriting === true) {
       var writingView = this.renderWritingPanel(phase);
-      saveOrWriteButton = this.renderButton('nappula_tallenna', this.save.bind(this, phase, 'text'));
     }
-    else {
-      saveOrWriteButton = this.renderButton('nappula_kirjoita', this.enableWriting);
 
-    }
+    writeButton = this.renderButton('nappula_kirjoita', this.enableWriting);
 
     if (this.state.showConfirm === true) {
       saveWasSuccesful = <SaveConfirmationWindow phase={phase} closeWindow={this.closeConfirmationWindow}/>;
@@ -193,7 +195,7 @@ const Record = React.createClass({
         <Image source={getImage('tausta_kapea')} style={[styles.leftColumn, getSize('tausta_kapea', 0.9)]}>
           {titlePanel}
           {actionPanel}
-          {saveOrWriteButton}
+          {writeButton}
         </Image>
         <View style={styles.rightColumn}>
           <View style={styles.hemmoRow}>

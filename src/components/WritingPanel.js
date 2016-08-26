@@ -25,6 +25,7 @@ const WritingPanel = React.createClass({
   },
 
   saveText() {
+    console.log('LETS SAVE THE TEXT');
     this.props.save(this.props.phase, 'text');
   },
 
@@ -56,7 +57,7 @@ const WritingPanel = React.createClass({
         </Image>
         <TouchableOpacity
           disabled={this.state.disabled}
-          onPress={this.props.saveText}
+          onPress={this.saveText}
           style={[styles.saveButton, getSize('nappula_tallenna', 0.1), {opacity: 1, backgroundColor: 'white'}]}>
           <Image
             source={getImage('nappula_tallenna')}
