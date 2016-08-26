@@ -58,11 +58,14 @@ const Record = React.createClass({
     this.props.dispatch(NavigationState.popRoute());
   },
 
-  setText(e) {
-    this.setState({text: e.nativeEvent.text});
+  setText(text) {
+    this.setState({text});
   },
 
   save(phase, attachmentType, attachmentPath) {
+    if (attachmentType === 'text') {
+      this.disableWriting();
+    }
     save(phase,
       attachmentType,
       attachmentPath,
@@ -130,9 +133,9 @@ const Record = React.createClass({
     );
   },
 
-  renderWritingPanel() {
+  renderWritingPanel(phase) {
     return (
-      <WritingPanel disableWriting={this.disableWriting} setText={this.setText}/>
+      <WritingPanel disableWriting={this.disableWriting} phase={phase} save={this.save} setText={this.setText}/>
     );
   },
 
@@ -173,7 +176,7 @@ const Record = React.createClass({
     var saveOrWriteButton;
 
     if (this.state.enableWriting === true) {
-      var writingView = this.renderWritingPanel();
+      var writingView = this.renderWritingPanel(phase);
       saveOrWriteButton = this.renderButton('nappula_tallenna', this.save.bind(this, phase, 'text'));
     }
     else {

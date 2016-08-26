@@ -14,6 +14,12 @@ var graphics = Map({
   'tausta_perus3': Map({
     image: require('../../assets/graphics/backgrounds/tausta_perus3.png'),
     ratio: 1.7777}),
+  'tausta_kirjoitus': Map({
+    image: require('../../assets/graphics/backgrounds/tausta_kirjoitus.png'),
+    ratio: 1.9621}),
+  'kirjoituskentta': Map({
+    image: require('../../assets/graphics/backgrounds/kirjoituskentta.png'),
+    ratio: 1.9638}),
   'kehys_iso': Map({
     image: require('../../assets/graphics/backgrounds/kehys_iso.png'),
     ratio: 0.798}),
