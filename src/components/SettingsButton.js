@@ -54,30 +54,31 @@ const SettingsButton = React.createClass({
       var modal = (<Modal
           animationType={"fade"}
           transparent={true}
-          visible={this.state.modalVisible}
-          onRequestClose={() => console.log('moi')}>
-          <View style={styles.upperModal}>
-            <View style={styles.modal}>
-              <View style={styles.row}>
-                <TouchableHighlight onPress={this.saveAndReset}>
-                  <Text style={styles.font}>Vaihda käyttäjää</Text>
-                </TouchableHighlight>
-              </View>
-              <View style={styles.row}>
-                <TouchableHighlight onPress={() => {
-                  this.setState({modalVisible: false});
-                }}>
-                  <Text style={styles.font}>Lopeta (ei toimi vielä)</Text>
-                </TouchableHighlight>
-              </View>
+          visible={this.state.modalVisible}>
+          <View style={styles.modalContainer}>
+            <View style={styles.upperModal}>
+              <View style={styles.modal}>
+                <View style={styles.row}>
+                  <TouchableHighlight onPress={this.saveAndReset}>
+                    <Text style={styles.font}>Vaihda käyttäjää</Text>
+                  </TouchableHighlight>
+                </View>
+                <View style={styles.row}>
+                  <TouchableHighlight onPress={() => {
+                    this.setState({modalVisible: false});
+                  }}>
+                    <Text style={styles.font}>Lopeta (ei toimi vielä)</Text>
+                  </TouchableHighlight>
+                </View>
+               </View>
+               <TouchableOpacity
+                onPress={this.hideModal}
+                style={[styles.closeButton, getSize('nappula_rasti', 0.1)]}>
+                 <Image
+                   source={getImage('nappula_rasti')}
+                   style={[styles.closeButton, getSize('nappula_rasti', 0.1)]}/>
+               </TouchableOpacity>
              </View>
-             <TouchableOpacity
-              onPress={this.hideModal}
-              style={[styles.closeButton, getSize('nappula_rasti', 0.1)]}>
-               <Image
-                 source={getImage('nappula_rasti')}
-                 style={[styles.closeButton, getSize('nappula_rasti', 0.1)]}/>
-             </TouchableOpacity>
            </View>
         </Modal>);
     }
@@ -123,6 +124,10 @@ const styles = StyleSheet.create({
     height: 160,
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  modalContainer: {
+    flex: 1,
+    backgroundColor: 'rgba(184, 184, 184, 0.8)'
   },
   modal: {
     flex: 1,

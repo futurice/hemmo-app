@@ -4,6 +4,7 @@ import React, {PropTypes} from 'react';
 import {List, Map} from 'immutable';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Button from '../../components/Button';
+import SaveConfirmationWindow from '../../components/SaveConfirmationWindow';
 import {post} from '../../utils/api';
 import {getSize, getImage} from '../../services/graphics';
 
@@ -34,7 +35,8 @@ const SettingsView = React.createClass({
 
   getInitialState() {
     return {
-      disabled: true
+      disabled: true,
+      showSucceedingMessage: false
     };
   },
 
@@ -65,7 +67,10 @@ const SettingsView = React.createClass({
         post('/register', {name})
           .then(
             result => this.props.dispatch(UserState.setCurrentUserValue('token', 'Bearer ' + result.token))
-              .then(this.props.dispatch(UserState.createUser(this.props.currentUser))))
+              .then(() => {
+                this.props.dispatch(UserState.createUser(this.props.currentUser));
+                this.showSucceedingMessage();
+              }))
           .catch((error) => Alert.alert('Virhe käyttäjän luonnissa!', 'Yritä myöhemmin uudelleen.' + error));
       }
       else {
@@ -76,6 +81,14 @@ const SettingsView = React.createClass({
 
   cancel() {
     this.props.dispatch(NavigationState.popRoute());
+  },
+
+  showSucceedingMessage() {
+    this.setState({showSucceedingMessage: true});
+  },
+
+  closeSucceedingMessage() {
+    this.setState({showSucceedingMessage: false});
   },
 
   verifyRemove() {
@@ -168,6 +181,12 @@ const SettingsView = React.createClass({
       </TouchableOpacity>;
     });
 
+    if (this.state.showSucceedingMessage === true) {
+      var saveWasSuccesful = (
+        <SaveConfirmationWindow closeWindow={this.closeSucceedingMessage}/>
+      );
+    }
+
     return (
       <Image source={getImage('tausta_perus')} style={styles.container}>
         <View style={styles.titleBar}>
@@ -244,6 +263,7 @@ const SettingsView = React.createClass({
             </View>
           </View>
         </Image>
+        {saveWasSuccesful}
       </Image>
     );
   }

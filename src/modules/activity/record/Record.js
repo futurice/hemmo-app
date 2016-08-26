@@ -34,7 +34,7 @@ const Record = React.createClass({
       showBubble: true,
       progress: 0,
       generalFeedbackView: false,
-      showConfirm: false
+      showSucceedingMessage: false
     };
   },
 
@@ -84,11 +84,11 @@ const Record = React.createClass({
   },
 
   confirmSave() {
-    this.setState({showConfirm: true});
+    this.setState({showSucceedingMessage: true});
   },
 
   closeConfirmationWindow(phase) {
-    this.setState({showConfirm: false});
+    this.setState({showSucceedingMessage: false});
     this.continue(phase);
   },
 
@@ -186,7 +186,7 @@ const Record = React.createClass({
 
     writeButton = this.renderButton('nappula_kirjoita', this.enableWriting);
 
-    if (this.state.showConfirm === true) {
+    if (this.state.showSucceedingMessage === true) {
       saveWasSuccesful = <SaveConfirmationWindow phase={phase} closeWindow={this.closeConfirmationWindow}/>;
     }
 
