@@ -41,7 +41,7 @@ const SubActivityView = React.createClass({
     var screenWidth = getScreenWidth();
     var screenHeight = getScreenHeight() - 20;
 
-    var height = screenHeight / 2;
+    var height = screenHeight / 2 - 10;
 
     var fixValue = 0;
 
@@ -57,10 +57,10 @@ const SubActivityView = React.createClass({
         var bottomRow = ((n / rows) - 0.5);
         perRow = (i === 1) ? bottomRow : topRow;
       }
-      fixValue = (i === 1) ? 20 : 0;
-      var width = screenWidth / perRow;
+      fixValue = (i === 1) ? 10 : -10;
+      var width = screenWidth / perRow - 10;
       for (var j = 0; j < perRow; j++) {
-        var x = j * width - fixValue - 10;
+        var x = j * width;
         var y = i * height - fixValue;
         coordinates.push({x, y, width, height});
       }
@@ -72,9 +72,12 @@ const SubActivityView = React.createClass({
       UserState.saveAnswer(this.props.activityIndex, 'sub', subIndex)
     );
 
-    this.props.dispatch(
-      NavigationState.pushRoute({key: 'Thumbs', allowReturn: true})
-    );
+    if (subActivity === 'Muuta') {
+      this.props.dispatch(NavigationState.pushRoute({key: 'Record', allowReturn: true}));
+    }
+    else {
+      this.props.dispatch(NavigationState.pushRoute({key: 'Thumbs', allowReturn: true}));
+    }
   },
 
   render() {
@@ -109,7 +112,7 @@ const SubActivityView = React.createClass({
         <View style={styles.activityBar}>
           {subActivityViews}
         </View>
-        <TouchableOpacity onPress={this.closeSubActivities} style={[styles.closeButton, getSize('nappula_rasti', 0.1)]}>
+        <TouchableOpacity onPress={this.closeSubActivities} style={[styles.closeButton, getSize('nappula_rasti', 0.5)]}>
           <Image
             source={getImage('nappula_rasti')}
             onPress={this.closeSubActivities}

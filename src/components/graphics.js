@@ -168,6 +168,9 @@ var graphics = Map({
   'hemmo': Map({
     image: require('../../assets/graphics/others/hemmo.png'),
     ratio: 0.9328}),
+  'asetukset': Map({
+    image: require('../../assets/graphics/others/asetukset.png'),
+    ratio: 6.7903}),
   'lopetusteksti': Map({
     image: require('../../assets/graphics/others/lopetusteksti.png'),
     ratio: 1.0958}),
@@ -180,6 +183,9 @@ var graphics = Map({
   'valittu': Map({
     image: require('../../assets/graphics/others/valittu.png'),
     ratio: 1.0377}),
+  'ratas': Map({
+    image: require('../../assets/graphics/others/ratas.png'),
+    ratio: 1}),
   'ikoni_kyna': Map({
     image: require('../../assets/graphics/others/ikoni_kyna.png'),
     ratio: 1}),

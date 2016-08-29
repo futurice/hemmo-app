@@ -10,7 +10,8 @@ var activities = [
       'Piirtäminen, askartelu',
       'Kotihommia',
       'Lukeminen',
-      'Rakentaminen, nikkarointi, korjaaminen'])}),
+      'Rakentaminen, nikkarointi, korjaaminen',
+      'Muuta'])}),
   Map({
     id: 1,
     key: 'Ulkoilimme, retkeilimme',
@@ -22,7 +23,8 @@ var activities = [
       'Pihahommat',
       'Leikkipuisto',
       'Kalastaminen',
-      'Mökkeily'])}),
+      'Mökkeily',
+      'Muuta'])}),
   Map({
     id: 2,
     key: 'Leikimme, pelasimme',
@@ -32,7 +34,8 @@ var activities = [
       'Lautapelit',
       'Videopelit',
       'Liikunta',
-      'Uiminen'])}),
+      'Uiminen',
+      'Muuta'])}),
   Map({
     id: 3,
     key: 'Vietimme aikaa yhdessä',
@@ -42,7 +45,8 @@ var activities = [
       'Juttelu',
       'Kyläily',
       'Elokuvan katselu',
-      'Kirjat'])}),
+      'Kirjat',
+      'Muuta'])}),
   Map({
     id: 4,
     key: 'Lemmikit, kotieläimet',
@@ -51,7 +55,8 @@ var activities = [
       'Koira',
       'Kissa',
       'Hevonen',
-      'Muut eläimet'])})
+      'Muut eläimet',
+      'Muuta'])})
 ];
 
 module.exports = activities;
