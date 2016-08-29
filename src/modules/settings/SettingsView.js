@@ -2,8 +2,8 @@ import * as NavigationState from '../../modules/navigation/NavigationState';
 import * as UserState from '../../modules/user/UserState';
 import React, {PropTypes} from 'react';
 import {List, Map} from 'immutable';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import Button from '../../components/Button';
+import LoadingSpinner from '../../components/LoadingSpinner';
 import SaveConfirmationWindow from '../../components/SaveConfirmationWindow';
 import {post} from '../../utils/api';
 import {getSize, getImage} from '../../services/graphics';
@@ -35,6 +35,7 @@ const SettingsView = React.createClass({
 
   getInitialState() {
     return {
+      loading: false,
       disabled: true,
       showSucceedingMessage: false
     };
@@ -58,13 +59,15 @@ const SettingsView = React.createClass({
       if (this.props.currentUser.get('id') === null) {
         var name = this.props.currentUser.get('name');
 
+        this.setState({loading: true});
+
         post('/register', {name})
           .then(
             result => this.props.dispatch(UserState.setCurrentUserValue('token', 'Bearer ' + result.token))
               .then(() => {
                 this.props.dispatch(UserState.setCurrentUserValue('id', newId));
                 this.props.dispatch(UserState.createUser(this.props.currentUser));
-                this.setState({disabled: true});
+                this.setState({disabled: true, loading: false});
                 this.showSucceedingMessage();
               }))
           .catch((error) => {
@@ -152,6 +155,12 @@ const SettingsView = React.createClass({
   },
 
   render() {
+
+    if (this.state.loading === true) {
+      return (
+        <LoadingSpinner/>
+      );
+    }
 
     if (this.props.currentUser.get('id') !== null) {
       removeButton = (<Button

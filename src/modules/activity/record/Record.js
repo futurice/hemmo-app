@@ -3,6 +3,7 @@ import {List, Map} from 'immutable';
 import AudioRecorder from '../../../components/AudioRecorder';
 import TitlePanel from '../../../components/TitlePanel';
 import Hemmo from '../../../components/Hemmo';
+import LoadingSpinner from '../../../components/LoadingSpinner';
 import SpeechBubbleView from '../../../components/SpeechBubbleView';
 import SaveConfirmationWindow from '../../../components/SaveConfirmationWindow';
 import WritingPanel from '../../../components/WritingPanel';
@@ -34,7 +35,8 @@ const Record = React.createClass({
       showBubble: true,
       progress: 0,
       generalFeedbackView: false,
-      showSucceedingMessage: false
+      showSucceedingMessage: false,
+      loading: false
     };
   },
 
@@ -66,6 +68,8 @@ const Record = React.createClass({
     if (attachmentType === 'text') {
       this.disableWriting();
     }
+    this.setState({loading: true});
+
     save(phase,
       attachmentType,
       attachmentPath,
@@ -73,6 +77,8 @@ const Record = React.createClass({
       this.props.activityIndex,
       this.props.answers)
        .then(() => {
+         this.setState({loading: false});
+
          if (attachmentType === 'audio') {
            this.confirmSave();
          }
@@ -148,6 +154,12 @@ const Record = React.createClass({
     var phase;
     var saveWasSuccesful;
     var speechBubble;
+
+    if (this.state.loading === true) {
+      return (
+        <LoadingSpinner/>
+      );
+    }
 
     if (this.props.activityIndex === -1) {
       if (this.state.generalFeedbackView === false) {
