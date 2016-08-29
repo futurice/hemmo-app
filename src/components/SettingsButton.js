@@ -17,7 +17,7 @@ const SettingsButton = React.createClass({
 
   propTypes: {
     resetRoute: PropTypes.func.isRequired,
-    end: PropTypes.func.isRequired,
+    quit: PropTypes.func.isRequired,
     phase: PropTypes.string,
     currentUser: PropTypes.instanceOf(Map)
   },
@@ -48,13 +48,27 @@ const SettingsButton = React.createClass({
     this.props.resetRoute();
   },
 
+  quit() {
+    if (this.props.phase !== 'Do nothing') {
+      save(this.props.phase,
+        'skipped',
+        null,
+        'Ohitettu',
+        this.props.currentUser.get('activityIndex'),
+        this.props.currentUser.get('answers'));
+    }
+    this.setState({modalVisible: false});
+    this.props.quit();
+  },
+
   render() {
 
     if (this.state.modalVisible === true) {
       var modal = (<Modal
           animationType={"fade"}
           transparent={true}
-          visible={this.state.modalVisible}>
+          visible={this.state.modalVisible}
+          onRequestClose={() => console.log('jee')}>
           <View style={styles.modalContainer}>
             <View style={styles.upperModal}>
               <View style={styles.modal}>
@@ -64,10 +78,8 @@ const SettingsButton = React.createClass({
                   </TouchableHighlight>
                 </View>
                 <View style={styles.row}>
-                  <TouchableHighlight onPress={() => {
-                    this.setState({modalVisible: false});
-                  }}>
-                    <Text style={styles.font}>Lopeta (ei toimi vielä)</Text>
+                  <TouchableHighlight onPress={this.quit}>
+                    <Text style={styles.font}>Lopeta</Text>
                   </TouchableHighlight>
                 </View>
                </View>

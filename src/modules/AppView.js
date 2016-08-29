@@ -78,8 +78,8 @@ const AppView = React.createClass({
     this.props.dispatch(NavigationState.resetRoute());
   },
 
-  end() {
-    this.props.dispatch(NavigationState.resetRoute());
+  quit() {
+    this.props.dispatch(NavigationState.pushRoute({key: 'End', allowReturn: false}));
   },
 
   render() {
@@ -115,7 +115,7 @@ const AppView = React.createClass({
             resetRoute={this.resetRoute}
             phase={phase}
             currentUser={this.props.currentUser}
-            end={this.end}/>);
+            quit={this.quit}/>);
       }
       else {
         currentUser = null;

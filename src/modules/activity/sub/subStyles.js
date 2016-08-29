@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
   },
   closeButton: {
     position: 'absolute',
-    right: 30,
+    right: 50,
     top: 3
   }
 });

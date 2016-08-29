@@ -241,24 +241,24 @@ const SettingsView = React.createClass({
           </View>
 
           <View style={styles.rightColumn}>
-              <View style={styles.buttonfield}>
+            <View style={styles.buttonfield}>
 
-                <TouchableOpacity
-                  disabled={this.state.disabled}
-                  onPress={this.saveUser}>
-                  <Image
-                    source={getImage('nappula_tallenna')}
-                    style={[getSize('nappula_tallenna', 0.1), {opacity: this.state.disabled ? 0.2 : 1}]}/>
-                </TouchableOpacity>
+              <TouchableOpacity
+                disabled={this.state.disabled}
+                onPress={this.saveUser}>
+                <Image
+                  source={getImage('nappula_tallenna')}
+                  style={[getSize('nappula_tallenna', 0.1), {opacity: this.state.disabled ? 0.2 : 1}]}/>
+              </TouchableOpacity>
 
-                <View style={styles.bottomRow}>
-                  <Button
-                    style={styles.cancelbutton} highlightStyle={styles.buttonHighlight}
-                    onPress={this.cancel} text={'Peruuta'} icon={''}/>
-                  {removeButton}
-                </View>
-
+              <View style={styles.bottomRow}>
+                <Button
+                  style={styles.cancelbutton} highlightStyle={styles.buttonHighlight}
+                  onPress={this.cancel} text={'Peruuta'} icon={''}/>
+                {removeButton}
               </View>
+
+            </View>
           </View>
         </Image>
         {saveWasSuccesful}
