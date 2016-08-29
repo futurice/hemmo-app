@@ -7,6 +7,8 @@ import {
   Platform,
   StyleSheet
 } from 'react-native';
+import {post} from '../utils/api';
+import {setAuthenticationToken} from '../utils/authentication';
 
 const PasswordModal = React.createClass({
 
@@ -17,6 +19,7 @@ const PasswordModal = React.createClass({
 
   getInitialState() {
     return {
+      email: '',
       password: '',
       message: ''
     };
@@ -27,13 +30,24 @@ const PasswordModal = React.createClass({
   },
 
   verifyPassword() {
-    if (this.state.password === '1234') {
-      this.setState({message: ''});
-      this.props.onSuccess();
-    }
-    else {
-      this.setState({message: 'Väärä salasana', password: ''});
-    }
+    this.setState({message: 'Kirjaudutaan...'});
+
+    post('/employees/authenticate', {
+      email: this.state.email,
+      password: this.state.password
+    })
+    .then(
+      result => {
+        this.setState({message: ''});
+        setAuthenticationToken(result.token)
+        .then(() => {
+          this.props.onSuccess();
+        });
+      }
+    )
+    .catch(error => {
+      this.setState({message: 'Virhe sisäänkirjautumisessa, tarkista salasana ja Internetyhteys'});
+    });
   },
 
   render() {
@@ -41,21 +55,33 @@ const PasswordModal = React.createClass({
     return (
       <View style={styles.container}>
         <Text style={styles.text}>
-          Anna salasana ( = 1234 )
-        </Text>
-
-        <Text style={styles.message}>
-          {this.state.message}
+          Syötä sähköpostiosoite
         </Text>
 
         <View style={styles.passwordView}>
           <TextInput
+            style={styles.email}
+            keyboardType={'email-address'}
+            onChangeText={(email) => this.setState({email: email.toLowerCase()})}
+            value={this.state.email}
+            secureTextEntry={false}/>
+        </View>
+
+        <Text style={styles.text}>
+          Syötä salasana
+        </Text>
+        <View style={styles.passwordView}>
+          <TextInput
             style={styles.password}
-            keyboardType={'phone-pad'}
+            keyboardType={'default'}
             onChangeText={(password) => this.setState({password})}
             value={this.state.password}
             secureTextEntry={true}/>
         </View>
+
+        <Text style={styles.message}>
+          {this.state.message}
+        </Text>
 
         <Button
           style={styles.loginButton} highlightStyle={styles.buttonHighlight}
@@ -82,6 +108,18 @@ const styles = StyleSheet.create({
   },
   passwordView: {
     alignItems: 'center'
+  },
+  email: {
+    width: 300,
+    ...Platform.select({
+      ios: {
+        height: 40,
+        borderWidth: 1,
+        borderColor: 'gray',
+        backgroundColor: 'rgba(209, 209, 209, 0.59)'
+      }
+    }),
+    textAlign: 'center'
   },
   password: {
     width: 300,
