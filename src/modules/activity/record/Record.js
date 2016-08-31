@@ -3,7 +3,7 @@ import {List, Map} from 'immutable';
 import AudioRecorder from '../../../components/AudioRecorder';
 import TitlePanel from '../../../components/TitlePanel';
 import Hemmo from '../../../components/Hemmo';
-import SpeechBubbleView from '../../../components/SpeechBubbleView';
+import SpeechBubble from '../../../components/SpeechBubble';
 import SaveConfirmationWindow from '../../../components/SaveConfirmationWindow';
 import WritingPanel from '../../../components/WritingPanel';
 import * as NavigationState from '../../../modules/navigation/NavigationState';
@@ -100,11 +100,11 @@ const Record = React.createClass({
   renderBubble(text) {
     if (this.state.showBubble === true) {
       return (
-        <SpeechBubbleView
+        <SpeechBubble
           text={text}
           bubbleType={'puhekupla_oikea'}
           hideBubble={this.hideBubble}
-          style={{top: 100, left: 100, margin: 30, fontSize: 16, size: 0.5}}/>
+          style={{top: 20, left: 60, margin: 30, fontSize: 18, size: 0.6}}/>
       );
     }
     else {

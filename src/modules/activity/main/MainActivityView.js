@@ -4,7 +4,7 @@ import * as UserState from '../../../modules/user/UserState';
 import * as NavigationState from '../../../modules/navigation/NavigationState';
 import SubActivityView from '../sub/SubActivityView';
 import Hemmo from '../../../components/Hemmo';
-import SpeechBubbleView from '../../../components/SpeechBubbleView';
+import SpeechBubble from '../../../components/SpeechBubble';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 import {getScreenWidth, getScreenHeight} from '../../../services/screenSize';
 import {getImage} from '../../../services/graphics';
@@ -68,11 +68,11 @@ const MainActivityView = React.createClass({
 
   renderBubble(textKey, screenHeight, screenWidth, selected_ma) {
     if (this.state.showBubble === true) {
-      return (<SpeechBubbleView
+      return (<SpeechBubble
         text={textKey}
         bubbleType={'puhekupla_vasen2'}
         hideBubble={this.hideBubble}
-        style={{top: screenHeight * 0.25, left: screenWidth * 0.5, margin: 20, fontSize: 12, size: 0.6}}
+        style={{top: screenHeight * 0.25, left: screenWidth * 0.55, margin: 20, fontSize: 12, size: 0.6}}
         maIndex={selected_ma}/>);
     }
     else {

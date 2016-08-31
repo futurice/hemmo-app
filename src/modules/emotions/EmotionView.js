@@ -2,14 +2,14 @@ import React, {PropTypes} from 'react';
 import {List} from 'immutable';
 import * as UserState from '../../modules/user/UserState';
 import * as NavigationState from '../../modules/navigation/NavigationState';
-import SpeechBubbleView from '../../components/SpeechBubbleView';
+import SpeechBubble from '../../components/SpeechBubble';
 import Hemmo from '../../components/Hemmo';
 import {getSize, getImage} from '../../services/graphics';
 
 import {
-  Text,
   TouchableOpacity,
   Image,
+  Text,
   View
 } from 'react-native';
 
@@ -40,7 +40,7 @@ const EmotionView = React.createClass({
 
   renderBubble(text) {
     if (this.state.showBubble === true) {
-      return (<SpeechBubbleView
+      return (<SpeechBubble
         text={text}
         bubbleType={'puhekupla_oikea'}
         hideBubble={this.hideBubble}
@@ -87,14 +87,27 @@ const EmotionView = React.createClass({
           checked = <Image source={getImage('valittu')} style={[styles.check, getSize('valittu', 0.1)]}/>;
         }
       }
+      var photo;
+
+      if (i === emotions.length - 1) {
+        photo = (
+          <Image source={getImage('ympyra_keski')} style={[styles.other, getSize('ympyra_keski', 0.28)]}>
+            <Text style={styles.font}>Muu</Text>
+          </Image>
+        );
+      }
+      else {
+        photo = (<Image
+          source={getImage(emotions[i])}
+          style={[getSize(emotions[i], 0.28)]}/>);
+      }
+
       emotionViews.push(
         <TouchableOpacity
           key={emotions[i]}
-          style={[styles.highlight, getSize('ympyra_keski', 0.30)]}
+          style={[styles.emotion]}
           onPress={this.selectEmotion.bind(this, emotions[i])}>
-          <Image
-            source={getImage(emotions[i])}
-            style={[styles.emotion, getSize(emotions[i], 0.30)]}/>
+            {photo}
           {checked}
         </TouchableOpacity>
       );
@@ -108,8 +121,12 @@ const EmotionView = React.createClass({
           <View style={styles.emotionColumn}>
             {emotionViews}
           </View>
-          <View style={styles.hemmoColumn}>
-            <Hemmo image={'hemmo_keski'} size={0.45} restartAudioAndText={this.restartAudioAndText}/>
+          <View style={styles.hemmo}>
+            <Hemmo
+              key={'hemmo'}
+              image={'hemmo_keski'}
+              size={0.4} restartAudioAndText={this.restartAudioAndText}
+              />
           </View>
           <TouchableOpacity onPress={this.save} style={styles.saveButton}>
             <Image source={getImage('nappula_seuraava')} style={getSize('nappula_seuraava', 0.1)}/>

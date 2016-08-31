@@ -63,7 +63,6 @@ const styles = StyleSheet.create({
   },
   mainTitle: {
     fontSize: 20,
-    textAlign: 'center',
     fontFamily: 'Gill Sans'
   },
   subTitle: {

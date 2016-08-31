@@ -5,7 +5,7 @@ import TitlePanel from '../../../components/TitlePanel';
 import Hemmo from '../../../components/Hemmo';
 import * as UserState from '../../../modules/user/UserState';
 import * as NavigationState from '../../../modules/navigation/NavigationState';
-import SpeechBubbleView from '../../../components/SpeechBubbleView';
+import SpeechBubble from '../../../components/SpeechBubble';
 import {getSize, getImage} from '../../../services/graphics';
 
 import {
@@ -57,7 +57,7 @@ const ThumbVote = React.createClass({
   renderBubble(text, i, j) {
     if (this.state.showBubble === true) {
       return (
-        <SpeechBubbleView
+        <SpeechBubble
           text={text}
           hideBubble={this.hideBubble}
           bubbleType={'puhekupla_oikea'}

@@ -5,9 +5,6 @@ import {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
-    flexDirection: 'row',
-    justifyContent: 'center',
     padding: 5,
     height: null,
     width: null
@@ -19,14 +16,16 @@ const styles = StyleSheet.create({
     width: null
   },
   font: {
+    fontSize: 20,
     fontFamily: 'Gill Sans'
   },
   emotionColumn: {
-    flex: 4,
-    paddingLeft: 20,
+    flex: 1,
+    paddingHorizontal: 20,
+    paddingTop: 50,
     flexDirection: 'column',
     flexWrap: 'wrap',
-    justifyContent: 'center'
+    alignItems: 'center'
   },
   check: {
     position: 'absolute',
@@ -34,28 +33,26 @@ const styles = StyleSheet.create({
     right: 0
   },
   hemmoColumn: {
-    flex: 1,
+    flex: 2,
     alignItems: 'center',
     justifyContent: 'center'
   },
   emotion: {
+    margin: 5
+  },
+  hemmo: {
+    position: 'absolute',
+    bottom: 20,
+    right: 0
+  },
+  other: {
     alignItems: 'center',
     justifyContent: 'center'
   },
-  highlight: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 50,
-    margin: 6
-  },
   saveButton: {
     position: 'absolute',
-    bottom: 20,
-    right: 20
-  },
-  buttonHighlight: {
-    paddingHorizontal: 10,
-    borderRadius: 10
+    bottom: 10,
+    right: 140
   }
 });
 

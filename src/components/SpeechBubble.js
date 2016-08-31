@@ -4,9 +4,10 @@ import {getSize, getImage} from '../services/graphics';
 import TimerMixin from 'react-timer-mixin';
 
 import {
+  StyleSheet,
+  TouchableOpacity,
   View,
   Text,
-  StyleSheet,
   Image
 } from 'react-native';
 
@@ -18,15 +19,18 @@ const SpeechBubble = React.createClass({
 
   propTypes: {
     text: PropTypes.string.isRequired,
-    maIndex: PropTypes.number,
-    saIndex: PropTypes.number,
+    maIndex: PropTypes.number, // index of the selected main activity
+    saIndex: PropTypes.number, // index of the selected sub activity
+    hideBubble: PropTypes.func.isRequired,
     bubbleType: PropTypes.string,
-    style: PropTypes.object.isRequired,
-    audioTrack: PropTypes.string,
-    hideBubble: PropTypes.func
+    style: PropTypes.object.isRequired
   },
 
   mixins: [TimerMixin],
+
+  hideBubble() {
+    this.props.hideBubble();
+  },
 
   renderBubbleText() {
     //Text of the speech bubble is related to selected main activity.
@@ -57,34 +61,45 @@ const SpeechBubble = React.createClass({
   },
 
   render() {
+
     bubbleText = this.renderBubbleText();
 
     return (
-      <View
-        style={[styles.bubble, {
-          top: this.props.style.top,
-          right: this.props.style.right,
-          left: this.props.style.left}
-        ]}>
-        <Image
-          source={getImage(this.props.bubbleType)}
-          style={[styles.bubbleText, getSize(this.props.bubbleType, this.props.style.size)]}>
-          <Text
-            style={[styles.text, {
-              marginTop: this.props.style.marginTop,
-              margin: this.props.style.margin,
-              fontSize: this.props.style.fontSize
-            }]}>
-            {bubbleText}
-          </Text>
-        </Image>
-        <AudioPlayerViewContainer onEnd={this.onEnd} audioTrack={audiotrack}/>
-      </View>
+      <TouchableOpacity style={styles.touchable} onPress={this.hideBubble}>
+        <View
+          style={[styles.bubble, {
+            top: this.props.style.top,
+            right: this.props.style.right,
+            left: this.props.style.left}
+          ]}>
+          <Image
+            source={getImage(this.props.bubbleType)}
+            style={[styles.bubbleText, getSize(this.props.bubbleType, this.props.style.size)]}>
+            <Text
+              style={[styles.text, {
+                marginTop: this.props.style.marginTop,
+                margin: this.props.style.margin,
+                fontSize: this.props.style.fontSize
+              }]}>
+              {bubbleText}
+            </Text>
+          </Image>
+          <AudioPlayerViewContainer onEnd={this.onEnd} audioTrack={audiotrack}/>
+        </View>
+      </TouchableOpacity>
     );
   }
 });
 
 const styles = StyleSheet.create({
+  touchable: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    right: 0,
+    left: 0,
+    backgroundColor: 'rgba(184, 184, 184, 0.8)'
+  },
   bubble: {
     position: 'absolute'
   },

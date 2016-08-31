@@ -29,19 +29,23 @@ const SettingsButton = React.createClass({
     };
   },
 
-  open() {
-    this.setState({modalVisible: true});
+  toggleModal() {
+    this.setState({modalVisible: !this.state.modalVisible});
   },
 
-  hideModal() {
-    this.setState({modalVisible: false});
-  },
-
-  saveAndReset() {
+  reset() {
     if (this.props.shouldSave === true) {
       this.save();
     }
     this.props.resetRoute();
+  },
+
+  quit() {
+    if (this.props.shouldSave === true) {
+      this.save();
+    }
+    this.setState({modalVisible: false});
+    this.props.quit();
   },
 
   save() {
@@ -51,14 +55,6 @@ const SettingsButton = React.createClass({
       this.props.currentUser.get('activityIndex'),
       this.props.currentUser.get('answers'))
         .then(body => save(null, 'skipped', body));
-  },
-
-  quit() {
-    if (this.props.shouldSave === true) {
-      this.save();
-    }
-    this.setState({modalVisible: false});
-    this.props.quit();
   },
 
   render() {
@@ -72,23 +68,23 @@ const SettingsButton = React.createClass({
           <View style={styles.modalContainer}>
             <View style={styles.upperModal}>
               <View style={styles.modal}>
-                <View style={styles.row}>
-                  <TouchableHighlight onPress={this.saveAndReset}>
+                <Image source={getImage('kehys_palkki')} style={[getSize('kehys_palkki', 0.2), styles.row]}>
+                  <TouchableHighlight onPress={this.reset}>
                     <Text style={styles.font}>Vaihda käyttäjää</Text>
                   </TouchableHighlight>
-                </View>
-                <View style={styles.row}>
+                </Image>
+                <Image source={getImage('kehys_palkki')} style={[getSize('kehys_palkki', 0.2), styles.row]}>
                   <TouchableHighlight onPress={this.quit}>
                     <Text style={styles.font}>Lopeta</Text>
                   </TouchableHighlight>
-                </View>
+                </Image>
                </View>
                <TouchableOpacity
-                onPress={this.hideModal}
+                onPress={this.toggleModal}
                 style={[styles.closeButton, getSize('nappula_rasti', 0.1)]}>
                  <Image
                    source={getImage('nappula_rasti')}
-                   style={[styles.closeButton, getSize('nappula_rasti', 0.1)]}/>
+                   style={getSize('nappula_rasti', 0.1)}/>
                </TouchableOpacity>
              </View>
            </View>
@@ -100,7 +96,7 @@ const SettingsButton = React.createClass({
 
     return (
       <View style={styles.container}>
-        <TouchableOpacity onPress={this.open} style={styles.circle}>
+        <TouchableOpacity onPress={this.toggleModal} style={styles.circle}>
           <Image style={styles.image} source={{uri: this.props.currentUser.get('image')}}/>
         </TouchableOpacity>
         {modal}
@@ -133,24 +129,20 @@ const styles = StyleSheet.create({
   upperModal: {
     margin: 80,
     flexDirection: 'row',
-    height: 160,
     justifyContent: 'center',
     alignItems: 'center'
   },
   modalContainer: {
     flex: 1,
-    backgroundColor: 'rgba(184, 184, 184, 0.8)'
+    backgroundColor: 'rgba(184, 184, 184, 0.9)'
   },
   modal: {
-    flex: 1,
-    marginHorizontal: 20,
-    height: 130,
     borderWidth: 4,
     borderRadius: 10,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'white'
+    backgroundColor: 'rgba(180, 180, 180, 1)'
   },
   font: {
     fontSize: 25,
@@ -158,12 +150,14 @@ const styles = StyleSheet.create({
   },
   row: {
     flex: 1,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    margin: 10,
+    alignItems: 'center'
   },
   closeButton: {
     position: 'absolute',
-    right: 0,
-    top: 0
+    right: 40,
+    top: -10
   }
 });
 

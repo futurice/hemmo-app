@@ -6,7 +6,8 @@ var emotions = [
   'vihainen',
   'innostunut',
   'rauhallinen',
-  'yksinainen'
+  'yksinainen',
+  'muuta'
 ];
 
 module.exports = emotions;

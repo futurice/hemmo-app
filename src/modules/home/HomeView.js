@@ -3,7 +3,7 @@ import * as UserState from '../user/UserState';
 import * as SessionState from '../session/SessionState';
 import React, {PropTypes} from 'react';
 import {List, Map} from 'immutable';
-import SpeechBubbleView from '../../components/SpeechBubbleView';
+import SpeechBubble from '../../components/SpeechBubble';
 import Hemmo from '../../components/Hemmo';
 import UserItem from '../../components/UserItem';
 import PasswordModal from '../../components/PasswordModal';
@@ -140,7 +140,7 @@ const HomeView = React.createClass({
 
       if (this.state.showBubble === true) {
         speechBubble = (
-          <SpeechBubbleView
+          <SpeechBubble
             text={'userIsKnown'}
             hideBubble={this.hideBubble}
             bubbleType={'puhekupla_vasen2'}
@@ -159,7 +159,7 @@ const HomeView = React.createClass({
 
       if (this.state.showBubble === true) {
         speechBubble = (
-        <SpeechBubbleView
+        <SpeechBubble
           text={'userIsUnknown'}
           hideBubble={this.hideBubble}
           bubbleType={'puhekupla_aset'}

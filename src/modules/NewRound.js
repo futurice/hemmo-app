@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
 import * as NavigationState from '../modules/navigation/NavigationState';
 import * as UserState from '../modules/user/UserState';
-import SpeechBubbleView from '../components/SpeechBubbleView';
+import SpeechBubble from '../components/SpeechBubble';
 import Hemmo from '../components/Hemmo';
 import {getSize, getImage} from '../services/graphics';
 
@@ -46,7 +46,7 @@ const NewRound = React.createClass({
   render() {
     if (this.state.showBubble === true) {
       var speechBubble = (
-        <SpeechBubbleView
+        <SpeechBubble
           text={'newRound'}
           hideBubble={this.hideBubble}
           bubbleType={'puhekupla_vasen'}
