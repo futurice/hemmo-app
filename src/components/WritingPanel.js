@@ -11,7 +11,7 @@ import {
 const WritingPanel = React.createClass({
 
   propTypes: {
-    disableWriting: PropTypes.func.isRequired,
+    toggleWriting: PropTypes.func.isRequired,
     setText: PropTypes.func.isRequired,
     phase: PropTypes.string,
     save: PropTypes.func.isRequired
@@ -49,7 +49,7 @@ const WritingPanel = React.createClass({
             <TextInput
               multiline = {true}
               numberOfLines = {30}
-              maxLength = {150}
+              maxLength = {500}
               onChange = {this.setText}
               underlineColorAndroid = 'transparent'
               style={styles.textForm}/>
@@ -65,7 +65,7 @@ const WritingPanel = React.createClass({
               {opacity: this.state.disabled ? 0.4 : 1,
               backgroundColor: this.state.disabled ? 'gray' : 'white'}]}/>
         </TouchableOpacity>
-        <TouchableOpacity onPress={this.props.disableWriting} style={[styles.closeButton, getSize('nappula_rasti', 0.4)]}>
+        <TouchableOpacity onPress={this.props.toggleWriting} style={[styles.closeButton, getSize('nappula_rasti', 0.4)]}>
           <Image
             source={getImage('nappula_rasti')}
             style={[styles.closeButton, getSize('nappula_rasti', 0.1)]}/>

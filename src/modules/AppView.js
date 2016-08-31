@@ -91,38 +91,33 @@ const AppView = React.createClass({
       );
     }
 
-    if (this.props.currentUser.get('id') !== null) {
+    var currentUser = null;
 
-      var phase;
-      var showSettingsCircle = true;
+    if (this.props.currentUser.get('id') !== null) {
+      var key = this.props.pages.get(this.props.currentPage).get('key');
+      var shouldSave = true;
+      var phase = 'other';
+
+      /* If user quits app on first page, nothing needs to be saved to backend */
+      if (this.props.currentPage === 1) {
+        shouldSave = false;
+      }
 
       if (this.props.pages.get(this.props.currentPage - 1).get('key') === 'Emotions') {
-        phase = 'Emotions';
-      }
-      else if (this.props.pages.get(this.props.currentPage).get('key') === 'Settings') {
-        showSettingsCircle = false;
-      }
-      if (this.props.currentPage === 1) {
-        phase = 'Do nothing';
-      }
-      else {
-        phase = 'Other';
+        phase = 'moods';
       }
 
-      if (showSettingsCircle === true) {
-        var currentUser = (
+      /* Button on top right corner isn't shown when in settings, home or last page */
+      if (key !== 'Settings' && key !== 'Home' && key !== 'End') {
+        currentUser = (
           <SettingsButton
             resetRoute={this.resetRoute}
             phase={phase}
+            shouldSave={shouldSave}
             currentUser={this.props.currentUser}
             quit={this.quit}/>);
       }
-      else {
-        currentUser = null;
-      }
-    }
-    else {
-      currentUser = null;
+
     }
 
     return (

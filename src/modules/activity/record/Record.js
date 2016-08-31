@@ -3,13 +3,12 @@ import {List, Map} from 'immutable';
 import AudioRecorder from '../../../components/AudioRecorder';
 import TitlePanel from '../../../components/TitlePanel';
 import Hemmo from '../../../components/Hemmo';
-import LoadingSpinner from '../../../components/LoadingSpinner';
 import SpeechBubbleView from '../../../components/SpeechBubbleView';
 import SaveConfirmationWindow from '../../../components/SaveConfirmationWindow';
 import WritingPanel from '../../../components/WritingPanel';
 import * as NavigationState from '../../../modules/navigation/NavigationState';
 import {getSize, getImage} from '../../../services/graphics';
-import {save} from '../../../services/save';
+import {save, formRequestBody} from '../../../services/save';
 
 import {
   TouchableOpacity,
@@ -31,21 +30,16 @@ const Record = React.createClass({
   getInitialState() {
     return {
       text: '',
-      enableWriting: false,
+      showWritingPanel: false,
       showBubble: true,
       progress: 0,
       generalFeedbackView: false,
-      showSucceedingMessage: false,
-      loading: false
+      showMessage: false
     };
   },
 
-  enableWriting() {
-    this.setState({enableWriting: true});
-  },
-
-  disableWriting() {
-    this.setState({text: '', enableWriting: false});
+  toggleWriting() {
+    this.setState({text: '', showWritingPanel: !this.state.showWritingPanel});
   },
 
   hideBubble() {
@@ -66,35 +60,27 @@ const Record = React.createClass({
 
   save(phase, attachmentType, attachmentPath) {
     if (attachmentType === 'text') {
-      this.disableWriting();
+      this.toggleWriting();
     }
-    this.setState({loading: true});
 
-    save(phase,
-      attachmentType,
-      attachmentPath,
-      this.state.text,
-      this.props.activityIndex,
-      this.props.answers)
-       .then(() => {
-         this.setState({loading: false});
-
-         if (attachmentType === 'audio') {
-           this.confirmSave();
-         }
-         else {
-           this.continue(phase);
-         }
-       });
-    // this.continue(phase);
+    formRequestBody(phase, attachmentType, this.state.text, this.props.activityIndex, this.props.answers)
+      .then(body => save(attachmentPath, attachmentType, body))
+        .then(() => {
+          if (attachmentType === 'audio') {
+            this.showConfirmationMessage();
+          }
+          else {
+            this.continue(phase);
+          }
+        });
   },
 
-  confirmSave() {
-    this.setState({showSucceedingMessage: true});
+  showConfirmationMessage() {
+    this.setState({showMessage: true});
   },
 
-  closeConfirmationWindow(phase) {
-    this.setState({showSucceedingMessage: false});
+  closeConfirmationMessage(phase) {
+    this.setState({showMessage: false});
     this.continue(phase);
   },
 
@@ -103,7 +89,7 @@ const Record = React.createClass({
       this.props.dispatch(NavigationState.pushRoute({key: 'NewRound', allowReturn: false}));
     }
     else if (phase === 'moods') {
-      this.setState({enableWriting: false, showBubble: true, progress: 0, generalFeedbackView: true});
+      this.setState({showWritingPanel: false, showBubble: true, progress: 0, generalFeedbackView: true});
       this.props.dispatch(NavigationState.pushRoute({key: 'Record', allowReturn: false}));
     }
     else if (phase === 'general') {
@@ -146,7 +132,7 @@ const Record = React.createClass({
 
   renderWritingPanel(phase) {
     return (
-      <WritingPanel disableWriting={this.disableWriting} phase={phase} save={this.save} setText={this.setText}/>
+      <WritingPanel toggleWriting={this.toggleWriting} phase={phase} save={this.save} setText={this.setText}/>
     );
   },
 
@@ -154,12 +140,6 @@ const Record = React.createClass({
     var phase;
     var saveWasSuccesful;
     var speechBubble;
-
-    if (this.state.loading === true) {
-      return (
-        <LoadingSpinner/>
-      );
-    }
 
     if (this.props.activityIndex === -1) {
       if (this.state.generalFeedbackView === false) {
@@ -192,14 +172,14 @@ const Record = React.createClass({
     var actionPanel = this.renderRecordPanel(phase);
     var writeButton;
 
-    if (this.state.enableWriting === true) {
+    if (this.state.showWritingPanel === true) {
       var writingView = this.renderWritingPanel(phase);
     }
 
-    writeButton = this.renderButton('nappula_kirjoita', this.enableWriting);
+    writeButton = this.renderButton('nappula_kirjoita', this.toggleWriting);
 
-    if (this.state.showSucceedingMessage === true) {
-      saveWasSuccesful = <SaveConfirmationWindow phase={phase} closeWindow={this.closeConfirmationWindow}/>;
+    if (this.state.showMessage === true) {
+      saveWasSuccesful = <SaveConfirmationWindow phase={phase} closeWindow={this.closeConfirmationMessage}/>;
     }
 
     return (

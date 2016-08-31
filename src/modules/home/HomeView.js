@@ -5,6 +5,7 @@ import React, {PropTypes} from 'react';
 import {List, Map} from 'immutable';
 import SpeechBubbleView from '../../components/SpeechBubbleView';
 import Hemmo from '../../components/Hemmo';
+import UserItem from '../../components/UserItem';
 import PasswordModal from '../../components/PasswordModal';
 import {setAuthenticationToken} from '../../utils/authentication';
 import {setSessionId} from '../../utils/session';
@@ -48,34 +49,29 @@ const HomeView = React.createClass({
 
   startJourney(id) {
     this.props.dispatch(SessionState.startPreparing());
-    console.log('id ' + id);
-
-    this.props.dispatch(UserState.setCurrentUser(id))
-      .then(
-        setAuthenticationToken(this.props.users.get(id).get('token'))
-          .then(() => {
-            this.startSession();
-            this.props.dispatch(UserState.addActivity());
-            this.props.dispatch(NavigationState.pushRoute({key: 'Activity', allowReturn: true}));
-          })
-      );
+    setAuthenticationToken(this.props.users.get(id).get('token'))
+      .then(() => {
+        this.startSession(id);
+      });
   },
 
-  startSession() {
+  startSession(id) {
     post('/session')
       .then(result => {
         setSessionId(result.sessionId);
         this.props.dispatch(SessionState.finishPreparing());
+        this.props.dispatch(UserState.addActivity());
+        this.props.dispatch(UserState.setCurrentUser(id));
+        this.props.dispatch(NavigationState.pushRoute({key: 'Activity', allowReturn: true}));
       })
-      .catch((error) => Alert.alert('Oops! Jokin meni pieleen!', 'Yritä myöhemmin uudelleen! ' + error));
+      .catch((error) => {
+        this.props.dispatch(SessionState.finishPreparing());
+        Alert.alert('Oops! Jokin meni pieleen!', 'Yritä myöhemmin uudelleen! ' + error);
+      });
   },
 
-  openPasswordModal() {
-    this.setState({isPasswordModalOpen: true});
-  },
-
-  closePasswordModal() {
-    this.setState({isPasswordModalOpen: false});
+  togglePasswordModal() {
+    this.setState({isPasswordModalOpen: !this.state.isPasswordModalOpen});
   },
 
   hideBubble() {
@@ -86,9 +82,10 @@ const HomeView = React.createClass({
     this.setState({showBubble: true});
   },
 
-  // TODO: Clean up. Too much repetition atm.
   render() {
     var userIcons = [];
+    var passwordModal = null;
+    var speechBubble = null;
 
     if (this.props.users.size > 0) {
       for (var i = 0; i < this.props.users.size; i++) {
@@ -97,7 +94,7 @@ const HomeView = React.createClass({
           <Text
             ellipsizeMode='tail'
             numberOfLines={1}
-            style={styles.name}> {this.props.users.get(i).get('name')} </Text>
+            style={styles.font}> {this.props.users.get(i).get('name')} </Text>
         );
 
         /* If app has more than 4 children in it, only names of the children are displayed */
@@ -106,7 +103,7 @@ const HomeView = React.createClass({
           var rowHeight = ((Dimensions.get('window').height / this.props.users.size) - 10) / Dimensions.get('window').height;
           userIcons.push(
             <TouchableHighlight
-              style={[styles.rowWithSmallImageTouchable]}
+              style={[styles.rowWithSmallImageContainer]}
               key={i}
               onPress={this.startJourney.bind(this, i)}>
               <Image
@@ -115,7 +112,7 @@ const HomeView = React.createClass({
                 <Image
                   style={[styles.smallIcon, {height: iconHeight - 20, width: iconHeight - 20}]}
                   source={{uri: this.props.users.get(i).get('image')}}/>
-                <Text style={styles.name}> {name} </Text>
+                {name}
               </Image>
             </TouchableHighlight>
           );
@@ -123,22 +120,14 @@ const HomeView = React.createClass({
           var rightcolumn = <View style={styles.rightcolumn}>{userIcons}</View>;
         }
         else {
-          var iconSize = getSize('kehys_iso', 0.3).height;
           userIcons.push(
-            <Image
-              source={getImage('kehys_iso')}
+            <UserItem
               key={i}
-              style={[styles.userRow, getSize('kehys_iso', 0.4)]}>
-              <TouchableHighlight
-                onPress={this.startJourney.bind(this, i)}>
-                <Image
-                  style={{height: iconSize, width: iconSize}}
-                  source={{uri: this.props.users.get(i).get('image')}}/>
-              </TouchableHighlight>
-              <View style={{width: iconSize, alignItems: 'center'}}>
-                {name}
-              </View>
-            </Image>
+              name={name}
+              index={i}
+              empty={false}
+              startJourney={this.startJourney}
+              image={this.props.users.get(i).get('image')}/>
           );
 
           rightcolumn = (
@@ -150,7 +139,7 @@ const HomeView = React.createClass({
       }
 
       if (this.state.showBubble === true) {
-        var speechBubble = (
+        speechBubble = (
           <SpeechBubbleView
             text={'userIsKnown'}
             hideBubble={this.hideBubble}
@@ -158,23 +147,16 @@ const HomeView = React.createClass({
             style={{top: 40, left: 280, margin: 20, marginTop: 20, size: 0.6}}/>
           );
       }
-      else {
-        speechBubble = null;
-      }
     }
 
     else {
-      iconSize = getSize('kehys_iso', 0.3).height;
+      name = <Text style={styles.font}>Nimi</Text>;
       userIcons.push(
-        <Image source={getImage('kehys_iso')} key={0} style={[styles.userRow, getSize('kehys_iso', 0.4)]}>
-          <Image source={getImage('default_image')} style={{height: iconSize, width: iconSize}}/>
-          <View>
-            <Text style={styles.name}> Nimi </Text>
-          </View>
-        </Image>
+        <UserItem name={name} key={0} index={0} empty={true}/>
       );
 
       rightcolumn = <View style={[styles.rightcolumn, {flexDirection: 'row'}]}>{userIcons}</View>;
+
       if (this.state.showBubble === true) {
         speechBubble = (
         <SpeechBubbleView
@@ -184,16 +166,10 @@ const HomeView = React.createClass({
           style={{top: 40, left: 230, margin: 40, size: 0.5}}/>
         );
       }
-      else {
-        speechBubble = null;
-      }
     }
 
     if (this.state.isPasswordModalOpen === true) {
-      var passwordModal = <PasswordModal onClose={this.closePasswordModal} onSuccess={this.openSettings}/>;
-    }
-    else {
-      passwordModal = null;
+      passwordModal = <PasswordModal onClose={this.togglePasswordModal} onSuccess={this.openSettings}/>;
     }
 
     return (
@@ -201,7 +177,7 @@ const HomeView = React.createClass({
         <View style={styles.leftcolumn}>
           <Hemmo image={'hemmo_keski'} size={0.8} restartAudioAndText={this.restartAudioAndText}/>
           <View style={styles.settingsButton}>
-            <TouchableHighlight onPress={this.openPasswordModal}>
+            <TouchableHighlight onPress={this.togglePasswordModal}>
               <Image
                 source={getImage('nappula_aset')}
                 style={getSize('nappula_aset', 0.15)}/>

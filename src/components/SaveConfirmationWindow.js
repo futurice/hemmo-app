@@ -3,7 +3,6 @@ import Hemmo from './Hemmo';
 import SpeechBubble from './SpeechBubble';
 import {getSize, getImage} from '../services/graphics';
 import {
-  Image,
   View,
   StyleSheet,
   TouchableWithoutFeedback

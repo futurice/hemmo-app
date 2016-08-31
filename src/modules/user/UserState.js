@@ -4,7 +4,8 @@ import {Map, List} from 'immutable';
 const initialState = Map({
   users: List(),
   currentUser: Map({
-    activityIndex: -1
+    activityIndex: -1,
+    id: null
   })
 });
 
@@ -169,25 +170,10 @@ function currentUserReducer(state = Map(), action, wholeState) {
       return state;
   }
 }
-//
-// function activityIndexReducer(state = -1, action) {
-//   switch (action.type) {
-//
-//     case ADD_ACTIVITY:
-//       return state + 1;
-//
-//     case RESET_ACTIVITIES:
-//       return -1;
-//
-//     default:
-//       return state;
-//   }
-// }
 
 // Reducer
 export default function UserStateReducer(state = initialState, action = {}) {
   return state
     .set('users', usersReducer(state.get('users'), action))
-    // .setIn(['currentUser', 'activityIndex'], activityIndexReducer(state.getIn(['currentUser', 'activityIndex']), action))
     .set('currentUser', currentUserReducer(state.get('currentUser'), action, state));
 }

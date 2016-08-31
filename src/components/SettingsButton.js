@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import {Map} from 'immutable';
 import {getSize, getImage} from '../services/graphics';
-import {save} from '../services/save';
+import {save, formRequestBody} from '../services/save';
 
 import {
   View,
@@ -18,6 +18,7 @@ const SettingsButton = React.createClass({
   propTypes: {
     resetRoute: PropTypes.func.isRequired,
     quit: PropTypes.func.isRequired,
+    shouldSave: PropTypes.bool,
     phase: PropTypes.string,
     currentUser: PropTypes.instanceOf(Map)
   },
@@ -37,25 +38,24 @@ const SettingsButton = React.createClass({
   },
 
   saveAndReset() {
-    if (this.props.phase !== 'Do nothing') {
-      save(this.props.phase,
-        'skipped',
-        null,
-        'Ohitettu',
-        this.props.currentUser.get('activityIndex'),
-        this.props.currentUser.get('answers'));
+    if (this.props.shouldSave === true) {
+      this.save();
     }
     this.props.resetRoute();
   },
 
+  save() {
+    formRequestBody(
+      this.props.phase,
+      'skipped', 'Ohitettu',
+      this.props.currentUser.get('activityIndex'),
+      this.props.currentUser.get('answers'))
+        .then(body => save(null, 'skipped', body));
+  },
+
   quit() {
-    if (this.props.phase !== 'Do nothing') {
-      save(this.props.phase,
-        'skipped',
-        null,
-        'Ohitettu',
-        this.props.currentUser.get('activityIndex'),
-        this.props.currentUser.get('answers'));
+    if (this.props.shouldSave === true) {
+      this.save();
     }
     this.setState({modalVisible: false});
     this.props.quit();

@@ -1,42 +1,13 @@
 
 import {put, post, xhr} from '../utils/api';
+import {
+  Alert
+} from 'react-native';
 
 var activities = require('../modules/activity/activities.js');
 
-export async function save(phase, attachmentType, attachmentPath, text, activityIndex, answers) {
-  var questions = [];
-  var moods = [];
-  var body = {questions};
+export async function save(attachmentPath, attachmentType, body) {
   var attachmentQuestion;
-  var phaseAfterStopping;
-
-  if (phase === 'Other') {
-    if (activityIndex !== -1) {
-      phaseAfterStopping = 'activities';
-    }
-  }
-
-  if (phase === 'activities' || phaseAfterStopping === 'activities') {
-    questions = getActivities(activityIndex, answers);
-    attachmentQuestion = 'Mikä siitä jäi mieleen?';
-    body = {questions};
-  }
-  else if (phase === 'moods' || phase === 'Emotions') {
-    moods = getMoods(answers);
-    attachmentQuestion = 'Miksi sinusta tuntui siltä?';
-    body = {moods, questions};
-  }
-  else if (phase === 'general') {
-    attachmentQuestion = 'Onko sinulla jotain muuta kerrottavaa?';
-    body = {questions};
-  }
-
-  if (attachmentType === 'text') {
-    body.questions.push({question: attachmentQuestion, answer: text});
-  }
-  else if (attachmentType === 'skipped') {
-    body.questions.push({question: attachmentQuestion, answer: 'Ohitettu'});
-  }
 
   post('/content', body)
     .then(result => {
@@ -56,7 +27,41 @@ export async function save(phase, attachmentType, attachmentPath, text, activity
             put('/content/' + contentId, body);
           });
       }
+    })
+    .catch((error) => {
+      Alert.alert('Oops! Jokin meni pieleen!', 'Yritä myöhemmin uudelleen! ' + error);
     });
+}
+
+export async function formRequestBody(phase, attachmentType, text, activityIndex, answers) {
+  var questions = [];
+  var moods = [];
+  var body = {questions};
+  var attachmentQuestion;
+
+  if (phase === 'activities' || (phase === 'other' && activityIndex !== -1)) {
+    questions = getActivities(activityIndex, answers);
+    attachmentQuestion = 'Mikä siitä jäi mieleen?';
+    body = {questions};
+  }
+  else if (phase === 'moods') {
+    moods = getMoods(answers);
+    attachmentQuestion = 'Miksi sinusta tuntui siltä?';
+    body = {moods, questions};
+  }
+  else if (phase === 'general') {
+    attachmentQuestion = 'Onko sinulla jotain muuta kerrottavaa?';
+    body = {questions};
+  }
+
+  if (attachmentType === 'text') {
+    body.questions.push({question: attachmentQuestion, answer: text});
+  }
+  else if (attachmentType === 'skipped') {
+    body.questions.push({question: attachmentQuestion, answer: 'Ohitettu'});
+  }
+
+  return body;
 }
 
 export function getActivities(activityIndex, answers) {
@@ -74,7 +79,6 @@ export function getActivities(activityIndex, answers) {
       questions.push({question: 'Mitä teitte?', answer: main});
     }
     if (sub) {
-      console.log('was defined');
       questions.push({question: 'Mitä teitte (tarkemmin)?', answer: sub});
     }
     if (like !== null) {

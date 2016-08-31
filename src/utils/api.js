@@ -85,8 +85,6 @@ export async function request(method, path, body, suppressRedBox) {
 
 export async function xhr(method, path, body, suppressRedBox) {
 
-  console.log('path was ' + path);
-  console.log('body was ' + JSON.stringify(body));
   try {
     const token = await getAuthenticationToken();
     const sessionId = await getSessionId();

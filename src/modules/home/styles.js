@@ -19,12 +19,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center'
   },
-  userRow: {
-    margin: 10,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  rowWithSmallImageTouchable: {
+  rowWithSmallImageContainer: {
     margin: 2,
     backgroundColor: 'white'
   },
@@ -35,11 +30,10 @@ const styles = StyleSheet.create({
   smallIcon: {
     position: 'absolute',
     top: 5,
-    left: 5,
-    bottom: 5
+    left: 5
   },
-  name: {
-    fontSize: 25,
+  font: {
+    fontSize: 20,
     fontFamily: 'Gill Sans'
   },
   settingsButton: {
