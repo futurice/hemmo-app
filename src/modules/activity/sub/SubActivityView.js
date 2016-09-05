@@ -60,7 +60,6 @@ const SubActivityView = React.createClass({
             onPress={this.chooseActivity.bind(this, subActivity, index)}>
             <Image
               source={getImage('ympyra_keski')}
-              key={subActivity}
               style={[styles.activityCircle, getSize('ympyra_keski', ratio)]}>
                   <Text style={styles.activityFont}>
                     {subActivity}

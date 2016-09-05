@@ -139,15 +139,17 @@ const AudioRecorder = React.createClass({
     if (this.state.recordButton === 'Record') {
       return (
         <TouchableOpacity
-          onPress={() => this._toggleRecord()} style={[styles.highlightCircle, getSize('nappula_rec', 0.4)]}>
-          <Image source={getImage('nappula_rec')} style={getSize('nappula_rec', 0.4)}/>
+          onPress={() => this._toggleRecord()}
+          style={[styles.highlightCircle, getSize('nappula_rec', 0.35)]}>
+          <Image source={getImage('nappula_rec')} style={getSize('nappula_rec', 0.35)}/>
         </TouchableOpacity>);
     }
     else if (this.state.recordButton === 'Stop') {
       return (
         <TouchableOpacity
-          onPress={() => this._toggleRecord()} style={[styles.highlightSquare, getSize('nappula_stop', 0.4)]}>
-          <Image source={getImage('nappula_stop')} style={getSize('nappula_stop', 0.4)}/>
+          onPress={() => this._toggleRecord()}
+          style={[styles.highlightSquare, getSize('nappula_stop', 0.35)]}>
+          <Image source={getImage('nappula_stop')} style={getSize('nappula_stop', 0.35)}/>
         </TouchableOpacity>);
     }
     else {
@@ -156,13 +158,12 @@ const AudioRecorder = React.createClass({
   },
 
   render() {
-
     var button = this.renderRecordButton();
 
     return (
       <View style={styles.recordRow}>
         {button}
-        <View style={{flex: 1, marginLeft: 10}}>
+        <View style={{flex: 1, marginLeft: 20}}>
           <ProgressBarClassic style={styles.progressBar} valueStyle={'none'} progress={this.state.progress} />
         </View>
       </View>
@@ -173,7 +174,7 @@ const AudioRecorder = React.createClass({
 const styles = StyleSheet.create({
   recordRow: {
     flex: 2,
-    marginLeft: 30,
+    marginLeft: 10,
     padding: 20,
     flexDirection: 'row',
     alignItems: 'center'

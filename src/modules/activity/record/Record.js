@@ -112,24 +112,6 @@ const Record = React.createClass({
     }
   },
 
-  renderRecordPanel(phase) {
-    return (
-      <AudioRecorder save={this.save} phase={phase}/>
-    );
-  },
-
-  renderButton(text, onPress) {
-    return (
-      <View style={styles.buttonRow}>
-        <TouchableOpacity onPress={onPress}>
-          <Image
-            source={getImage(text)}
-            style={getSize(text, 0.1)}/>
-        </TouchableOpacity>
-      </View>
-    );
-  },
-
   renderWritingPanel(phase) {
     return (
       <WritingPanel toggleWriting={this.toggleWriting} phase={phase} save={this.save} setText={this.setText}/>
@@ -169,14 +151,9 @@ const Record = React.createClass({
       speechBubble = this.renderBubble('record');
     }
 
-    var actionPanel = this.renderRecordPanel(phase);
-    var writeButton;
-
     if (this.state.showWritingPanel === true) {
       var writingView = this.renderWritingPanel(phase);
     }
-
-    writeButton = this.renderButton('nappula_kirjoita', this.toggleWriting);
 
     if (this.state.showMessage === true) {
       saveWasSuccesful = <SaveConfirmationWindow phase={phase} closeWindow={this.closeConfirmationMessage}/>;
@@ -184,10 +161,16 @@ const Record = React.createClass({
 
     return (
       <Image source={getImage('tausta_perus')} style={styles.container}>
-        <Image source={getImage('tausta_kapea')} style={[styles.leftColumn, getSize('tausta_kapea', 0.9)]}>
+        <Image source={getImage('tausta_kapea')} style={[styles.leftColumn, getSize('tausta_kapea', 0.89)]}>
           {titlePanel}
-          {actionPanel}
-          {writeButton}
+          <AudioRecorder save={this.save} phase={phase}/>
+          <View style={styles.buttonRow}>
+            <TouchableOpacity onPress={this.toggleWriting}>
+              <Image
+                source={getImage('nappula_kirjoita')}
+                style={getSize('nappula_kirjoita', 0.1)}/>
+            </TouchableOpacity>
+          </View>
         </Image>
         <View style={styles.rightColumn}>
           <View style={styles.hemmoRow}>
