@@ -1,6 +1,5 @@
 import React, {PropTypes} from 'react';
 import {List} from 'immutable';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import TitlePanel from '../../../components/TitlePanel';
 import Hemmo from '../../../components/Hemmo';
 import * as UserState from '../../../modules/user/UserState';
@@ -16,9 +15,9 @@ import {
 
 var styles = require('./styles.js');
 var thumb_values = [
-  {value: 1, text: 'peukku_ylos_0', icon: 'smile-o'},
-  {value: 0, text: 'peukku_keski_0', icon: 'meh-o'},
-  {value: -1, text: 'peukku_alas_0', icon: 'frown-o'}
+  {value: 1, text: 'peukku_ylos_0'},
+  {value: 0, text: 'peukku_keski_0'},
+  {value: -1, text: 'peukku_alas_0'}
 ];
 
 //TODO: Separate rendering to smaller components.
@@ -110,7 +109,7 @@ const ThumbVote = React.createClass({
     var speechBubble = this.renderBubble('subActivity', i, j);
 
     return (
-      <Image source={getImage('tausta_perus2')} style={styles.container}>
+      <Image source={getImage('tausta_perus')} style={styles.container}>
           <Image source={getImage('tausta_kapea')} style={[styles.leftColumn, getSize('tausta_kapea', 0.90)]}>
             {titlePanel}
             {actionPanel}

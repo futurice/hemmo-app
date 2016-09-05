@@ -69,7 +69,7 @@ const WritingPanel = React.createClass({
           <Image
             source={getImage('nappula_tallenna')}
             style={[getSize('nappula_tallenna', 0.1),
-              {opacity: this.state.disabled ? 0.4 : 1,
+              {opacity: this.state.disabled ? 0.1 : 1,
               backgroundColor: this.state.disabled ? 'gray' : 'white'}]}/>
         </TouchableOpacity>
       </View>

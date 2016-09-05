@@ -19,7 +19,8 @@ var TimerMixin = require('react-timer-mixin');
 const AudioRecorder = React.createClass({
   propTypes: {
     save: PropTypes.func.isRequired,
-    phase: PropTypes.string
+    phase: PropTypes.string,
+    toggleWritingButton: PropTypes.func
   },
 
   mixins: [TimerMixin],
@@ -30,7 +31,7 @@ const AudioRecorder = React.createClass({
       recordButtonDisabled: true,
       progress: 0,
       filePath: null,
-
+      recording: false,
       error: null
     };
   },
@@ -64,8 +65,11 @@ const AudioRecorder = React.createClass({
   _updateState() {
     this.setState({
       recordButton: this.recorder && this.recorder.isRecording ? 'Stop' : 'Record',
+      recording: this.recorder && this.recorder.isRecording ? true : false,
       recordButtonDisabled: !this.recorder
     });
+
+    this.props.toggleWritingButton(this.state.recording);
   },
 
   _reloadRecorder() {

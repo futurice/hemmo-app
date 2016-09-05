@@ -27,7 +27,10 @@ const styles = StyleSheet.create({
   },
   rightColumn: {
     flex: 2,
-    flexDirection: 'column'
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    paddingBottom: 40
   },
   headerWithoutTitles: {
     flex: 1,

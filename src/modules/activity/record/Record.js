@@ -34,12 +34,18 @@ const Record = React.createClass({
       showBubble: true,
       progress: 0,
       generalFeedbackView: false,
-      showMessage: false
+      showMessage: false,
+      disableWriting: false
     };
   },
 
   toggleWriting() {
     this.setState({text: '', showWritingPanel: !this.state.showWritingPanel});
+  },
+
+  toggleWritingButton(value) {
+    this.setState({disableWriting: value});
+    console.log('disabled ' + this.state.disableWriting);
   },
 
   hideBubble() {
@@ -163,20 +169,21 @@ const Record = React.createClass({
       <Image source={getImage('tausta_perus')} style={styles.container}>
         <Image source={getImage('tausta_kapea')} style={[styles.leftColumn, getSize('tausta_kapea', 0.89)]}>
           {titlePanel}
-          <AudioRecorder save={this.save} phase={phase}/>
+          <AudioRecorder save={this.save} toggleWritingButton={this.toggleWritingButton} phase={phase}/>
           <View style={styles.buttonRow}>
-            <TouchableOpacity onPress={this.toggleWriting}>
+            <TouchableOpacity
+              disabled={this.state.disableWriting}
+              onPress={this.toggleWriting}>
               <Image
                 source={getImage('nappula_kirjoita')}
-                style={getSize('nappula_kirjoita', 0.1)}/>
+                style={[getSize('nappula_kirjoita', 0.1), {opacity: this.state.disableWriting ? 0.4 : 1,
+                backgroundColor: this.state.disableWriting ? 'gray' : 'white'}]}/>
             </TouchableOpacity>
           </View>
         </Image>
         <View style={styles.rightColumn}>
-          <View style={styles.hemmoRow}>
             <Hemmo image={'hemmo'} size={0.7} restartAudioAndText={this.restartAudioAndText}/>
-          </View>
-          <View style={styles.skipRow}>
+
             <TouchableOpacity
               onPress={this.save.bind(this, phase, 'skipped')}
               style={styles.skipButtonHighlight}>
@@ -184,7 +191,6 @@ const Record = React.createClass({
                 source={getImage('nappula_ohita')}
                 style={[styles.skipButton, getSize('nappula_ohita', 0.1)]}/>
             </TouchableOpacity>
-          </View>
         </View>
         {writingView}
         {speechBubble}
