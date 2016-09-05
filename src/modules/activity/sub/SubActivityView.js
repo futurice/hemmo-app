@@ -3,7 +3,7 @@ import {Map} from 'immutable';
 import * as NavigationState from '../../../modules/navigation/NavigationState';
 import * as UserState from '../../../modules/user/UserState';
 import {getSize, getImage} from '../../../services/graphics';
-import {getScreenWidth, getScreenHeight} from '../../../services/screenSize';
+import Hemmo from '../../../components/Hemmo';
 
 import {
   View,
@@ -13,7 +13,6 @@ import {
   Text
 } from 'react-native';
 
-var coordinates = [];
 var styles = require('./subStyles.js');
 
 const SubActivityView = React.createClass({
@@ -25,46 +24,8 @@ const SubActivityView = React.createClass({
     activityIndex: PropTypes.number.isRequired
   },
 
-  componentWillMount() {
-    this.countPositions();
-  },
-
   closeSubActivities() {
     this.props.closeSubActivities();
-  },
-
-  // TODO: Needs commenting etc.
-  countPositions() {
-
-    coordinates = [];
-    var n = this.props.chosenMainActivity.get('subActivities').size;
-    var screenWidth = getScreenWidth();
-    var screenHeight = getScreenHeight() - 20;
-
-    var height = screenHeight / 2 - 10;
-
-    var fixValue = 0;
-
-    var rows = 2;
-    var perRow;
-
-    for (var i = 0; i < rows; i++) {
-      if (n % 2 === 0) {
-        perRow = n / rows;
-      }
-      else {
-        var topRow = ((n / rows) + 0.5);
-        var bottomRow = ((n / rows) - 0.5);
-        perRow = (i === 1) ? bottomRow : topRow;
-      }
-      fixValue = (i === 1) ? 10 : -10;
-      var width = screenWidth / perRow - 10;
-      for (var j = 0; j < perRow; j++) {
-        var x = j * width;
-        var y = i * height - fixValue;
-        coordinates.push({x, y, width, height});
-      }
-    }
   },
 
   chooseActivity(subActivity, subIndex) {
@@ -81,21 +42,26 @@ const SubActivityView = React.createClass({
   },
 
   render() {
+    var n = this.props.chosenMainActivity.get('subActivities').size;
+    var ratio;
+    var margin;
+
+    if (n < 8) {
+      ratio = 0.3; margin = 20;
+    }
+    else {ratio = 0.27;}
+
     const subActivityViews = this.props.chosenMainActivity.get('subActivities').map((subActivity, index) => (
       <View
         key={subActivity}
-        style={[styles.activityBlock, {
-          left: coordinates[index].x,
-          top: coordinates[index].y,
-          width: coordinates[index].width,
-          height: coordinates[index].height}]}>
+        style={styles.activityBlock}>
           <TouchableHighlight
-            style={{borderRadius: (coordinates[index].height * 0.7) / 2}}
+            style={{borderRadius: getSize('ympyra_keski', ratio).height / 2}}
             onPress={this.chooseActivity.bind(this, subActivity, index)}>
             <Image
               source={getImage('ympyra_keski')}
               key={subActivity}
-              style={[styles.activityCircle, getSize('ympyra_keski', 0.35)]}>
+              style={[styles.activityCircle, getSize('ympyra_keski', ratio)]}>
                   <Text style={styles.activityFont}>
                     {subActivity}
                   </Text>
@@ -110,7 +76,12 @@ const SubActivityView = React.createClass({
           <Text style={styles.title}>{this.props.chosenMainActivity.get('key')}</Text>
         </View>
         <View style={styles.activityBar}>
-          {subActivityViews}
+          <View style={[styles.subActivities, {marginHorizontal: margin}]}>
+            {subActivityViews}
+          </View>
+          <View style={styles.hemmo}>
+            <Hemmo image={'hemmo_keski'} size={0.5}/>
+          </View>
         </View>
         <TouchableOpacity onPress={this.closeSubActivities} style={[styles.closeButton, getSize('nappula_rasti', 0.1)]}>
           <Image

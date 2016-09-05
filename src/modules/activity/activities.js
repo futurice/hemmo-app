@@ -55,8 +55,7 @@ var activities = [
       'Koira',
       'Kissa',
       'Hevonen',
-      'Muut eläimet',
-      'Muuta'])})
+      'Muut eläimet'])})
 ];
 
 module.exports = activities;

@@ -70,7 +70,8 @@ const styles = StyleSheet.create({
     fontFamily: 'Gill Sans'
   },
   backButton: {
-    margin: 30
+    margin: 10,
+    marginLeft: 50
   }
 });
 

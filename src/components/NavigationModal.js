@@ -13,7 +13,7 @@ import {
   StyleSheet
 } from 'react-native';
 
-const SettingsButton = React.createClass({
+const NavigationModal = React.createClass({
 
   propTypes: {
     resetRoute: PropTypes.func.isRequired,
@@ -68,25 +68,29 @@ const SettingsButton = React.createClass({
           <View style={styles.modalContainer}>
             <View style={styles.upperModal}>
               <View style={styles.modal}>
-                <Image source={getImage('kehys_palkki')} style={[getSize('kehys_palkki', 0.2), styles.row]}>
-                  <TouchableHighlight onPress={this.reset}>
-                    <Text style={styles.font}>Vaihda käyttäjää</Text>
-                  </TouchableHighlight>
-                </Image>
-                <Image source={getImage('kehys_palkki')} style={[getSize('kehys_palkki', 0.2), styles.row]}>
-                  <TouchableHighlight onPress={this.quit}>
-                    <Text style={styles.font}>Lopeta</Text>
-                  </TouchableHighlight>
-                </Image>
+
+                <TouchableHighlight style={styles.highlight} onPress={this.reset}>
+                  <Image source={getImage('kehys_palkki')} style={[getSize('kehys_palkki', 0.2), styles.row]}>
+                      <Text style={styles.font}>Vaihda käyttäjää</Text>
+                  </Image>
+                </TouchableHighlight>
+                <TouchableHighlight style={styles.highlight} onPress={this.quit}>
+                  <Image source={getImage('kehys_palkki')} style={[getSize('kehys_palkki', 0.2), styles.row]}>
+                      <Text style={styles.font}>Lopeta</Text>
+                  </Image>
+                </TouchableHighlight>
+
                </View>
-               <TouchableOpacity
-                onPress={this.toggleModal}
-                style={[styles.closeButton, getSize('nappula_rasti', 0.1)]}>
-                 <Image
-                   source={getImage('nappula_rasti')}
-                   style={getSize('nappula_rasti', 0.1)}/>
-               </TouchableOpacity>
-             </View>
+
+                 <TouchableOpacity
+                  onPress={this.toggleModal}
+                  style={[styles.closeButton, getSize('nappula_rasti', 0.1)]}>
+                   <Image
+                     source={getImage('nappula_rasti')}
+                     style={[getSize('nappula_rasti', 0.1)]}/>
+                 </TouchableOpacity>
+
+              </View>
            </View>
         </Modal>);
     }
@@ -108,7 +112,7 @@ const SettingsButton = React.createClass({
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    right: 5,
+    left: 5,
     top: 5
   },
   circle: {
@@ -126,23 +130,30 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 20
   },
-  upperModal: {
-    margin: 80,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
   modalContainer: {
     flex: 1,
     backgroundColor: 'rgba(184, 184, 184, 0.9)'
   },
+  upperModal: {
+    margin: 50,
+    marginHorizontal: 100,
+    flexDirection: 'row'
+  },
+  closeButton: {
+    flex: 1,
+    position: 'absolute',
+    right: 0,
+    top: 0
+  },
   modal: {
+    flex: 1,
+    margin: 10,
     borderWidth: 4,
-    borderRadius: 10,
+    borderRadius: 20,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(180, 180, 180, 1)'
+    backgroundColor: 'white'
   },
   font: {
     fontSize: 25,
@@ -151,14 +162,14 @@ const styles = StyleSheet.create({
   row: {
     flex: 1,
     justifyContent: 'center',
-    margin: 10,
     alignItems: 'center'
   },
-  closeButton: {
-    position: 'absolute',
-    right: 40,
-    top: -10
+  highlight: {
+    flex: 1,
+    justifyContent: 'center',
+    margin: 20,
+    alignItems: 'center'
   }
 });
 
-export default SettingsButton;
+export default NavigationModal;

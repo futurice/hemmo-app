@@ -11,7 +11,9 @@ const styles = StyleSheet.create({
   },
   emotionContainer: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: 'column',
+    alignItems: 'center',
+    paddingVertical: 30,
     height: null,
     width: null
   },
@@ -21,11 +23,10 @@ const styles = StyleSheet.create({
   },
   emotionColumn: {
     flex: 1,
-    paddingHorizontal: 20,
-    paddingTop: 50,
     flexDirection: 'column',
     flexWrap: 'wrap',
-    alignItems: 'center'
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   check: {
     position: 'absolute',

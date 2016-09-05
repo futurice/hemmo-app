@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
     bottom: 5,
     width: null,
     height: null,
-    flexDirection: 'row',
+    flexDirection: 'column',
     flexWrap: 'wrap'
   },
   titleBar: {
@@ -21,32 +21,45 @@ const styles = StyleSheet.create({
     flexDirection: 'column'
   },
   title: {
-    fontSize: 20,
+    fontSize: 25,
     fontFamily: 'Gill Sans'
   },
   activityBar: {
-    position: 'absolute',
-    top: 20,
-    left: 5
+    flex: 6,
+    flexDirection: 'row'
   },
   activityBlock: {
-    position: 'absolute',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  subActivities: {
+    flex: 3,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  hemmo: {
+    flex: 1,
+    paddingRight: 0,
     alignItems: 'center',
     justifyContent: 'center'
   },
   activityCircle: {
     justifyContent: 'center',
     backgroundColor: 'white',
-    padding: 10
+    padding: 10,
+    margin: 5
   },
   activityFont: {
     textAlign: 'center',
+    fontSize: 15,
     fontFamily: 'Gill Sans'
   },
   closeButton: {
     position: 'absolute',
-    right: 50,
-    top: 3
+    right: 10,
+    top: 10
   }
 });
 

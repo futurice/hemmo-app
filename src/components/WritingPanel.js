@@ -54,6 +54,13 @@ const WritingPanel = React.createClass({
               underlineColorAndroid = 'transparent'
               style={styles.textForm}/>
           </Image>
+          <TouchableOpacity
+            onPress={this.props.toggleWriting}
+            style={styles.closeButton}>
+            <Image
+              source={getImage('nappula_rasti')}
+              style={getSize('nappula_rasti', 0.1)}/>
+          </TouchableOpacity>
         </Image>
         <TouchableOpacity
           disabled={this.state.disabled}
@@ -65,13 +72,6 @@ const WritingPanel = React.createClass({
               {opacity: this.state.disabled ? 0.4 : 1,
               backgroundColor: this.state.disabled ? 'gray' : 'white'}]}/>
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={this.props.toggleWriting}
-          style={styles.closeButton}>
-          <Image
-            source={getImage('nappula_rasti')}
-            style={getSize('nappula_rasti', 0.1)}/>
-        </TouchableOpacity>
       </View>
     );
   }
@@ -81,6 +81,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     position: 'absolute',
+    alignItems: 'center',
+    justifyContent: 'center',
     top: 0,
     bottom: 0,
     right: 0,
@@ -104,7 +106,7 @@ const styles = StyleSheet.create({
   },
   saveButton: {
     position: 'absolute',
-    bottom: 20,
+    bottom: 10,
     left: 350,
     opacity: 1,
     backgroundColor: 'white'
@@ -112,7 +114,7 @@ const styles = StyleSheet.create({
   closeButton: {
     flex: 1,
     position: 'absolute',
-    right: 60,
+    right: 10,
     top: 10
   }
 });

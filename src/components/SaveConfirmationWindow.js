@@ -27,7 +27,9 @@ const SaveConfirmationWindow = React.createClass({
             hideBubble={this.close}
             bubbleType={'puhekupla_tallennettu'}
             style={{top: 110, left: 350, margin: 10, fontSize: 17, size: 0.35}}/>
-          <Hemmo image={'hemmo_keski'} size={0.8}/>
+          <View style={styles.hemmo}>
+            <Hemmo image={'hemmo_keski'} size={0.8}/>
+          </View>
         </View>
       </TouchableWithoutFeedback>
     );
@@ -43,6 +45,11 @@ const styles = StyleSheet.create({
     right: 0,
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  hemmo: {
+    position: 'absolute',
+    top: 60,
+    left: 80
   }
 });
 

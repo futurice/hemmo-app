@@ -6,6 +6,7 @@ import TimerMixin from 'react-timer-mixin';
 import {
   StyleSheet,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   View,
   Text,
   Image
@@ -19,6 +20,7 @@ const SpeechBubble = React.createClass({
 
   propTypes: {
     text: PropTypes.string.isRequired,
+    hemmo: PropTypes.object,
     maIndex: PropTypes.number, // index of the selected main activity
     saIndex: PropTypes.number, // index of the selected sub activity
     hideBubble: PropTypes.func.isRequired,
@@ -86,6 +88,7 @@ const SpeechBubble = React.createClass({
           </Image>
           <AudioPlayerViewContainer onEnd={this.onEnd} audioTrack={audiotrack}/>
         </View>
+        {this.props.hemmo}
       </TouchableOpacity>
     );
   }

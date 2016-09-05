@@ -3,7 +3,7 @@ import {View, StyleSheet, AppState} from 'react-native';
 import NavigationViewContainer from './navigation/NavigationViewContainer';
 import AppRouter from './AppRouter';
 import {Map, List} from 'immutable';
-import SettingsButton from '../components/SettingsButton';
+import NavigationModal from '../components/NavigationModal';
 import Spinner from 'react-native-gifted-spinner';
 import * as snapshotUtil from '../utils/snapshot';
 import * as NavigationState from '../modules/navigation/NavigationState';
@@ -43,7 +43,7 @@ const AppView = React.createClass({
           dispatch(SessionState.resetSessionStateFromSnapshot(snapshot))
             .then(() => {
               this.props.dispatch(SessionState.activate());
-              this.resetRoute();
+              // this.resetRoute();
             });
         }
         /* Ei löytynyt. Aloitetaan alusta */
@@ -110,7 +110,7 @@ const AppView = React.createClass({
       /* Button on top right corner isn't shown when in settings, home or last page */
       if (key !== 'Settings' && key !== 'Home' && key !== 'End') {
         currentUser = (
-          <SettingsButton
+          <NavigationModal
             resetRoute={this.resetRoute}
             phase={phase}
             shouldSave={shouldSave}

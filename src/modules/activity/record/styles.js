@@ -14,6 +14,7 @@ const styles = StyleSheet.create({
     height: null
   },
   leftColumn: {
+    marginTop: 20,
     margin: 10,
     flexDirection: 'column'
   },
@@ -55,7 +56,8 @@ const styles = StyleSheet.create({
     bottom: 10
   },
   returnButton: {
-    margin: 30
+    margin: 30,
+    marginLeft: 50
   },
   closeButton: {
     position: 'absolute',

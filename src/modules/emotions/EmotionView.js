@@ -44,7 +44,7 @@ const EmotionView = React.createClass({
         text={text}
         bubbleType={'puhekupla_oikea'}
         hideBubble={this.hideBubble}
-        style={{top: 60, left: 200, margin: 30, fontSize: 12, size: 0.4}}/>);
+        style={{top: 60, left: 200, margin: 30, fontSize: 14, size: 0.5}}/>);
     }
     else {
       return null;
@@ -91,7 +91,11 @@ const EmotionView = React.createClass({
 
       if (i === emotions.length - 1) {
         photo = (
-          <Image source={getImage('ympyra_keski')} style={[styles.other, getSize('ympyra_keski', 0.28)]}>
+          <Image
+            source={getImage('ympyra_keski')}
+            style={[styles.other,
+                getSize('ympyra_keski', 0.28),
+                {marginBottom: getSize('ympyra_keski', 0.28).height}]}>
             <Text style={styles.font}>Muu</Text>
           </Image>
         );
@@ -125,7 +129,7 @@ const EmotionView = React.createClass({
             <Hemmo
               key={'hemmo'}
               image={'hemmo_keski'}
-              size={0.4} restartAudioAndText={this.restartAudioAndText}
+              size={0.45} restartAudioAndText={this.restartAudioAndText}
               />
           </View>
           <TouchableOpacity onPress={this.save} style={styles.saveButton}>
