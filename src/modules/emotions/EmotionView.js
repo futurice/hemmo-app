@@ -4,7 +4,7 @@ import * as UserState from '../../modules/user/UserState';
 import * as NavigationState from '../../modules/navigation/NavigationState';
 import SpeechBubble from '../../components/SpeechBubble';
 import Hemmo from '../../components/Hemmo';
-import {getSize, getImage} from '../../services/graphics';
+import {getSizeByHeight, getSizeByWidth, getImage} from '../../services/graphics';
 
 import {
   TouchableOpacity,
@@ -44,7 +44,7 @@ const EmotionView = React.createClass({
         text={text}
         bubbleType={'puhekupla_oikea'}
         hideBubble={this.hideBubble}
-        style={{top: 60, left: 200, margin: 30, fontSize: 14, size: 0.5}}/>);
+        style={{top: 110, left: 100, margin: 30, fontSize: 14, size: 0.5}}/>);
     }
     else {
       return null;
@@ -84,7 +84,7 @@ const EmotionView = React.createClass({
       var checked = null;
       for (var j = 0; j < this.state.selectedEmotions.size; j++) {
         if (emotions[i] === this.state.selectedEmotions.get(j)) {
-          checked = <Image source={getImage('valittu')} style={[styles.check, getSize('valittu', 0.1)]}/>;
+          checked = <Image source={getImage('valittu')} style={[styles.check, getSizeByHeight('valittu', 0.1)]}/>;
         }
       }
       var photo;
@@ -94,8 +94,8 @@ const EmotionView = React.createClass({
           <Image
             source={getImage('ympyra_keski')}
             style={[styles.other,
-                getSize('ympyra_keski', 0.28),
-                {marginBottom: getSize('ympyra_keski', 0.28).height}]}>
+                getSizeByWidth('ympyra_keski', 0.17),
+                {marginBottom: getSizeByWidth('ympyra_keski', 0.17).height + 5}]}>
             <Text style={styles.font}>Muu</Text>
           </Image>
         );
@@ -103,7 +103,7 @@ const EmotionView = React.createClass({
       else {
         photo = (<Image
           source={getImage(emotions[i])}
-          style={[getSize(emotions[i], 0.28)]}/>);
+          style={[getSizeByWidth(emotions[i], 0.17)]}/>);
       }
 
       emotionViews.push(
@@ -133,7 +133,7 @@ const EmotionView = React.createClass({
               />
           </View>
           <TouchableOpacity onPress={this.save} style={styles.saveButton}>
-            <Image source={getImage('nappula_seuraava')} style={getSize('nappula_seuraava', 0.1)}/>
+            <Image source={getImage('nappula_seuraava')} style={getSizeByHeight('nappula_seuraava', 0.1)}/>
           </TouchableOpacity>
           {speechBubble}
         </Image>

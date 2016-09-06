@@ -6,7 +6,7 @@ import Button from '../../components/Button';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import SaveConfirmationWindow from '../../components/SaveConfirmationWindow';
 import {post} from '../../utils/api';
-import {getSize, getImage} from '../../services/graphics';
+import {getSizeByHeight, getSizeByWidth, getImage} from '../../services/graphics';
 
 import {
   NativeModules,
@@ -184,7 +184,7 @@ const SettingsView = React.createClass({
           <Image
             source={getImage('valilehti_tyhja')}
             onPress={this.handleTabClick.bind(this, user, index)}
-            style={[styles.tab, getSize('valilehti_tyhja', 0.12)]}>
+            style={[styles.tab, getSizeByHeight('valilehti_tyhja', 0.12)]}>
             <Text ellipsizeMode='tail' numberOfLines={1} style={[styles.tabText, styles.font, {fontWeight}]}>
               {user}
             </Text>
@@ -206,12 +206,12 @@ const SettingsView = React.createClass({
           <TouchableOpacity onPress={this.cancel} style={styles.titleBarSection}>
             <Image
               source={getImage('nappula_takaisin')}
-              onPress={this.cancel} style={[styles.backButton, getSize('nappula_takaisin', 0.1)]}/>
+              onPress={this.cancel} style={[styles.backButton, getSizeByHeight('nappula_takaisin', 0.1)]}/>
           </TouchableOpacity>
 
           <View style={styles.titleBarSection}>
-            <Image source={getImage('ratas')} style={getSize('ratas', 0.08)}/>
-            <Image source={getImage('asetukset')} style={getSize('asetukset', 0.05)}/>
+            <Image source={getImage('ratas')} style={getSizeByHeight('ratas', 0.08)}/>
+            <Image source={getImage('asetukset')} style={getSizeByHeight('asetukset', 0.05)}/>
           </View>
         </View>
 
@@ -219,7 +219,7 @@ const SettingsView = React.createClass({
           {tabs}
         </ScrollView>
 
-        <Image source={getImage('tausta_asetukset')} style={[styles.form, getSize('tausta_asetukset', 0.66)]}>
+        <Image source={getImage('tausta_asetukset')} style={[styles.form, getSizeByWidth('tausta_asetukset', 0.9)]}>
           <View style={styles.leftColumn}>
             <View style={styles.inputField}>
               <Text style={[styles.label, styles.font]}>
@@ -236,7 +236,7 @@ const SettingsView = React.createClass({
             </View>
 
             <View style={styles.imagefield}>
-              <Image source={getImage('nelio')} style={getSize('nelio', 0.35)}>
+              <Image source={getImage('nelio')} style={getSizeByWidth('nelio', 0.25)}>
                <Image
                  style={styles.icon}
                  source={{uri: this.props.currentUser.get('image')}}/>
@@ -245,7 +245,7 @@ const SettingsView = React.createClass({
               <TouchableOpacity onPress={this.openImageGallery}>
                 <Image
                   source={getImage('nappula_uusikuva')}
-                  style={[{marginLeft: 20}, getSize('nappula_uusikuva', 0.12)]}/>
+                  style={[{marginLeft: 20}, getSizeByWidth('nappula_uusikuva', 0.15)]}/>
               </TouchableOpacity>
             </View>
           </View>
@@ -258,7 +258,7 @@ const SettingsView = React.createClass({
                 onPress={this.saveUser}>
                 <Image
                   source={getImage('nappula_tallenna')}
-                  style={[getSize('nappula_tallenna', 0.1), {opacity: this.state.disabled ? 0.2 : 1}]}/>
+                  style={[getSizeByWidth('nappula_tallenna', 0.25), {opacity: this.state.disabled ? 0.2 : 1}]}/>
               </TouchableOpacity>
 
               <View style={styles.bottomRow}>

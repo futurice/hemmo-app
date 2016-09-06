@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import * as NavigationState from '../modules/navigation/NavigationState';
 import SpeechBubble from '../components/SpeechBubble';
 import Hemmo from '../components/Hemmo';
-import {getSize, getImage} from '../services/graphics';
+import {getSizeByHeight, getImage} from '../services/graphics';
 
 import {
   StyleSheet,
@@ -44,7 +44,7 @@ const EndingView = React.createClass({
           text={'ending'}
           hideBubble={this.hideBubble}
           bubbleType={'puhekupla_oikea'}
-          style={{top: 40, left: 100, margin: 45, fontSize: 14, size: 0.5}}/>
+          style={{top: 40, left: 40, margin: 45, fontSize: 14, size: 0.5}}/>
       );
     }
     return (
@@ -53,7 +53,7 @@ const EndingView = React.createClass({
           <Hemmo image={'hemmo_keski'} size={0.8} restartAudioAndText={this.restartAudioAndText}/>
         </View>
           <TouchableOpacity onPress={this.startOver} style={styles.info}>
-            <Image source={getImage('lopetusteksti')} style={getSize('lopetusteksti', 0.4)}/>
+            <Image source={getImage('lopetusteksti')} style={getSizeByHeight('lopetusteksti', 0.4)}/>
           </TouchableOpacity>
         {speechBubble}
       </Image>

@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import {List} from 'immutable';
 import * as NavigationState from '../modules/navigation/NavigationState';
-import {getSize, getImage} from '../services/graphics';
+import {getSizeByHeight, getImage} from '../services/graphics';
 import {
   View,
   Text,
@@ -37,7 +37,7 @@ const TitlePanel = React.createClass({
           <TouchableOpacity onPress={this.cancel}>
             <Image
               source={getImage('nappula_takaisin')}
-              style={[styles.backButton, getSize('nappula_takaisin', 0.15)]}/>
+              style={[styles.backButton, getSizeByHeight('nappula_takaisin', 0.15)]}/>
           </TouchableOpacity>
           <View style={styles.titles}>
             <Text style={styles.mainTitle}>{activities[i].get('key')}</Text>

@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react';
-import {getSize, getImage} from '../services/graphics';
+import {getSizeByHeight, getImage} from '../services/graphics';
 import {
   Image,
   TouchableWithoutFeedback
@@ -16,7 +16,7 @@ const Hemmo = React.createClass({
   render() {
     return (
       <TouchableWithoutFeedback onPress={this.props.restartAudioAndText}>
-        <Image source={getImage(this.props.image)} style={getSize(this.props.image, this.props.size)}/>
+        <Image source={getImage(this.props.image)} style={getSizeByHeight(this.props.image, this.props.size)}/>
       </TouchableWithoutFeedback>
     );
   }

@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 import AudioPlayerViewContainer from '../modules/audioplayer/AudioPlayerViewContainer';
-import {getSize, getImage} from '../services/graphics';
+import {getSizeByHeight, getImage} from '../services/graphics';
 import TimerMixin from 'react-timer-mixin';
 
 import {
@@ -76,7 +76,7 @@ const SpeechBubble = React.createClass({
           ]}>
           <Image
             source={getImage(this.props.bubbleType)}
-            style={[styles.bubbleText, getSize(this.props.bubbleType, this.props.style.size)]}>
+            style={[styles.bubbleText, getSizeByHeight(this.props.bubbleType, this.props.style.size)]}>
             <Text
               style={[styles.text, {
                 marginTop: this.props.style.marginTop,

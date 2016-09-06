@@ -4,13 +4,17 @@ import {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     position: 'absolute',
-    top: 5,
-    left: 5,
-    right: 5,
-    bottom: 5,
-    width: null,
-    height: null,
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(184, 184, 184, 0.9)'
+  },
+  subActivityContainer: {
     flexDirection: 'column',
     flexWrap: 'wrap'
   },

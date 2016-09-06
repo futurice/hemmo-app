@@ -7,13 +7,12 @@ import Hemmo from '../../../components/Hemmo';
 import SpeechBubble from '../../../components/SpeechBubble';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 import {getScreenWidth, getScreenHeight} from '../../../services/screenSize';
-import {getImage} from '../../../services/graphics';
+import {getImage, getSizeByWidth} from '../../../services/graphics';
 
 import {
   Image,
   Text,
   TouchableHighlight,
-  Dimensions,
   View
 } from 'react-native';
 
@@ -66,18 +65,29 @@ const MainActivityView = React.createClass({
     this.props.dispatch(NavigationState.pushRoute({key: 'Record', allowReturn: true}));
   },
 
-  renderBubble(textKey, screenHeight, screenWidth, selected_ma) {
+  renderBubble(textKey, selected_ma) {
+    var screenHeight = getScreenHeight();
+    var screenWidth = getScreenWidth();
+
     if (this.state.showBubble === true) {
-      return (<SpeechBubble
-        text={textKey}
-        bubbleType={'puhekupla_vasen2'}
-        hideBubble={this.hideBubble}
-        style={{top: screenHeight * 0.25, left: screenWidth * 0.55, margin: 20, fontSize: 12, size: 0.6}}
-        maIndex={selected_ma}/>);
+      if (textKey === 'subActivity') {
+        return (<SpeechBubble
+          text={textKey}
+          bubbleType={'puhekupla_oikea'}
+          hideBubble={this.hideBubble}
+          style={{top: screenHeight * 0.25, left: screenWidth * 0.25, margin: 60, fontSize: 12, size: 0.5}}
+          maIndex={selected_ma}/>);
+      }
+      else if (textKey === 'mainActivity') {
+        return (<SpeechBubble
+          text={textKey}
+          bubbleType={'puhekupla_vasen2'}
+          hideBubble={this.hideBubble}
+          style={{top: screenHeight * 0.22, left: screenWidth * 0.55, margin: 20, fontSize: 12, size: 0.6}}
+          />);
+      }
     }
-    else {
-      return null;
-    }
+    return null;
   },
 
   hideBubble() {
@@ -89,9 +99,6 @@ const MainActivityView = React.createClass({
   },
 
   render() {
-    var activityWidth = Dimensions.get('window').width / 4;
-    var screenHeight = getScreenHeight();
-    var screenWidth = getScreenWidth();
 
     const mainActivities = activities.map((activity) => (
       <TouchableHighlight
@@ -100,9 +107,9 @@ const MainActivityView = React.createClass({
         <Image
           source={getImage('nelio')}
           key={activity.get('key')}
-          style={[styles.activity, {width: null, height: null}]}>
+          style={[styles.activity, getSizeByWidth('nelio', 0.3)]}>
           <Image
-            style={[styles.activityImage, {width: activityWidth}]}
+            style={[styles.activityImage, {width: getSizeByWidth('nelio', 0.25).width}]}
             source={activity.get('imageRoute')}/>
         </Image>
       </TouchableHighlight>
@@ -114,12 +121,13 @@ const MainActivityView = React.createClass({
           chosenMainActivity={this.state.selectedMainActivity}
           dispatch={this.props.dispatch}
           closeSubActivities={this.closeSubActivities}
-          activityIndex={this.props.currentUser.get('activityIndex')}/>
+          activityIndex={this.props.currentUser.get('activityIndex')}
+          restartAudioAndText={this.restartAudioAndText}/>
         );
-      speechBubble = this.renderBubble('subActivity', screenHeight, screenWidth, this.state.selectedMainActivity.get('id'));
+      speechBubble = this.renderBubble('subActivity', this.state.selectedMainActivity.get('id'));
     }
     else {
-      speechBubble = this.renderBubble('mainActivity', screenHeight, screenWidth);
+      speechBubble = this.renderBubble('mainActivity');
     }
 
     if (!this.props.isReady) {

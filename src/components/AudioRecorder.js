@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react';
-import {getSize, getImage} from '../services/graphics';
+import {getSizeByHeight, getImage} from '../services/graphics';
 import {
   View,
   Image,
@@ -144,16 +144,16 @@ const AudioRecorder = React.createClass({
       return (
         <TouchableOpacity
           onPress={() => this._toggleRecord()}
-          style={[styles.highlightCircle, getSize('nappula_rec', 0.35)]}>
-          <Image source={getImage('nappula_rec')} style={getSize('nappula_rec', 0.35)}/>
+          style={[styles.highlightCircle, getSizeByHeight('nappula_rec', 0.35)]}>
+          <Image source={getImage('nappula_rec')} style={getSizeByHeight('nappula_rec', 0.35)}/>
         </TouchableOpacity>);
     }
     else if (this.state.recordButton === 'Stop') {
       return (
         <TouchableOpacity
           onPress={() => this._toggleRecord()}
-          style={[styles.highlightSquare, getSize('nappula_stop', 0.35)]}>
-          <Image source={getImage('nappula_stop')} style={getSize('nappula_stop', 0.35)}/>
+          style={[styles.highlightSquare, getSizeByHeight('nappula_stop', 0.35)]}>
+          <Image source={getImage('nappula_stop')} style={getSizeByHeight('nappula_stop', 0.35)}/>
         </TouchableOpacity>);
     }
     else {

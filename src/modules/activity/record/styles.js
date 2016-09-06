@@ -8,6 +8,7 @@ var width = Dimensions.get('window').width;
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
+    alignItems: 'center',
     backgroundColor: 'white',
     flex: 1,
     width: null,
@@ -30,6 +31,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'flex-end',
+    paddingTop: 40,
     paddingBottom: 40
   },
   headerWithoutTitles: {

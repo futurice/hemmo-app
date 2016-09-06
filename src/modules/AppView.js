@@ -43,7 +43,7 @@ const AppView = React.createClass({
           dispatch(SessionState.resetSessionStateFromSnapshot(snapshot))
             .then(() => {
               this.props.dispatch(SessionState.activate());
-              this.resetRoute();
+              // this.resetRoute();
             });
         }
         /* Ei löytynyt. Aloitetaan alusta */

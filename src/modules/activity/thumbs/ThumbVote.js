@@ -5,7 +5,7 @@ import Hemmo from '../../../components/Hemmo';
 import * as UserState from '../../../modules/user/UserState';
 import * as NavigationState from '../../../modules/navigation/NavigationState';
 import SpeechBubble from '../../../components/SpeechBubble';
-import {getSize, getImage} from '../../../services/graphics';
+import {getSizeByHeight, getSizeByWidth, getImage} from '../../../services/graphics';
 
 import {
   View,
@@ -60,7 +60,7 @@ const ThumbVote = React.createClass({
           text={text}
           hideBubble={this.hideBubble}
           bubbleType={'puhekupla_oikea'}
-          style={{top: 120, left: 160, margin: 15, fontSize: 15, size: 0.5}}
+          style={{top: 80, left: 100, margin: 15, fontSize: 15, size: 0.5}}
           maIndex={i}
           saIndex={j}/>
       );
@@ -79,7 +79,7 @@ const ThumbVote = React.createClass({
           <TouchableOpacity onPress={this.vote.bind(this, thumb_values[i].value)}>
             <Image
               source={getImage(thumb_values[i].text)}
-              style={[styles.voteButton, getSize(thumb_values[i].text, 0.25)]}/>
+              style={[styles.voteButton, getSizeByHeight(thumb_values[i].text, 0.25)]}/>
           </TouchableOpacity>
         </View>
       );
@@ -110,7 +110,7 @@ const ThumbVote = React.createClass({
 
     return (
       <Image source={getImage('tausta_perus')} style={styles.container}>
-          <Image source={getImage('tausta_kapea')} style={[styles.leftColumn, getSize('tausta_kapea', 0.90)]}>
+          <Image source={getImage('tausta_kapea')} style={[styles.leftColumn, getSizeByWidth('tausta_kapea', 0.6)]}>
             {titlePanel}
             {actionPanel}
           </Image>

@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   voteButton: {
-    margin: 15
+    margin: 5
   }
 });
 

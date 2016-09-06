@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import {Map} from 'immutable';
 import * as NavigationState from '../../../modules/navigation/NavigationState';
 import * as UserState from '../../../modules/user/UserState';
-import {getSize, getImage} from '../../../services/graphics';
+import {getSizeByHeight, getSizeByWidth, getImage} from '../../../services/graphics';
 import Hemmo from '../../../components/Hemmo';
 
 import {
@@ -21,7 +21,12 @@ const SubActivityView = React.createClass({
     chosenMainActivity: PropTypes.instanceOf(Map),
     dispatch: PropTypes.func.isRequired,
     closeSubActivities: PropTypes.func.isRequired,
-    activityIndex: PropTypes.number.isRequired
+    activityIndex: PropTypes.number.isRequired,
+    restartAudioAndText: PropTypes.func
+  },
+
+  restartAudioAndText() {
+    this.props.restartAudioAndText();
   },
 
   closeSubActivities() {
@@ -47,20 +52,20 @@ const SubActivityView = React.createClass({
     var margin;
 
     if (n < 8) {
-      ratio = 0.3; margin = 20;
+      ratio = 0.27; margin = 10;
     }
-    else {ratio = 0.27;}
+    else {ratio = 0.23;}
 
     const subActivityViews = this.props.chosenMainActivity.get('subActivities').map((subActivity, index) => (
       <View
         key={subActivity}
         style={styles.activityBlock}>
           <TouchableHighlight
-            style={{borderRadius: getSize('ympyra_keski', ratio).height / 2}}
+            style={{borderRadius: getSizeByWidth('ympyra_keski', ratio).height / 2}}
             onPress={this.chooseActivity.bind(this, subActivity, index)}>
             <Image
               source={getImage('ympyra_keski')}
-              style={[styles.activityCircle, getSize('ympyra_keski', ratio)]}>
+              style={[styles.activityCircle, getSizeByHeight('ympyra_keski', ratio)]}>
                   <Text style={styles.activityFont}>
                     {subActivity}
                   </Text>
@@ -70,7 +75,8 @@ const SubActivityView = React.createClass({
     ));
 
     return (
-      <Image source={getImage('tausta_levea')} style={styles.container}>
+      <View style={styles.container}>
+      <Image source={getImage('tausta_levea')} style={[styles.subActivityContainer, getSizeByWidth('tausta_levea', 0.98)]}>
         <View style={styles.titleBar}>
           <Text style={styles.title}>{this.props.chosenMainActivity.get('key')}</Text>
         </View>
@@ -79,16 +85,17 @@ const SubActivityView = React.createClass({
             {subActivityViews}
           </View>
           <View style={styles.hemmo}>
-            <Hemmo image={'hemmo_keski'} size={0.5}/>
+            <Hemmo image={'hemmo_keski'} size={0.5} restartAudioAndText={this.restartAudioAndText}/>
           </View>
         </View>
-        <TouchableOpacity onPress={this.closeSubActivities} style={[styles.closeButton, getSize('nappula_rasti', 0.1)]}>
+        <TouchableOpacity onPress={this.closeSubActivities} style={[styles.closeButton, getSizeByHeight('nappula_rasti', 0.1)]}>
           <Image
             source={getImage('nappula_rasti')}
             onPress={this.closeSubActivities}
-            style={[getSize('nappula_rasti', 0.1)]}/>
+            style={[getSizeByHeight('nappula_rasti', 0.1)]}/>
         </TouchableOpacity>
       </Image>
+      </View>
     );
   }
 });

@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 import {Map} from 'immutable';
-import {getSize, getImage} from '../services/graphics';
+import {getSizeByHeight, getSizeByWidth, getImage} from '../services/graphics';
 import {save, formRequestBody} from '../services/save';
 
 import {
@@ -70,12 +70,12 @@ const NavigationModal = React.createClass({
               <View style={styles.modal}>
 
                 <TouchableHighlight style={styles.highlight} onPress={this.reset}>
-                  <Image source={getImage('kehys_palkki')} style={[getSize('kehys_palkki', 0.2), styles.row]}>
+                  <Image source={getImage('kehys_palkki')} style={[getSizeByWidth('kehys_palkki', 0.5), styles.row]}>
                       <Text style={styles.font}>Vaihda käyttäjää</Text>
                   </Image>
                 </TouchableHighlight>
                 <TouchableHighlight style={styles.highlight} onPress={this.quit}>
-                  <Image source={getImage('kehys_palkki')} style={[getSize('kehys_palkki', 0.2), styles.row]}>
+                  <Image source={getImage('kehys_palkki')} style={[getSizeByWidth('kehys_palkki', 0.5), styles.row]}>
                       <Text style={styles.font}>Lopeta</Text>
                   </Image>
                 </TouchableHighlight>
@@ -84,10 +84,10 @@ const NavigationModal = React.createClass({
 
                  <TouchableOpacity
                   onPress={this.toggleModal}
-                  style={[styles.closeButton, getSize('nappula_rasti', 0.1)]}>
+                  style={[styles.closeButton, getSizeByHeight('nappula_rasti', 0.1)]}>
                    <Image
                      source={getImage('nappula_rasti')}
-                     style={[getSize('nappula_rasti', 0.1)]}/>
+                     style={[getSizeByHeight('nappula_rasti', 0.1)]}/>
                  </TouchableOpacity>
 
               </View>

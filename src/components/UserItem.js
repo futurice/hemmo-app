@@ -5,7 +5,7 @@ import {
   TouchableHighlight,
   StyleSheet
 } from 'react-native';
-import {getSize, getImage} from '../services/graphics';
+import {getSizeByHeight, getSizeByWidth, getImage} from '../services/graphics';
 
 const UserItem = React.createClass({
 
@@ -56,8 +56,8 @@ const UserItem = React.createClass({
   }
 });
 
-var frameSize = getSize('kehys_iso', 0.42);
-var iconSize = getSize('kehys_iso', 0.36).width;
+var frameSize = getSizeByWidth('kehys_iso', 0.20);
+var iconSize = getSizeByWidth('kehys_iso', 0.17).width;
 
 const styles = StyleSheet.create({
   userRow: {

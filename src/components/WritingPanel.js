@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react';
-import {getSize, getImage} from '../services/graphics';
+import {getSizeByHeight, getSizeByWidth, getImage} from '../services/graphics';
 import {
   View,
   TextInput,
@@ -42,10 +42,10 @@ const WritingPanel = React.createClass({
       <View style={styles.container}>
         <Image
           source={getImage('tausta_kirjoitus')}
-          style={getSize('tausta_kirjoitus', 0.8)}>
+          style={getSizeByWidth('tausta_kirjoitus', 0.9)}>
           <Image
             source={getImage('kirjoituskentta')}
-            style={[styles.textInput, getSize('kirjoituskentta', 0.65)]}>
+            style={[styles.textInput, getSizeByWidth('kirjoituskentta', 0.7)]}>
             <TextInput
               multiline = {true}
               numberOfLines = {30}
@@ -59,7 +59,7 @@ const WritingPanel = React.createClass({
             style={styles.closeButton}>
             <Image
               source={getImage('nappula_rasti')}
-              style={getSize('nappula_rasti', 0.1)}/>
+              style={getSizeByHeight('nappula_rasti', 0.1)}/>
           </TouchableOpacity>
         </Image>
         <TouchableOpacity
@@ -68,7 +68,7 @@ const WritingPanel = React.createClass({
           style={styles.saveButton}>
           <Image
             source={getImage('nappula_tallenna')}
-            style={[getSize('nappula_tallenna', 0.1),
+            style={[getSizeByHeight('nappula_tallenna', 0.1),
               {opacity: this.state.disabled ? 0.1 : 1,
               backgroundColor: this.state.disabled ? 'gray' : 'white'}]}/>
         </TouchableOpacity>
@@ -94,7 +94,6 @@ const styles = StyleSheet.create({
     marginTop: 30,
     marginLeft: 25,
     marginBottom: 30,
-    flex: 1,
     justifyContent: 'flex-start'
   },
   textForm: {
@@ -105,9 +104,10 @@ const styles = StyleSheet.create({
     textAlignVertical: 'top'
   },
   saveButton: {
-    position: 'absolute',
-    bottom: 10,
-    left: 350,
+    // position: 'absolute',
+    // bottom: 10,
+    // left: 350,
+    marginTop: 5,
     opacity: 1,
     backgroundColor: 'white'
   },

@@ -7,7 +7,7 @@ import SpeechBubble from '../../../components/SpeechBubble';
 import SaveConfirmationWindow from '../../../components/SaveConfirmationWindow';
 import WritingPanel from '../../../components/WritingPanel';
 import * as NavigationState from '../../../modules/navigation/NavigationState';
-import {getSize, getImage} from '../../../services/graphics';
+import {getSizeByHeight, getSizeByWidth, getImage} from '../../../services/graphics';
 import {save, formRequestBody} from '../../../services/save';
 
 import {
@@ -110,7 +110,7 @@ const Record = React.createClass({
           text={text}
           bubbleType={'puhekupla_oikea'}
           hideBubble={this.hideBubble}
-          style={{top: 20, left: 60, margin: 30, fontSize: 18, size: 0.6}}/>
+          style={{top: 45, left: 40, margin: 40, fontSize: 15, size: 0.6}}/>
       );
     }
     else {
@@ -137,7 +137,7 @@ const Record = React.createClass({
           <TouchableOpacity onPress={this.cancel}>
             <Image
               source={getImage('nappula_takaisin')}
-              style={[styles.returnButton, getSize('nappula_takaisin', 0.15)]}/>
+              style={[styles.returnButton, getSizeByHeight('nappula_takaisin', 0.15)]}/>
           </TouchableOpacity>
         );
       }
@@ -167,7 +167,7 @@ const Record = React.createClass({
 
     return (
       <Image source={getImage('tausta_perus')} style={styles.container}>
-        <Image source={getImage('tausta_kapea')} style={[styles.leftColumn, getSize('tausta_kapea', 0.89)]}>
+        <Image source={getImage('tausta_kapea')} style={[styles.leftColumn, getSizeByWidth('tausta_kapea', 0.6)]}>
           {titlePanel}
           <AudioRecorder save={this.save} toggleWritingButton={this.toggleWritingButton} phase={phase}/>
           <View style={styles.buttonRow}>
@@ -176,8 +176,10 @@ const Record = React.createClass({
               onPress={this.toggleWriting}>
               <Image
                 source={getImage('nappula_kirjoita')}
-                style={[getSize('nappula_kirjoita', 0.1), {opacity: this.state.disableWriting ? 0.4 : 1,
-                backgroundColor: this.state.disableWriting ? 'gray' : 'white'}]}/>
+                style={[
+                  getSizeByHeight('nappula_kirjoita', 0.1),
+                  {opacity: this.state.disableWriting ? 0.4 : 1,
+                    backgroundColor: this.state.disableWriting ? 'gray' : 'white'}]}/>
             </TouchableOpacity>
           </View>
         </Image>
@@ -189,7 +191,7 @@ const Record = React.createClass({
               style={styles.skipButtonHighlight}>
               <Image
                 source={getImage('nappula_ohita')}
-                style={[styles.skipButton, getSize('nappula_ohita', 0.1)]}/>
+                style={[styles.skipButton, getSizeByHeight('nappula_ohita', 0.1)]}/>
             </TouchableOpacity>
         </View>
         {writingView}

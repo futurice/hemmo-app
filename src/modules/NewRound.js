@@ -4,7 +4,7 @@ import * as NavigationState from '../modules/navigation/NavigationState';
 import * as UserState from '../modules/user/UserState';
 import SpeechBubble from '../components/SpeechBubble';
 import Hemmo from '../components/Hemmo';
-import {getSize, getImage} from '../services/graphics';
+import {getSizeByHeight, getSizeByWidth, getImage} from '../services/graphics';
 
 import {
   StyleSheet,
@@ -62,15 +62,15 @@ const NewRound = React.createClass({
           <TouchableOpacity onPress={this.newRound}>
             <Image
               source={getImage('nappula_uudestaan')}
-              style={getSize('nappula_uudestaan', 0.5)}/>
+              style={getSizeByWidth('nappula_uudestaan', 0.30)}/>
           </TouchableOpacity>
 
-          <Hemmo image={'hemmo_keski'} size={0.7} restartAudioAndText={this.restartAudioAndText}/>
+          <Hemmo image={'hemmo_keski'} size={0.6} restartAudioAndText={this.restartAudioAndText}/>
 
           <TouchableOpacity onPress={this.continue}>
             <Image
               source={getImage('nappula_seuraava2')}
-              style={getSize('nappula_seuraava2', 0.5)}/>
+              style={getSizeByWidth('nappula_seuraava2', 0.30)}/>
           </TouchableOpacity>
         {speechBubble}
       </Image>

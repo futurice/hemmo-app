@@ -13,8 +13,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   activity: {
-    flex: 1,
-    padding: 10
+    // flex: 1,
+    padding: 10,
+    alignItems: 'center'
   },
   highlight: {
     flex: 1,

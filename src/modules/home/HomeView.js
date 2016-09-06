@@ -10,7 +10,7 @@ import PasswordModal from '../../components/PasswordModal';
 import {setAuthenticationToken} from '../../utils/authentication';
 import {setSessionId} from '../../utils/session';
 import {post} from '../../utils/api';
-import {getSize, getImage} from '../../services/graphics';
+import {getSizeByHeight, getImage} from '../../services/graphics';
 
 import {
   TouchableHighlight,
@@ -108,7 +108,7 @@ const HomeView = React.createClass({
               onPress={this.startJourney.bind(this, i)}>
               <Image
                 source={getImage('kehys_palkki')}
-                style={[styles.rowWithSmallImage, getSize('kehys_palkki', rowHeight)]}>
+                style={[styles.rowWithSmallImage, getSizeByHeight('kehys_palkki', rowHeight)]}>
                 <Image
                   style={[styles.smallIcon, {height: iconHeight - 20, width: iconHeight - 20}]}
                   source={{uri: this.props.users.get(i).get('image')}}/>
@@ -180,7 +180,7 @@ const HomeView = React.createClass({
             <TouchableHighlight onPress={this.togglePasswordModal}>
               <Image
                 source={getImage('nappula_aset')}
-                style={getSize('nappula_aset', 0.15)}/>
+                style={getSizeByHeight('nappula_aset', 0.15)}/>
             </TouchableHighlight>
           </View>
         </View>
