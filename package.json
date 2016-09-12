@@ -1,13 +1,13 @@
 {
-  "name": "PepperoniAppTemplate",
+  "name": "Hemmo",
   "author": "Futurice",
   "description": "React Native App Starter Kit for Android and iOS",
   "license": "MIT",
   "homepage": "http://getpepperoni.com",
-  "bugs": "https://github.com/futurice/pepperoni-app-kit/issues",
+  "bugs": "https://github.com/futurice/PelaryHemmo/issues",
   "repository": {
     "type": "git",
-    "url": "https://github.com/futurice/pepperoni-app-kit"
+    "url": "https://github.com/futurice/PelaryHemmo"
   },
   "keywords": [
     "React Native",

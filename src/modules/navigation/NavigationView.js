@@ -21,7 +21,6 @@ const NavigationView = React.createClass({
   //TODO: Move to AppRouter somehow
   renderScene(route, navigator) {
     this.navigator = navigator;
-    // console.log('NAVIGATOR ' + util.inspect(navigator));
 
     if (route.key === 'Home') {
       return <HomeViewContainer/>;

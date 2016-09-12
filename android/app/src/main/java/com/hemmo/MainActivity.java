@@ -1,4 +1,4 @@
-package com.pepperoniapptemplate;
+package com.hemmo;
 
 import com.facebook.react.ReactActivity;
 import com.oblador.vectoricons.VectorIconsPackage;

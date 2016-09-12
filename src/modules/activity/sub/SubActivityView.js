@@ -76,24 +76,28 @@ const SubActivityView = React.createClass({
 
     return (
       <View style={styles.container}>
-      <Image source={getImage('tausta_levea')} style={[styles.subActivityContainer, getSizeByWidth('tausta_levea', 0.98)]}>
-        <View style={styles.titleBar}>
-          <Text style={styles.title}>{this.props.chosenMainActivity.get('key')}</Text>
-        </View>
-        <View style={styles.activityBar}>
-          <View style={[styles.subActivities, {marginHorizontal: margin}]}>
-            {subActivityViews}
+      <Image
+        source={getImage('tausta_levea')}
+        style={[styles.subActivityContainer, getSizeByWidth('tausta_levea', 0.98)]}>
+          <View style={styles.titleBar}>
+            <Text style={styles.title}>{this.props.chosenMainActivity.get('key')}</Text>
           </View>
-          <View style={styles.hemmo}>
-            <Hemmo image={'hemmo_keski'} size={0.5} restartAudioAndText={this.restartAudioAndText}/>
+          <View style={styles.activityBar}>
+            <View style={[styles.subActivities, {marginHorizontal: margin}]}>
+              {subActivityViews}
+            </View>
+            <View style={styles.hemmo}>
+              <Hemmo image={'hemmo_keski'} size={0.5} restartAudioAndText={this.restartAudioAndText}/>
+            </View>
           </View>
-        </View>
-        <TouchableOpacity onPress={this.closeSubActivities} style={[styles.closeButton, getSizeByHeight('nappula_rasti', 0.1)]}>
-          <Image
-            source={getImage('nappula_rasti')}
+          <TouchableOpacity
             onPress={this.closeSubActivities}
-            style={[getSizeByHeight('nappula_rasti', 0.1)]}/>
-        </TouchableOpacity>
+            style={[styles.closeButton, getSizeByHeight('nappula_rasti', 0.1)]}>
+              <Image
+                source={getImage('nappula_rasti')}
+                onPress={this.closeSubActivities}
+                style={[getSizeByHeight('nappula_rasti', 0.1)]}/>
+          </TouchableOpacity>
       </Image>
       </View>
     );

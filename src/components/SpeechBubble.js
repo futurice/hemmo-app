@@ -6,7 +6,6 @@ import TimerMixin from 'react-timer-mixin';
 import {
   StyleSheet,
   TouchableOpacity,
-  TouchableWithoutFeedback,
   View,
   Text,
   Image

@@ -219,7 +219,10 @@ const SettingsView = React.createClass({
           {tabs}
         </ScrollView>
 
-        <Image source={getImage('tausta_asetukset')} style={[styles.form, getSizeByWidth('tausta_asetukset', 0.9)]}>
+        <Image
+          source={getImage('tausta_asetukset')}
+          style={[styles.form, getSizeByWidth('tausta_asetukset', 0.9)]}>
+
           <View style={styles.leftColumn}>
             <View style={styles.inputField}>
               <Text style={[styles.label, styles.font]}>
@@ -258,7 +261,8 @@ const SettingsView = React.createClass({
                 onPress={this.saveUser}>
                 <Image
                   source={getImage('nappula_tallenna')}
-                  style={[getSizeByWidth('nappula_tallenna', 0.25), {opacity: this.state.disabled ? 0.2 : 1}]}/>
+                  style={[getSizeByWidth('nappula_tallenna', 0.25),
+                    {opacity: this.state.disabled ? 0.2 : 1}]}/>
               </TouchableOpacity>
 
               <View style={styles.bottomRow}>

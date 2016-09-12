@@ -5,7 +5,7 @@ import {
   TouchableHighlight,
   StyleSheet
 } from 'react-native';
-import {getSizeByHeight, getSizeByWidth, getImage} from '../services/graphics';
+import {getSizeByWidth, getImage} from '../services/graphics';
 
 const UserItem = React.createClass({
 

@@ -46,6 +46,7 @@ const PasswordModal = React.createClass({
       }
     )
     .catch(error => {
+      console.log('error ' + error);
       this.setState({message: 'Virhe sisäänkirjautumisessa, tarkista salasana ja Internetyhteys'});
     });
   },

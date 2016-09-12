@@ -3,6 +3,7 @@ import {List, Map} from 'immutable';
 import AudioRecorder from '../../../components/AudioRecorder';
 import TitlePanel from '../../../components/TitlePanel';
 import Hemmo from '../../../components/Hemmo';
+import LoadingSpinner from '../../../components/LoadingSpinner';
 import SpeechBubble from '../../../components/SpeechBubble';
 import SaveConfirmationWindow from '../../../components/SaveConfirmationWindow';
 import WritingPanel from '../../../components/WritingPanel';
@@ -13,6 +14,7 @@ import {save, formRequestBody} from '../../../services/save';
 import {
   TouchableOpacity,
   Image,
+  Alert,
   View
 } from 'react-native';
 
@@ -35,7 +37,8 @@ const Record = React.createClass({
       progress: 0,
       generalFeedbackView: false,
       showMessage: false,
-      disableWriting: false
+      disableWriting: false,
+      showSpinner: false
     };
   },
 
@@ -45,7 +48,6 @@ const Record = React.createClass({
 
   toggleWritingButton(value) {
     this.setState({disableWriting: value});
-    console.log('disabled ' + this.state.disableWriting);
   },
 
   hideBubble() {
@@ -64,21 +66,43 @@ const Record = React.createClass({
     this.setState({text});
   },
 
-  save(phase, attachmentType, attachmentPath) {
+  async save(phase, attachmentType, attachmentPath) {
+
+    this.setState({showSpinner: true});
+
     if (attachmentType === 'text') {
       this.toggleWriting();
     }
 
-    formRequestBody(phase, attachmentType, this.state.text, this.props.activityIndex, this.props.answers)
-      .then(body => save(attachmentPath, attachmentType, body))
-        .then(() => {
-          if (attachmentType === 'audio') {
-            this.showConfirmationMessage();
-          }
-          else {
-            this.continue(phase);
-          }
-        });
+    var body = await formRequestBody(
+      phase,
+      attachmentType,
+      this.state.text,
+      this.props.activityIndex,
+      this.props.answers
+    );
+
+    try {
+      var wasSuccessful = await save(attachmentPath, attachmentType, body);
+
+      if (wasSuccessful.success === true) {
+        if (attachmentType === 'audio') {
+          this.setState({showSpinner: false});
+          this.showConfirmationMessage();
+        }
+        else {
+          this.continue(phase);
+        }
+      }
+      else {
+        this.setState({showSpinner: false});
+        Alert.alert('Virhe', 'Ohops! Yritä myöhemmin uudestaan');
+      }
+    }
+    catch (e) {
+      this.setState({showSpinner: false});
+      Alert.alert('Virhe', 'Ohops! Yritä myöhemmin uudelleen!');
+    }
   },
 
   showConfirmationMessage() {
@@ -165,23 +189,31 @@ const Record = React.createClass({
       saveWasSuccesful = <SaveConfirmationWindow phase={phase} closeWindow={this.closeConfirmationMessage}/>;
     }
 
+    if (this.state.showSpinner === true) {
+      return (
+          <LoadingSpinner/>
+        );
+    }
+
     return (
       <Image source={getImage('tausta_perus')} style={styles.container}>
-        <Image source={getImage('tausta_kapea')} style={[styles.leftColumn, getSizeByWidth('tausta_kapea', 0.6)]}>
-          {titlePanel}
-          <AudioRecorder save={this.save} toggleWritingButton={this.toggleWritingButton} phase={phase}/>
-          <View style={styles.buttonRow}>
-            <TouchableOpacity
-              disabled={this.state.disableWriting}
-              onPress={this.toggleWriting}>
-              <Image
-                source={getImage('nappula_kirjoita')}
-                style={[
-                  getSizeByHeight('nappula_kirjoita', 0.1),
-                  {opacity: this.state.disableWriting ? 0.4 : 1,
-                    backgroundColor: this.state.disableWriting ? 'gray' : 'white'}]}/>
-            </TouchableOpacity>
-          </View>
+        <Image
+          source={getImage('tausta_kapea')}
+          style={[styles.leftColumn, getSizeByWidth('tausta_kapea', 0.6)]}>
+            {titlePanel}
+            <AudioRecorder save={this.save} toggleWritingButton={this.toggleWritingButton} phase={phase}/>
+            <View style={styles.buttonRow}>
+              <TouchableOpacity
+                disabled={this.state.disableWriting}
+                onPress={this.toggleWriting}>
+                <Image
+                  source={getImage('nappula_kirjoita')}
+                  style={[
+                    getSizeByHeight('nappula_kirjoita', 0.1),
+                    {opacity: this.state.disableWriting ? 0.4 : 1,
+                      backgroundColor: this.state.disableWriting ? 'gray' : 'white'}]}/>
+              </TouchableOpacity>
+            </View>
         </Image>
         <View style={styles.rightColumn}>
             <Hemmo image={'hemmo'} size={0.7} restartAudioAndText={this.restartAudioAndText}/>

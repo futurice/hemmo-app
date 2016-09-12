@@ -11,7 +11,6 @@ import {getImage, getSizeByWidth} from '../../../services/graphics';
 
 import {
   Image,
-  Text,
   TouchableHighlight,
   View
 } from 'react-native';
@@ -52,7 +51,8 @@ const MainActivityView = React.createClass({
   },
 
   saveAnswer(activity) {
-    this.props.dispatch(UserState.saveAnswer(this.props.currentUser.get('activityIndex'), 'main', activity.get('id')));
+    this.props.dispatch(
+      UserState.saveAnswer(this.props.currentUser.get('activityIndex'), 'main', activity.get('id')));
     this.setState({showSubActivities: true, selectedMainActivity: activity, showBubble: true});
   },
 
@@ -105,13 +105,8 @@ const MainActivityView = React.createClass({
         style={styles.highlight}
         onPress={this.openSubActivities.bind(this, activity)}>
         <Image
-          source={getImage('nelio')}
-          key={activity.get('key')}
-          style={[styles.activity, getSizeByWidth('nelio', 0.3)]}>
-          <Image
-            style={[styles.activityImage, {width: getSizeByWidth('nelio', 0.25).width}]}
-            source={activity.get('imageRoute')}/>
-        </Image>
+          style={[styles.activityImage, getSizeByWidth('nelio', 0.3)]}
+          source={activity.get('imageRoute')}/>
       </TouchableHighlight>
     ));
 
@@ -148,7 +143,13 @@ const MainActivityView = React.createClass({
           {mainActivities[3]}
           <View style={styles.hemmo}>
             <Hemmo image={'hemmo_pieni'} size={0.4} restartAudioAndText={this.restartAudioAndText}/>
-            <Text onPress={this.other} style={styles.text}>Muuta</Text>
+            <TouchableHighlight
+              onPress={this.other}
+              style={[styles.other,
+                getSizeByWidth('muuta', 0.1),
+                {borderRadius: getSizeByWidth('muuta', 0.1).width / 2}]}>
+              <Image source={getImage('muuta')} style={[getSizeByWidth('muuta', 0.1)]}/>
+            </TouchableHighlight>
           </View>
           {mainActivities[4]}
         </View>

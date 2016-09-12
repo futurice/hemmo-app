@@ -6,7 +6,7 @@ import {setConfiguration} from './src/utils/configuration';
 import React from 'react';
 import {AppRegistry} from 'react-native';
 
-const PepperoniAppTemplate = React.createClass({
+const Hemmo = React.createClass({
 
   componentWillMount() {
     setConfiguration('API_ROOT', 'http://hemmo-backend.herokuapp.com');
@@ -22,4 +22,4 @@ const PepperoniAppTemplate = React.createClass({
   }
 });
 
-AppRegistry.registerComponent('PepperoniAppTemplate', () => PepperoniAppTemplate);
+AppRegistry.registerComponent('Hemmo', () => Hemmo);

@@ -110,9 +110,11 @@ const ThumbVote = React.createClass({
 
     return (
       <Image source={getImage('tausta_perus')} style={styles.container}>
-          <Image source={getImage('tausta_kapea')} style={[styles.leftColumn, getSizeByWidth('tausta_kapea', 0.6)]}>
-            {titlePanel}
-            {actionPanel}
+          <Image
+            source={getImage('tausta_kapea')}
+            style={[styles.leftColumn, getSizeByWidth('tausta_kapea', 0.6)]}>
+              {titlePanel}
+              {actionPanel}
           </Image>
         <View style={styles.rightColumn}>
           <Hemmo image={'hemmo_keski'} size={0.7} restartAudioAndText={this.restartAudioAndText}/>

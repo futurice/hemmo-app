@@ -69,7 +69,6 @@ export function resetCurrentUser() {
 }
 
 export function setCurrentUserValue(destination, value) {
-  console.log('SET CURRENT USER');
   return {
     type: SET_CURRENT_USER_VALUE,
     payload: {destination, value}

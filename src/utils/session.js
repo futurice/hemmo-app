@@ -7,7 +7,6 @@ export async function getSessionId() {
 }
 
 export async function setSessionId(id) {
-  console.log('SESSION ID ' + id);
   return AsyncStorage.setItem(SESSION_STORAGE_KEY, id);
 }
 

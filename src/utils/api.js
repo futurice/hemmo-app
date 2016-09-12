@@ -31,8 +31,6 @@ export async function get(path, suppressRedBox) {
  * @returns {Promise}  of response body
  */
 export async function post(path, body, suppressRedBox) {
-  // console.log('path = ' + path);
-  // console.log('body = ' + JSON.stringify(body));
   return bodyOf(request('post', path, body, suppressRedBox));
 }
 
@@ -44,8 +42,6 @@ export async function post(path, body, suppressRedBox) {
  * @returns {Promise}  of response body
  */
 export async function put(path, body, suppressRedBox) {
-  console.log('path was ' + path);
-  console.log('body was ' + JSON.stringify(body));
   return bodyOf(request('put', path, body, suppressRedBox));
 }
 
@@ -69,7 +65,6 @@ export async function del(path, suppressRedBox) {
 export async function request(method, path, body, suppressRedBox) {
   try {
     const response = await sendRequest(method, path, body, suppressRedBox);
-    // console.log('lets handle response ' + path);
     return handleResponse(
       path,
       response
@@ -137,18 +132,13 @@ async function sendRequest(method, path, body) {
 
   try {
     const endpoint = url(path);
-    // console.log('end point = ' + endpoint);
     const token = await getAuthenticationToken();
     const sessionId = await getSessionId();
-    // console.log('sessionId ' + sessionId);
-    // console.log('token = ' + token);
     const headers = getRequestHeaders(body, token, sessionId);
-    // console.log('headers = ' + JSON.stringify(headers));
     const options = body
       ? {method, headers, body: JSON.stringify(body)}
       : {method, headers};
 
-    // console.log('options = ' + JSON.stringify(options));
     return timeout(fetch(endpoint, options), TIMEOUT);
   } catch (e) {
     throw new Error(e);
@@ -233,8 +223,6 @@ async function getErrorMessageSafely(response) {
  */
 function timeout(promise, ms) {
   return new Promise((resolve, reject) => {
-    // console.log('resolve = ' + resolve);
-    // console.log('reject = ' + reject);
     const timer = setTimeout(() => reject(new Error('timeout')), ms);
     promise
       .then(response => {

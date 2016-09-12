@@ -64,18 +64,22 @@ const NavigationModal = React.createClass({
           animationType={"fade"}
           transparent={true}
           visible={this.state.modalVisible}
-          onRequestClose={() => console.log('jee')}>
+          onRequestClose={() => console.log(' ')}>
           <View style={styles.modalContainer}>
             <View style={styles.upperModal}>
               <View style={styles.modal}>
 
                 <TouchableHighlight style={styles.highlight} onPress={this.reset}>
-                  <Image source={getImage('kehys_palkki')} style={[getSizeByWidth('kehys_palkki', 0.5), styles.row]}>
+                  <Image
+                    source={getImage('kehys_palkki')}
+                    style={[getSizeByWidth('kehys_palkki', 0.5), styles.row]}>
                       <Text style={styles.font}>Vaihda käyttäjää</Text>
                   </Image>
                 </TouchableHighlight>
                 <TouchableHighlight style={styles.highlight} onPress={this.quit}>
-                  <Image source={getImage('kehys_palkki')} style={[getSizeByWidth('kehys_palkki', 0.5), styles.row]}>
+                  <Image
+                    source={getImage('kehys_palkki')}
+                    style={[getSizeByWidth('kehys_palkki', 0.5), styles.row]}>
                       <Text style={styles.font}>Lopeta</Text>
                   </Image>
                 </TouchableHighlight>
@@ -112,11 +116,11 @@ const NavigationModal = React.createClass({
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    left: 5,
-    top: 5
+    left: 2,
+    top: 2
   },
   circle: {
-    backgroundColor: 'gray',
+    backgroundColor: 'white',
     borderWidth: 3,
     alignItems: 'center',
     justifyContent: 'center',
@@ -127,7 +131,7 @@ const styles = StyleSheet.create({
   image: {
     height: 40,
     width: 40,
-    borderWidth: 2,
+    borderWidth: 1,
     borderRadius: 20
   },
   modalContainer: {

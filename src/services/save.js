@@ -1,36 +1,49 @@
 
 import {put, post, xhr} from '../utils/api';
-import {
-  Alert
-} from 'react-native';
 
 var activities = require('../modules/activity/activities.js');
 
 export async function save(attachmentPath, attachmentType, body) {
   var attachmentQuestion;
 
-  post('/content', body)
-    .then(result => {
-      if (attachmentType === 'audio') {
-        var contentId = result.contentId;
-        var attachmentBody = new FormData();
-        var file = {
-          uri: `file://${attachmentPath}`,
-          type: 'audio/mp4',
-          name: 'file'
-        };
-        attachmentBody.append('file', file);
-        xhr('PUT', '/attachment/' + contentId, attachmentBody)
-          .then(res => {
-            var parsedResult = JSON.parse(res);
-            body.questions.push({question: attachmentQuestion, attachmentId: parsedResult.attachmentId});
-            put('/content/' + contentId, body);
-          });
+  try {
+    var result = await post('/content', body);
+
+    if (attachmentType === 'audio') {
+      var contentId = result.contentId;
+      var attachmentBody = new FormData();
+      var file = {
+        uri: `file://${attachmentPath}`,
+        type: 'audio/mp4',
+        name: 'file'
+      };
+      attachmentBody.append('file', file);
+
+      try {
+        var attachmentResult = await xhr('PUT', '/attachment/' + contentId, attachmentBody);
+
+        var parsedResult = JSON.parse(attachmentResult);
+        body.questions.push({question: attachmentQuestion, attachmentId: parsedResult.attachmentId});
+
+        try {
+          var updateResult = await put('/content/' + contentId, body);
+          return {success: true};
+        }
+        catch (e) {
+          return {success: false};
+        }
       }
-    })
-    .catch((error) => {
-      Alert.alert('Oops! Jokin meni pieleen!', 'Yritä myöhemmin uudelleen! ' + error);
-    });
+      catch (e) {
+        return {success: false};
+      }
+    }
+    else {
+      return {success: true};
+    }
+  }
+  catch (e) {
+    return {success: false};
+  }
 }
 
 export async function formRequestBody(phase, attachmentType, text, activityIndex, answers) {

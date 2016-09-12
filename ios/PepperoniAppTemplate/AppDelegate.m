@@ -47,7 +47,7 @@
 #endif
 
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
-                                                      moduleName:@"PepperoniAppTemplate"
+                                                      moduleName:@"Hemmo"
                                                initialProperties:nil
                                                    launchOptions:launchOptions];
 

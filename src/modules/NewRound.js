@@ -4,7 +4,7 @@ import * as NavigationState from '../modules/navigation/NavigationState';
 import * as UserState from '../modules/user/UserState';
 import SpeechBubble from '../components/SpeechBubble';
 import Hemmo from '../components/Hemmo';
-import {getSizeByHeight, getSizeByWidth, getImage} from '../services/graphics';
+import {getSizeByWidth, getImage} from '../services/graphics';
 
 import {
   StyleSheet,

@@ -16,7 +16,9 @@ const Hemmo = React.createClass({
   render() {
     return (
       <TouchableWithoutFeedback onPress={this.props.restartAudioAndText}>
-        <Image source={getImage(this.props.image)} style={getSizeByHeight(this.props.image, this.props.size)}/>
+        <Image
+          source={getImage(this.props.image)}
+          style={getSizeByHeight(this.props.image, this.props.size)}/>
       </TouchableWithoutFeedback>
     );
   }

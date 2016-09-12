@@ -1,10 +1,11 @@
 import {List, Map} from 'immutable';
+import {getImage} from '../../services/graphics';
 
 var activities = [
   Map({
     id: 0,
     key: 'Puuhasimme',
-    imageRoute: require('../../../assets/Puuhailu.jpg'),
+    imageRoute: getImage('puuhasimme'),
     subActivities: List([
       'Leipominen, kokkailu',
       'Piirtäminen, askartelu',
@@ -15,7 +16,7 @@ var activities = [
   Map({
     id: 1,
     key: 'Ulkoilimme, retkeilimme',
-    imageRoute: require('../../../assets/Ulkoilu.jpg'),
+    imageRoute: getImage('ulkoilimme'),
     subActivities: List([
       'Ulkoilu',
       'Makkaranpaisto',
@@ -28,7 +29,7 @@ var activities = [
   Map({
     id: 2,
     key: 'Leikimme, pelasimme',
-    imageRoute: require('../../../assets/Leikkiminen.jpg'),
+    imageRoute: getImage('leikimme'),
     subActivities: List([
       'Leikkiminen',
       'Lautapelit',
@@ -39,7 +40,7 @@ var activities = [
   Map({
     id: 3,
     key: 'Vietimme aikaa yhdessä',
-    imageRoute: require('../../../assets/Yhdessa.jpg'),
+    imageRoute: getImage('vietimme'),
     subActivities: List([
       'Saunominen',
       'Juttelu',
@@ -50,7 +51,7 @@ var activities = [
   Map({
     id: 4,
     key: 'Lemmikit, kotieläimet',
-    imageRoute: require('../../../assets/Lemmikit.jpg'),
+    imageRoute: getImage('lemmikit'),
     subActivities: List([
       'Koira',
       'Kissa',

@@ -156,6 +156,28 @@ var graphics = Map({
     image: require('../../assets/graphics/emotions/yksinainen.png'),
     ratio: 1}),
 
+    /* Activities */
+  'leikimme': Map({
+    image: require('../../assets/graphics/activities/leikimme.png'),
+    ratio: 1.2485}),
+  'vietimme': Map({
+    image: require('../../assets/graphics/activities/vietimme.png'),
+    ratio: 1.2485}),
+  'lemmikit': Map({
+    image: require('../../assets/graphics/activities/lemmikit.png'),
+    ratio: 1.2485}),
+  'puuhasimme': Map({
+    image: require('../../assets/graphics/activities/puuhasimme.png'),
+    ratio: 1.2485}),
+  'ulkoilimme': Map({
+    image: require('../../assets/graphics/activities/ulkoilimme.png'),
+    ratio: 1.2485}),
+  'muuta': Map({
+    image: require('../../assets/graphics/activities/muuta.png'),
+    ratio: 1}),
+
+    /* Muuta */
+
   'hemmo_iso': Map({
     image: require('../../assets/graphics/others/hemmo_iso.png'),
     ratio: 0.8878}),

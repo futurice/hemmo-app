@@ -84,7 +84,9 @@ const EmotionView = React.createClass({
       var checked = null;
       for (var j = 0; j < this.state.selectedEmotions.size; j++) {
         if (emotions[i] === this.state.selectedEmotions.get(j)) {
-          checked = <Image source={getImage('valittu')} style={[styles.check, getSizeByHeight('valittu', 0.1)]}/>;
+          checked = (<Image
+                      source={getImage('valittu')}
+                      style={[styles.check, getSizeByHeight('valittu', 0.1)]}/>);
         }
       }
       var photo;
