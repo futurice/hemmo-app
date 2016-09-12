@@ -74,35 +74,44 @@ const Record = React.createClass({
       this.toggleWriting();
     }
 
-    var body = await formRequestBody(
-      phase,
-      attachmentType,
-      this.state.text,
-      this.props.activityIndex,
-      this.props.answers
-    );
-
     try {
-      var wasSuccessful = await save(attachmentPath, attachmentType, body);
+      var body = await formRequestBody(
+        phase,
+        attachmentType,
+        this.state.text,
+        this.props.activityIndex,
+        this.props.answers
+      );
 
-      if (wasSuccessful.success === true) {
-        if (attachmentType === 'audio') {
-          this.setState({showSpinner: false});
-          this.showConfirmationMessage();
+      try {
+        var wasSuccessful = await save(attachmentPath, attachmentType, body);
+
+        if (wasSuccessful.success === true) {
+          if (attachmentType === 'audio') {
+            this.setState({showSpinner: false});
+            this.showConfirmationMessage();
+          }
+          else {
+            this.continue(phase);
+          }
         }
         else {
-          this.continue(phase);
+          this.error();
         }
       }
-      else {
-        this.setState({showSpinner: false});
-        Alert.alert('Virhe', 'Ohops! Yritä myöhemmin uudestaan');
+      catch (e) {
+        this.error();
       }
     }
     catch (e) {
-      this.setState({showSpinner: false});
-      Alert.alert('Virhe', 'Ohops! Yritä myöhemmin uudelleen!');
+      this.error();
     }
+  },
+
+  error() {
+    this.setState({showSpinner: false});
+    Alert.alert('Ohops!', 'Jokin meni pieleen! Tarkista nettiyhteys tai yritä myöhemmin uudelleen!',
+    [{text: 'Ok', onPress: () => this.props.dispatch(NavigationState.resetRoute())}]);
   },
 
   showConfirmationMessage() {
@@ -119,7 +128,7 @@ const Record = React.createClass({
       this.props.dispatch(NavigationState.pushRoute({key: 'NewRound', allowReturn: false}));
     }
     else if (phase === 'moods') {
-      this.setState({showWritingPanel: false, showBubble: true, progress: 0, generalFeedbackView: true});
+      this.setState({showWritingPanel: false, showSpinner: false, showBubble: true, progress: 0, generalFeedbackView: true});
       this.props.dispatch(NavigationState.pushRoute({key: 'Record', allowReturn: false}));
     }
     else if (phase === 'general') {

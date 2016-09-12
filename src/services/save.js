@@ -38,6 +38,7 @@ export async function save(attachmentPath, attachmentType, body) {
       }
     }
     else {
+      console.log('other than audio ' + attachmentType);
       return {success: true};
     }
   }

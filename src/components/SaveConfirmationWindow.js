@@ -26,7 +26,7 @@ const SaveConfirmationWindow = React.createClass({
             text={'saved'}
             hideBubble={this.close}
             bubbleType={'puhekupla_tallennettu'}
-            style={{top: 110, left: 350, margin: 10, fontSize: 17, size: 0.35}}/>
+            style={{top: 110, left: 300, margin: 10, fontSize: 17, size: 0.35}}/>
           <View style={styles.hemmo}>
             <Hemmo image={'hemmo_keski'} size={0.8}/>
           </View>
