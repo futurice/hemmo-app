@@ -51,7 +51,6 @@ const AppView = React.createClass({
           dispatch(SessionState.initializeSessionState());
         }
 
-
         /* Tallennetaan uusin tila aina kun statea päivitetään */
         store.subscribe(() => {
           snapshotUtil.saveSnapshot(store.getState());
