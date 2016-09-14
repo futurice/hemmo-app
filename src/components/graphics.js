@@ -155,6 +155,9 @@ var graphics = Map({
   'yksinainen': Map({
     image: require('../../assets/graphics/emotions/yksinainen.png'),
     ratio: 1}),
+  'muu tunne': Map({
+    image: require('../../assets/graphics/emotions/muuta.png'),
+    ratio: 1}),
 
     /* Activities */
   'leikimme': Map({

@@ -92,14 +92,10 @@ const EmotionView = React.createClass({
       var photo;
 
       if (i === emotions.length - 1) {
-        photo = (
-          <Image
-            source={getImage('ympyra_keski')}
-            style={[styles.other,
-                getSizeByWidth('ympyra_keski', 0.17),
-                {marginBottom: getSizeByWidth('ympyra_keski', 0.17).height + 5}]}>
-            <Text style={styles.font}>Muu</Text>
-          </Image>
+        photo = (<Image
+          source={getImage(emotions[i])}
+          style={[getSizeByWidth(emotions[i], 0.17),
+            {marginBottom: getSizeByWidth('ympyra_keski', 0.17).height + 5}]}/>
         );
       }
       else {
