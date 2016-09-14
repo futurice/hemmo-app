@@ -34,6 +34,8 @@ const SubActivityView = React.createClass({
   },
 
   chooseActivity(subActivity, subIndex) {
+    console.log('subactivity was ' + subActivity);
+
     this.props.dispatch(
       UserState.saveAnswer(this.props.activityIndex, 'sub', subIndex)
     );
@@ -52,26 +54,21 @@ const SubActivityView = React.createClass({
     var margin;
 
     if (n < 8) {
-      ratio = 0.27; margin = 10;
+      ratio = 0.35; margin = 10;
     }
-    else {ratio = 0.23;}
+    else {ratio = 0.25;}
+
+    console.log('test1 ' + JSON.stringify(this.props.chosenMainActivity.get('subActivities')));
 
     const subActivityViews = this.props.chosenMainActivity.get('subActivities').map((subActivity, index) => (
-      <View
-        key={subActivity}
-        style={styles.activityBlock}>
-          <TouchableHighlight
-            style={{borderRadius: getSizeByWidth('ympyra_keski', ratio).height / 2}}
-            onPress={this.chooseActivity.bind(this, subActivity, index)}>
-            <Image
-              source={getImage('ympyra_keski')}
-              style={[styles.activityCircle, getSizeByHeight('ympyra_keski', ratio)]}>
-                  <Text style={styles.activityFont}>
-                    {subActivity}
-                  </Text>
-            </Image>
-          </TouchableHighlight>
-      </View>
+      <TouchableHighlight
+        key={subActivity.get('key')}
+        style={[styles.activityBlock, {margin: 5, borderRadius: getSizeByHeight(subActivity.get('key'), ratio).height / 2}]}
+        onPress={this.chooseActivity.bind(this, subActivity.get('key'), index)}>
+          <Image
+            source={getImage(subActivity.get('key'))}
+            style={getSizeByHeight(subActivity.get('key'), ratio)}/>
+      </TouchableHighlight>
     ));
 
     return (

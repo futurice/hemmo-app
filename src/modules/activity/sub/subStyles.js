@@ -30,16 +30,19 @@ const styles = StyleSheet.create({
   },
   activityBar: {
     flex: 6,
-    flexDirection: 'row'
-  },
-  activityBlock: {
-    alignItems: 'center',
-    justifyContent: 'center'
+    flexDirection: 'row',
+    alignItems: 'center'
   },
   subActivities: {
     flex: 3,
+    marginLeft: 20,
+    marginBottom: 20,
     flexDirection: 'row',
     flexWrap: 'wrap',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  activityBlock: {
     alignItems: 'center',
     justifyContent: 'center'
   },
@@ -48,17 +51,6 @@ const styles = StyleSheet.create({
     paddingRight: 0,
     alignItems: 'center',
     justifyContent: 'center'
-  },
-  activityCircle: {
-    justifyContent: 'center',
-    backgroundColor: 'white',
-    padding: 10,
-    margin: 5
-  },
-  activityFont: {
-    textAlign: 'center',
-    fontSize: 15,
-    fontFamily: 'Gill Sans'
   },
   closeButton: {
     position: 'absolute',

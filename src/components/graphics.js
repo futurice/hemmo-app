@@ -158,26 +158,122 @@ var graphics = Map({
 
     /* Activities */
   'leikimme': Map({
-    image: require('../../assets/graphics/activities/leikimme.png'),
+    image: require('../../assets/graphics/activities/leikimme/leikimme.png'),
     ratio: 1.2485}),
+  'leikkiminen': Map({
+    image: require('../../assets/graphics/activities/leikimme/leikkiminen.png'),
+    ratio: 1}),
+  'lautapelit': Map({
+    image: require('../../assets/graphics/activities/leikimme/lautapelit.png'),
+    ratio: 1}),
+  'videopelit': Map({
+    image: require('../../assets/graphics/activities/leikimme/videopelit.png'),
+    ratio: 1}),
+  'liikunta': Map({
+    image: require('../../assets/graphics/activities/leikimme/liikunta.png'),
+    ratio: 1}),
+  'uiminen': Map({
+    image: require('../../assets/graphics/activities/leikimme/uiminen.png'),
+    ratio: 1}),
+  'leikimme_muuta': Map({
+    image: require('../../assets/graphics/activities/leikimme/leikimme_muuta.png'),
+    ratio: 1}),
+
   'vietimme': Map({
-    image: require('../../assets/graphics/activities/vietimme.png'),
+    image: require('../../assets/graphics/activities/vietimme/vietimme.png'),
     ratio: 1.2485}),
+  'saunominen': Map({
+    image: require('../../assets/graphics/activities/vietimme/saunominen.png'),
+    ratio: 1}),
+  'juttelu': Map({
+    image: require('../../assets/graphics/activities/vietimme/juttelu.png'),
+    ratio: 1}),
+  'kylaily': Map({
+    image: require('../../assets/graphics/activities/vietimme/kylaily.png'),
+    ratio: 1}),
+  'elokuva': Map({
+    image: require('../../assets/graphics/activities/vietimme/elokuva.png'),
+    ratio: 1}),
+  'kirjat': Map({
+    image: require('../../assets/graphics/activities/vietimme/kirjat.png'),
+    ratio: 1}),
+  'vietimme_muuta': Map({
+    image: require('../../assets/graphics/activities/vietimme/vietimme_muuta.png'),
+    ratio: 1}),
+
   'lemmikit': Map({
-    image: require('../../assets/graphics/activities/lemmikit.png'),
+    image: require('../../assets/graphics/activities/lemmikit/lemmikit.png'),
     ratio: 1.2485}),
+  'kissa': Map({
+    image: require('../../assets/graphics/activities/lemmikit/kissa.png'),
+    ratio: 1}),
+  'koira': Map({
+    image: require('../../assets/graphics/activities/lemmikit/koira.png'),
+    ratio: 1}),
+  'hevonen': Map({
+    image: require('../../assets/graphics/activities/lemmikit/hevonen.png'),
+    ratio: 1}),
+  'elaimet_muuta': Map({
+    image: require('../../assets/graphics/activities/lemmikit/elaimet_muuta.png'),
+    ratio: 1}),
+
   'puuhasimme': Map({
-    image: require('../../assets/graphics/activities/puuhasimme.png'),
+    image: require('../../assets/graphics/activities/puuhasimme/puuhasimme.png'),
     ratio: 1.2485}),
+
+  'leipominen': Map({
+    image: require('../../assets/graphics/activities/puuhasimme/leipominen.png'),
+    ratio: 1}),
+  'piirtaminen': Map({
+    image: require('../../assets/graphics/activities/puuhasimme/piirtaminen.png'),
+    ratio: 1}),
+  'kotihommia': Map({
+    image: require('../../assets/graphics/activities/puuhasimme/kotihommia.png'),
+    ratio: 1}),
+  'lukeminen': Map({
+    image: require('../../assets/graphics/activities/puuhasimme/lukeminen.png'),
+    ratio: 1}),
+  'rakentaminen': Map({
+    image: require('../../assets/graphics/activities/puuhasimme/rakentaminen.png'),
+    ratio: 1}),
+  'puuhasimme_muuta': Map({
+    image: require('../../assets/graphics/activities/puuhasimme/puuhasimme_muuta.png'),
+    ratio: 1}),
+
   'ulkoilimme': Map({
-    image: require('../../assets/graphics/activities/ulkoilimme.png'),
+    image: require('../../assets/graphics/activities/ulkoilimme/ulkoilimme.png'),
     ratio: 1.2485}),
+
+  'ulkoilu': Map({
+    image: require('../../assets/graphics/activities/ulkoilimme/ulkoilu.png'),
+    ratio: 1}),
+  'makkaranpaisto': Map({
+    image: require('../../assets/graphics/activities/ulkoilimme/makkaranpaisto.png'),
+    ratio: 1}),
+  'retkeily': Map({
+    image: require('../../assets/graphics/activities/ulkoilimme/retkeily.png'),
+    ratio: 1}),
+  'pihahommat': Map({
+    image: require('../../assets/graphics/activities/ulkoilimme/pihahommat.png'),
+    ratio: 1}),
+  'leikkipuisto': Map({
+    image: require('../../assets/graphics/activities/ulkoilimme/leikkipuisto.png'),
+    ratio: 1}),
+  'kalastaminen': Map({
+    image: require('../../assets/graphics/activities/ulkoilimme/kalastaminen.png'),
+    ratio: 1}),
+  'mokkeily': Map({
+    image: require('../../assets/graphics/activities/ulkoilimme/mokkeily.png'),
+    ratio: 1}),
+  'ulkoilimme_muuta': Map({
+    image: require('../../assets/graphics/activities/ulkoilimme/ulkoilimme_muuta.png'),
+    ratio: 1}),
+
   'muuta': Map({
     image: require('../../assets/graphics/activities/muuta.png'),
     ratio: 1}),
 
     /* Muuta */
-
   'hemmo_iso': Map({
     image: require('../../assets/graphics/others/hemmo_iso.png'),
     ratio: 0.8878}),

@@ -86,7 +86,7 @@ export function getActivities(activityIndex, answers) {
 
   if (mainIndex !== null) {
     var main = activities[mainIndex].get('key');
-    var sub = activities[mainIndex].get('subActivities').get(subIndex);
+    var sub = activities[mainIndex].getIn(['subActivities', subIndex, 'name']);
     var like = answers.getIn(['activities', curr, 'thumb']);
 
     if (main) {

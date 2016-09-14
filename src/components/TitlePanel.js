@@ -41,7 +41,7 @@ const TitlePanel = React.createClass({
           </TouchableOpacity>
           <View style={styles.titles}>
             <Text style={styles.mainTitle}>{activities[i].get('key')}</Text>
-            <Text style={styles.subtitle}>{activities[i].get('subActivities').get(j)}</Text>
+            <Text style={styles.subtitle}>{activities[i].get('subActivities').get(j).get('name')}</Text>
           </View>
         </View>
       );

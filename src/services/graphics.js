@@ -19,5 +19,6 @@ export function getSizeByWidth(name, size) {
 }
 
 export function getImage(name) {
+  console.log('name ' + name);
   return graphics.get(name).get('image');
 }
