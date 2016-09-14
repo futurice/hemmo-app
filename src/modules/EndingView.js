@@ -25,7 +25,7 @@ const EndingView = React.createClass({
   },
 
   startOver() {
-    this.props.dispatch(NavigationState.resetRoute());
+    // this.props.dispatch(NavigationState.resetRoute());
   },
 
   hideBubble() {
@@ -52,9 +52,7 @@ const EndingView = React.createClass({
         <View style={styles.hemmo}>
           <Hemmo image={'hemmo_keski'} size={0.8} restartAudioAndText={this.restartAudioAndText}/>
         </View>
-          <TouchableOpacity onPress={this.startOver} style={styles.info}>
-            <Image source={getImage('lopetusteksti')} style={getSizeByHeight('lopetusteksti', 0.4)}/>
-          </TouchableOpacity>
+          <Image source={getImage('lopetusteksti')} style={[styles.info, getSizeByHeight('lopetusteksti', 0.4)]}/>
         {speechBubble}
       </Image>
     );
