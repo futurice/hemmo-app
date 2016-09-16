@@ -64,7 +64,7 @@ const SubActivityView = React.createClass({
       <TouchableHighlight
         key={subActivity.get('key')}
         style={[styles.activityBlock, {margin: 5, borderRadius: getSizeByHeight(subActivity.get('key'), ratio).height / 2}]}
-        onPress={this.chooseActivity.bind(this, subActivity.get('key'), index)}>
+        onPress={this.chooseActivity.bind(this, subActivity.get('name'), index)}>
           <Image
             source={getImage(subActivity.get('key'))}
             style={getSizeByHeight(subActivity.get('key'), ratio)}/>
