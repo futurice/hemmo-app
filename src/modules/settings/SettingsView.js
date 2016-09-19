@@ -72,7 +72,7 @@ const SettingsView = React.createClass({
               }))
           .catch((error) => {
             this.setState({loading: false});
-            Alert.alert('Virhe käyttäjän luonnissa!', 'Yritä myöhemmin uudelleen.' + error);
+            Alert.alert('Virhe käyttäjän luonnissa!', 'Yritä myöhemmin uudelleen.');
           });
       }
       else {
