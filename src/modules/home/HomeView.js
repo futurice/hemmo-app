@@ -66,7 +66,7 @@ const HomeView = React.createClass({
       })
       .catch((error) => {
         this.props.dispatch(SessionState.finishPreparing());
-        Alert.alert('Oops! Jokin meni pieleen!', 'Yritä myöhemmin uudelleen! ' + error);
+        Alert.alert('Oops! Jokin meni pieleen!', 'Yritä myöhemmin uudelleen!');
       });
   },
 
