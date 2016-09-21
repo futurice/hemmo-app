@@ -6,7 +6,7 @@ import Hemmo from '../../../components/Hemmo';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 import SpeechBubble from '../../../components/SpeechBubble';
 import SaveConfirmationWindow from '../../../components/SaveConfirmationWindow';
-import WritingPanel from '../../../components/WritingPanel';
+import TextForm from '../../../components/TextForm';
 import * as NavigationState from '../../../modules/navigation/NavigationState';
 import {getSizeByHeight, getSizeByWidth, getImage} from '../../../services/graphics';
 import {save, formRequestBody} from '../../../services/save';
@@ -32,7 +32,7 @@ const Record = React.createClass({
   getInitialState() {
     return {
       text: '',
-      showWritingPanel: false,
+      showTextForm: false,
       showBubble: true,
       progress: 0,
       generalFeedbackView: false,
@@ -43,7 +43,7 @@ const Record = React.createClass({
   },
 
   toggleWriting() {
-    this.setState({text: '', showWritingPanel: !this.state.showWritingPanel});
+    this.setState({text: '', showTextForm: !this.state.showTextForm});
   },
 
   toggleWritingButton(value) {
@@ -128,7 +128,7 @@ const Record = React.createClass({
       this.props.dispatch(NavigationState.pushRoute({key: 'NewRound', allowReturn: false}));
     }
     else if (phase === 'moods') {
-      this.setState({showWritingPanel: false, showSpinner: false, showBubble: true, progress: 0, generalFeedbackView: true});
+      this.setState({showTextForm: false, showSpinner: false, showBubble: true, progress: 0, generalFeedbackView: true});
       this.props.dispatch(NavigationState.pushRoute({key: 'Record', allowReturn: false}));
     }
     else if (phase === 'general') {
@@ -151,9 +151,9 @@ const Record = React.createClass({
     }
   },
 
-  renderWritingPanel(phase) {
+  renderTextForm(phase) {
     return (
-      <WritingPanel toggleWriting={this.toggleWriting} phase={phase} save={this.save} setText={this.setText}/>
+      <TextForm toggleWriting={this.toggleWriting} phase={phase} save={this.save} setText={this.setText}/>
     );
   },
 
@@ -165,7 +165,7 @@ const Record = React.createClass({
     if (this.props.activityIndex === -1) {
       if (this.state.generalFeedbackView === false) {
         phase = 'moods';
-        speechBubble = this.renderBubble('emotionFeedback');
+        speechBubble = this.renderBubble('moodFeedback');
         var titlePanel = (
           <TouchableOpacity onPress={this.cancel}>
             <Image
@@ -190,8 +190,8 @@ const Record = React.createClass({
       speechBubble = this.renderBubble('record');
     }
 
-    if (this.state.showWritingPanel === true) {
-      var writingView = this.renderWritingPanel(phase);
+    if (this.state.showTextForm === true) {
+      var textForm = this.renderTextForm(phase);
     }
 
     if (this.state.showMessage === true) {
@@ -235,7 +235,7 @@ const Record = React.createClass({
                 style={[styles.skipButton, getSizeByHeight('nappula_ohita', 0.1)]}/>
             </TouchableOpacity>
         </View>
-        {writingView}
+        {textForm}
         {speechBubble}
         {saveWasSuccesful}
       </Image>

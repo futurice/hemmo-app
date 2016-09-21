@@ -1,8 +1,8 @@
 import {connect} from 'react-redux';
-import EmotionView from './EmotionView';
+import MoodView from './MoodView';
 
 export default connect(
   state => ({
     activityIndex: state.getIn(['user', 'currentUser', 'activityIndex'])
   })
-)(EmotionView);
+)(MoodView);

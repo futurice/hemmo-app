@@ -1,3 +1,7 @@
+/*
+Text panel that shows the selected main and sub activity on top of the recording panel
+*/
+
 import React, {PropTypes} from 'react';
 import {List} from 'immutable';
 import * as NavigationState from '../modules/navigation/NavigationState';
@@ -10,7 +14,7 @@ import {
   StyleSheet
 } from 'react-native';
 
-var activities = require('../modules/activity/activities.js');
+var activities = require('../data/activities.js');
 
 const TitlePanel = React.createClass({
 

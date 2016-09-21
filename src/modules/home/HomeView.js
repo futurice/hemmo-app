@@ -6,7 +6,7 @@ import {List, Map} from 'immutable';
 import SpeechBubble from '../../components/SpeechBubble';
 import Hemmo from '../../components/Hemmo';
 import UserItem from '../../components/UserItem';
-import PasswordModal from '../../components/PasswordModal';
+import LoginModal from '../../components/LoginModal';
 import {setAuthenticationToken} from '../../utils/authentication';
 import {setSessionId} from '../../utils/session';
 import {post} from '../../utils/api';
@@ -33,7 +33,7 @@ const HomeView = React.createClass({
 
   getInitialState() {
     return {
-      isPasswordModalOpen: false,
+      isLoginModalOpen: false,
       showBubble: true
     };
   },
@@ -70,8 +70,8 @@ const HomeView = React.createClass({
       });
   },
 
-  togglePasswordModal() {
-    this.setState({isPasswordModalOpen: !this.state.isPasswordModalOpen});
+  toggleLoginModal() {
+    this.setState({isLoginModalOpen: !this.state.isLoginModalOpen});
   },
 
   hideBubble() {
@@ -84,7 +84,7 @@ const HomeView = React.createClass({
 
   render() {
     var userIcons = [];
-    var passwordModal = null;
+    var loginModal = null;
     var speechBubble = null;
 
     if (this.props.users.size > 0) {
@@ -168,8 +168,8 @@ const HomeView = React.createClass({
       }
     }
 
-    if (this.state.isPasswordModalOpen === true) {
-      passwordModal = <PasswordModal onClose={this.togglePasswordModal} onSuccess={this.openSettings}/>;
+    if (this.state.isLoginModalOpen === true) {
+      loginModal = <LoginModal onClose={this.toggleLoginModal} onSuccess={this.openSettings}/>;
     }
 
     return (
@@ -177,7 +177,7 @@ const HomeView = React.createClass({
         <View style={styles.leftcolumn}>
           <Hemmo image={'hemmo_keski'} size={0.8} restartAudioAndText={this.restartAudioAndText}/>
           <View style={styles.settingsButton}>
-            <TouchableHighlight onPress={this.togglePasswordModal}>
+            <TouchableHighlight onPress={this.toggleLoginModal}>
               <Image
                 source={getImage('nappula_aset')}
                 style={getSizeByHeight('nappula_aset', 0.15)}/>
@@ -187,7 +187,7 @@ const HomeView = React.createClass({
 
         {rightcolumn}
         {speechBubble}
-        {passwordModal}
+        {loginModal}
       </Image>
     );
   }

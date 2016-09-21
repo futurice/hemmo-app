@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 10,
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: "center",
     justifyContent: 'center'
   },
   tabBar: {
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         borderWidth: 1,
         borderRadius: 10,
-        borderColor: 'gray',
+        borderColor: "rgba(65,65,65,1)",
         backgroundColor: 'rgba(209, 209, 209, 0.29)'
       },
       android: {

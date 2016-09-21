@@ -11,7 +11,8 @@ const Hemmo = React.createClass({
 
   componentWillMount() {
     BackAndroid.addEventListener('hardwareBackPress', this.navigateBack);
-    setConfiguration('API_ROOT', 'https://hemmo.pelastakaalapset.fi:3888');
+    // setConfiguration('API_ROOT', 'https://hemmo.pelastakaalapset.fi:3888');
+    setConfiguration('API_ROOT', 'http://hemmo-backend.herokuapp.com');
     // setConfiguration('API_ROOT', 'http://localhost:3001');
   },
 

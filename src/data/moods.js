@@ -1,4 +1,4 @@
-var emotions = [
+var moods = [
   'iloinen',
   'surullinen',
   'jannittynyt',
@@ -10,4 +10,4 @@ var emotions = [
   'muu tunne'
 ];
 
-module.exports = emotions;
+module.exports = moods;

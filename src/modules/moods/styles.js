@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
     height: null,
     width: null
   },
-  emotionContainer: {
+  moodContainer: {
     flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: 'Gill Sans'
   },
-  emotionColumn: {
+  moodColumn: {
     flex: 1,
     flexDirection: 'column',
     flexWrap: 'wrap',
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
-  emotion: {
+  mood: {
     margin: 5
   },
   hemmo: {

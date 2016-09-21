@@ -1,5 +1,5 @@
 import {getScreenHeight, getScreenWidth} from './screenSize';
-var graphics = require('../components/graphics.js');
+var graphics = require('../data/graphics.js');
 
 export function getSizeByHeight(name, size) {
 

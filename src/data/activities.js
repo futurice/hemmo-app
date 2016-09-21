@@ -1,5 +1,5 @@
 import {List, Map} from 'immutable';
-import {getImage} from '../../services/graphics';
+import {getImage} from '../services/graphics';
 
 var activities = [
   Map({

@@ -1,3 +1,7 @@
+/*
+Includes all the needed graphics together with their width-height ratio.
+*/
+
 import {Map} from 'immutable';
 
 var graphics = Map({
@@ -130,33 +134,33 @@ var graphics = Map({
     image: require('../../assets/graphics/buttons/peukku_ylos_1.png'),
     ratio: 1}),
 
-    /* emotions */
+    /* moods */
   'iloinen': Map({
-    image: require('../../assets/graphics/emotions/iloinen.png'),
+    image: require('../../assets/graphics/moods/iloinen.png'),
     ratio: 1}),
   'innostunut': Map({
-    image: require('../../assets/graphics/emotions/innostunut.png'),
+    image: require('../../assets/graphics/moods/innostunut.png'),
     ratio: 1}),
   'jannittynyt': Map({
-    image: require('../../assets/graphics/emotions/jannittynyt.png'),
+    image: require('../../assets/graphics/moods/jannittynyt.png'),
     ratio: 1}),
   'pelokas': Map({
-    image: require('../../assets/graphics/emotions/pelokas.png'),
+    image: require('../../assets/graphics/moods/pelokas.png'),
     ratio: 1}),
   'rauhallinen': Map({
-    image: require('../../assets/graphics/emotions/rauhallinen.png'),
+    image: require('../../assets/graphics/moods/rauhallinen.png'),
     ratio: 1}),
   'surullinen': Map({
-    image: require('../../assets/graphics/emotions/surullinen.png'),
+    image: require('../../assets/graphics/moods/surullinen.png'),
     ratio: 1}),
   'vihainen': Map({
-    image: require('../../assets/graphics/emotions/vihainen.png'),
+    image: require('../../assets/graphics/moods/vihainen.png'),
     ratio: 1}),
   'yksinainen': Map({
-    image: require('../../assets/graphics/emotions/yksinainen.png'),
+    image: require('../../assets/graphics/moods/yksinainen.png'),
     ratio: 1}),
   'muu tunne': Map({
-    image: require('../../assets/graphics/emotions/muuta.png'),
+    image: require('../../assets/graphics/moods/muuta.png'),
     ratio: 1}),
 
     /* Activities */

@@ -1,3 +1,7 @@
+/*
+Spinner that appears when page is still loading.
+*/
+
 import React from 'react';
 import Spinner from 'react-native-gifted-spinner';
 import {

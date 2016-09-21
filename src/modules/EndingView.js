@@ -1,6 +1,5 @@
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
-import * as NavigationState from '../modules/navigation/NavigationState';
 import SpeechBubble from '../components/SpeechBubble';
 import Hemmo from '../components/Hemmo';
 import {getSizeByHeight, getImage} from '../services/graphics';
@@ -8,8 +7,7 @@ import {getSizeByHeight, getImage} from '../services/graphics';
 import {
   StyleSheet,
   View,
-  Image,
-  TouchableOpacity
+  Image
 } from 'react-native';
 
 const EndingView = React.createClass({
@@ -22,10 +20,6 @@ const EndingView = React.createClass({
     return {
       showBubble: true
     };
-  },
-
-  startOver() {
-    // this.props.dispatch(NavigationState.resetRoute());
   },
 
   hideBubble() {
@@ -52,7 +46,9 @@ const EndingView = React.createClass({
         <View style={styles.hemmo}>
           <Hemmo image={'hemmo_keski'} size={0.8} restartAudioAndText={this.restartAudioAndText}/>
         </View>
-          <Image source={getImage('lopetusteksti')} style={[styles.info, getSizeByHeight('lopetusteksti', 0.4)]}/>
+        <Image
+          source={getImage('lopetusteksti')}
+          style={[styles.info, getSizeByHeight('lopetusteksti', 0.4)]}/>
         {speechBubble}
       </Image>
     );

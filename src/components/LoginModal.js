@@ -1,3 +1,7 @@
+/*
+Login modal for settings
+*/
+
 import React, {PropTypes} from 'react';
 import Button from './Button';
 import {
@@ -10,7 +14,7 @@ import {
 import {post} from '../utils/api';
 import {setAuthenticationToken} from '../utils/authentication';
 
-const PasswordModal = React.createClass({
+const LoginModal = React.createClass({
 
   propTypes: {
     onClose: PropTypes.func.isRequired,
@@ -151,4 +155,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default PasswordModal;
+export default LoginModal;

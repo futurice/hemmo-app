@@ -1,3 +1,7 @@
+/*
+Navigation modal on the upper left corner that allows user to return to home page or quit giving feedback
+*/
+
 import React, {PropTypes} from 'react';
 import {Map} from 'immutable';
 import {getSizeByHeight, getSizeByWidth, getImage} from '../services/graphics';

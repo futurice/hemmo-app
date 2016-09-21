@@ -1,7 +1,7 @@
 
 import {put, post, xhr} from '../utils/api';
 
-var activities = require('../modules/activity/activities.js');
+var activities = require('../data/activities.js');
 
 export async function save(attachmentPath, attachmentType, body) {
   var attachmentQuestion;
@@ -107,6 +107,6 @@ export function getActivities(activityIndex, answers) {
 }
 
 export function getMoods(answers) {
-  var moods = answers.get('emotions');
+  var moods = answers.get('moods');
   return moods;
 }

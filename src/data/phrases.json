@@ -67,11 +67,11 @@
     "text": "Tahdotko kertoa vielä jostain muustakin, mitä teitte? Vai siirtyä eteenpäin?",
     "audio": "hemmo_37"
   },
-  "emotions": {
+  "moods": {
     "text": "Millainen olo sinulle jäi koko viime kerrastasi tukiperheessä? Valitse näistä omaa oloasi vastaavia kuvia, tai kerro minulle puhumalla tai kirjoittamalla.",
     "audio": "hemmo_38"
   },
-  "emotionFeedback": {
+  "moodFeedback": {
     "text": "Kerro tarkemmin miksi sinusta tuntui siltä?",
     "audio": "hemmo_39"
   },

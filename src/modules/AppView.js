@@ -102,7 +102,7 @@ const AppView = React.createClass({
         shouldSave = false;
       }
 
-      if (this.props.pages.get(this.props.currentPage - 1).get('key') === 'Emotions') {
+      if (this.props.pages.get(this.props.currentPage - 1).get('key') === 'Moods') {
         phase = 'moods';
       }
 

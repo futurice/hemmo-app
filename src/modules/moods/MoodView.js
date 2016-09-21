@@ -9,14 +9,13 @@ import {getSizeByHeight, getSizeByWidth, getImage} from '../../services/graphics
 import {
   TouchableOpacity,
   Image,
-  Text,
   View
 } from 'react-native';
 
-var emotions = require('./emotions.js');
+var moods = require('../../data/moods.js');
 var styles = require('./styles.js');
 
-const EmotionView = React.createClass({
+const MoodView = React.createClass({
 
   propTypes: {
     activityIndex: PropTypes.number.isRequired,
@@ -25,7 +24,7 @@ const EmotionView = React.createClass({
 
   getInitialState() {
     return {
-      selectedEmotions: List(),
+      selectedMoods: List(),
       showBubble: true
     };
   },
@@ -52,38 +51,38 @@ const EmotionView = React.createClass({
   },
 
   save() {
-    this.props.dispatch(UserState.saveAnswer(null, 'emotions', this.state.selectedEmotions));
+    this.props.dispatch(UserState.saveAnswer(null, 'moods', this.state.selectedMoods));
     this.props.dispatch(NavigationState.pushRoute({key: 'Record', allowReturn: true}));
   },
 
-  /* If the emotion hasn't been checked yet, it is added to an array what holds the information
-  about the selected emotions. If a checked emotion is clicked again,
+  /* If the mood hasn't been checked yet, it is added to an array what holds the information
+  about the selected moods. If a checked mood is clicked again,
   it is unchecked and removed from the array*/
-  selectEmotion(emotion) {
+  selectMood(mood) {
     var notSelected = false;
 
-    for (var j = 0; j < this.state.selectedEmotions.size; j++) {
-      if (emotion === this.state.selectedEmotions.get(j)) {
-        var tmp = this.state.selectedEmotions.slice();
-        tmp = tmp.filter(function deleteRoute(item) { return item !== emotion; });
-        this.setState({selectedEmotions: tmp});
+    for (var j = 0; j < this.state.selectedMoods.size; j++) {
+      if (mood === this.state.selectedMoods.get(j)) {
+        var tmp = this.state.selectedMoods.slice();
+        tmp = tmp.filter(function deleteRoute(item) { return item !== mood; });
+        this.setState({selectedMoods: tmp});
         notSelected = true;
       }
     }
-    /* Emotion was not selected, so it is not added to the array */
+    /* Mood was not selected, so it is not added to the array */
     if (notSelected === false) {
-      this.setState({selectedEmotions: this.state.selectedEmotions.concat(emotion)});
+      this.setState({selectedMoods: this.state.selectedMoods.concat(mood)});
     }
   },
 
   render() {
 
-    var emotionViews = [];
+    var moodViews = [];
 
-    for (var i = 0; i < emotions.length; i++) {
+    for (var i = 0; i < moods.length; i++) {
       var checked = null;
-      for (var j = 0; j < this.state.selectedEmotions.size; j++) {
-        if (emotions[i] === this.state.selectedEmotions.get(j)) {
+      for (var j = 0; j < this.state.selectedMoods.size; j++) {
+        if (moods[i] === this.state.selectedMoods.get(j)) {
           checked = (<Image
                       source={getImage('valittu')}
                       style={[styles.check, getSizeByHeight('valittu', 0.1)]}/>);
@@ -91,37 +90,37 @@ const EmotionView = React.createClass({
       }
       var photo;
 
-      if (i === emotions.length - 1) {
+      if (i === moods.length - 1) {
         photo = (<Image
-          source={getImage(emotions[i])}
-          style={[getSizeByWidth(emotions[i], 0.17),
+          source={getImage(moods[i])}
+          style={[getSizeByWidth(moods[i], 0.17),
             {marginBottom: getSizeByWidth('ympyra_keski', 0.17).height + 5}]}/>
         );
       }
       else {
         photo = (<Image
-          source={getImage(emotions[i])}
-          style={[getSizeByWidth(emotions[i], 0.17)]}/>);
+          source={getImage(moods[i])}
+          style={[getSizeByWidth(moods[i], 0.17)]}/>);
       }
 
-      emotionViews.push(
+      moodViews.push(
         <TouchableOpacity
-          key={emotions[i]}
-          style={[styles.emotion]}
-          onPress={this.selectEmotion.bind(this, emotions[i])}>
+          key={moods[i]}
+          style={[styles.mood]}
+          onPress={this.selectMood.bind(this, moods[i])}>
             {photo}
           {checked}
         </TouchableOpacity>
       );
     }
 
-    var speechBubble = this.renderBubble('emotions');
+    var speechBubble = this.renderBubble('moods');
 
     return (
       <Image source={getImage('tausta_perus2')} style={styles.container}>
-        <Image source={getImage('tausta_levea')} style={styles.emotionContainer}>
-          <View style={styles.emotionColumn}>
-            {emotionViews}
+        <Image source={getImage('tausta_levea')} style={styles.moodContainer}>
+          <View style={styles.moodColumn}>
+            {moodViews}
           </View>
           <View style={styles.hemmo}>
             <Hemmo
@@ -140,4 +139,4 @@ const EmotionView = React.createClass({
   }
 });
 
-export default EmotionView;
+export default MoodView;

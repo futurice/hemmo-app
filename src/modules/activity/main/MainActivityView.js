@@ -16,7 +16,7 @@ import {
 } from 'react-native';
 
 var styles = require('./mainStyles.js');
-var activities = require('../activities.js');
+var activities = require('../../../data/activities.js');
 var speechBubble;
 
 const MainActivityView = React.createClass({

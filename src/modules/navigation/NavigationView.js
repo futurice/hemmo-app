@@ -7,9 +7,20 @@ import HomeViewContainer from '../home/HomeViewContainer';
 import ActivityViewContainer from '../activity/main/ActivityViewContainer';
 import ThumbVoteViewContainer from '../activity/thumbs/ThumbVoteViewContainer';
 import RecordViewContainer from '../activity/record/RecordViewContainer';
-import EmotionViewContainer from '../emotions/EmotionViewContainer';
+import MoodViewContainer from '../moods/MoodViewContainer';
 import NewRound from '../NewRound';
 import EndingView from '../EndingView';
+
+var routesWithKeys = [
+  {'key': 'Home', 'route': <HomeViewContainer/>},
+  {'key': 'Settings', 'route': <SettingsViewContainer/>},
+  {'key': 'Activity', 'route': <ActivityViewContainer/>},
+  {'key': 'Record', 'route': <RecordViewContainer/>},
+  {'key': 'Thumbs', 'route': <ThumbVoteViewContainer/>},
+  {'key': 'NewRound', 'route': <NewRound/>},
+  {'key': 'Moods', 'route': <MoodViewContainer/>},
+  {'key': 'End', 'route': <EndingView/>}
+];
 
 const NavigationView = React.createClass({
   propTypes: {
@@ -22,30 +33,12 @@ const NavigationView = React.createClass({
   renderScene(route, navigator) {
     this.navigator = navigator;
 
-    if (route.key === 'Home') {
-      return <HomeViewContainer/>;
+    for (var i = 0; i < routesWithKeys.length; i++) {
+      if (routesWithKeys[i].key === route.key) {
+        return routesWithKeys[i].route;
+      }
     }
-    else if (route.key === 'Settings') {
-      return <SettingsViewContainer/>;
-    }
-    else if (route.key === 'Activity') {
-      return <ActivityViewContainer/>;
-    }
-    else if (route.key === 'Record') {
-      return <RecordViewContainer/>;
-    }
-    else if (route.key === 'Thumbs') {
-      return <ThumbVoteViewContainer/>;
-    }
-    else if (route.key === 'NewRound') {
-      return <NewRound/>;
-    }
-    else if (route.key === 'Emotions') {
-      return <EmotionViewContainer/>;
-    }
-    else if (route.key === 'End') {
-      return <EndingView/>;
-    }
+
     return null;
   },
 

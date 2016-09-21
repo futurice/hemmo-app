@@ -32,7 +32,7 @@ const NewRound = React.createClass({
 
   continue() {
     this.props.dispatch(UserState.resetActivity());
-    this.props.dispatch(NavigationState.pushRoute({key: 'Emotions', allowReturn: false}));
+    this.props.dispatch(NavigationState.pushRoute({key: 'Moods', allowReturn: false}));
   },
 
   hideBubble() {

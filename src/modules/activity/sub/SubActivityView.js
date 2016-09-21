@@ -34,8 +34,6 @@ const SubActivityView = React.createClass({
   },
 
   chooseActivity(subActivity, subIndex) {
-    console.log('subactivity was ' + subActivity);
-
     this.props.dispatch(
       UserState.saveAnswer(this.props.activityIndex, 'sub', subIndex)
     );
@@ -57,8 +55,6 @@ const SubActivityView = React.createClass({
       ratio = 0.35; margin = 10;
     }
     else {ratio = 0.25;}
-
-    console.log('test1 ' + JSON.stringify(this.props.chosenMainActivity.get('subActivities')));
 
     const subActivityViews = this.props.chosenMainActivity.get('subActivities').map((subActivity, index) => (
       <TouchableHighlight

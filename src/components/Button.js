@@ -1,3 +1,7 @@
+/*
+Customized button class
+*/
+
 import React, {PropTypes} from 'react';
 import {
   View,

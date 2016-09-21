@@ -1,3 +1,7 @@
+/*
+View block that includes audio recording button and progression bar.
+*/
+
 import React, {PropTypes} from 'react';
 import {getSizeByHeight, getImage} from '../services/graphics';
 import {

@@ -8,7 +8,7 @@ import {
   StyleSheet
 } from 'react-native';
 
-const WritingPanel = React.createClass({
+const TextForm = React.createClass({
 
   propTypes: {
     toggleWriting: PropTypes.func.isRequired,
@@ -104,9 +104,6 @@ const styles = StyleSheet.create({
     textAlignVertical: 'top'
   },
   saveButton: {
-    // position: 'absolute',
-    // bottom: 10,
-    // left: 350,
     marginTop: 5,
     opacity: 1,
     backgroundColor: 'white'
@@ -119,4 +116,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default WritingPanel;
+export default TextForm;
