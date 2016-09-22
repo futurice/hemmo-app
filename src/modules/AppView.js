@@ -40,19 +40,22 @@ const AppView = React.createClass({
 
         /* Jos viimeisin tila löytyi */
         if (snapshot) {
+          console.log('restoring state from snapshot');
           dispatch(SessionState.resetSessionStateFromSnapshot(snapshot))
             .then(() => {
               this.props.dispatch(SessionState.activate());
-              this.resetRoute();
+              //this.resetRoute();
             });
         }
         /* Ei löytynyt. Aloitetaan alusta */
         else {
+          console.log('initializing new session');
           dispatch(SessionState.initializeSessionState());
         }
 
         /* Tallennetaan uusin tila aina kun statea päivitetään */
         store.subscribe(() => {
+          console.log('saving snapshot');
           snapshotUtil.saveSnapshot(store.getState());
         });
       });

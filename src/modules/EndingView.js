@@ -24,15 +24,11 @@ const EndingView = React.createClass({
   },
 
   hideBubble() {
-    this.setState({showBubble: false});
+    this.props.dispatch(NavigationState.resetRoute());
   },
 
   restartAudioAndText() {
     this.setState({showBubble: true});
-  },
-
-  componentDidMount() {
-    this.props.dispatch(NavigationState.resetRoute());
   },
 
   render() {
