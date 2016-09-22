@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import SpeechBubble from '../components/SpeechBubble';
 import Hemmo from '../components/Hemmo';
 import {getSizeByHeight, getImage} from '../services/graphics';
+import * as NavigationState from './navigation/NavigationState';
 
 import {
   StyleSheet,
@@ -28,6 +29,10 @@ const EndingView = React.createClass({
 
   restartAudioAndText() {
     this.setState({showBubble: true});
+  },
+
+  componentDidMount() {
+    this.props.dispatch(NavigationState.resetRoute());
   },
 
   render() {

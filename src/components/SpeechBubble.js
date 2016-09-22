@@ -8,7 +8,8 @@ import {
   TouchableOpacity,
   View,
   Text,
-  Image
+  Image,
+  AppState
 } from 'react-native';
 
 var phrases = require('../data/phrases.json');
@@ -28,6 +29,24 @@ const SpeechBubble = React.createClass({
   },
 
   mixins: [TimerMixin],
+
+  getInitialState() {
+    return {
+      currentAppState: AppState.currentState
+    }
+  },
+
+  _handleAppStateChange(currentAppState) {
+    this.setState({ currentAppState, });
+  },
+
+  componentDidMount() {
+    AppState.addEventListener('change', this._handleAppStateChange);
+  },
+
+  componentWillUnmount() {
+    AppState.removeEventListener('change', this._handleAppStateChange);
+  },
 
   hideBubble() {
     this.props.hideBubble();
@@ -62,8 +81,12 @@ const SpeechBubble = React.createClass({
   },
 
   render() {
-
     bubbleText = this.renderBubbleText();
+
+    if (this.state.currentAppState !== 'active') {
+      console.log('skipping speech bubble in state: ', this.state.currentAppState);
+      return null;
+    }
 
     return (
       <TouchableOpacity style={styles.touchable} onPress={this.hideBubble}>
