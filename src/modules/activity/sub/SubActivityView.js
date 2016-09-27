@@ -52,18 +52,18 @@ const SubActivityView = React.createClass({
     var margin;
 
     if (n < 8) {
-      ratio = 0.35; margin = 10;
+      ratio = 0.20; margin = 10;
     }
-    else {ratio = 0.25;}
+    else {ratio = 0.15;}
 
     const subActivityViews = this.props.chosenMainActivity.get('subActivities').map((subActivity, index) => (
       <TouchableHighlight
         key={subActivity.get('key')}
-        style={[styles.activityBlock, {margin: 5, borderRadius: getSizeByHeight(subActivity.get('key'), ratio).height / 2}]}
+        style={[styles.activityBlock, {margin: 5, borderRadius: getSizeByWidth(subActivity.get('key'), ratio).height / 2}]}
         onPress={this.chooseActivity.bind(this, subActivity.get('name'), index)}>
           <Image
             source={getImage(subActivity.get('key'))}
-            style={getSizeByHeight(subActivity.get('key'), ratio)}/>
+            style={getSizeByWidth(subActivity.get('key'), ratio)}/>
       </TouchableHighlight>
     ));
 

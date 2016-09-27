@@ -39,12 +39,14 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     flexDirection: 'row',
     flexWrap: 'wrap',
-    alignItems: 'center',
-    justifyContent: 'center'
+    // alignItems: 'center',
+    justifyContent: 'space-around'
   },
   activityBlock: {
-    alignItems: 'center',
-    justifyContent: 'center'
+    // flex: 1,
+    // justifyContent: 'space-between',
+    // alignItems: 'center',
+    // justifyContent: 'center'
   },
   hemmo: {
     flex: 1,
