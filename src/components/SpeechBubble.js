@@ -1,3 +1,8 @@
+/*
+ Speech bubble that shows what Hemmo is saying even if the app is muted.
+ By clicking the bubble audio can be played again.
+*/
+
 import React, {PropTypes} from 'react';
 import AudioPlayerViewContainer from '../modules/audioplayer/AudioPlayerViewContainer';
 import {getSizeByHeight, getImage} from '../services/graphics';

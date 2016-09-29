@@ -1,3 +1,7 @@
+/*
+  All the needed information (key, name) about the activities shown in feedback section
+*/
+
 import {List, Map} from 'immutable';
 import {getImage} from '../services/graphics';
 

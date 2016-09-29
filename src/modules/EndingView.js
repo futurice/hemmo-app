@@ -1,3 +1,8 @@
+/*
+View that is shown at the end of application.
+When speech ends or the speech bubble is closed, user is moved to home page
+*/
+
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
 import SpeechBubble from '../components/SpeechBubble';

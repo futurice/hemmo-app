@@ -1,3 +1,8 @@
+/*
+View that is shown when ever a round of feedback has been given.
+ User can either move forward or give another round of feedback
+ */
+
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
 import * as NavigationState from '../modules/navigation/NavigationState';

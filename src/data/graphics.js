@@ -1,5 +1,6 @@
 /*
-Includes all the needed graphics together with their width-height ratio.
+  Includes all the needed graphics together with their width-height ratio.
+  Backgrounds, speech bubbles, buttons, moods, activities and others.
 */
 
 import {Map} from 'immutable';
