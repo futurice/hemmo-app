@@ -3,9 +3,15 @@ import {
 } from 'react-native';
 
 export function getScreenHeight() {
-  return Dimensions.get('window').height;
+
+  var height = Dimensions.get('window').height;
+  var width = Dimensions.get('window').width;
+
+  return height < width ? height : width;
 }
 
 export function getScreenWidth() {
-  return Dimensions.get('window').width;
-}
+  var height = Dimensions.get('window').height;
+  var width = Dimensions.get('window').width;
+
+  return width > height ? width : height;}
