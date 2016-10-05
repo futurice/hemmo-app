@@ -55,7 +55,7 @@ const NewRound = React.createClass({
           text={'newRound'}
           hideBubble={this.hideBubble}
           bubbleType={'puhekupla_vasen'}
-          style={{top: 70, left: 330, margin: 40, fontSize: 16, size: 0.4}}/>
+          style={{top: 100, right: 0, margin: 40, fontSize: 16, size: 0.4}}/>
       );
     }
     else {

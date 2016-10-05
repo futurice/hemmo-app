@@ -60,7 +60,7 @@ const ThumbVote = React.createClass({
           text={text}
           hideBubble={this.hideBubble}
           bubbleType={'puhekupla_oikea'}
-          style={{top: 80, left: 100, margin: 15, fontSize: 15, size: 0.5}}
+          style={{top: 100, right: 250, margin: 15, fontSize: 17, size: 0.4}}
           maIndex={i}
           saIndex={j}/>
       );

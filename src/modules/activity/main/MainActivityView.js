@@ -75,7 +75,7 @@ const MainActivityView = React.createClass({
           text={textKey}
           bubbleType={'puhekupla_oikea'}
           hideBubble={this.hideBubble}
-          style={{top: screenHeight * 0.25, left: screenWidth * 0.25, margin: 60, fontSize: 12, size: 0.5}}
+          style={{top: screenHeight * 0.25, left: screenWidth * 0.25, margin: 40, fontSize: 14, size: 0.5}}
           maIndex={selected_ma}/>);
       }
       else if (textKey === 'mainActivity') {
@@ -102,7 +102,7 @@ const MainActivityView = React.createClass({
 
     const mainActivities = activities.map((activity) => (
       <TouchableHighlight
-        style={styles.highlight}
+        style={[styles.highlight, getSizeByWidth('nelio', 0.3)]}
         onPress={this.openSubActivities.bind(this, activity)}>
         <Image
           style={[styles.activityImage, getSizeByWidth('nelio', 0.3)]}
@@ -143,10 +143,11 @@ const MainActivityView = React.createClass({
           {mainActivities[3]}
           <View style={styles.hemmo}>
             <Hemmo image={'hemmo_pieni'} size={0.4} restartAudioAndText={this.restartAudioAndText}/>
+          </View>
+          <View style={styles.other}>
             <TouchableHighlight
               onPress={this.other}
-              style={[styles.other,
-                getSizeByWidth('muuta', 0.1),
+              style={[getSizeByWidth('muuta', 0.1),
                 {borderRadius: getSizeByWidth('muuta', 0.1).width / 2}]}>
               <Image source={getImage('muuta')} style={[getSizeByWidth('muuta', 0.1)]}/>
             </TouchableHighlight>

@@ -1,5 +1,5 @@
 /*
-  Image representing an user on the home page. 
+  Image representing an user on the home page.
 */
 
 import React, {PropTypes} from 'react';

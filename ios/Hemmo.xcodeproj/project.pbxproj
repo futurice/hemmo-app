@@ -995,8 +995,8 @@
 			baseConfigurationReference = D50692D4E0DD0735E687BCD2 /* Pods-Hemmo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Emmi Siitonen (WL2TBFY8BS)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Emmi Siitonen (WL2TBFY8BS)";
 				DEAD_CODE_STRIPPING = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1027,8 +1027,8 @@
 			baseConfigurationReference = 938FD9977D1735DEB15300EE /* Pods-Hemmo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Futurice Oy (WM3L2RVJ7C)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Futurice Oy (WM3L2RVJ7C)";
 				"DEAD_CODE_STRIPPING[arch=*]" = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",

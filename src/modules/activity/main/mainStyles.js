@@ -13,11 +13,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   highlight: {
-    flex: 1,
     margin: 10
-  },
-  activityImage: {
-    flex: 1
   },
   hemmo: {
     flex: 1,
@@ -25,7 +21,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   other: {
-    marginTop: 50
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    marginBottom: 20
   }
 });
 

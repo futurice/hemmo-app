@@ -39,18 +39,11 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     flexDirection: 'row',
     flexWrap: 'wrap',
-    // alignItems: 'center',
     justifyContent: 'space-around'
-  },
-  activityBlock: {
-    // flex: 1,
-    // justifyContent: 'space-between',
-    // alignItems: 'center',
-    // justifyContent: 'center'
   },
   hemmo: {
     flex: 1,
-    paddingRight: 0,
+    paddingRight: 5,
     alignItems: 'center',
     justifyContent: 'center'
   },

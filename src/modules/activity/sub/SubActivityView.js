@@ -80,7 +80,7 @@ const SubActivityView = React.createClass({
               {subActivityViews}
             </View>
             <View style={styles.hemmo}>
-              <Hemmo image={'hemmo_keski'} size={0.5} restartAudioAndText={this.restartAudioAndText}/>
+              <Hemmo image={'hemmo_keski'} size={0.45} restartAudioAndText={this.restartAudioAndText}/>
             </View>
           </View>
           <TouchableOpacity

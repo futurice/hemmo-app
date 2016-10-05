@@ -38,11 +38,7 @@ const SpeechBubble = React.createClass({
   getInitialState() {
     return {
       currentAppState: AppState.currentState
-    }
-  },
-
-  _handleAppStateChange(currentAppState) {
-    this.setState({ currentAppState, });
+    };
   },
 
   componentDidMount() {
@@ -51,6 +47,10 @@ const SpeechBubble = React.createClass({
 
   componentWillUnmount() {
     AppState.removeEventListener('change', this._handleAppStateChange);
+  },
+
+  _handleAppStateChange(currentAppState) {
+    this.setState({currentAppState});
   },
 
   hideBubble() {

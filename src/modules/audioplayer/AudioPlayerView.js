@@ -11,7 +11,6 @@ const AudioPlayerView = React.createClass({
   },
 
   componentWillMount() {
-    // AppState.addEventListener('change', this._handleAppStateChange);
     var audioTrack;
 
     if (Platform.OS === 'ios') {

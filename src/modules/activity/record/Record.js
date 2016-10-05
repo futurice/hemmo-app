@@ -138,12 +138,22 @@ const Record = React.createClass({
 
   renderBubble(text) {
     if (this.state.showBubble === true) {
+      var style;
+
+      if (text === 'moodFeedback' || text === 'generalFeedback') {
+        style = {top: 85, left: 180, margin: 30, fontSize: 18, size: 0.4};
+
+      }
+      else {
+        style = {top: 45, left: 40, margin: 50, fontSize: 17, size: 0.6};
+      }
+
       return (
         <SpeechBubble
           text={text}
           bubbleType={'puhekupla_oikea'}
           hideBubble={this.hideBubble}
-          style={{top: 45, left: 40, margin: 40, fontSize: 15, size: 0.6}}/>
+          style={style}/>
       );
     }
     else {
