@@ -11,7 +11,12 @@ import {AppRegistry} from 'react-native';
 const Hemmo = React.createClass({
 
   componentWillMount() {
-    setConfiguration('API_ROOT', 'https://hemmo.pelastakaalapset.fi:3888');
+    if (__DEV__) {
+      setConfiguration('API_ROOT', 'http://localhost:3001');
+    } else {
+      setConfiguration('API_ROOT', 'https://hemmo.pelastakaalapset.fi:3888');
+    }
+
     Orientation.lockToLandscape();
     // setConfiguration('API_ROOT', 'http://localhost:3001');
   },
