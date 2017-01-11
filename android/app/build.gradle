@@ -92,6 +92,10 @@ android {
     }
     signingConfigs {
         release {
+            storeFile file(HEMMO_RELEASE_STORE_FILE)
+            storePassword HEMMO_RELEASE_STORE_PASSWORD
+            keyAlias HEMMO_RELEASE_KEY_ALIAS
+            keyPassword HEMMO_RELEASE_KEY_PASSWORD
         }
     }
     splits {
@@ -106,7 +110,10 @@ android {
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
-            signingConfig signingConfigs.release
+            if(project.hasProperty("HEMMO_RELEASE_STORE_FILE")
+                && new File(project.property("HEMMO_RELEASE_STORE_FILE")).exists()) {
+                signingConfig signingConfigs.release
+            }
         }
     }
     // applicationVariants are e.g. debug, release
