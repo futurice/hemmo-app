@@ -9,10 +9,13 @@ import {
   Text,
   TextInput,
   Platform,
-  StyleSheet
+  StyleSheet,
+  Linking
 } from 'react-native';
 import {post} from '../utils/api';
 import {setAuthenticationToken} from '../utils/authentication';
+
+const privacyPolicyURL = 'https://spiceprogram.org/assets/docs/privacy-policy-hemmo.txt';
 
 const LoginModal = React.createClass({
 
@@ -31,6 +34,10 @@ const LoginModal = React.createClass({
 
   onClose() {
     this.props.onClose();
+  },
+
+  privpolicy() {
+    Linking.openURL(privacyPolicyURL).catch(err => console.error('An error occurred', err));
   },
 
   verifyPassword() {
@@ -95,6 +102,13 @@ const LoginModal = React.createClass({
         <Text style={styles.text} onPress={this.onClose}>
           Peruuta
         </Text>
+
+        <Text
+          style={styles.privpolicy}
+          onPress={this.privpolicy}>
+
+          Tietosuojakäytäntö
+        </Text>
       </View>
     );
   }
@@ -149,6 +163,10 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 17
+  },
+  privpolicy: {
+    marginTop: 20,
+    fontSize: 14
   },
   buttonHighlight: {
     borderRadius: 10
