@@ -1,4 +1,4 @@
-var moods = [
+let moods = [
   'iloinen',
   'surullinen',
   'jannittynyt',
