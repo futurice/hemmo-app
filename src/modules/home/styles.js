@@ -10,27 +10,14 @@ const styles = StyleSheet.create({
     height: null,
     width: null
   },
-  leftcolumn: {
+  leftColumn: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center'
   },
-  rightcolumn: {
+  rightColumn: {
     flex: 1,
     alignItems: 'center'
-  },
-  rowWithSmallImageContainer: {
-    margin: 2,
-    backgroundColor: 'white'
-  },
-  rowWithSmallImage: {
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  smallIcon: {
-    position: 'absolute',
-    top: 5,
-    left: 5
   },
   font: {
     fontSize: 20,

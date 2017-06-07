@@ -9,7 +9,7 @@ import {
   TouchableHighlight,
   StyleSheet
 } from 'react-native';
-import {getSizeByWidth, getImage} from '../services/graphics';
+import {getSizeByWidth, getSizeByHeight, getImage} from '../services/graphics';
 
 const UserItem = React.createClass({
 
@@ -18,31 +18,51 @@ const UserItem = React.createClass({
     index: PropTypes.number.isRequired,
     empty: PropTypes.bool.isRequired,
     startJourney: PropTypes.func,
-    image: PropTypes.string
+    image: PropTypes.string,
+    isColumn: PropTypes.bool,
+    rowHeight: PropTypes.number,
+    iconHeight: PropTypes.number
   },
 
   startJourney(id) {
     this.props.startJourney(id);
   },
 
-  render() {
-    var image;
+  renderDefaultIconImage() {
+    return (
+      <Image
+        style={styles.icon}
+        source={getImage('default_image')} />
+    );
+  },
 
-    if (this.props.empty === false) {
-      image = (
-        <TouchableHighlight
-          onPress={this.startJourney.bind(this, this.props.index)}>
-          <Image
-            style={styles.icon}
-            source={{uri: this.props.image}}/>
-        </TouchableHighlight>
-      );
-    }
-    else {
-      image = (
+  renderIconImage() {
+    return (
+      <TouchableHighlight
+        onPress={this.startJourney.bind(this, this.props.index)}>
         <Image
           style={styles.icon}
-          source={getImage('default_image')}/>
+          source={{uri: this.props.image}} />
+      </TouchableHighlight>
+    );
+  },
+
+  render() {
+    if (this.props.isColumn) {
+      return (
+        <TouchableHighlight
+          style={styles.rowWithSmallImageContainer}
+          key={this.props.index}
+          onPress={this.startJourney.bind(this, this.props.index)}>
+          <Image
+            source={getImage('kehys_palkki')}
+            style={[styles.rowWithSmallImage, getSizeByHeight('kehys_palkki', this.props.rowHeight)]}>
+            <Image
+              style={[styles.smallIcon, {height: this.props.iconHeight - 20, width: this.props.iconHeight - 20}]}
+              source={{uri: this.props.image}}/>
+            {this.props.name}
+          </Image>
+        </TouchableHighlight>
       );
     }
 
@@ -51,7 +71,7 @@ const UserItem = React.createClass({
         source={getImage('kehys_iso')}
         key={this.props.index}
         style={styles.userRow}>
-          {image}
+        {this.props.empty ? this.renderDefaultIconImage() : this.renderIconImage()}
         <View style={styles.name}>
           {this.props.name}
         </View>
@@ -60,8 +80,8 @@ const UserItem = React.createClass({
   }
 });
 
-var frameSize = getSizeByWidth('kehys_iso', 0.20);
-var iconSize = getSizeByWidth('kehys_iso', 0.17).width;
+let frameSize = getSizeByWidth('kehys_iso', 0.20);
+let iconSize = getSizeByWidth('kehys_iso', 0.17).width;
 
 const styles = StyleSheet.create({
   userRow: {
@@ -74,6 +94,19 @@ const styles = StyleSheet.create({
   icon: {
     height: iconSize,
     width: iconSize
+  },
+  smallIcon: {
+    position: 'absolute',
+    top: 5,
+    left: 5
+  },
+  rowWithSmallImageContainer: {
+    margin: 2,
+    backgroundColor: 'white'
+  },
+  rowWithSmallImage: {
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   name: {
     width: iconSize,
