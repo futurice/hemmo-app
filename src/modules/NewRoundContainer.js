@@ -17,7 +17,7 @@ import {
   TouchableOpacity
 } from 'react-native';
 
-const NewRound = React.createClass({
+const NewRoundContainer = React.createClass({
 
   propTypes: {
     dispatch: PropTypes.func.isRequired
@@ -94,4 +94,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default connect()(NewRound);
+export default connect()(NewRoundContainer);
