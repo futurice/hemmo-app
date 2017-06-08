@@ -48,20 +48,18 @@ const NewRound = React.createClass({
     this.setState({showBubble: true});
   },
 
-  render() {
-    if (this.state.showBubble === true) {
-      var speechBubble = (
-        <SpeechBubble
-          text={'newRound'}
-          hideBubble={this.hideBubble}
-          bubbleType={'puhekupla_vasen'}
-          style={{top: 100, right: 0, margin: 40, fontSize: 16, size: 0.4}}/>
-      );
-    }
-    else {
-      speechBubble = null;
-    }
+  renderSpeechBubble() {
+    return this.state.showBubble ? (
+      <SpeechBubble
+        text={'newRound'}
+        hideBubble={this.hideBubble}
+        bubbleType={'puhekupla_vasen'}
+        style={{top: 100, right: 0, margin: 40, fontSize: 16, size: 0.4}}
+      />
+    ) : null;
+  },
 
+  render() {
     return (
       <Image source={getImage('tausta_perus2')} style={styles.container}>
           <TouchableOpacity onPress={this.newRound}>
@@ -77,7 +75,8 @@ const NewRound = React.createClass({
               source={getImage('nappula_seuraava2')}
               style={getSizeByWidth('nappula_seuraava2', 0.30)}/>
           </TouchableOpacity>
-        {speechBubble}
+
+        {this.renderSpeechBubble()}
       </Image>
     );
   }
