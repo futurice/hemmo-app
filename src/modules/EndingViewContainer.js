@@ -16,7 +16,7 @@ import {
   Image
 } from 'react-native';
 
-const EndingView = React.createClass({
+const EndingViewContainer = React.createClass({
 
   propTypes: {
     dispatch: PropTypes.func.isRequired
@@ -80,4 +80,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default connect()(EndingView);
+export default connect()(EndingViewContainer);

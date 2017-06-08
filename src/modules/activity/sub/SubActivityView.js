@@ -13,7 +13,7 @@ import {
   Text
 } from 'react-native';
 
-var styles = require('./subStyles.js');
+var styles = require('./styles.js');
 
 const SubActivityView = React.createClass({
 
