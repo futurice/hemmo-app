@@ -58,8 +58,7 @@ const AppView = React.createClass({
   },
 
   _handleAppStateChange(appState) {
-
-    var previous = this.state.currentState;
+    let previous = this.state.currentState;
 
     this.setState({currentState: appState, previousState: previous});
 
@@ -80,6 +79,24 @@ const AppView = React.createClass({
     this.props.dispatch(NavigationState.pushRoute({key: 'End', allowReturn: false}));
   },
 
+  shouldRenderNavigationModal() {
+    let key = this.props.pages.get(this.props.currentPage).get('key');
+
+    return key !== 'Settings' && key !== 'Home' && key !== 'End';
+  },
+
+  renderNavigationModal() {
+    return this.shouldRenderNavigationModal() ? (
+      <NavigationModal
+        resetRoute={this.resetRoute}
+        phase={this.props.pages.get(this.props.currentPage - 1).get('key') === 'Moods' ? 'moods' : 'other'}
+        shouldSave={this.props.currentPage !== 1}
+        currentUser={this.props.currentUser}
+        quit={this.quit}
+      />
+    ) : null;
+  },
+
   render() {
     if (!this.props.isReady) {
       return (
@@ -89,39 +106,10 @@ const AppView = React.createClass({
       );
     }
 
-    var currentUser = null;
-
-    if (this.props.currentUser.get('id') !== null) {
-      var key = this.props.pages.get(this.props.currentPage).get('key');
-      var shouldSave = true;
-      var phase = 'other';
-
-      /* If user quits app on first page, nothing needs to be saved to backend */
-      if (this.props.currentPage === 1) {
-        shouldSave = false;
-      }
-
-      if (this.props.pages.get(this.props.currentPage - 1).get('key') === 'Moods') {
-        phase = 'moods';
-      }
-
-      /* Button on top right corner isn't shown when in settings, home or last page */
-      if (key !== 'Settings' && key !== 'Home' && key !== 'End') {
-        currentUser = (
-          <NavigationModal
-            resetRoute={this.resetRoute}
-            phase={phase}
-            shouldSave={shouldSave}
-            currentUser={this.props.currentUser}
-            quit={this.quit}/>);
-      }
-
-    }
-
     return (
       <View style={{flex: 1}}>
         <NavigationViewContainer router={AppRouter} />
-        {currentUser}
+        {this.renderNavigationModal()}
       </View>
     );
   }
