@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     flex: 2,
     borderRadius: 10
   },
-  removebutton: {
+  removeButton: {
     borderRadius: 10,
     width: 100
   },
