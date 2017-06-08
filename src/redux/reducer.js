@@ -2,7 +2,6 @@ import {Map} from 'immutable';
 import {combineReducers} from 'redux-loop';
 import NavigationStateReducer from '../modules/navigation/NavigationState';
 import SessionStateReducer, {RESET_STATE} from '../modules/session/SessionState';
-import SettingsStateReducer from '../modules/settings/SettingsState';
 import UserStateReducer from '../modules/user/UserState';
 
 const reducers = {
@@ -12,10 +11,7 @@ const reducers = {
 
   session: SessionStateReducer,
 
-  user: UserStateReducer,
-
-  settings: SettingsStateReducer
-
+  user: UserStateReducer
 };
 
 // initial state, accessor and mutator for supporting root-level
