@@ -1,14 +1,20 @@
-import * as NavigationState from '../../modules/navigation/NavigationState';
-import * as UserState from '../../modules/user/UserState';
-import React, {PropTypes} from 'react';
+import React, {PropTypes, Component} from 'react';
 import {connect} from 'react-redux';
 import {List, Map} from 'immutable';
 import Button from '../../components/Button';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import SaveConfirmationWindow from '../../components/SaveConfirmationWindow';
+import {popRoute} from '../../modules/navigation/NavigationState';
+import {
+  setCurrentUserValue,
+  createUser,
+  editUser,
+  removeUser,
+  resetCurrentUser,
+  setCurrentUser
+} from '../../modules/user/UserState';
 import {post} from '../../utils/api';
 import {getSizeByHeight, getSizeByWidth, getImage} from '../../services/graphics';
-
 import {
   NativeModules,
   Image,
@@ -24,27 +30,48 @@ let styles = require('./styles.js');
 let options = require('./image-picker-options');
 let ImagePicker = NativeModules.ImagePickerManager;
 
-const SettingsViewContainer = React.createClass({
+const mapStateToProps = state => ({
+  loading: state.getIn(['home', 'loading']),
+  users: state.getIn(['user', 'users']),
+  currentUser: state.getIn(['user', 'currentUser'])
+});
 
-  propTypes: {
-    dispatch: PropTypes.func.isRequired,
+const mapDispatchToProps = dispatch => ({
+  setCurrentUserValue: (key, value) => dispatch(setCurrentUserValue(key, value)),
+  createUser: (user) => dispatch(createUser(user)),
+  editUser: (user) => dispatch(editUser(user)),
+  removeUser: (id) => dispatch(removeUser(id)),
+  resetCurrentUser: () => dispatch(resetCurrentUser()),
+  setCurrentUser: (id) => dispatch(setCurrentUser(id)),
+  popRoute: () => dispatch(popRoute())
+});
+
+@connect(mapStateToProps, mapDispatchToProps)
+export default class SettingsViewContainer extends Component {
+
+  static propTypes = {
+    setCurrentUserValue: PropTypes.func.isRequired,
+    createUser: PropTypes.func.isRequired,
+    editUser: PropTypes.func.isRequired,
+    removeUser: PropTypes.func.isRequired,
+    resetCurrentUser: PropTypes.func.isRequired,
+    setCurrentUser: PropTypes.func.isRequired,
+    popRoute: PropTypes.func.isRequired,
     users: PropTypes.instanceOf(List),
     currentUser: PropTypes.instanceOf(Map)
-  },
+  };
 
-  getInitialState() {
-    return {
-      loading: false,
-      disabled: true,
-      showSucceedingMessage: false
-    };
-  },
+  state = {
+    loading: false,
+    disabled: true,
+    showSucceedingMessage: false
+  };
 
-  infoIsMissing() {
+  infoIsMissing = () => {
     return this.props.currentUser.get('name') === '' || this.props.currentUser.get('image') === null;
-  },
+  };
 
-  saveUser() {
+  saveUser = () => {
     if (this.infoIsMissing()) {
       Alert.alert('Puuttuvia tietoja', 'Varmistathan, että kaikki kohdat on täytetty ennen jatkamista.');
     }
@@ -57,10 +84,10 @@ const SettingsViewContainer = React.createClass({
       // TODO: move this API call to another place
       post('/register', {name})
         .then(
-          result => this.props.dispatch(UserState.setCurrentUserValue('token', 'Bearer ' + result.token))
+          result => this.props.setCurrentUserValue('token', 'Bearer ' + result.token)
             .then(() => {
-              this.props.dispatch(UserState.setCurrentUserValue('id', newId));
-              this.props.dispatch(UserState.createUser(this.props.currentUser));
+              this.props.setCurrentUserValue('id', newId);
+              this.props.createUser(this.props.currentUser);
               this.setState({disabled: true, loading: false});
               this.showSucceedingMessage();
             }))
@@ -70,103 +97,92 @@ const SettingsViewContainer = React.createClass({
         });
     }
     else {
-      this.props.dispatch(UserState.editUser(this.props.currentUser));
+      this.props.editUser(this.props.currentUser);
       this.setState({disabled: true});
     }
-  },
+  };
 
-  cancel() {
-    this.props.dispatch(NavigationState.popRoute());
-  },
-
-  showSucceedingMessage() {
+  showSucceedingMessage = () => {
     this.setState({showSucceedingMessage: true});
-  },
+  };
 
-  closeSucceedingMessage() {
+  closeSucceedingMessage = () => {
     this.setState({showSucceedingMessage: false});
-  },
+  };
 
-  verifyRemove() {
+  verifyRemoveUser = () => {
     Alert.alert(
       'Oletko varma?',
       'Haluatko varmasti poistaa käyttäjän ' + this.props.currentUser.get('name') + '?',
       [{
         text: 'Kyllä',
-        onPress: this.remove
+        onPress: this.removeUser
       },{
         text: 'Peruuta'}
       ]
     );
-  },
+  };
 
-  remove() {
-    this.props.dispatch(UserState.removeUser(this.props.currentUser.get('id')));
-    this.props.dispatch(UserState.resetCurrentUser());
-  },
+  removeUser = () => {
+    this.props.removeUser(this.props.currentUser.get('id'));
+    this.props.resetCurrentUser();
+  };
 
-  getChangedName(e) {
+  getChangedName = (e) => {
     if (this.state.disabled === true) {
       this.setState({disabled: false});
     }
-    this.props.dispatch(UserState.setCurrentUserValue('name', e.nativeEvent.text));
-  },
+
+    this.props.setCurrentUserValue('name', e.nativeEvent.text);
+  };
 
   // TODO: Display default-image after opening.
-  openImageGallery() {
+  openImageGallery = () => {
     ImagePicker.showImagePicker(options, (response) => {
 
       if (response.didCancel) {
         return;
       }
       else if (response.customButton) {
-        this.props.dispatch(UserState.setCurrentUserValue('image', null));
+        this.props.setCurrentUserValue('image', null);
       }
       else {
         const source = {uri: response.uri, isStatic: true};
         this.setState({disabled: false});
 
-        this.props.dispatch(UserState.setCurrentUserValue('image', source.uri));
+        this.props.setCurrentUserValue('image', source.uri);
       }
     });
-  },
+  };
 
-  handleTabClick(user, index) {
+  handleTabClick = (user, index) => {
     if (user === '+ Lisää lapsi') {
-      this.addNewChildTab();
+      this.props.resetCurrentUser();
     }
     else {
-      this.viewUserProfile(index);
+      this.props.setCurrentUser(index);
     }
-  },
+  };
 
-  addNewChildTab() {
-    this.props.dispatch(UserState.resetCurrentUser());
-  },
-
-  viewUserProfile(index) {
-    this.props.dispatch(UserState.setCurrentUser(index));
-  },
-
-  renderTabBar() {
+  renderTabBar = () => {
     return (
       <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={styles.tabBar}>
         {this.renderTabs()}
       </ScrollView>
     );
-  },
+  };
 
-  renderTabs() {
+  renderTabs = () => {
     return this.props.users.map((user, key) =>
       this.renderTab(user.get('name'), key)).concat(this.renderTab('+ Lisää lapsi', -1));
-  },
+  };
 
-  renderTab(name, key) {
+  renderTab = (name, key) => {
     return (
-      <TouchableOpacity key={key} onPress={this.handleTabClick.bind(this, name, key)}>
+      <TouchableOpacity key={key} onPress={() => this.handleTabClick(name, key)}>
         <Image
           source={getImage('valilehti_tyhja')}
-          onPress={this.handleTabClick.bind(this, name, key)}
+          onPress={() => this.handleTabClick(name, key)}
           style={[styles.tab, getSizeByHeight('valilehti_tyhja', 0.12)]}>
           <Text
             ellipsizeMode='tail'
@@ -177,23 +193,23 @@ const SettingsViewContainer = React.createClass({
         </Image>
       </TouchableOpacity>
     );
-  },
+  };
 
-  tabIsSelected(index) {
-    return index === this.props.currentUser.get('id') || (this.props.currentUser.get('id') === null && index === -1);
-  },
+  tabIsSelected = (key) => {
+    return key === this.props.currentUser.get('id') || (this.props.currentUser.get('id') === null && key === -1);
+  };
 
-  renderBackButton() {
+  renderBackButton = () => {
     return (
-      <TouchableOpacity onPress={this.cancel} style={styles.titleBarSection}>
+      <TouchableOpacity onPress={this.props.popRoute} style={styles.titleBarSection}>
         <Image
           source={getImage('nappula_takaisin')}
-          onPress={this.cancel} style={[styles.backButton, getSizeByHeight('nappula_takaisin', 0.1)]}/>
+          onPress={this.props.popRoute} style={[styles.backButton, getSizeByHeight('nappula_takaisin', 0.1)]}/>
       </TouchableOpacity>
     );
-  },
+  };
 
-  renderTitleBar() {
+  renderTitleBar = () => {
     return (
       <View style={styles.titleBar}>
         {this.renderBackButton()}
@@ -204,9 +220,9 @@ const SettingsViewContainer = React.createClass({
         </View>
       </View>
     );
-  },
+  };
 
-  renderTextInput() {
+  renderTextInput = () => {
     return (
       <View style={styles.inputField}>
         <Text style={[styles.label, styles.font]}>
@@ -216,15 +232,15 @@ const SettingsViewContainer = React.createClass({
         <View style={styles.textInputView}>
           <TextInput
             style={styles.input}
-            ref = 'name'
-            onChange = {this.getChangedName}
+            ref='name'
+            onChange={this.getChangedName}
             value={this.props.currentUser.get('name')}/>
         </View>
       </View>
     );
-  },
+  };
 
-  renderImageField() {
+  renderImageField = () => {
     return (
       <View style={styles.imagefield}>
         <Image source={getImage('nelio')} style={getSizeByWidth('nelio', 0.25)}>
@@ -240,18 +256,18 @@ const SettingsViewContainer = React.createClass({
         </TouchableOpacity>
       </View>
     );
-  },
+  };
 
-  renderTabBodyLeftColumn() {
+  renderTabBodyLeftColumn = () => {
     return (
       <View style={styles.leftColumn}>
         {this.renderTextInput()}
         {this.renderImageField()}
       </View>
     );
-  },
+  };
 
-  renderSaveButton() {
+  renderSaveButton = () => {
     return (
       <TouchableOpacity
         disabled={this.state.disabled}
@@ -262,33 +278,33 @@ const SettingsViewContainer = React.createClass({
             {opacity: this.state.disabled ? 0.2 : 1}]}/>
       </TouchableOpacity>
     );
-  },
+  };
 
-  renderCancelButton() {
+  renderCancelButton = () => {
     return (
       <Button
         style={styles.cancelbutton}
         highlightStyle={styles.buttonHighlight}
-        onPress={this.cancel}
+        onPress={this.props.popRoute}
         text={'Peruuta'}
         icon={''}
       />
     );
-  },
+  };
 
-  renderRemoveUserButton() {
+  renderRemoveUserButton = () => {
     return this.props.currentUser.get('id') !== null ? (
       <Button
         style={styles.removeButton}
         highlightStyle={styles.buttonHighlight}
-        onPress={this.verifyRemove}
+        onPress={this.verifyRemoveUser}
         text={'Poista'}
         icon={''}
       />
     ) : null;
-  },
+  };
 
-  renderTabBodyRightColumn() {
+  renderTabBodyRightColumn = () => {
     return (
       <View style={styles.rightColumn}>
         <View style={styles.buttonfield}>
@@ -301,9 +317,9 @@ const SettingsViewContainer = React.createClass({
         </View>
       </View>
     );
-  },
+  };
 
-  renderTabBody() {
+  renderTabBody = () => {
     return (
       <Image
         source={getImage('tausta_asetukset')}
@@ -313,7 +329,13 @@ const SettingsViewContainer = React.createClass({
         {this.renderTabBodyRightColumn()}
       </Image>
     );
-  },
+  };
+
+  renderSaveConfirmationWindow = () => {
+    return this.state.showSucceedingMessage ? (
+      <SaveConfirmationWindow closeWindow={() => this.closeSucceedingMessage()}/>
+    ) : null;
+  };
 
   render() {
     if (this.state.loading) {
@@ -327,16 +349,8 @@ const SettingsViewContainer = React.createClass({
         {this.renderTitleBar()}
         {this.renderTabBar()}
         {this.renderTabBody()}
-        {this.state.showSucceedingMessage ? <SaveConfirmationWindow closeWindow={this.closeSucceedingMessage}/> : null}
+        {this.renderSaveConfirmationWindow()}
       </Image>
     );
   }
-});
-
-export default connect(
-  state => ({
-    loading: state.getIn(['home', 'loading']),
-    users: state.getIn(['user', 'users']),
-    currentUser: state.getIn(['user', 'currentUser'])
-  })
-)(SettingsViewContainer);
+}
