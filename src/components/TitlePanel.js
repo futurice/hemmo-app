@@ -59,23 +59,31 @@ export default class TitlePanel extends Component {
     );
   };
 
-  render() {
-    let i = this.props.savedActivities.get(this.props.activityIndex).get('main');
-    let j = this.props.savedActivities.get(this.props.activityIndex).get('sub');
+  renderMainTitle = (mainIndex) => {
+    return (
+      <Text style={styles.mainTitle}>{activities[mainIndex].get('key')}</Text>
+    );
+  };
 
-    if (i === null || j === null) {
-      return null;
-    }
-    else {
-      return (
-        <View style={styles.titleRow}>
-          {this.renderBackButton()}
-          <View style={styles.titles}>
-            <Text style={styles.mainTitle}>{activities[i].get('key')}</Text>
-            <Text style={styles.subtitle}>{activities[i].get('subActivities').get(j).get('name')}</Text>
-          </View>
+  renderSubTitle = (mainIndex, subIndex) => {
+    return (
+      <Text style={styles.subtitle}>{activities[mainIndex].get('subActivities').get(subIndex).get('name')}</Text>
+    );
+  };
+
+  render() {
+    let mainIndex = this.props.savedActivities.get(this.props.activityIndex).get('main');
+    let subIndex = this.props.savedActivities.get(this.props.activityIndex).get('sub');
+
+    return (
+      <View style={styles.titleRow}>
+        {this.renderBackButton()}
+
+        <View style={styles.titles}>
+          {mainIndex !== null ? this.renderMainTitle(mainIndex) : null}
+          {mainIndex !== null && subIndex !== null ? this.renderSubTitle(mainIndex, subIndex) : null}
         </View>
-      );
-    }
+      </View>
+    );
   }
 }

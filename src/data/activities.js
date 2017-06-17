@@ -5,7 +5,7 @@
 import {List, Map} from 'immutable';
 import {getImage} from '../services/graphics';
 
-var activities = [
+const activities = [
   Map({
     id: 0,
     key: 'Puuhasimme',

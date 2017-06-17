@@ -6,16 +6,18 @@ import {
 import SettingsViewContainer from '../settings/SettingsViewContainer';
 import HomeViewContainer from '../home/HomeViewContainer';
 import ActivityViewContainer from '../activity/main/ActivityViewContainer';
+import SubActivityViewContainer from '../activity/sub/SubActivityViewContainer';
 import ThumbVoteViewContainer from '../activity/thumbs/ThumbVoteViewContainer';
 import RecordViewContainer from '../activity/record/RecordViewContainer';
 import MoodViewContainer from '../moods/MoodViewContainer';
 import NewRound from '../NewRoundContainer';
 import EndingView from '../EndingViewContainer';
 
-var routesWithKeys = [
+let routesWithKeys = [
   {'key': 'Home', 'route': <HomeViewContainer/>},
   {'key': 'Settings', 'route': <SettingsViewContainer/>},
   {'key': 'Activity', 'route': <ActivityViewContainer/>},
+  {'key': 'SubActivity', 'route': <SubActivityViewContainer/>},
   {'key': 'Record', 'route': <RecordViewContainer/>},
   {'key': 'Thumbs', 'route': <ThumbVoteViewContainer/>},
   {'key': 'NewRound', 'route': <NewRound/>},
