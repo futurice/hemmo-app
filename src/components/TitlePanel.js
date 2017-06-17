@@ -2,9 +2,8 @@
 Text panel that shows the selected main and sub activity on top of the recording panel
 */
 
-import React, {PropTypes} from 'react';
+import React, {PropTypes, Component} from 'react';
 import {List} from 'immutable';
-import * as NavigationState from '../modules/navigation/NavigationState';
 import {getSizeByHeight, getImage} from '../services/graphics';
 import {
   View,
@@ -14,44 +13,7 @@ import {
   StyleSheet
 } from 'react-native';
 
-var activities = require('../data/activities.js');
-
-const TitlePanel = React.createClass({
-
-  propTypes: {
-    savedActivities: PropTypes.instanceOf(List),
-    activityIndex: PropTypes.number.isRequired,
-    dispatch: PropTypes.func
-  },
-
-  cancel() {
-    this.props.dispatch(NavigationState.popRoute());
-  },
-
-  render() {
-    var i = this.props.savedActivities.get(this.props.activityIndex).get('main');
-    var j = this.props.savedActivities.get(this.props.activityIndex).get('sub');
-
-    if (i === null || j === null) {
-      return null;
-    }
-    else {
-      return (
-        <View style={styles.titleRow}>
-          <TouchableOpacity onPress={this.cancel}>
-            <Image
-              source={getImage('nappula_takaisin')}
-              style={[styles.backButton, getSizeByHeight('nappula_takaisin', 0.15)]}/>
-          </TouchableOpacity>
-          <View style={styles.titles}>
-            <Text style={styles.mainTitle}>{activities[i].get('key')}</Text>
-            <Text style={styles.subtitle}>{activities[i].get('subActivities').get(j).get('name')}</Text>
-          </View>
-        </View>
-      );
-    }
-  }
-});
+let activities = require('../data/activities.js');
 
 const styles = StyleSheet.create({
   titleRow: {
@@ -79,4 +41,41 @@ const styles = StyleSheet.create({
   }
 });
 
-export default TitlePanel;
+export default class TitlePanel extends Component {
+
+  static propTypes = {
+    savedActivities: PropTypes.instanceOf(List),
+    activityIndex: PropTypes.number.isRequired,
+    popRoute: PropTypes.func.isRequired
+  };
+
+  renderBackButton = () => {
+    return (
+      <TouchableOpacity onPress={this.props.popRoute}>
+        <Image
+          source={getImage('nappula_takaisin')}
+          style={[styles.backButton, getSizeByHeight('nappula_takaisin', 0.15)]}/>
+      </TouchableOpacity>
+    );
+  };
+
+  render() {
+    let i = this.props.savedActivities.get(this.props.activityIndex).get('main');
+    let j = this.props.savedActivities.get(this.props.activityIndex).get('sub');
+
+    if (i === null || j === null) {
+      return null;
+    }
+    else {
+      return (
+        <View style={styles.titleRow}>
+          {this.renderBackButton()}
+          <View style={styles.titles}>
+            <Text style={styles.mainTitle}>{activities[i].get('key')}</Text>
+            <Text style={styles.subtitle}>{activities[i].get('subActivities').get(j).get('name')}</Text>
+          </View>
+        </View>
+      );
+    }
+  }
+}
