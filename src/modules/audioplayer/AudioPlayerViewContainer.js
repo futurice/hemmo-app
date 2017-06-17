@@ -1,18 +1,23 @@
-import React, {PropTypes} from 'react';
+import React, {PropTypes, Component} from 'react';
 import {connect} from 'react-redux';
 import {Platform} from 'react-native';
 import {Player} from 'react-native-audio-toolkit';
 
-const AudioPlayerViewContainer = React.createClass({
+const mapStateToProps = state => ({
+  isActive: state.getIn(['session', 'isActive'])
+});
 
-  propTypes: {
+@connect(mapStateToProps)
+export default class AudioPlayerViewContainer extends Component {
+
+  static propTypes = {
     audioTrack: PropTypes.string,
     onEnd: PropTypes.func.isRequired,
     isActive: PropTypes.bool
-  },
+  };
 
   componentWillMount() {
-    var audioTrack;
+    let audioTrack;
 
     if (Platform.OS === 'ios') {
       audioTrack = '/audio/' + this.props.audioTrack + '.wav';
@@ -26,30 +31,24 @@ const AudioPlayerViewContainer = React.createClass({
     this.player.on('ended', () => {
       this.props.onEnd();
     });
-  },
+  }
 
   componentWillUnmount() {
     this.player.destroy();
-  },
+  }
 
-  checkActivity() {
-    if (this.props.isActive === true) {
+  checkActivity = () => {
+    if (this.props.isActive) {
       this.player.play();
     }
-    else if (this.props.isActive === false) {
+    else {
       this.player.destroy();
     }
-  },
+  };
 
   render() {
     this.checkActivity();
 
     return null;
   }
-});
-
-export default connect(
-  state => ({
-    isActive: state.getIn(['session', 'isActive'])
-  })
-)(AudioPlayerViewContainer);
+}
