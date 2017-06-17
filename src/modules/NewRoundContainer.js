@@ -3,52 +3,72 @@ View that is shown when ever a round of feedback has been given.
  User can either move forward or give another round of feedback
  */
 
-import React, {PropTypes} from 'react';
+import React, {PropTypes, Component} from 'react';
 import {connect} from 'react-redux';
-import * as NavigationState from '../modules/navigation/NavigationState';
-import * as UserState from '../modules/user/UserState';
+import {resetRoute, pushRoute} from '../modules/navigation/NavigationState';
+import {addActivity, resetActivity} from '../modules/user/UserState';
 import SpeechBubble from '../components/SpeechBubble';
 import Hemmo from '../components/Hemmo';
 import {getSizeByWidth, getImage} from '../services/graphics';
-
 import {
   StyleSheet,
   Image,
   TouchableOpacity
 } from 'react-native';
 
-const NewRoundContainer = React.createClass({
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 20,
+    height: null,
+    width: null
+  }
+});
 
-  propTypes: {
-    dispatch: PropTypes.func.isRequired
-  },
+const mapDispatchToProps = dispatch => ({
+  addActivity: () => dispatch(addActivity()),
+  resetActivity: () => dispatch(resetActivity()),
+  resetRoute: () => dispatch(resetRoute()),
+  pushRoute: (key) => dispatch(pushRoute(key))
+});
 
-  getInitialState() {
-    return {
-      showBubble: true
-    };
-  },
+@connect(null, mapDispatchToProps)
+export default class NewRoundContainer extends Component {
 
-  newRound() {
-    this.props.dispatch(NavigationState.resetRoute());
-    this.props.dispatch(UserState.addActivity());
-    this.props.dispatch(NavigationState.pushRoute({key: 'Activity', allowReturn: false}));
-  },
+  static propTypes = {
+    addActivity: PropTypes.func.isRequired,
+    resetActivity: PropTypes.func.isRequired,
+    resetRoute: PropTypes.func.isRequired,
+    pushRoute: PropTypes.func.isRequired
+  };
 
-  continue() {
-    this.props.dispatch(UserState.resetActivity());
-    this.props.dispatch(NavigationState.pushRoute({key: 'Moods', allowReturn: false}));
-  },
+  state = {
+    showBubble: true
+  };
 
-  hideBubble() {
+  newRound = () => {
+    this.props.resetRoute();
+    this.props.addActivity();
+    this.props.pushRoute({key: 'Activity', allowReturn: false});
+  };
+
+  continue = () => {
+    this.props.resetActivity();
+    this.props.pushRoute({key: 'Moods', allowReturn: false});
+  };
+
+  hideBubble = () => {
     this.setState({showBubble: false});
-  },
+  };
 
-  restartAudioAndText() {
+  restartAudioAndText = () => {
     this.setState({showBubble: true});
-  },
+  };
 
-  renderSpeechBubble() {
+  renderSpeechBubble = () => {
     return this.state.showBubble ? (
       <SpeechBubble
         text={'newRound'}
@@ -57,7 +77,7 @@ const NewRoundContainer = React.createClass({
         style={{top: 100, right: 0, margin: 40, fontSize: 16, size: 0.4}}
       />
     ) : null;
-  },
+  };
 
   render() {
     return (
@@ -80,18 +100,4 @@ const NewRoundContainer = React.createClass({
       </Image>
     );
   }
-});
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 20,
-    height: null,
-    width: null
-  }
-});
-
-export default connect()(NewRoundContainer);
+}
