@@ -1,12 +1,11 @@
-import React, {PropTypes} from 'react';
+import React, {PropTypes, Component} from 'react';
 import {connect} from 'react-redux';
 import {List} from 'immutable';
-import * as UserState from '../../modules/user/UserState';
-import * as NavigationState from '../../modules/navigation/NavigationState';
+import {pushRoute} from '../navigation/NavigationState';
+import {saveAnswer} from '../user/UserState';
 import SpeechBubble from '../../components/SpeechBubble';
 import Hemmo from '../../components/Hemmo';
 import {getSizeByHeight, getSizeByWidth, getImage} from '../../services/graphics';
-
 import {
   TouchableOpacity,
   Image,
@@ -16,29 +15,38 @@ import {
 let moods = require('../../data/moods.js');
 let styles = require('./styles.js');
 
-const MoodViewContainer = React.createClass({
+const mapStateToProps = state => ({
+  activityIndex: state.getIn(['user', 'currentUser', 'activityIndex'])
+});
 
-  propTypes: {
+const mapDispatchToProps = dispatch => ({
+  saveAnswer: (index, destination, answers) => dispatch(saveAnswer(index, destination, answers)),
+  pushRoute: (key) => dispatch(pushRoute(key))
+});
+
+@connect(mapStateToProps, mapDispatchToProps)
+export default class MoodViewContainer extends Component {
+
+  static propTypes = {
     activityIndex: PropTypes.number.isRequired,
-    dispatch: PropTypes.func
-  },
+    saveAnswer: PropTypes.func.isRequired,
+    pushRoute: PropTypes.func.isRequired
+  };
 
-  getInitialState() {
-    return {
-      selectedMoods: List(),
-      showBubble: true
-    };
-  },
+  state = {
+    selectedMoods: List(),
+    showBubble: true
+  };
 
-  hideBubble() {
+  hideBubble = () => {
     this.setState({showBubble: false});
-  },
+  };
 
-  restartAudioAndText() {
+  restartAudioAndText = () => {
     this.setState({showBubble: true});
-  },
+  };
 
-  renderBubble(text) {
+  renderBubble = (text) => {
     return (
       <SpeechBubble
         text={text}
@@ -47,28 +55,28 @@ const MoodViewContainer = React.createClass({
         style={{top: 110, left: 100, margin: 30, fontSize: 14, size: 0.5}}
       />
     );
-  },
+  };
 
-  save() {
-    this.props.dispatch(UserState.saveAnswer(null, 'moods', this.state.selectedMoods));
-    this.props.dispatch(NavigationState.pushRoute({key: 'Record', allowReturn: true}));
-  },
+  save = () => {
+    this.props.saveAnswer(null, 'moods', this.state.selectedMoods);
+    this.props.pushRoute({key: 'Record', allowReturn: true});
+  };
 
-  selectMood(mood) {
+  selectMood = (mood) => {
     let selectedMoods = this.state.selectedMoods;
 
     // If the mood is already selected, remove it from the list. Otherwise, add it
     this.setState({
       selectedMoods: selectedMoods.includes(mood) ? selectedMoods.filter(m => m !== mood) : selectedMoods.concat(mood)
     });
-  },
+  };
 
-  renderMood(mood, key) {
+  renderMood = (mood, key) => {
     return (
       <TouchableOpacity
         key={key}
         style={styles.mood}
-        onPress={this.selectMood.bind(this, mood)}>
+        onPress={() => this.selectMood(mood)}>
         <Image
           source={getImage(mood)}
           style={[
@@ -79,26 +87,26 @@ const MoodViewContainer = React.createClass({
         {this.state.selectedMoods.includes(mood) ? this.renderCheckmark() : null}
       </TouchableOpacity>
     );
-  },
+  };
 
-  renderCheckmark() {
+  renderCheckmark = () => {
     return (
       <Image
         source={getImage('valittu')}
         style={[styles.check, getSizeByHeight('valittu', 0.1)]}
       />
     );
-  },
+  };
 
-  renderMoods() {
+  renderMoods = () => {
     return (
       <View style={styles.moodColumn}>
         {moods.map((mood, key) => this.renderMood(mood, key))}
       </View>
     );
-  },
+  };
 
-  renderHemmo() {
+  renderHemmo = () => {
     return (
       <View style={styles.hemmo}>
         <Hemmo
@@ -108,15 +116,15 @@ const MoodViewContainer = React.createClass({
         />
       </View>
     );
-  },
+  };
 
-  renderNextButton() {
+  renderNextButton = () => {
     return (
       <TouchableOpacity onPress={this.save} style={styles.saveButton}>
         <Image source={getImage('nappula_seuraava')} style={getSizeByHeight('nappula_seuraava', 0.1)}/>
       </TouchableOpacity>
     );
-  },
+  };
 
   render() {
     return (
@@ -130,10 +138,4 @@ const MoodViewContainer = React.createClass({
       </Image>
     );
   }
-});
-
-export default connect(
-  state => ({
-    activityIndex: state.getIn(['user', 'currentUser', 'activityIndex'])
-  })
-)(MoodViewContainer);
+}
