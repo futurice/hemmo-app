@@ -3,64 +3,17 @@ View that is shown at the end of application.
 When speech ends or the speech bubble is closed, user is moved to home page
 */
 
-import React, {PropTypes} from 'react';
+import React, {PropTypes, Component} from 'react';
 import {connect} from 'react-redux';
 import SpeechBubble from '../components/SpeechBubble';
 import Hemmo from '../components/Hemmo';
 import {getSizeByHeight, getImage} from '../services/graphics';
-import * as NavigationState from './navigation/NavigationState';
-
+import {resetRoute} from '../modules/navigation/NavigationState';
 import {
   StyleSheet,
   View,
   Image
 } from 'react-native';
-
-const EndingViewContainer = React.createClass({
-
-  propTypes: {
-    dispatch: PropTypes.func.isRequired
-  },
-
-  getInitialState() {
-    return {
-      showBubble: true
-    };
-  },
-
-  hideBubble() {
-    this.props.dispatch(NavigationState.resetRoute());
-  },
-
-  restartAudioAndText() {
-    this.setState({showBubble: true});
-  },
-
-  renderSpeechBubble() {
-    return this.state.showBubble ? (
-      <SpeechBubble
-        text={'ending'}
-        hideBubble={this.hideBubble}
-        bubbleType={'puhekupla_oikea'}
-        style={{top: 40, left: 40, margin: 45, fontSize: 14, size: 0.5}}
-      />
-    ) : null;
-  },
-
-  render() {
-    return (
-      <Image source={getImage('tausta_perus')} style={styles.container}>
-        <View style={styles.hemmo}>
-          <Hemmo image={'hemmo_keski'} size={0.8} restartAudioAndText={this.restartAudioAndText}/>
-        </View>
-        <Image
-          source={getImage('lopetusteksti')}
-          style={[styles.info, getSizeByHeight('lopetusteksti', 0.4)]}/>
-        {this.renderSpeechBubble()}
-      </Image>
-    );
-  }
-});
 
 const styles = StyleSheet.create({
   container: {
@@ -80,4 +33,47 @@ const styles = StyleSheet.create({
   }
 });
 
-export default connect()(EndingViewContainer);
+const mapDispatchToProps = dispatch => ({
+  resetRoute: () => dispatch(resetRoute())
+});
+
+@connect(null, mapDispatchToProps)
+export default class EndingViewContainer extends Component {
+
+  static propTypes = {
+    resetRoute: PropTypes.func.isRequired
+  };
+
+  state = {
+    showBubble: true
+  };
+
+  restartAudioAndText = () => {
+    this.setState({showBubble: true});
+  };
+
+  renderSpeechBubble = () => {
+    return this.state.showBubble ? (
+      <SpeechBubble
+        text={'ending'}
+        hideBubble={this.props.resetRoute}
+        bubbleType={'puhekupla_oikea'}
+        style={{top: 40, left: 40, margin: 45, fontSize: 14, size: 0.5}}
+      />
+    ) : null;
+  };
+
+  render() {
+    return (
+      <Image source={getImage('tausta_perus')} style={styles.container}>
+        <View style={styles.hemmo}>
+          <Hemmo image={'hemmo_keski'} size={0.8} restartAudioAndText={this.restartAudioAndText}/>
+        </View>
+        <Image
+          source={getImage('lopetusteksti')}
+          style={[styles.info, getSizeByHeight('lopetusteksti', 0.4)]}/>
+        {this.renderSpeechBubble()}
+      </Image>
+    );
+  }
+}
