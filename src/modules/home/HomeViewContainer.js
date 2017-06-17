@@ -1,7 +1,7 @@
-import * as NavigationState from '../navigation/NavigationState';
-import * as UserState from '../user/UserState';
-import * as SessionState from '../session/SessionState';
-import React, {PropTypes} from 'react';
+import {pushRoute} from '../navigation/NavigationState';
+import {resetCurrentUser, setCurrentUser, addActivity} from '../user/UserState';
+import {startPreparing, finishPreparing} from '../session/SessionState';
+import React, {PropTypes, Component} from 'react';
 import {connect} from 'react-redux';
 import {List, Map} from 'immutable';
 import SpeechBubble from '../../components/SpeechBubble';
@@ -12,7 +12,6 @@ import {setAuthenticationToken} from '../../utils/authentication';
 import {setSessionId} from '../../utils/session';
 import {post} from '../../utils/api';
 import {getSizeByHeight, getImage} from '../../services/graphics';
-
 import {
   TouchableHighlight,
   Image,
@@ -24,66 +23,85 @@ import {
 
 let styles = require('./styles.js');
 
-const HomeViewContainer = React.createClass({
+const mapStateToProps = state => ({
+  users: state.getIn(['user', 'users']),
+  currentUser: state.getIn(['user', 'currentUser'])
+});
 
-  propTypes: {
-    dispatch: PropTypes.func.isRequired,
+const mapDispatchToProps = dispatch => ({
+  resetCurrentUser: () => dispatch(resetCurrentUser()),
+  setCurrentUser: (id) => dispatch(setCurrentUser(id)),
+  addActivity: () => dispatch(addActivity()),
+  startPreparing: () => dispatch(startPreparing()),
+  finishPreparing: () => dispatch(finishPreparing()),
+  pushRoute: (key) => dispatch(pushRoute(key))
+});
+
+@connect(mapStateToProps, mapDispatchToProps)
+export default class HomeViewContainer extends Component {
+
+  static propTypes = {
+    resetCurrentUser: PropTypes.func.isRequired,
+    setCurrentUser: PropTypes.func.isRequired,
+    addActivity: PropTypes.func.isRequired,
+    startPreparing: PropTypes.func.isRequired,
+    finishPreparing: PropTypes.func.isRequired,
+    pushRoute: PropTypes.func.isRequired,
     users: PropTypes.instanceOf(List),
     currentUser: PropTypes.instanceOf(Map)
-  },
+  };
 
-  getInitialState() {
-    return {
-      isLoginModalOpen: false,
-      showBubble: true
-    };
-  },
+  state = {
+    isLoginModalOpen: false,
+    showBubble: true
+  };
 
   componentWillMount() {
-    this.props.dispatch(UserState.resetCurrentUser());
-  },
+    this.props.resetCurrentUser();
+  }
 
-  openSettings() {
-    this.props.dispatch(UserState.resetCurrentUser());
-    this.props.dispatch(NavigationState.pushRoute({key: 'Settings', allowReturn: true}));
-  },
+  openSettings = () => {
+    this.props.resetCurrentUser();
+    this.props.pushRoute({key: 'Settings', allowReturn: true});
+  };
 
-  startJourney(id) {
-    this.props.dispatch(SessionState.startPreparing());
+  startJourney = (id) => {
+    this.props.startPreparing();
+
     setAuthenticationToken(this.props.users.get(id).get('token'))
       .then(() => {
         this.startSession(id);
       });
-  },
+  };
 
-  startSession(id) {
+  startSession = (id) => {
     post('/session')
       .then(result => {
         setSessionId(result.sessionId);
-        this.props.dispatch(SessionState.finishPreparing());
-        this.props.dispatch(UserState.addActivity());
-        this.props.dispatch(UserState.setCurrentUser(id));
-        this.props.dispatch(NavigationState.pushRoute({key: 'Activity', allowReturn: true}));
+        this.props.finishPreparing();
+        this.props.addActivity();
+        this.props.setCurrentUser(id);
+        this.props.pushRoute({key: 'Activity', allowReturn: true});
       })
       .catch((error) => {
-        this.props.dispatch(SessionState.finishPreparing());
+        this.props.finishPreparing();
         Alert.alert('Oops! Jokin meni pieleen!', 'Yritä myöhemmin uudelleen!');
       });
-  },
+  };
 
-  toggleLoginModal() {
+  toggleLoginModal = () => {
     this.setState({isLoginModalOpen: !this.state.isLoginModalOpen});
-  },
+  };
 
-  hideBubble() {
+  hideBubble = () => {
     this.setState({showBubble: false});
-  },
+  };
 
-  restartAudioAndText() {
+  restartAudioAndText = () => {
     this.setState({showBubble: true});
-  },
+  };
 
-  renderLeftColumn() {
+  renderLeftColumn = () => {
     return (
       <View style={styles.leftColumn}>
         <Hemmo image={'hemmo_keski'} size={0.8} restartAudioAndText={this.restartAudioAndText}/>
@@ -96,17 +114,17 @@ const HomeViewContainer = React.createClass({
         </View>
       </View>
     );
-  },
+  };
 
-  renderRightColumn(users) {
+  renderRightColumn = (users) => {
     return (
       <View style={[styles.rightColumn, users.size <= 4 ? {flexDirection: 'row', flexWrap: 'wrap'} : null]}>
         {users.size > 0 ? this.renderUserIcons(users) : this.renderEmptyIcon()}
       </View>
     );
-  },
+  };
 
-  renderUserIcons(users) {
+  renderUserIcons = (users) => {
     return users.map((user, key) =>
       <UserItem
         key={key}
@@ -120,16 +138,21 @@ const HomeViewContainer = React.createClass({
         rowHeight={((Dimensions.get('window').height / users.size) - 10) / Dimensions.get('window').height}
       />
     );
-  },
+  };
 
-  renderEmptyIcon() {
+  renderEmptyIcon = () => {
     return (
-      <UserItem name={this.renderUserName('Nimi')} key={0} index={0} empty={true} />
+      <UserItem
+        name={this.renderUserName('Nimi')}
+        key={0}
+        index={0}
+        empty={true}
+      />
     );
-  },
+  };
 
-  renderSpeechBubble(usersNotEmpty) {
-    return (
+  renderSpeechBubble = (usersNotEmpty) => {
+    return this.state.showBubble ? (
       <SpeechBubble
         text={usersNotEmpty ? 'userIsKnown' : 'userIsUnknown'}
         hideBubble={this.hideBubble}
@@ -137,10 +160,10 @@ const HomeViewContainer = React.createClass({
         style={usersNotEmpty ? {top: 40, left: 280, margin: 20, marginTop: 20, size: 0.6}
           : {top: 40, left: 230, margin: 40, size: 0.5}}
       />
-    );
-  },
+    ) : null;
+  };
 
-  renderUserName(name) {
+  renderUserName = (name) => {
     return (
       <Text
         ellipsizeMode='tail'
@@ -148,13 +171,13 @@ const HomeViewContainer = React.createClass({
         style={styles.font}>{name}
       </Text>
     );
-  },
+  };
 
-  renderLoginModal() {
-    return (
+  renderLoginModal = () => {
+    return this.state.isLoginModalOpen ? (
       <LoginModal onClose={this.toggleLoginModal} onSuccess={this.openSettings} />
-    );
-  },
+    ) : null;
+  };
 
   render() {
     let users = this.props.users;
@@ -163,16 +186,9 @@ const HomeViewContainer = React.createClass({
       <Image source={getImage('tausta_perus3')} style={styles.container}>
         {this.renderLeftColumn()}
         {this.renderRightColumn(users)}
-        {this.state.showBubble ? this.renderSpeechBubble(users.size > 0) : null}
-        {this.state.isLoginModalOpen ? this.renderLoginModal() : null}
+        {this.renderSpeechBubble(users.size > 0)}
+        {this.renderLoginModal()}
       </Image>
     );
   }
-});
-
-export default connect(
-  state => ({
-    users: state.getIn(['user', 'users']),
-    currentUser: state.getIn(['user', 'currentUser'])
-  })
-)(HomeViewContainer);
+}
