@@ -3,7 +3,7 @@ Message window that is shown whenever new user has been added to system
 or audio has been successfully recorded and saved,
 */
 
-import React, {PropTypes} from 'react';
+import React, {PropTypes, Component} from 'react';
 import Hemmo from './Hemmo';
 import SpeechBubble from './SpeechBubble';
 import {
@@ -11,35 +11,6 @@ import {
   StyleSheet,
   TouchableWithoutFeedback
 } from 'react-native';
-
-const SaveConfirmationWindow = React.createClass({
-
-  propTypes: {
-    closeWindow: PropTypes.func,
-    phase: PropTypes.string
-  },
-
-  close() {
-    this.props.closeWindow(this.props.phase);
-  },
-
-  render() {
-    return (
-      <TouchableWithoutFeedback onPress={this.close}>
-        <View style={styles.container}>
-          <SpeechBubble
-            text={'saved'}
-            hideBubble={this.close}
-            bubbleType={'puhekupla_tallennettu'}
-            style={{top: 110, left: 300, margin: 10, fontSize: 17, size: 0.35}}/>
-          <View style={styles.hemmo}>
-            <Hemmo image={'hemmo_keski'} size={0.8}/>
-          </View>
-        </View>
-      </TouchableWithoutFeedback>
-    );
-  }
-});
 
 const styles = StyleSheet.create({
   container: {
@@ -58,4 +29,31 @@ const styles = StyleSheet.create({
   }
 });
 
-export default SaveConfirmationWindow;
+export default class SaveConfirmationWindow extends Component {
+
+  static propTypes = {
+    closeWindow: PropTypes.func,
+    phase: PropTypes.string
+  };
+
+  close = () => {
+    this.props.closeWindow(this.props.phase);
+  };
+
+  render() {
+    return (
+      <TouchableWithoutFeedback onPress={this.close}>
+        <View style={styles.container}>
+          <SpeechBubble
+            text={'saved'}
+            hideBubble={this.close}
+            bubbleType={'puhekupla_tallennettu'}
+            style={{top: 110, left: 300, margin: 10, fontSize: 17, size: 0.35}}/>
+          <View style={styles.hemmo}>
+            <Hemmo image={'hemmo_keski'} size={0.8}/>
+          </View>
+        </View>
+      </TouchableWithoutFeedback>
+    );
+  }
+}
