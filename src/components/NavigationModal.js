@@ -2,11 +2,10 @@
 Navigation modal on the upper left corner that allows user to return to home page or quit giving feedback
 */
 
-import React, {PropTypes} from 'react';
+import React, {PropTypes, Component} from 'react';
 import {Map} from 'immutable';
 import {getSizeByHeight, getSizeByWidth, getImage} from '../services/graphics';
 import {save, formRequestBody} from '../services/save';
-
 import {
   View,
   Modal,
@@ -16,106 +15,6 @@ import {
   Text,
   StyleSheet
 } from 'react-native';
-
-const NavigationModal = React.createClass({
-
-  propTypes: {
-    resetRoute: PropTypes.func.isRequired,
-    quit: PropTypes.func.isRequired,
-    shouldSave: PropTypes.bool,
-    phase: PropTypes.string,
-    currentUser: PropTypes.instanceOf(Map)
-  },
-
-  getInitialState() {
-    return {
-      modalVisible: false
-    };
-  },
-
-  toggleModal() {
-    this.setState({modalVisible: !this.state.modalVisible});
-  },
-
-  reset() {
-    if (this.props.shouldSave === true) {
-      this.save();
-    }
-    this.props.resetRoute();
-  },
-
-  quit() {
-    if (this.props.shouldSave === true) {
-      this.save();
-    }
-    this.setState({modalVisible: false});
-    this.props.quit();
-  },
-
-  save() {
-    formRequestBody(
-      this.props.phase,
-      'skipped', 'Ohitettu',
-      this.props.currentUser.get('activityIndex'),
-      this.props.currentUser.get('answers'))
-        .then(body => save(null, 'skipped', body));
-  },
-
-  render() {
-
-    if (this.state.modalVisible === true) {
-      var modal = (<Modal
-          animationType={"fade"}
-          transparent={true}
-          visible={this.state.modalVisible}
-          onRequestClose={() => console.log(' ')}>
-          <View style={styles.modalContainer}>
-            <View style={styles.upperModal}>
-              <View style={styles.modal}>
-
-                <TouchableHighlight style={styles.highlight} onPress={this.reset}>
-                  <Image
-                    source={getImage('kehys_palkki')}
-                    style={[getSizeByWidth('kehys_palkki', 0.5), styles.row]}>
-                      <Text style={styles.font}>Vaihda käyttäjää</Text>
-                  </Image>
-                </TouchableHighlight>
-                <TouchableHighlight style={styles.highlight} onPress={this.quit}>
-                  <Image
-                    source={getImage('kehys_palkki')}
-                    style={[getSizeByWidth('kehys_palkki', 0.5), styles.row]}>
-                      <Text style={styles.font}>Lopeta</Text>
-                  </Image>
-                </TouchableHighlight>
-
-               </View>
-
-                 <TouchableOpacity
-                  onPress={this.toggleModal}
-                  style={[styles.closeButton, getSizeByHeight('nappula_rasti', 0.1)]}>
-                   <Image
-                     source={getImage('nappula_rasti')}
-                     style={[getSizeByHeight('nappula_rasti', 0.1)]}/>
-                 </TouchableOpacity>
-
-              </View>
-           </View>
-        </Modal>);
-    }
-    else {
-      modal = null;
-    }
-
-    return (
-      <View style={styles.container}>
-        <TouchableOpacity onPress={this.toggleModal} style={styles.circle}>
-          <Image style={styles.image} source={{uri: this.props.currentUser.get('image')}}/>
-        </TouchableOpacity>
-        {modal}
-      </View>
-    );
-  }
-});
 
 const styles = StyleSheet.create({
   container: {
@@ -180,4 +79,114 @@ const styles = StyleSheet.create({
   }
 });
 
-export default NavigationModal;
+export default class NavigationModal extends Component {
+
+  static propTypes = {
+    resetRoute: PropTypes.func.isRequired,
+    quit: PropTypes.func.isRequired,
+    shouldSave: PropTypes.bool,
+    phase: PropTypes.string,
+    currentUser: PropTypes.instanceOf(Map)
+  };
+
+  state = {
+    modalVisible: false
+  };
+
+  toggleModal = () => {
+    this.setState({modalVisible: !this.state.modalVisible});
+  };
+
+  reset = () => {
+    if (this.props.shouldSave) {
+      this.save();
+    }
+
+    this.props.resetRoute();
+  };
+
+  quit = () => {
+    if (this.props.shouldSave) {
+      this.save();
+    }
+
+    this.setState({modalVisible: false});
+    this.props.quit();
+  };
+
+  save = () => {
+    formRequestBody(
+      this.props.phase,
+      'skipped', 'Ohitettu',
+      this.props.currentUser.get('activityIndex'),
+      this.props.currentUser.get('answers'))
+        .then(body => save(null, 'skipped', body));
+  };
+
+  renderQuitButton = () => {
+    return (
+      <TouchableHighlight style={styles.highlight} onPress={this.quit}>
+        <Image
+          source={getImage('kehys_palkki')}
+          style={[getSizeByWidth('kehys_palkki', 0.5), styles.row]}>
+          <Text style={styles.font}>Lopeta</Text>
+        </Image>
+      </TouchableHighlight>
+    );
+  };
+
+  renderChangeUserButton = () => {
+    return (
+      <TouchableHighlight style={styles.highlight} onPress={this.reset}>
+        <Image
+          source={getImage('kehys_palkki')}
+          style={[getSizeByWidth('kehys_palkki', 0.5), styles.row]}>
+          <Text style={styles.font}>Vaihda käyttäjää</Text>
+        </Image>
+      </TouchableHighlight>
+    );
+  };
+
+  renderCloseButton = () => {
+    return (
+      <TouchableOpacity
+        onPress={this.toggleModal}
+        style={[styles.closeButton, getSizeByHeight('nappula_rasti', 0.1)]}>
+        <Image
+          source={getImage('nappula_rasti')}
+          style={[getSizeByHeight('nappula_rasti', 0.1)]}/>
+      </TouchableOpacity>
+    );
+  };
+
+  renderModal = () => {
+    return this.state.modalVisible ? (
+      <Modal
+        animationType={"fade"}
+        transparent={true}
+        visible={this.state.modalVisible}
+        onRequestClose={() => console.log(' ')}>
+        <View style={styles.modalContainer}>
+          <View style={styles.upperModal}>
+            <View style={styles.modal}>
+              {this.renderChangeUserButton()}
+              {this.renderQuitButton()}
+            </View>
+            {this.renderCloseButton()}
+          </View>
+        </View>
+      </Modal>
+    ) : null;
+  };
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <TouchableOpacity onPress={this.toggleModal} style={styles.circle}>
+          <Image style={styles.image} source={{uri: this.props.currentUser.get('image')}}/>
+        </TouchableOpacity>
+        {this.renderModal()}
+      </View>
+    );
+  }
+}
