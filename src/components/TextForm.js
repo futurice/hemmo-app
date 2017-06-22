@@ -1,7 +1,7 @@
 /*
   Form that allows users to write their feedback instead of recording audio.
 */
-import React, {PropTypes} from 'react';
+import React, {PropTypes, Component} from 'react';
 import {getSizeByHeight, getSizeByWidth, getImage} from '../services/graphics';
 import {
   View,
@@ -10,75 +10,6 @@ import {
   TouchableOpacity,
   StyleSheet
 } from 'react-native';
-
-const TextForm = React.createClass({
-
-  propTypes: {
-    toggleWriting: PropTypes.func.isRequired,
-    setText: PropTypes.func.isRequired,
-    phase: PropTypes.string,
-    save: PropTypes.func.isRequired
-  },
-
-  getInitialState() {
-    return {
-      disabled: true,
-      text: ''
-    };
-  },
-
-  saveText() {
-    this.props.save(this.props.phase, 'text');
-  },
-
-  setText(e) {
-    this.setState({text: e.nativeEvent.text});
-    this.props.setText(e.nativeEvent.text);
-
-    var disabled = e.nativeEvent.text === '' ? true : false;
-    this.setState({disabled});
-
-  },
-
-  render() {
-    return (
-      <View style={styles.container}>
-        <Image
-          source={getImage('tausta_kirjoitus')}
-          style={getSizeByWidth('tausta_kirjoitus', 0.9)}>
-          <Image
-            source={getImage('kirjoituskentta')}
-            style={[styles.textInput, getSizeByWidth('kirjoituskentta', 0.7)]}>
-            <TextInput
-              multiline = {true}
-              numberOfLines = {30}
-              maxLength = {500}
-              onChange = {this.setText}
-              underlineColorAndroid = 'transparent'
-              style={styles.textForm}/>
-          </Image>
-          <TouchableOpacity
-            onPress={this.props.toggleWriting}
-            style={styles.closeButton}>
-            <Image
-              source={getImage('nappula_rasti')}
-              style={getSizeByHeight('nappula_rasti', 0.1)}/>
-          </TouchableOpacity>
-        </Image>
-        <TouchableOpacity
-          disabled={this.state.disabled}
-          onPress={this.saveText}
-          style={styles.saveButton}>
-          <Image
-            source={getImage('nappula_tallenna')}
-            style={[getSizeByHeight('nappula_tallenna', 0.1),
-              {opacity: this.state.disabled ? 0.1 : 1,
-              backgroundColor: this.state.disabled ? 'gray' : 'white'}]}/>
-        </TouchableOpacity>
-      </View>
-    );
-  }
-});
 
 const styles = StyleSheet.create({
   container: {
@@ -119,4 +50,65 @@ const styles = StyleSheet.create({
   }
 });
 
-export default TextForm;
+export default class TextForm extends Component {
+
+  static propTypes = {
+    toggleWriting: PropTypes.func.isRequired,
+    setText: PropTypes.func.isRequired,
+    phase: PropTypes.string,
+    save: PropTypes.func.isRequired
+  };
+
+  state = {
+    disabled: true,
+    text: ''
+  };
+
+  setText = (e) => {
+    this.setState({text: e.nativeEvent.text});
+    this.props.setText(e.nativeEvent.text);
+
+    this.setState({
+      disabled: e.nativeEvent.text === '' ? true : false
+    });
+  };
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <Image
+          source={getImage('tausta_kirjoitus')}
+          style={getSizeByWidth('tausta_kirjoitus', 0.9)}>
+          <Image
+            source={getImage('kirjoituskentta')}
+            style={[styles.textInput, getSizeByWidth('kirjoituskentta', 0.7)]}>
+            <TextInput
+              multiline = {true}
+              numberOfLines = {30}
+              maxLength = {500}
+              onChange = {this.setText}
+              underlineColorAndroid = 'transparent'
+              style={styles.textForm}/>
+          </Image>
+          <TouchableOpacity
+            onPress={this.props.toggleWriting}
+            style={styles.closeButton}>
+            <Image
+              source={getImage('nappula_rasti')}
+              style={getSizeByHeight('nappula_rasti', 0.1)}/>
+          </TouchableOpacity>
+        </Image>
+        <TouchableOpacity
+          disabled={this.state.disabled}
+          onPress={() => this.props.save(this.props.phase, 'text')}
+          style={styles.saveButton}>
+          <Image
+            source={getImage('nappula_tallenna')}
+            style={[getSizeByHeight('nappula_tallenna', 0.1),
+              {opacity: this.state.disabled ? 0.1 : 1,
+              backgroundColor: this.state.disabled ? 'gray' : 'white'}]}/>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+}
