@@ -35,6 +35,7 @@
     "moment": "^2.12.0",
     "react": "15.0.2",
     "react-dom": "15.0.2",
+    "react-mixin": "^3.0.5",
     "react-native": "^0.26.2",
     "react-native-audio-toolkit": "1.0.5",
     "react-native-form": "^2.0.6",
