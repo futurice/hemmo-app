@@ -3,7 +3,8 @@
  By clicking the bubble audio can be played again.
 */
 
-import React, {PropTypes, Component} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import AudioPlayerViewContainer from '../modules/audioplayer/AudioPlayerViewContainer';
 import {getSizeByHeight, getImage} from '../services/graphics';
 import TimerMixin from 'react-timer-mixin';

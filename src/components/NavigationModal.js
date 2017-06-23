@@ -2,7 +2,8 @@
 Navigation modal on the upper left corner that allows user to return to home page or quit giving feedback
 */
 
-import React, {PropTypes, Component} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {Map} from 'immutable';
 import {getSizeByHeight, getSizeByWidth, getImage} from '../services/graphics';
 import {save, formRequestBody} from '../services/save';

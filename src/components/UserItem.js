@@ -2,7 +2,8 @@
   Image representing an user on the home page.
 */
 
-import React, {PropTypes, Component} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {
   View,
   Image,

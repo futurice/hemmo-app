@@ -2,7 +2,8 @@
 Text panel that shows the selected main and sub activity on top of the recording panel
 */
 
-import React, {PropTypes, Component} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {List} from 'immutable';
 import {getSizeByHeight, getImage} from '../services/graphics';
 import {
