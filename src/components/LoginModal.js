@@ -2,7 +2,7 @@
 Login modal for settings
 */
 
-import React, {PropTypes} from 'react';
+import React, {PropTypes, Component} from 'react';
 import Button from './Button';
 import {
   View,
@@ -16,103 +16,6 @@ import {post} from '../utils/api';
 import {setAuthenticationToken} from '../utils/authentication';
 
 const privacyPolicyURL = 'https://spiceprogram.org/assets/docs/privacy-policy-hemmo.txt';
-
-const LoginModal = React.createClass({
-
-  propTypes: {
-    onClose: PropTypes.func.isRequired,
-    onSuccess: PropTypes.func.isRequired
-  },
-
-  getInitialState() {
-    return {
-      email: '',
-      password: '',
-      message: ''
-    };
-  },
-
-  onClose() {
-    this.props.onClose();
-  },
-
-  privpolicy() {
-    Linking.openURL(privacyPolicyURL).catch(err => console.error('An error occurred', err));
-  },
-
-  verifyPassword() {
-    this.setState({message: 'Kirjaudutaan...'});
-
-    post('/employees/authenticate', {
-      email: this.state.email,
-      password: this.state.password
-    })
-    .then(
-      result => {
-        this.setState({message: ''});
-        setAuthenticationToken(result.token)
-        .then(() => {
-          this.props.onSuccess();
-        });
-      }
-    )
-    .catch(error => {
-      console.log('error ' + error);
-      this.setState({message: 'Virhe sisäänkirjautumisessa, tarkista salasana ja Internetyhteys'});
-    });
-  },
-
-  render() {
-
-    return (
-      <View style={styles.container}>
-        <Text style={styles.text}>
-          Syötä sähköpostiosoite
-        </Text>
-
-        <View style={styles.passwordView}>
-          <TextInput
-            style={styles.email}
-            keyboardType={'email-address'}
-            onChangeText={(email) => this.setState({email: email.toLowerCase()})}
-            value={this.state.email}
-            secureTextEntry={false}/>
-        </View>
-
-        <Text style={styles.text}>
-          Syötä salasana
-        </Text>
-        <View style={styles.passwordView}>
-          <TextInput
-            style={styles.password}
-            keyboardType={'default'}
-            onChangeText={(password) => this.setState({password})}
-            value={this.state.password}
-            secureTextEntry={true}/>
-        </View>
-
-        <Text style={styles.message}>
-          {this.state.message}
-        </Text>
-
-        <Button
-          style={styles.loginButton} highlightStyle={styles.buttonHighlight}
-          onPress={this.verifyPassword} text={'Kirjaudu'} icon={''}/>
-
-        <Text style={styles.text} onPress={this.onClose}>
-          Peruuta
-        </Text>
-
-        <Text
-          style={styles.privpolicy}
-          onPress={this.privpolicy}>
-
-          Tietosuojakäytäntö
-        </Text>
-      </View>
-    );
-  }
-});
 
 const styles = StyleSheet.create({
   container: {
@@ -173,4 +76,138 @@ const styles = StyleSheet.create({
   }
 });
 
-export default LoginModal;
+export default class LoginModal extends Component {
+
+  static propTypes = {
+    onClose: PropTypes.func.isRequired,
+    onSuccess: PropTypes.func.isRequired
+  };
+
+  state = {
+    email: '',
+    password: '',
+    message: ''
+  };
+
+  openPrivacyPolicy = () => {
+    Linking.openURL(privacyPolicyURL).catch(err => console.error('An error occurred', err));
+  };
+
+  verifyPassword = () => {
+    this.setState({message: 'Kirjaudutaan...'});
+
+    post('/employees/authenticate', {
+      email: this.state.email,
+      password: this.state.password
+    })
+    .then(
+      result => {
+        this.setState({message: ''});
+        setAuthenticationToken(result.token)
+        .then(() => {
+          this.props.onSuccess();
+        });
+      }
+    )
+    .catch(error => {
+      console.log('error ' + error);
+      this.setState({message: 'Virhe sisäänkirjautumisessa, tarkista salasana ja internetyhteys'});
+    });
+  };
+
+  renderEmailFieldTitle = () => {
+    return (
+      <Text style={styles.text}>
+        Syötä sähköpostiosoite
+      </Text>
+    );
+  };
+
+  renderEmailField = () => {
+    return (
+      <View style={styles.passwordView}>
+        <TextInput
+          style={styles.email}
+          keyboardType={'email-address'}
+          onChangeText={(email) => this.setState({email: email.toLowerCase()})}
+          value={this.state.email}
+          secureTextEntry={false}/>
+      </View>
+    );
+  };
+
+  renderPasswordFieldTitle = () => {
+    return (
+      <Text style={styles.text}>
+        Syötä salasana
+      </Text>
+    );
+  };
+
+  renderPasswordField = () => {
+    return (
+      <View style={styles.passwordView}>
+        <TextInput
+          style={styles.password}
+          keyboardType={'default'}
+          onChangeText={(password) => this.setState({password})}
+          value={this.state.password}
+          secureTextEntry={true}/>
+      </View>
+    );
+  };
+
+  renderLoginButton = () => {
+    return (
+      <Button
+        style={styles.loginButton}
+        highlightStyle={styles.buttonHighlight}
+        onPress={this.verifyPassword}
+        text={'Kirjaudu'}
+        icon={''}
+      />
+    );
+  };
+
+  renderMessage = () => {
+    return (
+      <Text style={styles.message}>
+        {this.state.message}
+      </Text>
+    );
+  };
+
+  renderCancelButton = () => {
+    return (
+      <Text style={styles.text} onPress={this.props.onClose}>
+        Peruuta
+      </Text>
+    );
+  };
+
+  renderPrivacyPolicyLink = () => {
+    return (
+      <Text
+        style={styles.privpolicy}
+        onPress={this.openPrivacyPolicy}>
+
+        Tietosuojakäytäntö
+      </Text>
+    );
+  };
+
+  render() {
+    return (
+      <View style={styles.container}>
+        {this.renderEmailFieldTitle()}
+        {this.renderEmailField()}
+        {this.renderPasswordFieldTitle()}
+        {this.renderPasswordField()}
+        {this.renderMessage()}
+        {this.renderLoginButton()}
+        {this.renderCancelButton()}
+        {this.renderPrivacyPolicyLink()}
+      </View>
+    );
+  }
+}
