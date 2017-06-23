@@ -1,27 +1,26 @@
-import React, {PropTypes} from 'react';
+import React, {PropTypes, Component} from 'react';
 import {getSizeByHeight, getImage} from '../services/graphics';
 import {
   Image,
   TouchableWithoutFeedback
 } from 'react-native';
 
-const Hemmo = React.createClass({
+export default class Hemmo extends Component {
 
-  propTypes: {
+  static propTypes = {
     image: PropTypes.string.isRequired,
     size: PropTypes.number.isRequired,
     restartAudioAndText: PropTypes.func
-  },
+  };
 
   render() {
     return (
       <TouchableWithoutFeedback onPress={this.props.restartAudioAndText}>
         <Image
           source={getImage(this.props.image)}
-          style={getSizeByHeight(this.props.image, this.props.size)}/>
+          style={getSizeByHeight(this.props.image, this.props.size)}
+        />
       </TouchableWithoutFeedback>
     );
   }
-});
-
-export default Hemmo;
+}
