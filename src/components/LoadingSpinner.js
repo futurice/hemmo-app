@@ -2,22 +2,12 @@
 Spinner that appears when page is still loading.
 */
 
-import React from 'react';
+import React, {Component} from 'react';
 import Spinner from 'react-native-gifted-spinner';
 import {
   View,
   StyleSheet
 } from 'react-native';
-
-const LoadingSpinner = React.createClass({
-  render() {
-    return (
-      <View style={styles.centered}>
-        <Spinner />
-      </View>
-    );
-  }
-});
 
 const styles = StyleSheet.create({
   centered: {
@@ -27,4 +17,12 @@ const styles = StyleSheet.create({
   }
 });
 
-export default LoadingSpinner;
+export default class LoadingSpinner extends Component {
+  render() {
+    return (
+      <View style={styles.centered}>
+        <Spinner />
+      </View>
+    );
+  }
+}
