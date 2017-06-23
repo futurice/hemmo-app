@@ -3,7 +3,8 @@ Message window that is shown whenever new user has been added to system
 or audio has been successfully recorded and saved,
 */
 
-import React, {PropTypes, Component} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import Hemmo from './Hemmo';
 import SpeechBubble from './SpeechBubble';
 import {

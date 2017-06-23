@@ -1,7 +1,8 @@
 import {pushRoute} from '../navigation/NavigationState';
 import {resetCurrentUser, setCurrentUser, addActivity} from '../user/UserState';
 import {startPreparing, finishPreparing} from '../session/SessionState';
-import React, {PropTypes, Component} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {List, Map} from 'immutable';
 import SpeechBubble from '../../components/SpeechBubble';

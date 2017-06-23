@@ -3,7 +3,8 @@ View that is shown at the end of application.
 When speech ends or the speech bubble is closed, user is moved to home page
 */
 
-import React, {PropTypes, Component} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import SpeechBubble from '../components/SpeechBubble';
 import Hemmo from '../components/Hemmo';

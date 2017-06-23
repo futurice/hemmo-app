@@ -3,7 +3,8 @@ View that is shown when ever a round of feedback has been given.
  User can either move forward or give another round of feedback
  */
 
-import React, {PropTypes, Component} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {resetRoute, pushRoute} from '../modules/navigation/NavigationState';
 import {addActivity, resetActivity} from '../modules/user/UserState';

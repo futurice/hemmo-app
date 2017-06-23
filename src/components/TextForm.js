@@ -1,7 +1,8 @@
 /*
   Form that allows users to write their feedback instead of recording audio.
 */
-import React, {PropTypes, Component} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {getSizeByHeight, getSizeByWidth, getImage} from '../services/graphics';
 import {
   View,
