@@ -3,12 +3,10 @@ import store from './src/redux/store';
 import AppViewContainer from './src/modules/AppViewContainer';
 import {setConfiguration} from './src/utils/configuration';
 import Orientation from 'react-native-orientation';
-
-
-import React from 'react';
+import React, {Component} from 'react';
 import {AppRegistry} from 'react-native';
 
-const Hemmo = React.createClass({
+class Hemmo extends Component {
 
   componentWillMount() {
     if (__DEV__) {
@@ -18,8 +16,7 @@ const Hemmo = React.createClass({
     }
 
     Orientation.lockToLandscape();
-    // setConfiguration('API_ROOT', 'http://localhost:3001');
-  },
+  }
 
   render() {
     return (
@@ -28,6 +25,6 @@ const Hemmo = React.createClass({
       </Provider>
     );
   }
-});
+}
 
 AppRegistry.registerComponent('Hemmo', () => Hemmo);
