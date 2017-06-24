@@ -2,12 +2,12 @@ import 'es6-symbol/implement';
 import {Provider} from 'react-redux';
 import store from './src/redux/store';
 import AppViewContainer from './src/modules/AppViewContainer';
-import React from 'react';
+import React, {Component} from 'react';
 import {setConfiguration} from './src/utils/configuration';
 import {AppRegistry, BackAndroid} from 'react-native';
 import * as NavigationStateActions from './src/modules/navigation/NavigationState';
 
-const Hemmo = React.createClass({
+class Hemmo extends Component {
 
   componentWillMount() {
     BackAndroid.addEventListener('hardwareBackPress', this.navigateBack);
@@ -17,9 +17,9 @@ const Hemmo = React.createClass({
     } else {
       setConfiguration('API_ROOT', 'https://hemmo.pelastakaalapset.fi:3888');
     }
-  },
+  }
 
-  navigateBack() {
+  navigateBack = () => {
     const navigationState = store.getState().get('navigationState');
 
     if (navigationState.get('index') === 0) {
@@ -27,15 +27,16 @@ const Hemmo = React.createClass({
     }
 
     /* Check if returning from current page is allowed */
-    var currentPageIndex = navigationState.get('index');
-    var allowReturn = navigationState.getIn(['children', currentPageIndex, 'allowReturn']);
+    let currentPageIndex = navigationState.get('index');
+    let allowReturn = navigationState.getIn(['children', currentPageIndex, 'allowReturn']);
+
     if (allowReturn === false) {
       return true;
     }
 
     store.dispatch(NavigationStateActions.popRoute());
     return true;
-  },
+  };
 
   render() {
     return (
@@ -44,6 +45,6 @@ const Hemmo = React.createClass({
       </Provider>
     );
   }
-});
+}
 
 AppRegistry.registerComponent('Hemmo', () => Hemmo);
