@@ -1,4 +1,3 @@
-import { pushRoute } from '../navigation/NavigationState';
 import { resetCurrentUser, setCurrentUser, addActivity } from '../user/UserState';
 import { startPreparing, finishPreparing } from '../session/SessionState';
 import { NavigationActions } from 'react-navigation';

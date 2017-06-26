@@ -10,6 +10,8 @@
   "dependencies": {
     "event-emitter": "^0.3.5",
     "immutable": "^3.8.1",
+    "lodash": "^4.17.4",
+    "prop-types": "^15.5.10",
     "react": "16.0.0-alpha.12",
     "react-mixin": "^3.0.5",
     "react-native": "0.45.1",
@@ -22,6 +24,8 @@
     "react-timer-mixin": "^0.13.3",
     "redux": "^3.7.1",
     "redux-immutable": "^4.0.0",
+    "redux-logger": "^3.0.6",
+    "redux-promise": "^0.5.3",
     "redux-thunk": "^2.2.0",
     "standard-http-error": "^2.0.0"
   },

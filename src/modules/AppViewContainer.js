@@ -27,8 +27,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => ({
   isReady: state.getIn(['session', 'isReady']),
   currentUser: state.getIn(['user', 'currentUser']),
-  currentPage: state.getIn(['navigationState', 'index']),
-  pages: state.getIn(['navigationState', 'children']),
+  currentPage: state.getIn(['navigatorState', 'index']),
+  pages: state.getIn(['navigatorState', 'routes']),
 });
 
 const mapDispatchToProps = dispatch => ({

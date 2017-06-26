@@ -1,10 +1,10 @@
-import {Provider} from 'react-redux';
+import { Provider } from 'react-redux';
 import store from './src/redux/store';
 import AppViewContainer from './src/modules/AppViewContainer';
-import React, {Component} from 'react';
-import {setConfiguration} from './src/utils/configuration';
-import {AppRegistry, BackHandler} from 'react-native';
-import {NavigationActions} from 'react-navigation';
+import React, { Component } from 'react';
+import { setConfiguration } from './src/utils/configuration';
+import { AppRegistry, BackHandler } from 'react-native';
+import { NavigationActions } from 'react-navigation';
 
 class Hemmo extends Component {
 
