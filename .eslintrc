@@ -4,12 +4,6 @@
     "es6": true,
     "node": true
   },
-  "ecmaFeatures": {
-    "jsx": true,
-    "restParams": true,
-    "spread": true,
-    "experimentalObjectRestSpread": true
-  },
   "extends": "eslint:recommended",
   "plugins": [
     "babel",
