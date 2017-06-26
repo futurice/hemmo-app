@@ -3,13 +3,8 @@ package com.hemmo;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
-import com.auth0.lock.react.LockReactPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
-import com.oblador.vectoricons.VectorIconsPackage;
-import com.futurice.rctaudiotoolkit.AudioPackage;
-import com.imagepicker.ImagePickerPackage;
-import com.github.yamill.orientation.OrientationPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 
@@ -27,12 +22,7 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
-        new MainReactPackage(),
-            new LockReactPackage(),
-        new VectorIconsPackage(),
-        new ImagePickerPackage(),
-        new OrientationPackage(),
-        new AudioPackage()
+          new MainReactPackage()
       );
     }
   };

@@ -1,4 +1,3 @@
-import 'es6-symbol/implement';
 import {Provider} from 'react-redux';
 import store from './src/redux/store';
 import AppViewContainer from './src/modules/AppViewContainer';
@@ -13,7 +12,7 @@ class Hemmo extends Component {
     BackHandler.addEventListener('hardwareBackPress', this.navigateBack);
 
     if (__DEV__) {
-      setConfiguration('API_ROOT', 'http://10.6.3.49:3001');
+      setConfiguration('API_ROOT', 'http://localhost:3888');
     } else {
       setConfiguration('API_ROOT', 'https://hemmo.pelastakaalapset.fi:3888');
     }

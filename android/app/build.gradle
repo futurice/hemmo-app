@@ -87,7 +87,7 @@ def enableSeparateBuildPerCPUArchitecture = false
 /**
  * Run Proguard to shrink the Java bytecode in release builds.
  */
-def enableProguardInReleaseBuilds = true
+def enableProguardInReleaseBuilds = false
 
 android {
     compileSdkVersion 23
@@ -97,18 +97,10 @@ android {
         applicationId "com.hemmo"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode versionMajor * 10000 + versionMinor * 100 + versionPatch
-        versionName "${versionMajor}.${versionMinor}.${versionPatch}"
+        versionCode 1
+        versionName "1.0"
         ndk {
             abiFilters "armeabi-v7a", "x86"
-        }
-    }
-    signingConfigs {
-        release {
-            storeFile file(HEMMO_RELEASE_STORE_FILE)
-            storePassword HEMMO_RELEASE_STORE_PASSWORD
-            keyAlias HEMMO_RELEASE_KEY_ALIAS
-            keyPassword HEMMO_RELEASE_KEY_PASSWORD
         }
     }
     splits {
@@ -123,10 +115,6 @@ android {
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
-            if(project.hasProperty("HEMMO_RELEASE_STORE_FILE")
-                && new File(project.property("HEMMO_RELEASE_STORE_FILE")).exists()) {
-                signingConfig signingConfigs.release
-            }
         }
     }
     // applicationVariants are e.g. debug, release
@@ -142,27 +130,9 @@ android {
             }
         }
     }
-
-    packagingOptions {
-        exclude 'META-INF/DEPENDENCIES.txt'
-        exclude 'META-INF/LICENSE.txt'
-        exclude 'META-INF/NOTICE.txt'
-        exclude 'META-INF/NOTICE'
-        exclude 'META-INF/LICENSE'
-        exclude 'META-INF/DEPENDENCIES'
-        exclude 'META-INF/notice.txt'
-        exclude 'META-INF/license.txt'
-        exclude 'META-INF/dependencies.txt'
-        exclude 'META-INF/LGPL2.1'
-    }
 }
 
 dependencies {
-    compile project(':react-native-lock')
-    compile project(':react-native-vector-icons')
-    compile project(':react-native-image-picker')
-    compile project(':react-native-orientation')
-    compile project(':react-native-audio-toolkit')
     compile fileTree(dir: "libs", include: ["*.jar"])
     compile "com.android.support:appcompat-v7:23.0.1"
     compile "com.facebook.react:react-native:+"  // From node_modules

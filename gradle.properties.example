@@ -1,5 +1,0 @@
-# put me into ~/.gradle/gradle.properties
-HEMMO_RELEASE_STORE_FILE=/path/to/hemmo-release-key.keystore
-HEMMO_RELEASE_KEY_ALIAS=hemmo-key-alias
-HEMMO_RELEASE_STORE_PASSWORD=**********
-HEMMO_RELEASE_KEY_PASSWORD=**********
