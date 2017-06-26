@@ -2,18 +2,18 @@
   Image representing an user on the home page.
 */
 
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
   View,
   Image,
   TouchableHighlight,
-  StyleSheet
+  StyleSheet,
 } from 'react-native';
-import {getSizeByWidth, getSizeByHeight, getImage} from '../services/graphics';
+import { getSizeByWidth, getSizeByHeight, getImage } from '../services/graphics';
 
-let frameSize = getSizeByWidth('kehys_iso', 0.20);
-let iconSize = getSizeByWidth('kehys_iso', 0.17).width;
+const frameSize = getSizeByWidth('kehys_iso', 0.20);
+const iconSize = getSizeByWidth('kehys_iso', 0.17).width;
 
 const styles = StyleSheet.create({
   userRow: {
@@ -21,29 +21,29 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     height: frameSize.height,
-    width: frameSize.width
+    width: frameSize.width,
   },
   icon: {
     height: iconSize,
-    width: iconSize
+    width: iconSize,
   },
   smallIcon: {
     position: 'absolute',
     top: 5,
-    left: 5
+    left: 5,
   },
   rowWithSmallImageContainer: {
     margin: 2,
-    backgroundColor: 'white'
+    backgroundColor: 'white',
   },
   rowWithSmallImage: {
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   name: {
     width: iconSize,
-    alignItems: 'center'
-  }
+    alignItems: 'center',
+  },
 });
 
 export default class UserItem extends Component {
@@ -56,32 +56,30 @@ export default class UserItem extends Component {
     image: PropTypes.string,
     isColumn: PropTypes.bool,
     rowHeight: PropTypes.number,
-    iconHeight: PropTypes.number
+    iconHeight: PropTypes.number,
   };
 
   startJourney = (id) => {
     this.props.startJourney(id);
   };
 
-  renderDefaultIconImage = () => {
-    return (
+  renderDefaultIconImage = () => (
+    <Image
+      style={styles.icon}
+      source={getImage('default_image')}
+    />
+    );
+
+  renderIconImage = () => (
+    <TouchableHighlight
+      onPress={() => this.startJourney(this.props.index)}
+    >
       <Image
         style={styles.icon}
-        source={getImage('default_image')}
+        source={{ uri: this.props.image }}
       />
+    </TouchableHighlight>
     );
-  };
-
-  renderIconImage = () => {
-    return (
-      <TouchableHighlight
-        onPress={() => this.startJourney(this.props.index)}>
-        <Image
-          style={styles.icon}
-          source={{uri: this.props.image}} />
-      </TouchableHighlight>
-    );
-  };
 
   render() {
     if (this.props.isColumn) {
@@ -89,13 +87,16 @@ export default class UserItem extends Component {
         <TouchableHighlight
           style={styles.rowWithSmallImageContainer}
           key={this.props.index}
-          onPress={() => this.startJourney(this.props.index)}>
+          onPress={() => this.startJourney(this.props.index)}
+        >
           <Image
             source={getImage('kehys_palkki')}
-            style={[styles.rowWithSmallImage, getSizeByHeight('kehys_palkki', this.props.rowHeight)]}>
+            style={[styles.rowWithSmallImage, getSizeByHeight('kehys_palkki', this.props.rowHeight)]}
+          >
             <Image
-              style={[styles.smallIcon, {height: this.props.iconHeight - 20, width: this.props.iconHeight - 20}]}
-              source={{uri: this.props.image}}/>
+              style={[styles.smallIcon, { height: this.props.iconHeight - 20, width: this.props.iconHeight - 20 }]}
+              source={{ uri: this.props.image }}
+            />
             {this.props.name}
           </Image>
         </TouchableHighlight>
@@ -106,7 +107,8 @@ export default class UserItem extends Component {
       <Image
         source={getImage('kehys_iso')}
         key={this.props.index}
-        style={styles.userRow}>
+        style={styles.userRow}
+      >
         {this.props.empty ? this.renderDefaultIconImage() : this.renderIconImage()}
         <View style={styles.name}>
           {this.props.name}

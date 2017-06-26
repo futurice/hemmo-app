@@ -1,15 +1,15 @@
 /*
   Form that allows users to write their feedback instead of recording audio.
 */
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {getSizeByHeight, getSizeByWidth, getImage} from '../services/graphics';
+import { getSizeByHeight, getSizeByWidth, getImage } from '../services/graphics';
 import {
   View,
   TextInput,
   Image,
   TouchableOpacity,
-  StyleSheet
+  StyleSheet,
 } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -23,32 +23,32 @@ const styles = StyleSheet.create({
     right: 0,
     left: 0,
     backgroundColor: 'rgba(184, 184, 184, 0.9)',
-    padding: 15
+    padding: 15,
   },
   textInput: {
     marginTop: 30,
     marginLeft: 25,
     marginBottom: 30,
-    justifyContent: 'flex-start'
+    justifyContent: 'flex-start',
   },
   textForm: {
     margin: 15,
     flex: 1,
     fontSize: 20,
     fontFamily: 'Gill Sans',
-    textAlignVertical: 'top'
+    textAlignVertical: 'top',
   },
   saveButton: {
     marginTop: 5,
     opacity: 1,
-    backgroundColor: 'white'
+    backgroundColor: 'white',
   },
   closeButton: {
     flex: 1,
     position: 'absolute',
     right: 10,
-    top: 10
-  }
+    top: 10,
+  },
 });
 
 export default class TextForm extends Component {
@@ -57,20 +57,20 @@ export default class TextForm extends Component {
     toggleWriting: PropTypes.func.isRequired,
     setText: PropTypes.func.isRequired,
     phase: PropTypes.string,
-    save: PropTypes.func.isRequired
+    save: PropTypes.func.isRequired,
   };
 
   state = {
     disabled: true,
-    text: ''
+    text: '',
   };
 
   setText = (e) => {
-    this.setState({text: e.nativeEvent.text});
+    this.setState({ text: e.nativeEvent.text });
     this.props.setText(e.nativeEvent.text);
 
     this.setState({
-      disabled: e.nativeEvent.text === '' ? true : false
+      disabled: e.nativeEvent.text === '',
     });
   };
 
@@ -79,35 +79,42 @@ export default class TextForm extends Component {
       <View style={styles.container}>
         <Image
           source={getImage('tausta_kirjoitus')}
-          style={getSizeByWidth('tausta_kirjoitus', 0.9)}>
+          style={getSizeByWidth('tausta_kirjoitus', 0.9)}
+        >
           <Image
             source={getImage('kirjoituskentta')}
-            style={[styles.textInput, getSizeByWidth('kirjoituskentta', 0.7)]}>
+            style={[styles.textInput, getSizeByWidth('kirjoituskentta', 0.7)]}
+          >
             <TextInput
-              multiline = {true}
-              numberOfLines = {30}
-              maxLength = {500}
-              onChange = {this.setText}
-              underlineColorAndroid = 'transparent'
-              style={styles.textForm}/>
+              multiline
+              numberOfLines={30}
+              maxLength={500}
+              onChange={this.setText}
+              underlineColorAndroid="transparent"
+              style={styles.textForm}
+            />
           </Image>
           <TouchableOpacity
             onPress={this.props.toggleWriting}
-            style={styles.closeButton}>
+            style={styles.closeButton}
+          >
             <Image
               source={getImage('nappula_rasti')}
-              style={getSizeByHeight('nappula_rasti', 0.1)}/>
+              style={getSizeByHeight('nappula_rasti', 0.1)}
+            />
           </TouchableOpacity>
         </Image>
         <TouchableOpacity
           disabled={this.state.disabled}
           onPress={() => this.props.save(this.props.phase, 'text')}
-          style={styles.saveButton}>
+          style={styles.saveButton}
+        >
           <Image
             source={getImage('nappula_tallenna')}
             style={[getSizeByHeight('nappula_tallenna', 0.1),
-              {opacity: this.state.disabled ? 0.1 : 1,
-              backgroundColor: this.state.disabled ? 'gray' : 'white'}]}/>
+              { opacity: this.state.disabled ? 0.1 : 1,
+                backgroundColor: this.state.disabled ? 'gray' : 'white' }]}
+          />
         </TouchableOpacity>
       </View>
     );

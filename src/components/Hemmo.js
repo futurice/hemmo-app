@@ -1,9 +1,9 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {getSizeByHeight, getImage} from '../services/graphics';
+import { getSizeByHeight, getImage } from '../services/graphics';
 import {
   Image,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
 } from 'react-native';
 
 export default class Hemmo extends Component {
@@ -11,7 +11,7 @@ export default class Hemmo extends Component {
   static propTypes = {
     image: PropTypes.string.isRequired,
     size: PropTypes.number.isRequired,
-    restartAudioAndText: PropTypes.func
+    restartAudioAndText: PropTypes.func,
   };
 
   render() {
