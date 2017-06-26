@@ -33,24 +33,13 @@ local.properties
 # node.js
 #
 node_modules/
-coverage/
 npm-debug.log
 yarn-error.log
-
-# Secrets
-env.js
-
-# CocoaPods
-ios/Pods/
 
 # BUCK
 buck-out/
 \.buckd/
-
-android/app/libs
-android/keystores/debug.keystore
 *.keystore
-*.apk
 
 # fastlane
 #
