@@ -12,7 +12,7 @@ class Hemmo extends Component {
     BackHandler.addEventListener('hardwareBackPress', this.navigateBack);
 
     if (__DEV__) {
-      setConfiguration('API_ROOT', 'http://localhost:3888');
+      setConfiguration('API_ROOT', 'http://localhost:3001');
     } else {
       setConfiguration('API_ROOT', 'https://hemmo.pelastakaalapset.fi:3888');
     }
