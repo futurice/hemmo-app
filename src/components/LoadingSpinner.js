@@ -3,10 +3,10 @@ Spinner that appears when page is still loading.
 */
 
 import React, {Component} from 'react';
-import Spinner from 'react-native-gifted-spinner';
 import {
   View,
-  StyleSheet
+  StyleSheet,
+  ActivityIndicator
 } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -21,7 +21,7 @@ export default class LoadingSpinner extends Component {
   render() {
     return (
       <View style={styles.centered}>
-        <Spinner />
+        <ActivityIndicator />
       </View>
     );
   }

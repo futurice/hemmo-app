@@ -1,14 +1,12 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {View, StyleSheet, AppState} from 'react-native';
+import {View, StyleSheet, AppState, ActivityIndicator} from 'react-native';
 import NavigationViewContainer from './navigation/NavigationViewContainer';
-import AppRouter from './AppRouter';
 import {Map, List} from 'immutable';
 import NavigationModal from '../components/NavigationModal';
-import Spinner from 'react-native-gifted-spinner';
 import * as snapshotUtil from '../utils/snapshot';
-import {resetRoute, pushRoute} from '../modules/navigation/NavigationState';
+import {NavigationActions} from 'react-navigation';
 import {
   initializeSessionState,
   activate,
@@ -38,8 +36,13 @@ const mapDispatchToProps = dispatch => ({
   activate: () => dispatch(activate()),
   deactivate: () => dispatch(deactivate()),
   resetSessionStateFromSnapshot: (snapshot) => dispatch(resetSessionStateFromSnapshot(snapshot)),
-  resetRoute: () => dispatch(resetRoute()),
-  pushRoute: (key) => dispatch(pushRoute(key))
+  navigate: (route) => dispatch(NavigationActions.navigate({routeName: route})),
+  resetRoute: () => dispatch(NavigationActions.reset({
+    index: 0,
+    actions: [
+      NavigationActions.navigate({routeName: 'Home'})
+    ]
+  }))
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -51,8 +54,8 @@ export default class AppViewContainer extends Component {
     activate: PropTypes.func.isRequired,
     deactivate: PropTypes.func.isRequired,
     resetSessionStateFromSnapshot: PropTypes.func.isRequired,
+    navigate: PropTypes.func.isRequired,
     resetRoute: PropTypes.func.isRequired,
-    pushRoute: PropTypes.func.isRequired,
     currentUser: PropTypes.instanceOf(Map),
     currentPage: PropTypes.number,
     pages: PropTypes.instanceOf(List)
@@ -117,7 +120,7 @@ export default class AppViewContainer extends Component {
         phase={this.props.pages.get(this.props.currentPage - 1).get('key') === 'Moods' ? 'moods' : 'other'}
         shouldSave={this.props.currentPage !== 1}
         currentUser={this.props.currentUser}
-        quit={() => this.props.pushRoute({key: 'End', allowReturn: false})}
+        quit={() => this.props.navigate('Ending')}
       />
     ) : null;
   };
@@ -126,14 +129,14 @@ export default class AppViewContainer extends Component {
     if (!this.props.isReady) {
       return (
         <View style={styles.centered}>
-          <Spinner />
+          <ActivityIndicator />
         </View>
       );
     }
 
     return (
       <View style={{flex: 1}}>
-        <NavigationViewContainer router={AppRouter} />
+        <NavigationViewContainer />
         {this.renderNavigationModal()}
       </View>
     );
