@@ -1,13 +1,12 @@
-import {Map} from 'immutable';
-import {combineReducers} from 'redux-loop';
+import {Map, fromJS} from 'immutable';
+import {loop, combineReducers} from 'redux-loop-symbol-ponyfill';
 import NavigationStateReducer from '../modules/navigation/NavigationState';
-import SessionStateReducer, {RESET_STATE} from '../modules/session/SessionState';
 import UserStateReducer from '../modules/user/UserState';
+import SessionStateReducer, {RESET_STATE} from '../modules/session/SessionState';
 
 const reducers = {
-  // @NOTE: By convention, the navigation state must live in a subtree called
-  //`navigationState`
-  navigationState: NavigationStateReducer,
+  // Navigator states
+  navigatorState: NavigationStateReducer,
 
   session: SessionStateReducer,
 
@@ -28,9 +27,10 @@ const namespacedReducer = combineReducers(
 );
 
 export default function mainReducer(state, action) {
-  if (action.type === RESET_STATE) {
-    return namespacedReducer(action.payload, action);
-  }
+  const [nextState, effects] = action.type === RESET_STATE
+    ? namespacedReducer(action.payload, action)
+    : namespacedReducer(state || void 0, action);
 
-  return namespacedReducer(state || void 0, action);
+  // enforce the state is immutable
+  return loop(fromJS(nextState), effects);
 }

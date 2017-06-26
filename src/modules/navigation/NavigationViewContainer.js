@@ -1,85 +1,39 @@
-import React, {PropTypes} from 'react';
+import React, {PropTypes, Component} from 'react';
 import {connect} from 'react-redux';
-import {
-  Navigator
-} from 'react-native';
-import SettingsViewContainer from '../settings/SettingsViewContainer';
-import HomeViewContainer from '../home/HomeViewContainer';
-import ActivityViewContainer from '../activity/main/ActivityViewContainer';
-import SubActivityViewContainer from '../activity/sub/SubActivityViewContainer';
-import ThumbVoteViewContainer from '../activity/thumbs/ThumbVoteViewContainer';
-import RecordViewContainer from '../activity/record/RecordViewContainer';
-import MoodViewContainer from '../moods/MoodViewContainer';
-import NewRound from '../NewRoundContainer';
-import EndingView from '../EndingViewContainer';
+import {addNavigationHelpers} from 'react-navigation';
+import AppNavigator from './Navigator';
 
-let routesWithKeys = [
-  {'key': 'Home', 'route': <HomeViewContainer/>},
-  {'key': 'Settings', 'route': <SettingsViewContainer/>},
-  {'key': 'Activity', 'route': <ActivityViewContainer/>},
-  {'key': 'SubActivity', 'route': <SubActivityViewContainer/>},
-  {'key': 'Record', 'route': <RecordViewContainer/>},
-  {'key': 'Thumbs', 'route': <ThumbVoteViewContainer/>},
-  {'key': 'NewRound', 'route': <NewRound/>},
-  {'key': 'Moods', 'route': <MoodViewContainer/>},
-  {'key': 'End', 'route': <EndingView/>}
-];
+const mapStateToProps = state => ({
+  navigatorState: state.get('navigatorState').toJS()
+});
 
-const NavigationViewContainer = React.createClass({
-  propTypes: {
-    router: PropTypes.func.isRequired,
-    navigationState: PropTypes.object.isRequired,
-    onNavigate: PropTypes.func.isRequired
-  },
+@connect(mapStateToProps)
+class NavigatorView extends Component {
+  static displayName = 'NavigationView';
 
-  //TODO: Move to AppRouter somehow
-  renderScene(route, navigator) {
-    this.navigator = navigator;
-
-    for (var i = 0; i < routesWithKeys.length; i++) {
-      if (routesWithKeys[i].key === route.key) {
-        return routesWithKeys[i].route;
-      }
-    }
-
-    return null;
-  },
+  static propTypes = {
+    dispatch: PropTypes.func.isRequired,
+    navigatorState: PropTypes.shape({
+      index: PropTypes.number.isRequired,
+      routes: PropTypes.arrayOf(PropTypes.shape({
+        key: PropTypes.string.isRequired,
+        routeName: PropTypes.string.isRequired
+      }))
+    }).isRequired
+  };
 
   render() {
-    var index = this.props.navigationState.index;
-    var routes = this.props.navigationState.children;
-
     return (
-      <Navigator
-        initialRoute={{key: 'Home', index: 0}}
-        renderScene={(route, nav) => this.renderScene(routes[index], nav)}
-        configureScene={(route) => {
-          if (route.sceneConfig) {
-            return route.sceneConfig;
-          }
-          return Navigator.SceneConfigs.HorizontalSwipeJump;
-        }}
+      <AppNavigator
+        navigation={
+          addNavigationHelpers({
+            dispatch: this.props.dispatch,
+            state: this.props.navigatorState
+          })
+        }
       />
     );
   }
-});
+}
 
-export default connect(
-  state => ({
-    navigationState: state.get('navigationState').toJS()
-  }),
-  dispatch => ({
-    onNavigate(action) {
-      // The "back" and "BackAction" actions are fired from NavigationExperimental when
-      // the user swipes the screen back or uses the software back button, respectively.
-      // We handle these and dispatch our custom back action to our Redux stack.
-      //
-      // Android back button is handled separately in index.android.js
-      if (action.type === 'back' || action.type === 'BackAction') {
-        dispatch(popRoute());
-      } else if (action.type === 'animation-completed') {
-        dispatch(navigationCompleted());
-      }
-    }
-  })
-)(NavigationViewContainer);
+export default NavigatorView;

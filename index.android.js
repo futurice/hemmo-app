@@ -4,16 +4,16 @@ import store from './src/redux/store';
 import AppViewContainer from './src/modules/AppViewContainer';
 import React, {Component} from 'react';
 import {setConfiguration} from './src/utils/configuration';
-import {AppRegistry, BackAndroid} from 'react-native';
-import * as NavigationStateActions from './src/modules/navigation/NavigationState';
+import {AppRegistry, BackHandler} from 'react-native';
+import {NavigationActions} from 'react-navigation';
 
 class Hemmo extends Component {
 
   componentWillMount() {
-    BackAndroid.addEventListener('hardwareBackPress', this.navigateBack);
+    BackHandler.addEventListener('hardwareBackPress', this.navigateBack);
 
     if (__DEV__) {
-      setConfiguration('API_ROOT', 'http://localhost:3001');
+      setConfiguration('API_ROOT', 'http://10.6.3.49:3001');
     } else {
       setConfiguration('API_ROOT', 'https://hemmo.pelastakaalapset.fi:3888');
     }
@@ -22,20 +22,16 @@ class Hemmo extends Component {
   navigateBack = () => {
     const navigationState = store.getState().get('navigationState');
 
-    if (navigationState.get('index') === 0) {
-      return false;
-    }
+    const currentStackScreen = navigationState.get('index');
+    const currentTab = navigationState.getIn(['routes', 0, 'index']);
 
-    /* Check if returning from current page is allowed */
-    let currentPageIndex = navigationState.get('index');
-    let allowReturn = navigationState.getIn(['children', currentPageIndex, 'allowReturn']);
-
-    if (allowReturn === false) {
+    if (currentTab !== 0 || currentStackScreen !== 0) {
+      store.dispatch(NavigationActions.back());
       return true;
     }
 
-    store.dispatch(NavigationStateActions.popRoute());
-    return true;
+    // otherwise let OS handle the back button action
+    return false;
   };
 
   render() {

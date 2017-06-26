@@ -1,6 +1,7 @@
 import {pushRoute} from '../navigation/NavigationState';
 import {resetCurrentUser, setCurrentUser, addActivity} from '../user/UserState';
 import {startPreparing, finishPreparing} from '../session/SessionState';
+import {NavigationActions} from 'react-navigation';
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
@@ -35,7 +36,7 @@ const mapDispatchToProps = dispatch => ({
   addActivity: () => dispatch(addActivity()),
   startPreparing: () => dispatch(startPreparing()),
   finishPreparing: () => dispatch(finishPreparing()),
-  pushRoute: (key) => dispatch(pushRoute(key))
+  navigate: (route) => dispatch(NavigationActions.navigate({routeName: route}))
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -47,7 +48,7 @@ export default class HomeViewContainer extends Component {
     addActivity: PropTypes.func.isRequired,
     startPreparing: PropTypes.func.isRequired,
     finishPreparing: PropTypes.func.isRequired,
-    pushRoute: PropTypes.func.isRequired,
+    navigate: PropTypes.func.isRequired,
     users: PropTypes.instanceOf(List),
     currentUser: PropTypes.instanceOf(Map)
   };
@@ -63,7 +64,7 @@ export default class HomeViewContainer extends Component {
 
   openSettings = () => {
     this.props.resetCurrentUser();
-    this.props.pushRoute({key: 'Settings', allowReturn: true});
+    this.props.navigate('Settings');
   };
 
   startJourney = (id) => {
@@ -82,7 +83,7 @@ export default class HomeViewContainer extends Component {
         this.props.finishPreparing();
         this.props.addActivity();
         this.props.setCurrentUser(id);
-        this.props.pushRoute({key: 'Activity', allowReturn: true});
+        this.props.navigate('Activity');
       })
       .catch((error) => {
         this.props.finishPreparing();
