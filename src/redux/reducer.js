@@ -1,8 +1,8 @@
-import {Map, fromJS} from 'immutable';
-import {loop, combineReducers} from 'redux-loop-symbol-ponyfill';
+import { Map, fromJS } from 'immutable';
+import { loop, combineReducers } from 'redux-loop-symbol-ponyfill';
 import NavigationStateReducer from '../modules/navigation/NavigationState';
 import UserStateReducer from '../modules/user/UserState';
-import SessionStateReducer, {RESET_STATE} from '../modules/session/SessionState';
+import SessionStateReducer, { RESET_STATE } from '../modules/session/SessionState';
 
 const reducers = {
   // Navigator states
@@ -10,7 +10,7 @@ const reducers = {
 
   session: SessionStateReducer,
 
-  user: UserStateReducer
+  user: UserStateReducer,
 };
 
 // initial state, accessor and mutator for supporting root-level
@@ -23,7 +23,7 @@ const namespacedReducer = combineReducers(
   reducers,
   immutableStateContainer,
   getImmutable,
-  setImmutable
+  setImmutable,
 );
 
 export default function mainReducer(state, action) {

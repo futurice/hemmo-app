@@ -1,5 +1,5 @@
 import {
-  StyleSheet
+  StyleSheet,
 } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -8,28 +8,28 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     flexDirection: 'row',
     height: null,
-    width: null
+    width: null,
   },
   leftColumn: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   rightColumn: {
     flex: 1,
-    alignItems: 'center'
+    alignItems: 'center',
   },
   font: {
     fontSize: 20,
-    fontFamily: 'Gill Sans'
+    fontFamily: 'Gill Sans',
   },
   settingsButton: {
     alignItems: 'center',
     justifyContent: 'center',
     position: 'absolute',
     bottom: 10,
-    left: 10
-  }
+    left: 10,
+  },
 });
 
 module.exports = styles;

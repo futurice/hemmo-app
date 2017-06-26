@@ -1,4 +1,4 @@
-import {Map} from 'immutable';
+import { Map } from 'immutable';
 
 let configuration = Map();
 
@@ -16,7 +16,7 @@ export function unsetConfiguration(name) {
 
 export function getConfiguration(key) {
   if (!configuration.has(key)) {
-    throw new Error('Undefined configuration key: ' + key);
+    throw new Error(`Undefined configuration key: ${key}`);
   }
 
   return configuration.get(key);

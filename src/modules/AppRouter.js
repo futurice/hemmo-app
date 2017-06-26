@@ -1,4 +1,4 @@
-/*eslint-disable react/prop-types*/
+/* eslint-disable react/prop-types*/
 
 import React from 'react';
 import HomeViewContainer from './home/HomeViewContainer';
@@ -12,11 +12,10 @@ export default function AppRouter(props) {
   const key = props.route.key;
 
   if (key === 'Home') {
-    return <HomeViewContainer onNavigate={onNavigate}/>;
-  }
-  else if (key === 'Settings') {
-    return <SettingsViewContainer onNavigate={onNavigate}/>;
+    return <HomeViewContainer onNavigate={onNavigate} />;
+  } else if (key === 'Settings') {
+    return <SettingsViewContainer onNavigate={onNavigate} />;
   }
 
-  throw new Error('Unknown navigation key: ' + key);
+  throw new Error(`Unknown navigation key: ${key}`);
 }

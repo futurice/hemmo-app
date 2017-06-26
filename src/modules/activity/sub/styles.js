@@ -1,5 +1,5 @@
 import {
-  StyleSheet
+  StyleSheet,
 } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -12,26 +12,26 @@ const styles = StyleSheet.create({
     bottom: 0,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(184, 184, 184, 0.9)'
+    backgroundColor: 'rgba(184, 184, 184, 0.9)',
   },
   subActivityContainer: {
     flexDirection: 'column',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
   },
   titleBar: {
     flex: 1,
     margin: 15,
     alignItems: 'center',
-    flexDirection: 'column'
+    flexDirection: 'column',
   },
   title: {
     fontSize: 25,
-    fontFamily: 'Gill Sans'
+    fontFamily: 'Gill Sans',
   },
   activityBar: {
     flex: 6,
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   subActivities: {
     flex: 3,
@@ -39,19 +39,19 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'space-around'
+    justifyContent: 'space-around',
   },
   hemmo: {
     flex: 1,
     paddingRight: 5,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   closeButton: {
     position: 'absolute',
     right: 10,
-    top: 10
-  }
+    top: 10,
+  },
 });
 
 module.exports = styles;

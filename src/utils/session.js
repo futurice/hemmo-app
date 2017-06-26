@@ -1,4 +1,4 @@
-import {AsyncStorage} from 'react-native';
+import { AsyncStorage } from 'react-native';
 
 const SESSION_STORAGE_KEY = 'PepperoniState:session';
 
