@@ -1,17 +1,17 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {View, StyleSheet, AppState, ActivityIndicator} from 'react-native';
+import { connect } from 'react-redux';
+import { View, StyleSheet, AppState, ActivityIndicator } from 'react-native';
 import NavigationViewContainer from './navigation/NavigationViewContainer';
-import {Map, List} from 'immutable';
+import { Map, List } from 'immutable';
 import NavigationModal from '../components/NavigationModal';
 import * as snapshotUtil from '../utils/snapshot';
-import {NavigationActions} from 'react-navigation';
+import { NavigationActions } from 'react-navigation';
 import {
   initializeSessionState,
   activate,
   deactivate,
-  resetSessionStateFromSnapshot
+  resetSessionStateFromSnapshot,
 } from '../modules/session/SessionState';
 import store from '../redux/store';
 import Orientation from 'react-native-orientation';
@@ -20,29 +20,29 @@ const styles = StyleSheet.create({
   centered: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center'
-  }
+    justifyContent: 'center',
+  },
 });
 
 const mapStateToProps = state => ({
   isReady: state.getIn(['session', 'isReady']),
   currentUser: state.getIn(['user', 'currentUser']),
   currentPage: state.getIn(['navigationState', 'index']),
-  pages: state.getIn(['navigationState', 'children'])
+  pages: state.getIn(['navigationState', 'children']),
 });
 
 const mapDispatchToProps = dispatch => ({
   initializeSessionState: () => dispatch(initializeSessionState()),
   activate: () => dispatch(activate()),
   deactivate: () => dispatch(deactivate()),
-  resetSessionStateFromSnapshot: (snapshot) => dispatch(resetSessionStateFromSnapshot(snapshot)),
-  navigate: (route) => dispatch(NavigationActions.navigate({routeName: route})),
+  resetSessionStateFromSnapshot: snapshot => dispatch(resetSessionStateFromSnapshot(snapshot)),
+  navigate: route => dispatch(NavigationActions.navigate({ routeName: route })),
   resetRoute: () => dispatch(NavigationActions.reset({
     index: 0,
     actions: [
-      NavigationActions.navigate({routeName: 'Home'})
-    ]
-  }))
+      NavigationActions.navigate({ routeName: 'Home' }),
+    ],
+  })),
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -58,12 +58,12 @@ export default class AppViewContainer extends Component {
     resetRoute: PropTypes.func.isRequired,
     currentUser: PropTypes.instanceOf(Map),
     currentPage: PropTypes.number,
-    pages: PropTypes.instanceOf(List)
+    pages: PropTypes.instanceOf(List),
   };
 
   state = {
     currentState: AppState.currentState,
-    previousState: null
+    previousState: null,
   };
 
   componentDidMount() {
@@ -72,7 +72,7 @@ export default class AppViewContainer extends Component {
 
     /* Haetaan viimeisin tila */
     snapshotUtil.resetSnapshot()
-    .then(snapshot => {
+    .then((snapshot) => {
       /* Jos viimeisin tila löytyi */
       if (snapshot) {
         this.props.resetSessionStateFromSnapshot(snapshot)
@@ -94,36 +94,33 @@ export default class AppViewContainer extends Component {
   }
 
   _handleAppStateChange = (appState) => {
-    let previous = this.state.currentState;
+    const previous = this.state.currentState;
 
-    this.setState({currentState: appState, previousState: previous});
+    this.setState({ currentState: appState, previousState: previous });
 
     if (this.state.currentState === 'active') {
       Orientation.lockToLandscape();
       this.props.activate();
-    }
-    else if (this.state.currentState === 'inactive' || this.state.currentState === 'background') {
+    } else if (this.state.currentState === 'inactive' || this.state.currentState === 'background') {
       this.props.deactivate();
     }
   };
 
   shouldRenderNavigationModal = () => {
-    let key = this.props.pages.get(this.props.currentPage).get('key');
+    const key = this.props.pages.get(this.props.currentPage).get('key');
 
     return key !== 'Settings' && key !== 'Home' && key !== 'End';
   };
 
-  renderNavigationModal = () => {
-    return this.shouldRenderNavigationModal() ? (
-      <NavigationModal
-        resetRoute={this.props.resetRoute}
-        phase={this.props.pages.get(this.props.currentPage - 1).get('key') === 'Moods' ? 'moods' : 'other'}
-        shouldSave={this.props.currentPage !== 1}
-        currentUser={this.props.currentUser}
-        quit={() => this.props.navigate('Ending')}
-      />
+  renderNavigationModal = () => this.shouldRenderNavigationModal() ? (
+    <NavigationModal
+      resetRoute={this.props.resetRoute}
+      phase={this.props.pages.get(this.props.currentPage - 1).get('key') === 'Moods' ? 'moods' : 'other'}
+      shouldSave={this.props.currentPage !== 1}
+      currentUser={this.props.currentUser}
+      quit={() => this.props.navigate('Ending')}
+    />
     ) : null;
-  };
 
   render() {
     if (!this.props.isReady) {
@@ -135,7 +132,7 @@ export default class AppViewContainer extends Component {
     }
 
     return (
-      <View style={{flex: 1}}>
+      <View style={{ flex: 1 }}>
         <NavigationViewContainer />
         {this.renderNavigationModal()}
       </View>

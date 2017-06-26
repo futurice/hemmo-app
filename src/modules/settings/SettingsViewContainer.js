@@ -1,21 +1,21 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {List, Map} from 'immutable';
+import { connect } from 'react-redux';
+import { List, Map } from 'immutable';
 import Button from '../../components/Button';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import SaveConfirmationWindow from '../../components/SaveConfirmationWindow';
-import {popRoute} from '../../modules/navigation/NavigationState';
+import { popRoute } from '../../modules/navigation/NavigationState';
 import {
   setCurrentUserValue,
   createUser,
   editUser,
   removeUser,
   resetCurrentUser,
-  setCurrentUser
+  setCurrentUser,
 } from '../../modules/user/UserState';
-import {post} from '../../utils/api';
-import {getSizeByHeight, getSizeByWidth, getImage} from '../../services/graphics';
+import { post } from '../../utils/api';
+import { getSizeByHeight, getSizeByWidth, getImage } from '../../services/graphics';
 import {
   NativeModules,
   Image,
@@ -24,27 +24,28 @@ import {
   Alert,
   Text,
   TextInput,
-  View
+  View,
 } from 'react-native';
 
-let styles = require('./styles.js');
-let options = require('./image-picker-options');
-let ImagePicker = NativeModules.ImagePickerManager;
+const styles = require('./styles.js');
+const options = require('./image-picker-options');
+
+const ImagePicker = NativeModules.ImagePickerManager;
 
 const mapStateToProps = state => ({
   loading: state.getIn(['home', 'loading']),
   users: state.getIn(['user', 'users']),
-  currentUser: state.getIn(['user', 'currentUser'])
+  currentUser: state.getIn(['user', 'currentUser']),
 });
 
 const mapDispatchToProps = dispatch => ({
   setCurrentUserValue: (key, value) => dispatch(setCurrentUserValue(key, value)),
-  createUser: (user) => dispatch(createUser(user)),
-  editUser: (user) => dispatch(editUser(user)),
-  removeUser: (id) => dispatch(removeUser(id)),
+  createUser: user => dispatch(createUser(user)),
+  editUser: user => dispatch(editUser(user)),
+  removeUser: id => dispatch(removeUser(id)),
   resetCurrentUser: () => dispatch(resetCurrentUser()),
-  setCurrentUser: (id) => dispatch(setCurrentUser(id)),
-  popRoute: () => dispatch(popRoute())
+  setCurrentUser: id => dispatch(setCurrentUser(id)),
+  popRoute: () => dispatch(popRoute()),
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -59,68 +60,64 @@ export default class SettingsViewContainer extends Component {
     setCurrentUser: PropTypes.func.isRequired,
     popRoute: PropTypes.func.isRequired,
     users: PropTypes.instanceOf(List),
-    currentUser: PropTypes.instanceOf(Map)
+    currentUser: PropTypes.instanceOf(Map),
   };
 
   state = {
     loading: false,
     disabled: true,
-    showSucceedingMessage: false
+    showSucceedingMessage: false,
   };
 
-  infoIsMissing = () => {
-    return this.props.currentUser.get('name') === '' || this.props.currentUser.get('image') === null;
-  };
+  infoIsMissing = () => this.props.currentUser.get('name') === '' || this.props.currentUser.get('image') === null;
 
   saveUser = () => {
     if (this.infoIsMissing()) {
       Alert.alert('Puuttuvia tietoja', 'Varmistathan, että kaikki kohdat on täytetty ennen jatkamista.');
-    }
-    else if (this.props.currentUser.get('id') === null) {
-      let name = this.props.currentUser.get('name');
-      let newId = this.props.users.size;
+    } else if (this.props.currentUser.get('id') === null) {
+      const name = this.props.currentUser.get('name');
+      const newId = this.props.users.size;
 
-      this.setState({loading: true});
+      this.setState({ loading: true });
 
       // TODO: move this API call to another place
-      post('/register', {name})
+      post('/register', { name })
         .then(
-          result => this.props.setCurrentUserValue('token', 'Bearer ' + result.token)
+          result => this.props.setCurrentUserValue('token', `Bearer ${result.token}`)
             .then(() => {
               this.props.setCurrentUserValue('id', newId);
               this.props.createUser(this.props.currentUser);
-              this.setState({disabled: true, loading: false});
+              this.setState({ disabled: true, loading: false });
               this.showSucceedingMessage();
             }))
         .catch((error) => {
-          this.setState({loading: false});
+          this.setState({ loading: false });
           Alert.alert('Virhe käyttäjän luonnissa!', 'Yritä myöhemmin uudelleen.');
         });
-    }
-    else {
+    } else {
       this.props.editUser(this.props.currentUser);
-      this.setState({disabled: true});
+      this.setState({ disabled: true });
     }
   };
 
   showSucceedingMessage = () => {
-    this.setState({showSucceedingMessage: true});
+    this.setState({ showSucceedingMessage: true });
   };
 
   closeSucceedingMessage = () => {
-    this.setState({showSucceedingMessage: false});
+    this.setState({ showSucceedingMessage: false });
   };
 
   verifyRemoveUser = () => {
     Alert.alert(
       'Oletko varma?',
-      'Haluatko varmasti poistaa käyttäjän ' + this.props.currentUser.get('name') + '?',
+      `Haluatko varmasti poistaa käyttäjän ${this.props.currentUser.get('name')}?`,
       [{
         text: 'Kyllä',
-        onPress: this.removeUser
-      },{
-        text: 'Peruuta'}
-      ]
+        onPress: this.removeUser,
+      }, {
+        text: 'Peruuta' },
+      ],
     );
   };
 
@@ -131,7 +128,7 @@ export default class SettingsViewContainer extends Component {
 
   getChangedName = (e) => {
     if (this.state.disabled === true) {
-      this.setState({disabled: false});
+      this.setState({ disabled: false });
     }
 
     this.props.setCurrentUserValue('name', e.nativeEvent.text);
@@ -140,16 +137,13 @@ export default class SettingsViewContainer extends Component {
   // TODO: Display default-image after opening.
   openImageGallery = () => {
     ImagePicker.showImagePicker(options, (response) => {
-
       if (response.didCancel) {
-        return;
-      }
-      else if (response.customButton) {
+
+      } else if (response.customButton) {
         this.props.setCurrentUserValue('image', null);
-      }
-      else {
-        const source = {uri: response.uri, isStatic: true};
-        this.setState({disabled: false});
+      } else {
+        const source = { uri: response.uri, isStatic: true };
+        this.setState({ disabled: false });
 
         this.props.setCurrentUserValue('image', source.uri);
       }
@@ -159,189 +153,168 @@ export default class SettingsViewContainer extends Component {
   handleTabClick = (user, index) => {
     if (user === '+ Lisää lapsi') {
       this.props.resetCurrentUser();
-    }
-    else {
+    } else {
       this.props.setCurrentUser(index);
     }
   };
 
-  renderTabBar = () => {
-    return (
-      <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={styles.tabBar}>
-        {this.renderTabs()}
-      </ScrollView>
+  renderTabBar = () => (
+    <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.tabBar}>
+      {this.renderTabs()}
+    </ScrollView>
     );
-  };
 
-  renderTabs = () => {
-    return this.props.users.map((user, key) =>
+  renderTabs = () => this.props.users.map((user, key) =>
       this.renderTab(user.get('name'), key)).concat(this.renderTab('+ Lisää lapsi', -1));
-  };
 
-  renderTab = (name, key) => {
-    return (
-      <TouchableOpacity key={key} onPress={() => this.handleTabClick(name, key)}>
-        <Image
-          source={getImage('valilehti_tyhja')}
-          onPress={() => this.handleTabClick(name, key)}
-          style={[styles.tab, getSizeByHeight('valilehti_tyhja', 0.12)]}>
-          <Text
-            ellipsizeMode='tail'
-            numberOfLines={1}
-            style={[styles.tabText, styles.font, {fontWeight: this.tabIsSelected(key) ? 'bold' : 'normal'}]}>
-            {name}
-          </Text>
-        </Image>
-      </TouchableOpacity>
+  renderTab = (name, key) => (
+    <TouchableOpacity key={key} onPress={() => this.handleTabClick(name, key)}>
+      <Image
+        source={getImage('valilehti_tyhja')}
+        onPress={() => this.handleTabClick(name, key)}
+        style={[styles.tab, getSizeByHeight('valilehti_tyhja', 0.12)]}
+      >
+        <Text
+          ellipsizeMode="tail"
+          numberOfLines={1}
+          style={[styles.tabText, styles.font, { fontWeight: this.tabIsSelected(key) ? 'bold' : 'normal' }]}
+        >
+          {name}
+        </Text>
+      </Image>
+    </TouchableOpacity>
     );
-  };
 
-  tabIsSelected = (key) => {
-    return key === this.props.currentUser.get('id') || (this.props.currentUser.get('id') === null && key === -1);
-  };
+  tabIsSelected = key => key === this.props.currentUser.get('id') || (this.props.currentUser.get('id') === null && key === -1);
 
-  renderBackButton = () => {
-    return (
-      <TouchableOpacity onPress={this.props.popRoute} style={styles.titleBarSection}>
-        <Image
-          source={getImage('nappula_takaisin')}
-          onPress={this.props.popRoute} style={[styles.backButton, getSizeByHeight('nappula_takaisin', 0.1)]}/>
-      </TouchableOpacity>
+  renderBackButton = () => (
+    <TouchableOpacity onPress={this.props.popRoute} style={styles.titleBarSection}>
+      <Image
+        source={getImage('nappula_takaisin')}
+        onPress={this.props.popRoute}
+        style={[styles.backButton, getSizeByHeight('nappula_takaisin', 0.1)]}
+      />
+    </TouchableOpacity>
     );
-  };
 
-  renderTitleBar = () => {
-    return (
-      <View style={styles.titleBar}>
-        {this.renderBackButton()}
+  renderTitleBar = () => (
+    <View style={styles.titleBar}>
+      {this.renderBackButton()}
 
-        <View style={styles.titleBarSection}>
-          <Image source={getImage('ratas')} style={getSizeByHeight('ratas', 0.08)}/>
-          <Image source={getImage('asetukset')} style={getSizeByHeight('asetukset', 0.05)}/>
-        </View>
+      <View style={styles.titleBarSection}>
+        <Image source={getImage('ratas')} style={getSizeByHeight('ratas', 0.08)} />
+        <Image source={getImage('asetukset')} style={getSizeByHeight('asetukset', 0.05)} />
       </View>
+    </View>
     );
-  };
 
-  renderTextInput = () => {
-    return (
-      <View style={styles.inputField}>
-        <Text style={[styles.label, styles.font]}>
+  renderTextInput = () => (
+    <View style={styles.inputField}>
+      <Text style={[styles.label, styles.font]}>
           Nimi
         </Text>
 
-        <View style={styles.textInputView}>
-          <TextInput
-            style={styles.input}
-            ref='name'
-            onChange={this.getChangedName}
-            value={this.props.currentUser.get('name')}/>
-        </View>
+      <View style={styles.textInputView}>
+        <TextInput
+          style={styles.input}
+          ref="name"
+          onChange={this.getChangedName}
+          value={this.props.currentUser.get('name')}
+        />
       </View>
+    </View>
     );
-  };
 
-  renderImageField = () => {
-    return (
-      <View style={styles.imagefield}>
-        <Image source={getImage('nelio')} style={getSizeByWidth('nelio', 0.25)}>
-          <Image
-            style={styles.icon}
-            source={{uri: this.props.currentUser.get('image')}}/>
-        </Image>
-
-        <TouchableOpacity onPress={this.openImageGallery}>
-          <Image
-            source={getImage('nappula_uusikuva')}
-            style={[{marginLeft: 20}, getSizeByWidth('nappula_uusikuva', 0.15)]}/>
-        </TouchableOpacity>
-      </View>
-    );
-  };
-
-  renderTabBodyLeftColumn = () => {
-    return (
-      <View style={styles.leftColumn}>
-        {this.renderTextInput()}
-        {this.renderImageField()}
-      </View>
-    );
-  };
-
-  renderSaveButton = () => {
-    return (
-      <TouchableOpacity
-        disabled={this.state.disabled}
-        onPress={this.saveUser}>
+  renderImageField = () => (
+    <View style={styles.imagefield}>
+      <Image source={getImage('nelio')} style={getSizeByWidth('nelio', 0.25)}>
         <Image
-          source={getImage('nappula_tallenna')}
-          style={[getSizeByWidth('nappula_tallenna', 0.25),
-            {opacity: this.state.disabled ? 0.2 : 1}]}/>
+          style={styles.icon}
+          source={{ uri: this.props.currentUser.get('image') }}
+        />
+      </Image>
+
+      <TouchableOpacity onPress={this.openImageGallery}>
+        <Image
+          source={getImage('nappula_uusikuva')}
+          style={[{ marginLeft: 20 }, getSizeByWidth('nappula_uusikuva', 0.15)]}
+        />
       </TouchableOpacity>
+    </View>
     );
-  };
 
-  renderCancelButton = () => {
-    return (
-      <Button
-        style={styles.cancelbutton}
-        highlightStyle={styles.buttonHighlight}
-        onPress={this.props.popRoute}
-        text={'Peruuta'}
-        icon={''}
-      />
+  renderTabBodyLeftColumn = () => (
+    <View style={styles.leftColumn}>
+      {this.renderTextInput()}
+      {this.renderImageField()}
+    </View>
     );
-  };
 
-  renderRemoveUserButton = () => {
-    return this.props.currentUser.get('id') !== null ? (
-      <Button
-        style={styles.removeButton}
-        highlightStyle={styles.buttonHighlight}
-        onPress={this.verifyRemoveUser}
-        text={'Poista'}
-        icon={''}
+  renderSaveButton = () => (
+    <TouchableOpacity
+      disabled={this.state.disabled}
+      onPress={this.saveUser}
+    >
+      <Image
+        source={getImage('nappula_tallenna')}
+        style={[getSizeByWidth('nappula_tallenna', 0.25),
+            { opacity: this.state.disabled ? 0.2 : 1 }]}
       />
+    </TouchableOpacity>
+    );
+
+  renderCancelButton = () => (
+    <Button
+      style={styles.cancelbutton}
+      highlightStyle={styles.buttonHighlight}
+      onPress={this.props.popRoute}
+      text={'Peruuta'}
+      icon={''}
+    />
+    );
+
+  renderRemoveUserButton = () => this.props.currentUser.get('id') !== null ? (
+    <Button
+      style={styles.removeButton}
+      highlightStyle={styles.buttonHighlight}
+      onPress={this.verifyRemoveUser}
+      text={'Poista'}
+      icon={''}
+    />
     ) : null;
-  };
 
-  renderTabBodyRightColumn = () => {
-    return (
-      <View style={styles.rightColumn}>
-        <View style={styles.buttonfield}>
-          {this.renderSaveButton()}
+  renderTabBodyRightColumn = () => (
+    <View style={styles.rightColumn}>
+      <View style={styles.buttonfield}>
+        {this.renderSaveButton()}
 
-          <View style={styles.bottomRow}>
-            {this.renderCancelButton()}
-            {this.renderRemoveUserButton()}
-          </View>
+        <View style={styles.bottomRow}>
+          {this.renderCancelButton()}
+          {this.renderRemoveUserButton()}
         </View>
       </View>
+    </View>
     );
-  };
 
-  renderTabBody = () => {
-    return (
-      <Image
-        source={getImage('tausta_asetukset')}
-        style={[styles.form, getSizeByWidth('tausta_asetukset', 0.9)]}>
+  renderTabBody = () => (
+    <Image
+      source={getImage('tausta_asetukset')}
+      style={[styles.form, getSizeByWidth('tausta_asetukset', 0.9)]}
+    >
 
-        {this.renderTabBodyLeftColumn()}
-        {this.renderTabBodyRightColumn()}
-      </Image>
+      {this.renderTabBodyLeftColumn()}
+      {this.renderTabBodyRightColumn()}
+    </Image>
     );
-  };
 
-  renderSaveConfirmationWindow = () => {
-    return this.state.showSucceedingMessage ? (
-      <SaveConfirmationWindow closeWindow={() => this.closeSucceedingMessage()}/>
+  renderSaveConfirmationWindow = () => this.state.showSucceedingMessage ? (
+    <SaveConfirmationWindow closeWindow={() => this.closeSucceedingMessage()} />
     ) : null;
-  };
 
   render() {
     if (this.state.loading) {
       return (
-        <LoadingSpinner/>
+        <LoadingSpinner />
       );
     }
 

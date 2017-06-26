@@ -2,7 +2,7 @@
 Login modal for settings
 */
 
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Button from './Button';
 import {
@@ -11,10 +11,10 @@ import {
   TextInput,
   Platform,
   StyleSheet,
-  Linking
+  Linking,
 } from 'react-native';
-import {post} from '../utils/api';
-import {setAuthenticationToken} from '../utils/authentication';
+import { post } from '../utils/api';
+import { setAuthenticationToken } from '../utils/authentication';
 
 const privacyPolicyURL = 'https://spiceprogram.org/assets/docs/privacy-policy-hemmo.txt';
 
@@ -27,10 +27,10 @@ const styles = StyleSheet.create({
     top: 0,
     bottom: 0,
     left: 0,
-    right: 0
+    right: 0,
   },
   passwordView: {
-    alignItems: 'center'
+    alignItems: 'center',
   },
   email: {
     width: 300,
@@ -39,10 +39,10 @@ const styles = StyleSheet.create({
         height: 40,
         borderWidth: 1,
         borderColor: 'gray',
-        backgroundColor: 'rgba(209, 209, 209, 0.59)'
-      }
+        backgroundColor: 'rgba(209, 209, 209, 0.59)',
+      },
     }),
-    textAlign: 'center'
+    textAlign: 'center',
   },
   password: {
     width: 300,
@@ -51,43 +51,43 @@ const styles = StyleSheet.create({
         height: 40,
         borderWidth: 1,
         borderColor: 'gray',
-        backgroundColor: 'rgba(209, 209, 209, 0.59)'
-      }
+        backgroundColor: 'rgba(209, 209, 209, 0.59)',
+      },
     }),
-    textAlign: 'center'
+    textAlign: 'center',
   },
   message: {
-    color: 'red'
+    color: 'red',
   },
   loginButton: {
     backgroundColor: 'rgb(127, 192, 194)',
     borderRadius: 10,
     margin: 20,
-    width: 150
+    width: 150,
   },
   text: {
-    fontSize: 17
+    fontSize: 17,
   },
   privpolicy: {
     marginTop: 20,
-    fontSize: 14
+    fontSize: 14,
   },
   buttonHighlight: {
-    borderRadius: 10
-  }
+    borderRadius: 10,
+  },
 });
 
 export default class LoginModal extends Component {
 
   static propTypes = {
     onClose: PropTypes.func.isRequired,
-    onSuccess: PropTypes.func.isRequired
+    onSuccess: PropTypes.func.isRequired,
   };
 
   state = {
     email: '',
     password: '',
-    message: ''
+    message: '',
   };
 
   openPrivacyPolicy = () => {
@@ -95,107 +95,94 @@ export default class LoginModal extends Component {
   };
 
   verifyPassword = () => {
-    this.setState({message: 'Kirjaudutaan...'});
+    this.setState({ message: 'Kirjaudutaan...' });
 
     post('/employees/authenticate', {
       email: this.state.email,
-      password: this.state.password
+      password: this.state.password,
     })
     .then(
-      result => {
-        this.setState({message: ''});
+      (result) => {
+        this.setState({ message: '' });
         setAuthenticationToken(result.token)
         .then(() => {
           this.props.onSuccess();
         });
-      }
+      },
     )
-    .catch(error => {
-      console.log('error ' + error);
-      this.setState({message: 'Virhe sisäänkirjautumisessa, tarkista salasana ja internetyhteys'});
+    .catch((error) => {
+      console.log(`error ${error}`);
+      this.setState({ message: 'Virhe sisäänkirjautumisessa, tarkista salasana ja internetyhteys' });
     });
   };
 
-  renderEmailFieldTitle = () => {
-    return (
-      <Text style={styles.text}>
+  renderEmailFieldTitle = () => (
+    <Text style={styles.text}>
         Syötä sähköpostiosoite
       </Text>
     );
-  };
 
-  renderEmailField = () => {
-    return (
-      <View style={styles.passwordView}>
-        <TextInput
-          style={styles.email}
-          keyboardType={'email-address'}
-          onChangeText={(email) => this.setState({email: email.toLowerCase()})}
-          value={this.state.email}
-          secureTextEntry={false}/>
-      </View>
+  renderEmailField = () => (
+    <View style={styles.passwordView}>
+      <TextInput
+        style={styles.email}
+        keyboardType={'email-address'}
+        onChangeText={email => this.setState({ email: email.toLowerCase() })}
+        value={this.state.email}
+        secureTextEntry={false}
+      />
+    </View>
     );
-  };
 
-  renderPasswordFieldTitle = () => {
-    return (
-      <Text style={styles.text}>
+  renderPasswordFieldTitle = () => (
+    <Text style={styles.text}>
         Syötä salasana
       </Text>
     );
-  };
 
-  renderPasswordField = () => {
-    return (
-      <View style={styles.passwordView}>
-        <TextInput
-          style={styles.password}
-          keyboardType={'default'}
-          onChangeText={(password) => this.setState({password})}
-          value={this.state.password}
-          secureTextEntry={true}/>
-      </View>
-    );
-  };
-
-  renderLoginButton = () => {
-    return (
-      <Button
-        style={styles.loginButton}
-        highlightStyle={styles.buttonHighlight}
-        onPress={this.verifyPassword}
-        text={'Kirjaudu'}
-        icon={''}
+  renderPasswordField = () => (
+    <View style={styles.passwordView}>
+      <TextInput
+        style={styles.password}
+        keyboardType={'default'}
+        onChangeText={password => this.setState({ password })}
+        value={this.state.password}
+        secureTextEntry
       />
+    </View>
     );
-  };
 
-  renderMessage = () => {
-    return (
-      <Text style={styles.message}>
-        {this.state.message}
-      </Text>
+  renderLoginButton = () => (
+    <Button
+      style={styles.loginButton}
+      highlightStyle={styles.buttonHighlight}
+      onPress={this.verifyPassword}
+      text={'Kirjaudu'}
+      icon={''}
+    />
     );
-  };
 
-  renderCancelButton = () => {
-    return (
-      <Text style={styles.text} onPress={this.props.onClose}>
+  renderMessage = () => (
+    <Text style={styles.message}>
+      {this.state.message}
+    </Text>
+    );
+
+  renderCancelButton = () => (
+    <Text style={styles.text} onPress={this.props.onClose}>
         Peruuta
       </Text>
     );
-  };
 
-  renderPrivacyPolicyLink = () => {
-    return (
-      <Text
-        style={styles.privpolicy}
-        onPress={this.openPrivacyPolicy}>
+  renderPrivacyPolicyLink = () => (
+    <Text
+      style={styles.privpolicy}
+      onPress={this.openPrivacyPolicy}
+    >
 
         Tietosuojakäytäntö
       </Text>
     );
-  };
 
   render() {
     return (

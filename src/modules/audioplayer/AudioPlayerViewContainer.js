@@ -1,11 +1,11 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {Platform} from 'react-native';
-import {Player} from 'react-native-audio-toolkit';
+import { connect } from 'react-redux';
+import { Platform } from 'react-native';
+import { Player } from 'react-native-audio-toolkit';
 
 const mapStateToProps = state => ({
-  isActive: state.getIn(['session', 'isActive'])
+  isActive: state.getIn(['session', 'isActive']),
 });
 
 @connect(mapStateToProps)
@@ -14,16 +14,15 @@ export default class AudioPlayerViewContainer extends Component {
   static propTypes = {
     audioTrack: PropTypes.string,
     onEnd: PropTypes.func.isRequired,
-    isActive: PropTypes.bool
+    isActive: PropTypes.bool,
   };
 
   componentWillMount() {
     let audioTrack;
 
     if (Platform.OS === 'ios') {
-      audioTrack = '/audio/' + this.props.audioTrack + '.wav';
-    }
-    else {
+      audioTrack = `/audio/${this.props.audioTrack}.wav`;
+    } else {
       audioTrack = this.props.audioTrack;
     }
 
@@ -41,8 +40,7 @@ export default class AudioPlayerViewContainer extends Component {
   checkActivity = () => {
     if (this.props.isActive) {
       this.player.play();
-    }
-    else {
+    } else {
       this.player.destroy();
     }
   };

@@ -1,10 +1,10 @@
-import React, {PropTypes, Component} from 'react';
-import {connect} from 'react-redux';
-import {addNavigationHelpers} from 'react-navigation';
+import React, { PropTypes, Component } from 'react';
+import { connect } from 'react-redux';
+import { addNavigationHelpers } from 'react-navigation';
 import AppNavigator from './Navigator';
 
 const mapStateToProps = state => ({
-  navigatorState: state.get('navigatorState').toJS()
+  navigatorState: state.get('navigatorState').toJS(),
 });
 
 @connect(mapStateToProps)
@@ -17,9 +17,9 @@ class NavigatorView extends Component {
       index: PropTypes.number.isRequired,
       routes: PropTypes.arrayOf(PropTypes.shape({
         key: PropTypes.string.isRequired,
-        routeName: PropTypes.string.isRequired
-      }))
-    }).isRequired
+        routeName: PropTypes.string.isRequired,
+      })),
+    }).isRequired,
   };
 
   render() {
@@ -28,7 +28,7 @@ class NavigatorView extends Component {
         navigation={
           addNavigationHelpers({
             dispatch: this.props.dispatch,
-            state: this.props.navigatorState
+            state: this.props.navigatorState,
           })
         }
       />
