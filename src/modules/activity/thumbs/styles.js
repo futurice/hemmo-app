@@ -1,5 +1,5 @@
 import {
-  StyleSheet
+  StyleSheet,
 } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -8,26 +8,26 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     flex: 1,
     width: null,
-    height: null
+    height: null,
   },
   leftColumn: {
     margin: 10,
-    flexDirection: 'column'
+    flexDirection: 'column',
   },
   rightColumn: {
     alignItems: 'center',
     justifyContent: 'flex-end',
-    paddingBottom: 40
+    paddingBottom: 40,
   },
   actionRow: {
     flex: 2,
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   voteButton: {
-    margin: 5
-  }
+    margin: 5,
+  },
 });
 
 module.exports = styles;

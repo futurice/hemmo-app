@@ -1,5 +1,6 @@
-import {AsyncStorage} from 'react-native';
-import {fromJS} from 'immutable';
+import { AsyncStorage } from 'react-native';
+import { fromJS } from 'immutable';
+
 const STATE_STORAGE_KEY = 'HemmoAppState:Latest';
 
 export async function resetSnapshot() {

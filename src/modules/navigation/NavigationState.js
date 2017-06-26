@@ -1,5 +1,5 @@
-import {fromJS} from 'immutable';
-import {NavigationActions} from 'react-navigation';
+import { fromJS } from 'immutable';
+import { NavigationActions } from 'react-navigation';
 import includes from 'lodash/includes';
 
 import AppNavigator from './Navigator';

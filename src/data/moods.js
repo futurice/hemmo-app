@@ -1,4 +1,4 @@
-let moods = [
+const moods = [
   'iloinen',
   'surullinen',
   'jannittynyt',
@@ -7,7 +7,7 @@ let moods = [
   'innostunut',
   'rauhallinen',
   'yksinainen',
-  'muu tunne'
+  'muu tunne',
 ];
 
 module.exports = moods;

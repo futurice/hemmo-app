@@ -1,10 +1,10 @@
-var options = {
+const options = {
   title: 'Valitse kuvake', // specify null or empty string to remove the title
   cancelButtonTitle: 'Peruuta',
   takePhotoButtonTitle: 'Ota valokuva...', // specify null or empty string to remove this button
   chooseFromLibraryButtonTitle: 'Valitse galleriasta...',
   customButtons: {
-    'Poista kuva': 'remove'
+    'Poista kuva': 'remove',
   },
   cameraType: 'back', // 'front' or 'back'
   mediaType: 'photo', // 'photo' or 'video'
@@ -17,7 +17,7 @@ var options = {
   quality: 1, // 0 to 1, photos only
   angle: 0, // android only, photos only
   allowsEditing: false, // Built in functionality to resize/reposition the image after selection
-  noData: false
+  noData: false,
 };
 
 module.exports = options;

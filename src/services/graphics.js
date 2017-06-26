@@ -1,22 +1,23 @@
-import {getScreenHeight, getScreenWidth} from './screenSize';
-var graphics = require('../data/graphics.js');
+import { getScreenHeight, getScreenWidth } from './screenSize';
+
+const graphics = require('../data/graphics.js');
 
 export function getSizeByHeight(name, size) {
-  var ratio = graphics.get(name).get('ratio');
-  var screenHeight = getScreenHeight();
-  var height = screenHeight * size;
-  var width = height * ratio;
+  const ratio = graphics.get(name).get('ratio');
+  const screenHeight = getScreenHeight();
+  const height = screenHeight * size;
+  const width = height * ratio;
 
-  return {height, width};
+  return { height, width };
 }
 
 export function getSizeByWidth(name, size) {
-  var ratio = graphics.get(name).get('ratio');
-  var screenWidth = getScreenWidth();
-  var width = screenWidth * size;
-  var height = width / ratio;
+  const ratio = graphics.get(name).get('ratio');
+  const screenWidth = getScreenWidth();
+  const width = screenWidth * size;
+  const height = width / ratio;
 
-  return {height, width};
+  return { height, width };
 }
 
 export function getImage(name) {

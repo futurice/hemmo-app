@@ -1,4 +1,4 @@
-import {Map} from 'immutable';
+import { Map } from 'immutable';
 
 export const RESET_STATE = 'SessionState/RESET';
 export const INITIALIZE_STATE = 'SessionState/INITIALIZE';
@@ -10,45 +10,45 @@ export const DEACTIVATE = 'SessionState/DEACTIVATE';
 // Initial state
 const initialState = Map({
   isReady: false,
-  isActive: true
+  isActive: true,
 });
 
 export function startPreparing() {
   return {
     type: TOGGLE_ISREADY,
-    payload: false
+    payload: false,
   };
 }
 
 export function finishPreparing() {
   return {
     type: TOGGLE_ISREADY,
-    payload: true
+    payload: true,
   };
 }
 
 export function resetSessionStateFromSnapshot(state) {
   return {
     type: RESET_STATE,
-    payload: state
+    payload: state,
   };
 }
 
 export function initializeSessionState() {
   return {
-    type: INITIALIZE_STATE
+    type: INITIALIZE_STATE,
   };
 }
 
 export function activate() {
   return {
-    type: ACTIVATE
+    type: ACTIVATE,
   };
 }
 
 export function deactivate() {
   return {
-    type: DEACTIVATE
+    type: DEACTIVATE,
   };
 }
 

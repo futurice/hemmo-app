@@ -1,12 +1,12 @@
-import {Map, List} from 'immutable';
+import { Map, List } from 'immutable';
 
 // Initial state. user Hemmo created for testing.
 const initialState = Map({
   users: List(),
   currentUser: Map({
     activityIndex: -1,
-    id: null
-  })
+    id: null,
+  }),
 });
 
 const CREATE_USER = 'UserState/CREATE_USER';
@@ -28,7 +28,7 @@ export function createUser(newUser) {
       token: newUser.get('token'),
       image: newUser.get('image'),
       answers: Map({
-        activities: List()})})
+        activities: List() }) }),
   };
 }
 
@@ -42,16 +42,16 @@ export function editUser(user) {
         token: user.get('token'),
         image: user.get('image'),
         answers: Map({
-          activities: List()})
-      })
-    }
+          activities: List() }),
+      }),
+    },
   };
 }
 
 export function removeUser(id) {
   return {
     type: REMOVE_USER,
-    payload: id
+    payload: id,
   };
 }
 
@@ -64,21 +64,21 @@ export function resetCurrentUser() {
       token: '',
       name: '',
       image: null,
-      answers: Map({activities: List()})})
+      answers: Map({ activities: List() }) }),
   };
 }
 
 export function setCurrentUserValue(destination, value) {
   return {
     type: SET_CURRENT_USER_VALUE,
-    payload: {destination, value}
+    payload: { destination, value },
   };
 }
 
 export function setCurrentUser(id) {
   return {
     type: SET_CURRENT_USER,
-    payload: id
+    payload: id,
   };
 }
 
@@ -88,20 +88,20 @@ export function addActivity() {
     payload: Map({
       main: Map(),
       sub: Map(),
-      thumb: Map()})
+      thumb: Map() }),
   };
 }
 
 export function saveAnswer(index, destination, answers) {
   return {
     type: SAVE_ANSWER,
-    payload: {index, destination, answers}
+    payload: { index, destination, answers },
   };
 }
 
 export function resetActivity() {
   return {
-    type: RESET_ACTIVITIES
+    type: RESET_ACTIVITIES,
   };
 }
 
@@ -117,7 +117,7 @@ function usersReducer(state = List(), action) {
 
     case REMOVE_USER:
       var tmp = state.slice();
-      tmp = tmp.filter(function deleteUser(user, index) {return index !== action.payload; });
+      tmp = tmp.filter((user, index) => index !== action.payload);
       return tmp;
 
     default:
@@ -156,14 +156,14 @@ function currentUserReducer(state = Map(), action, wholeState) {
         return state
           .setIn(['answers', action.payload.destination], action.payload.answers);
       }
-      else {
-        return state
+
+      return state
           .setIn([
             'answers',
             'activities',
             action.payload.index,
             action.payload.destination], action.payload.answers);
-      }
+
 
     default:
       return state;
