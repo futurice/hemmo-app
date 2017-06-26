@@ -5,7 +5,7 @@ import { List, Map } from 'immutable';
 import Button from '../../components/Button';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import SaveConfirmationWindow from '../../components/SaveConfirmationWindow';
-import { popRoute } from '../../modules/navigation/NavigationState';
+import { NavigationActions } from 'react-navigation';
 import {
   setCurrentUserValue,
   createUser,
@@ -45,7 +45,7 @@ const mapDispatchToProps = dispatch => ({
   removeUser: id => dispatch(removeUser(id)),
   resetCurrentUser: () => dispatch(resetCurrentUser()),
   setCurrentUser: id => dispatch(setCurrentUser(id)),
-  popRoute: () => dispatch(popRoute()),
+  popRoute: () => dispatch(NavigationActions.back()),
 });
 
 @connect(mapStateToProps, mapDispatchToProps)

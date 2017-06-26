@@ -3,7 +3,7 @@ import middleware from './middleware';
 import reducer from './reducer';
 
 const enhancers = [
-  applyMiddleware(...middleware)
+  applyMiddleware(...middleware),
 ];
 
 /* Enable redux dev tools only in development.
