@@ -4,9 +4,10 @@ Login modal for settings
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Button from './Button';
 import {
+  Button,
   View,
+  ScrollView,
   Text,
   TextInput,
   Platform,
@@ -21,19 +22,28 @@ const privacyPolicyURL = 'https://spiceprogram.org/assets/docs/privacy-policy-he
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'rgba(233, 233, 233, 0.93)',
-    alignItems: 'center',
-    justifyContent: 'center',
     position: 'absolute',
+    padding: 16,
     top: 0,
     bottom: 0,
     left: 0,
     right: 0,
   },
+  scrollContainer: {
+    alignItems: 'stretch',
+    justifyContent: 'center',
+    flexGrow: 1,
+  },
+  buttonContainer: {
+    paddingVertical: 8,
+    alignSelf: 'stretch',
+    alignItems: 'stretch',
+    justifyContent: 'space-between',
+  },
   passwordView: {
     alignItems: 'center',
   },
   email: {
-    width: 300,
     ...Platform.select({
       ios: {
         height: 40,
@@ -45,7 +55,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   password: {
-    width: 300,
     ...Platform.select({
       ios: {
         height: 40,
@@ -58,22 +67,17 @@ const styles = StyleSheet.create({
   },
   message: {
     color: 'red',
-  },
-  loginButton: {
-    backgroundColor: 'rgb(127, 192, 194)',
-    borderRadius: 10,
-    margin: 20,
-    width: 150,
+    textAlign: 'center',
+    height: 40,
   },
   text: {
     fontSize: 17,
+    textAlign: 'center',
   },
   privpolicy: {
     marginTop: 20,
     fontSize: 14,
-  },
-  buttonHighlight: {
-    borderRadius: 10,
+    textAlign: 'center',
   },
 });
 
@@ -85,9 +89,10 @@ export default class LoginModal extends Component {
   };
 
   state = {
-    email: '',
-    password: '',
+    email: __DEV__ ? 'foo@bar.com' : '',
+    password: __DEV__ ? 'foobar' : '',
     message: '',
+    loading: false,
   };
 
   openPrivacyPolicy = () => {
@@ -95,7 +100,14 @@ export default class LoginModal extends Component {
   };
 
   verifyPassword = () => {
-    this.setState({ message: 'Kirjaudutaan...' });
+    if (this.state.loading) {
+      return;
+    }
+
+    this.setState({
+      loading: true,
+      message: 'Kirjaudutaan...',
+    });
 
     post('/employees/authenticate', {
       email: this.state.email,
@@ -103,7 +115,10 @@ export default class LoginModal extends Component {
     })
     .then(
       (result) => {
-        this.setState({ message: '' });
+        this.setState({
+          loading: false,
+          message: '',
+        });
         setAuthenticationToken(result.token)
         .then(() => {
           this.props.onSuccess();
@@ -112,89 +127,95 @@ export default class LoginModal extends Component {
     )
     .catch((error) => {
       console.log(`error ${error}`);
-      this.setState({ message: 'Virhe sisäänkirjautumisessa, tarkista salasana ja internetyhteys' });
+      this.setState({
+        loading: false,
+        message: 'Virhe sisäänkirjautumisessa, tarkista salasana ja internetyhteys',
+      });
     });
   };
 
   renderEmailFieldTitle = () => (
     <Text style={styles.text}>
-        Syötä sähköpostiosoite
-      </Text>
-    );
+      Syötä sähköpostiosoite
+    </Text>
+  );
 
   renderEmailField = () => (
-    <View style={styles.passwordView}>
-      <TextInput
-        style={styles.email}
-        keyboardType={'email-address'}
-        onChangeText={email => this.setState({ email: email.toLowerCase() })}
-        value={this.state.email}
-        secureTextEntry={false}
-      />
-    </View>
-    );
+    <TextInput
+      style={styles.email}
+      keyboardType={'email-address'}
+      onChangeText={email => this.setState({ email: email.toLowerCase() })}
+      value={this.state.email}
+      secureTextEntry={false}
+    />
+  );
 
   renderPasswordFieldTitle = () => (
     <Text style={styles.text}>
-        Syötä salasana
-      </Text>
-    );
+      Syötä salasana
+    </Text>
+  );
 
   renderPasswordField = () => (
-    <View style={styles.passwordView}>
-      <TextInput
-        style={styles.password}
-        keyboardType={'default'}
-        onChangeText={password => this.setState({ password })}
-        value={this.state.password}
-        secureTextEntry
-      />
-    </View>
-    );
+    <TextInput
+      style={styles.password}
+      keyboardType={'default'}
+      onChangeText={password => this.setState({ password })}
+      value={this.state.password}
+      secureTextEntry
+    />
+  );
 
   renderLoginButton = () => (
-    <Button
-      style={styles.loginButton}
-      highlightStyle={styles.buttonHighlight}
-      onPress={this.verifyPassword}
-      text={'Kirjaudu'}
-      icon={''}
-    />
-    );
+    <View style={styles.buttonContainer}>
+      <Button
+        color={'rgb(127, 192, 194)'}
+        title={'Kirjaudu'}
+        onPress={this.verifyPassword}
+        disabled={this.state.loading}
+      />
+    </View>
+  );
 
   renderMessage = () => (
     <Text style={styles.message}>
       {this.state.message}
     </Text>
-    );
+  );
 
   renderCancelButton = () => (
-    <Text style={styles.text} onPress={this.props.onClose}>
-        Peruuta
-      </Text>
-    );
+    <View style={styles.buttonContainer}>
+      <Button
+        color={'rgb(64, 127, 127)'}
+        title={'Peruuta'}
+        onPress={this.props.onClose}
+        disabled={this.state.loading}
+      />
+    </View>
+  );
 
   renderPrivacyPolicyLink = () => (
     <Text
       style={styles.privpolicy}
       onPress={this.openPrivacyPolicy}
     >
-
-        Tietosuojakäytäntö
-      </Text>
-    );
+      Tietosuojakäytäntö
+    </Text>
+  );
 
   render() {
     return (
       <View style={styles.container}>
-        {this.renderEmailFieldTitle()}
-        {this.renderEmailField()}
-        {this.renderPasswordFieldTitle()}
-        {this.renderPasswordField()}
-        {this.renderMessage()}
-        {this.renderLoginButton()}
-        {this.renderCancelButton()}
-        {this.renderPrivacyPolicyLink()}
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
+          {this.renderEmailFieldTitle()}
+          {this.renderEmailField()}
+          {this.renderPasswordFieldTitle()}
+          {this.renderPasswordField()}
+          {this.renderMessage()}
+          {this.renderLoginButton()}
+          {this.renderCancelButton()}
+          {this.renderPrivacyPolicyLink()}
+        </ScrollView>
       </View>
     );
   }
