@@ -23,7 +23,6 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: 'rgba(233, 233, 233, 0.93)',
     position: 'absolute',
-    padding: 16,
     top: 0,
     bottom: 0,
     left: 0,
@@ -33,6 +32,7 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
     justifyContent: 'center',
     flexGrow: 1,
+    padding: 16,
   },
   buttonContainer: {
     paddingVertical: 8,
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
   message: {
     color: 'red',
     textAlign: 'center',
-    height: 40,
+    minHeight: 40,
   },
   text: {
     fontSize: 17,
@@ -206,7 +206,11 @@ export default class LoginModal extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <ScrollView
+          keyboardShouldPersistTaps={'always'}
+          contentContainerStyle={styles.scrollContainer}
+          overScrollMode={'always'}
+        >
           {this.renderEmailFieldTitle()}
           {this.renderEmailField()}
           {this.renderPasswordFieldTitle()}
