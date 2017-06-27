@@ -71,6 +71,7 @@ const styles = StyleSheet.create({
   },
   input: {
     textAlign: 'center',
+    alignSelf: 'stretch',
     fontSize: 20,
     ...Platform.select({
       ios: {
