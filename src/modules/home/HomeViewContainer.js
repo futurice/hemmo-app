@@ -58,7 +58,7 @@ export default class HomeViewContainer extends Component {
   };
 
   componentWillMount() {
-    this.props.resetCurrentUser();
+    //this.props.resetCurrentUser();
   }
 
   openSettings = () => {
