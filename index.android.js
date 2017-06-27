@@ -19,7 +19,7 @@ class Hemmo extends Component {
   }
 
   navigateBack = () => {
-    const navigationState = store.getState().get('navigationState');
+    const navigationState = store.getState().get('navigatorState');
 
     const currentStackScreen = navigationState.get('index');
     const currentTab = navigationState.getIn(['routes', 0, 'index']);
