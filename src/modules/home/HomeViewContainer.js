@@ -62,6 +62,7 @@ export default class HomeViewContainer extends Component {
   }
 
   openSettings = () => {
+    this.toggleLoginModal();
     this.props.resetCurrentUser();
     this.props.navigate('Settings');
   };
