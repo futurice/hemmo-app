@@ -8,7 +8,6 @@ import { List, Map } from 'immutable';
 import SpeechBubble from '../../components/SpeechBubble';
 import Hemmo from '../../components/Hemmo';
 import UserItem from '../../components/UserItem';
-import LoginModal from '../../components/LoginModal';
 import { setAuthenticationToken } from '../../utils/authentication';
 import { setSessionId } from '../../utils/session';
 import { post } from '../../utils/api';
@@ -62,7 +61,6 @@ export default class HomeViewContainer extends Component {
   }
 
   openSettings = () => {
-    this.toggleLoginModal();
     this.props.resetCurrentUser();
     this.props.navigate('Settings');
   };
@@ -91,8 +89,8 @@ export default class HomeViewContainer extends Component {
       });
   };
 
-  toggleLoginModal = () => {
-    this.setState({ isLoginModalOpen: !this.state.isLoginModalOpen });
+  openLoginModal = () => {
+    this.props.navigate('Login');
   };
 
   hideBubble = () => {
@@ -107,7 +105,7 @@ export default class HomeViewContainer extends Component {
     <View style={styles.leftColumn}>
       <Hemmo image={'hemmo_keski'} size={0.8} restartAudioAndText={this.restartAudioAndText} />
       <View style={styles.settingsButton}>
-        <TouchableHighlight onPress={this.toggleLoginModal}>
+        <TouchableHighlight onPress={this.openLoginModal}>
           <Image
             source={getImage('nappula_aset')}
             style={getSizeByHeight('nappula_aset', 0.15)}
@@ -165,10 +163,6 @@ export default class HomeViewContainer extends Component {
     </Text>
     );
 
-  renderLoginModal = () => this.state.isLoginModalOpen ? (
-    <LoginModal onClose={this.toggleLoginModal} onSuccess={this.openSettings} />
-    ) : null;
-
   render() {
     const users = this.props.users;
 
@@ -177,7 +171,6 @@ export default class HomeViewContainer extends Component {
         {this.renderLeftColumn()}
         {this.renderRightColumn(users)}
         {this.renderSpeechBubble(users.size > 0)}
-        {this.renderLoginModal()}
       </Image>
     );
   }

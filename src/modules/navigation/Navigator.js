@@ -1,5 +1,6 @@
 import { StackNavigator } from 'react-navigation';
 import HomeViewContainer from '../home/HomeViewContainer';
+import LoginViewContainer from '../login/LoginViewContainer';
 import SettingsViewContainer from '../settings/SettingsViewContainer';
 import ActivityViewContainer from '../activity/main/ActivityViewContainer';
 import SubActivityViewContainer from '../activity/sub/SubActivityViewContainer';
@@ -11,6 +12,7 @@ import EndingViewContainer from '../EndingViewContainer';
 
 const routes = {
   Home: { screen: HomeViewContainer },
+  Login: { screen: LoginViewContainer },
   Settings: { screen: SettingsViewContainer },
   Activity: { screen: ActivityViewContainer },
   SubActivity: { screen: SubActivityViewContainer },

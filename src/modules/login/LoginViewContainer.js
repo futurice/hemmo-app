@@ -4,6 +4,7 @@ Login modal for settings
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { NavigationActions } from 'react-navigation';
 import {
   Button,
   View,
@@ -14,8 +15,10 @@ import {
   StyleSheet,
   Linking,
 } from 'react-native';
-import { post } from '../utils/api';
-import { setAuthenticationToken } from '../utils/authentication';
+import { connect } from 'react-redux';
+
+import { post } from '../../utils/api';
+import { setAuthenticationToken } from '../../utils/authentication';
 
 const privacyPolicyURL = 'https://spiceprogram.org/assets/docs/privacy-policy-hemmo.txt';
 
@@ -81,6 +84,18 @@ const styles = StyleSheet.create({
   },
 });
 
+const mapDispatchToProps = dispatch => ({
+  onClose: () => dispatch(NavigationActions.back()),
+  onSuccess: () => dispatch(NavigationActions.reset({
+    index: 1,
+    actions: [
+      NavigationActions.navigate({ routeName: 'Home' }),
+      NavigationActions.navigate({ routeName: 'Settings' }),
+    ],
+  })),
+});
+
+@connect(undefined, mapDispatchToProps)
 export default class LoginModal extends Component {
 
   static propTypes = {
