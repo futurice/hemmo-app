@@ -26,22 +26,24 @@ export default class AudioPlayerViewContainer extends Component {
       audioTrack = this.props.audioTrack;
     }
 
+    /*
     this.player = new Player(audioTrack).prepare();
 
     this.player.on('ended', () => {
       this.props.onEnd();
     });
+    */
   }
 
   componentWillUnmount() {
-    this.player.destroy();
+    //this.player.destroy();
   }
 
   checkActivity = () => {
     if (this.props.isActive) {
-      this.player.play();
+      //this.player.play();
     } else {
-      this.player.destroy();
+      //this.player.destroy();
     }
   };
 
