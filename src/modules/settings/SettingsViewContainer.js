@@ -82,15 +82,17 @@ export default class SettingsViewContainer extends Component {
 
       // TODO: move this API call to another place
       post('/register', { name })
-        .then(
-          result => this.props.setCurrentUserValue('token', `Bearer ${result.token}`)
-            .then(() => {
-              this.props.setCurrentUserValue('id', newId);
-              this.props.createUser(this.props.currentUser);
-              this.setState({ disabled: true, loading: false });
-              this.showSucceedingMessage();
-            }))
+        .then(result =>
+          this.props.setCurrentUserValue('token', `Bearer ${result.token}`),
+        )
+        .then(() => {
+          this.props.setCurrentUserValue('id', newId);
+          this.props.createUser(this.props.currentUser);
+          this.setState({ disabled: true, loading: false });
+          this.showSucceedingMessage();
+        })
         .catch((error) => {
+          console.log(error);
           this.setState({ loading: false });
           Alert.alert('Virhe käyttäjän luonnissa!', 'Yritä myöhemmin uudelleen.');
         });
