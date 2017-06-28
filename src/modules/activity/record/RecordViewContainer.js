@@ -8,7 +8,7 @@ import LoadingSpinner from '../../../components/LoadingSpinner';
 import SpeechBubble from '../../../components/SpeechBubble';
 import SaveConfirmationWindow from '../../../components/SaveConfirmationWindow';
 import TextForm from '../../../components/TextForm';
-import { pushRoute, resetRoute, popRoute } from '../../navigation/NavigationState';
+import { NavigationActions } from 'react-navigation';
 import { getSizeByHeight, getSizeByWidth, getImage } from '../../../services/graphics';
 import { save, formRequestBody } from '../../../services/save';
 import {
@@ -28,8 +28,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   resetRoute: () => dispatch(resetRoute()),
-  popRoute: () => dispatch(popRoute()),
-  pushRoute: key => dispatch(pushRoute(key)),
+  pushRoute: key => dispatch(NavigationActions.navigate({ routeName: key})),
+  popRoute: () => dispatch(NavigationActions.back()),
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -129,7 +129,7 @@ export default class RecordViewContainer extends Component {
 
   continue = (phase) => {
     if (phase === 'activities') {
-      this.props.pushRoute({ key: 'NewRound', allowReturn: false });
+      this.props.pushRoute('NewRound');
     } else if (phase === 'moods') {
       this.setState({
         showTextForm: false,

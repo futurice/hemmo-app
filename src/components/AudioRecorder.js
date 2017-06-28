@@ -100,7 +100,7 @@ export default class AudioRecorder extends Component {
 
   _reloadRecorder = () => {
     if (this.recorder) {
-      this.recorder.destroy();
+      //this.recorder.destroy();
     }
 
     this.recorder = new Recorder(filename, {
@@ -110,13 +110,14 @@ export default class AudioRecorder extends Component {
       quality: 'max',
       // format: 'ac3', // autodetected
       // encoder: 'aac', // autodetected
-    }).prepare((err, filePath) => {
+    })/*.prepare((err, filePath) => {
       if (err) {
         console.error(err);
       }
 
       this.setState({ filePath });
     });
+    */
 
     this._updateState();
   };

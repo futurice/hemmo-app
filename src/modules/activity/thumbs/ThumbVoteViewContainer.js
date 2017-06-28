@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { List } from 'immutable';
 import TitlePanel from '../../../components/TitlePanel';
 import Hemmo from '../../../components/Hemmo';
-import { pushRoute, popRoute } from '../../navigation/NavigationState';
+import { NavigationActions } from 'react-navigation';
 import { saveAnswer } from '../../user/UserState';
 import SpeechBubble from '../../../components/SpeechBubble';
 import { getSizeByHeight, getSizeByWidth, getImage } from '../../../services/graphics';
@@ -29,8 +29,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   saveAnswer: (index, destination, answers) => dispatch(saveAnswer(index, destination, answers)),
-  pushRoute: key => dispatch(pushRoute(key)),
-  popRoute: () => dispatch(popRoute()),
+  pushRoute: key => dispatch(NavigationActions.navigate({ routeName: key})),
+  popRoute: () => dispatch(NavigationActions.back()),
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -50,7 +50,7 @@ export default class ThumbVoteViewContainer extends Component {
 
   vote = (vote) => {
     this.props.saveAnswer(this.props.activityIndex, 'thumb', vote);
-    this.props.pushRoute({ key: 'Record', allowReturn: true });
+    this.props.pushRoute('RecordView');
   };
 
   hideBubble = () => {
