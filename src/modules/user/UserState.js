@@ -4,9 +4,12 @@ import { Map, List } from 'immutable';
 const initialState = Map({
   users: List(),
   currentUser: Map({
-    activityIndex: -1,
     id: null,
-  }),
+    activityIndex: -1,
+    token: '',
+    name: '',
+    image: null,
+    answers: Map({ activities: List() }) }),
 });
 
 const CREATE_USER = 'UserState/CREATE_USER';

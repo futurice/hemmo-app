@@ -1,4 +1,4 @@
-import { resetCurrentUser, setCurrentUser, addActivity } from '../user/UserState';
+import { setCurrentUser, addActivity } from '../user/UserState';
 import { startPreparing, finishPreparing } from '../session/SessionState';
 import { NavigationActions } from 'react-navigation';
 import React, { Component } from 'react';
@@ -29,7 +29,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  resetCurrentUser: () => dispatch(resetCurrentUser()),
   setCurrentUser: id => dispatch(setCurrentUser(id)),
   addActivity: () => dispatch(addActivity()),
   startPreparing: () => dispatch(startPreparing()),
@@ -41,7 +40,6 @@ const mapDispatchToProps = dispatch => ({
 export default class HomeViewContainer extends Component {
 
   static propTypes = {
-    resetCurrentUser: PropTypes.func.isRequired,
     setCurrentUser: PropTypes.func.isRequired,
     addActivity: PropTypes.func.isRequired,
     startPreparing: PropTypes.func.isRequired,
@@ -55,10 +53,6 @@ export default class HomeViewContainer extends Component {
     isLoginModalOpen: false,
     showBubble: true,
   };
-
-  componentWillMount() {
-    //this.props.resetCurrentUser();
-  }
 
   openSettings = () => {
     this.props.resetCurrentUser();
