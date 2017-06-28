@@ -18,6 +18,7 @@ import { post } from '../../utils/api';
 import { getSizeByHeight, getSizeByWidth, getImage } from '../../services/graphics';
 import {
   NativeModules,
+  PermissionsAndroid,
   Image,
   ScrollView,
   TouchableOpacity,
@@ -30,7 +31,7 @@ import {
 const styles = require('./styles.js');
 const options = require('./image-picker-options');
 
-const ImagePicker = NativeModules.ImagePickerManager;
+const ImagePicker = require('react-native-image-picker');
 
 const mapStateToProps = state => ({
   loading: state.getIn(['home', 'loading']),
@@ -137,19 +138,32 @@ export default class SettingsViewContainer extends Component {
   };
 
   // TODO: Display default-image after opening.
-  openImageGallery = () => {
-    ImagePicker.showImagePicker(options, (response) => {
-      if (response.didCancel) {
+  openImageGallery = async () => {
+    try {
+      const grantedObj = await PermissionsAndroid.requestMultiple([
+        PermissionsAndroid.PERMISSIONS.CAMERA,
+        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+      ]);
 
-      } else if (response.customButton) {
-        this.props.setCurrentUserValue('image', null);
-      } else {
-        const source = { uri: response.uri, isStatic: true };
-        this.setState({ disabled: false });
+      // Make sure each value is 'granted'
+      const granted = Object.values(grantedObj).reduce((a, b) => a && b === 'granted', true);
 
-        this.props.setCurrentUserValue('image', source.uri);
+      if (!granted) {
+        console.log('Camera permission denied');
+        return;
       }
-    });
+
+      ImagePicker.launchCamera(options, (response) => {
+        if (!response.didCancel) {
+          const source = { uri: response.uri, isStatic: true };
+          this.setState({ disabled: false });
+
+          this.props.setCurrentUserValue('image', source.uri);
+        }
+      });
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   handleTabClick = (user, index) => {
