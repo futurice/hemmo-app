@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Map, List } from 'immutable';
 import { saveAnswer } from '../../../modules/user/UserState';
-import { pushRoute } from '../../../modules/navigation/NavigationState';
+import { NavigationActions } from 'react-navigation';
 import Hemmo from '../../../components/Hemmo';
 import SpeechBubble from '../../../components/SpeechBubble';
 import LoadingSpinner from '../../../components/LoadingSpinner';
@@ -27,7 +27,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   saveAnswer: (index, destination, answers) => dispatch(saveAnswer(index, destination, answers)),
-  pushRoute: key => dispatch(pushRoute(key)),
+  pushRoute: key => dispatch(NavigationActions.navigate({ routeName: key})),
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -53,7 +53,7 @@ export default class ActivityViewContainer extends Component {
 
   saveAnswer = (activity) => {
     this.props.saveAnswer(this.props.currentUser.get('activityIndex'), 'main', activity.get('id'));
-    this.props.pushRoute({ key: 'SubActivity', allowReturn: true });
+    this.props.pushRoute('SubActivity');
   };
 
   renderBubble = () => this.state.showBubble ? (

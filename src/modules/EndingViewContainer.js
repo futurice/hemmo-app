@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import SpeechBubble from '../components/SpeechBubble';
 import Hemmo from '../components/Hemmo';
 import { getSizeByHeight, getImage } from '../services/graphics';
-import { resetRoute } from '../modules/navigation/NavigationState';
+import { NavigationActions } from 'react-navigation';
 import {
   StyleSheet,
   View,
@@ -35,7 +35,13 @@ const styles = StyleSheet.create({
 });
 
 const mapDispatchToProps = dispatch => ({
-  resetRoute: () => dispatch(resetRoute()),
+  resetRoute: () => dispatch(NavigationActions.reset({
+    index: 1,
+    actions: [
+      NavigationActions.navigate({ routeName: 'Ending' }),
+      NavigationActions.navigate({ routeName: 'Activity' }),
+    ],
+  })),
 });
 
 @connect(null, mapDispatchToProps)

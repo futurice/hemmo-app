@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Map, List } from 'immutable';
 import { saveAnswer } from '../../../modules/user/UserState';
-import { pushRoute, popRoute } from '../../../modules/navigation/NavigationState';
+import { NavigationActions } from 'react-navigation';
 import { getScreenWidth, getScreenHeight } from '../../../services/screenSize';
 import { getSizeByWidth, getImage } from '../../../services/graphics';
 import SpeechBubble from '../../../components/SpeechBubble';
@@ -30,8 +30,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   saveAnswer: (index, destination, answers) => dispatch(saveAnswer(index, destination, answers)),
-  pushRoute: key => dispatch(pushRoute(key)),
-  popRoute: () => dispatch(popRoute()),
+  pushRoute: key => dispatch(NavigationActions.navigate({ routeName: key})),
+  popRoute: () => dispatch(NavigationActions.back()),
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -59,7 +59,7 @@ export default class SubActivityView extends Component {
 
   chooseActivity = (subActivity, subIndex) => {
     this.props.saveAnswer(this.props.activityIndex, 'sub', subIndex);
-    this.props.pushRoute({ key: subActivity === 'Muuta' ? 'Record' : 'Thumbs', allowReturn: true });
+    this.props.pushRoute(subActivity === 'Muuta' ? 'RecordView' : 'ThumbVote');
   };
 
   hideBubble = () => {
