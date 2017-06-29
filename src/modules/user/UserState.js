@@ -89,9 +89,9 @@ export function addActivity() {
   return {
     type: ADD_ACTIVITY,
     payload: Map({
-      main: Map(),
-      sub: Map(),
-      thumb: Map() }),
+      main: null,
+      sub: null,
+      thumb: null }),
   };
 }
 
@@ -119,7 +119,7 @@ function usersReducer(state = List(), action) {
         .set(action.payload.id, action.payload.values);
 
     case REMOVE_USER:
-      var tmp = state.slice();
+      let tmp = state.slice();
       tmp = tmp.filter((user, index) => index !== action.payload);
       return tmp;
 
@@ -142,8 +142,7 @@ function currentUserReducer(state = Map(), action, wholeState) {
       .set('name', wholeState.getIn(['users', action.payload, 'name']))
       .set('image', wholeState.getIn(['users', action.payload, 'image']))
       .set('token', wholeState.getIn(['users', action.payload, 'token']))
-      .set('id', action.payload)
-      .set('answers', wholeState.getIn(['users', action.payload, 'answers']));
+      .set('id', action.payload);
 
     case ADD_ACTIVITY:
       return state

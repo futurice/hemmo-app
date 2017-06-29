@@ -1,4 +1,4 @@
-import { setCurrentUser, addActivity } from '../user/UserState';
+import { resetCurrentUser, setCurrentUser, addActivity } from '../user/UserState';
 import { startPreparing, finishPreparing } from '../session/SessionState';
 import { NavigationActions } from 'react-navigation';
 import React, { Component } from 'react';
@@ -29,24 +29,26 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+  resetCurrentUser: () => dispatch(resetCurrentUser()),
   setCurrentUser: id => dispatch(setCurrentUser(id)),
   addActivity: () => dispatch(addActivity()),
   startPreparing: () => dispatch(startPreparing()),
   finishPreparing: () => dispatch(finishPreparing()),
-  navigate: route => dispatch(NavigationActions.navigate({ routeName: route })),
+  pushRoute: route => dispatch(NavigationActions.navigate({ routeName: route })),
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
 export default class HomeViewContainer extends Component {
 
   static propTypes = {
+    resetCurrentUser: PropTypes.func.isRequired,
     setCurrentUser: PropTypes.func.isRequired,
     addActivity: PropTypes.func.isRequired,
     startPreparing: PropTypes.func.isRequired,
     finishPreparing: PropTypes.func.isRequired,
-    navigate: PropTypes.func.isRequired,
-    users: PropTypes.instanceOf(List),
-    currentUser: PropTypes.instanceOf(Map),
+    pushRoute: PropTypes.func.isRequired,
+    users: PropTypes.instanceOf(List).isRequired,
+    currentUser: PropTypes.instanceOf(Map).isRequired,
   };
 
   state = {
@@ -54,9 +56,13 @@ export default class HomeViewContainer extends Component {
     showBubble: true,
   };
 
+  componentWillMount() {
+    this.props.resetCurrentUser();
+  }
+
   openSettings = () => {
     this.props.resetCurrentUser();
-    this.props.navigate('Settings');
+    this.props.pushRoute('Settings');
   };
 
   startJourney = (id) => {
@@ -75,16 +81,12 @@ export default class HomeViewContainer extends Component {
         this.props.finishPreparing();
         this.props.addActivity();
         this.props.setCurrentUser(id);
-        this.props.navigate('Activity');
+        this.props.pushRoute('Activity');
       })
       .catch((error) => {
         this.props.finishPreparing();
         Alert.alert('Oops! Jokin meni pieleen!', 'Yritä myöhemmin uudelleen!');
       });
-  };
-
-  openLoginModal = () => {
-    this.props.navigate('Login');
   };
 
   hideBubble = () => {
@@ -99,7 +101,7 @@ export default class HomeViewContainer extends Component {
     <View style={styles.leftColumn}>
       <Hemmo image={'hemmo_keski'} size={0.8} restartAudioAndText={this.restartAudioAndText} />
       <View style={styles.settingsButton}>
-        <TouchableHighlight onPress={this.openLoginModal}>
+        <TouchableHighlight onPress={() => this.props.pushRoute('Login')}>
           <Image
             source={getImage('nappula_aset')}
             style={getSizeByHeight('nappula_aset', 0.15)}

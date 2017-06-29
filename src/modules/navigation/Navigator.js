@@ -17,14 +17,15 @@ const routes = {
   Activity: { screen: ActivityViewContainer },
   SubActivity: { screen: SubActivityViewContainer },
   ThumbVote: { screen: ThumbVoteViewContainer },
-  RecordView: { screen: RecordViewContainer },
-  MoodView: { screen: MoodViewContainer },
+  Record: { screen: RecordViewContainer },
+  Mood: { screen: MoodViewContainer },
   NewRound: { screen: NewRoundContainer },
   Ending: { screen: EndingViewContainer },
 };
 
 const routerConfig = {
   headerMode: 'none',
+  initialRouteName: 'Home',
 };
 
 const AppNavigator = StackNavigator(routes, routerConfig);

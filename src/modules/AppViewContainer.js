@@ -109,13 +109,13 @@ export default class AppViewContainer extends Component {
   shouldRenderNavigationModal = () => {
     const key = this.props.pages.get(this.props.currentPage).get('key');
 
-    return key !== 'Settings' && key !== 'Home' && key !== 'End';
+    return key !== 'Settings' && key !== 'Home' && key !== 'Ending';
   };
 
   renderNavigationModal = () => this.shouldRenderNavigationModal() ? (
     <NavigationModal
       resetRoute={this.props.resetRoute}
-      phase={this.props.pages.get(this.props.currentPage - 1).get('key') === 'Moods' ? 'moods' : 'other'}
+      phase={this.props.pages.get(this.props.currentPage - 1).get('key') === 'Mood' ? 'moods' : 'other'}
       shouldSave={this.props.currentPage !== 1}
       currentUser={this.props.currentUser}
       quit={() => this.props.navigate('Ending')}

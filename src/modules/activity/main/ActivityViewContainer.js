@@ -19,15 +19,13 @@ const styles = require('./styles.js');
 const activities = require('../../../data/activities.js');
 
 const mapStateToProps = state => ({
-  savedActivities: state.getIn(['user', 'currentUser', 'answers', 'activities']),
   activityIndex: state.getIn(['user', 'currentUser', 'activityIndex']),
-  currentUser: state.getIn(['user', 'currentUser']),
   isReady: state.getIn(['session', 'isReady']),
 });
 
 const mapDispatchToProps = dispatch => ({
   saveAnswer: (index, destination, answers) => dispatch(saveAnswer(index, destination, answers)),
-  pushRoute: key => dispatch(NavigationActions.navigate({ routeName: key})),
+  pushRoute: (key, phase) => dispatch(NavigationActions.navigate({ routeName: key, params: { phase } })),
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -36,34 +34,18 @@ export default class ActivityViewContainer extends Component {
   static propTypes = {
     saveAnswer: PropTypes.func.isRequired,
     pushRoute: PropTypes.func.isRequired,
-    isReady: PropTypes.bool,
-    savedActivities: PropTypes.instanceOf(List),
-    currentUser: PropTypes.instanceOf(Map),
+    isReady: PropTypes.bool.isRequired,
+    activityIndex: PropTypes.number.isRequired,
   };
 
   state = {
     showBubble: true,
   };
 
-  componentWillMount() {
-    this.props.saveAnswer(this.props.currentUser.get('activityIndex'), 'main', null);
-    this.props.saveAnswer(this.props.currentUser.get('activityIndex'), 'sub', null);
-    this.props.saveAnswer(this.props.currentUser.get('activityIndex'), 'thumb', null);
-  }
-
   saveAnswer = (activity) => {
-    this.props.saveAnswer(this.props.currentUser.get('activityIndex'), 'main', activity.get('id'));
+    this.props.saveAnswer(this.props.activityIndex, 'main', activity.get('id'));
     this.props.pushRoute('SubActivity');
   };
-
-  renderBubble = () => this.state.showBubble ? (
-    <SpeechBubble
-      text={'mainActivity'}
-      bubbleType={'puhekupla_vasen2'}
-      hideBubble={this.hideBubble}
-      style={{ top: getScreenHeight() * 0.22, left: getScreenWidth() * 0.55, margin: 20, fontSize: 12, size: 0.6 }}
-    />
-    ) : null;
 
   hideBubble = () => {
     this.setState({ showBubble: false });
@@ -73,10 +55,25 @@ export default class ActivityViewContainer extends Component {
     this.setState({ showBubble: true });
   };
 
+  renderBubble = () => this.state.showBubble ? (
+    <SpeechBubble
+      text={'mainActivity'}
+      bubbleType={'puhekupla_vasen2'}
+      hideBubble={this.hideBubble}
+      style={{
+        top: getScreenHeight() * 0.22,
+        left: getScreenWidth() * 0.55,
+        margin: 20,
+        fontSize: 12,
+        size: 0.6,
+      }}
+    />
+  ) : null;
+
   renderOtherActivity = () => (
     <View style={styles.other}>
       <TouchableHighlight
-        onPress={() => this.props.pushRoute({ key: 'Record', allowReturn: true })}
+        onPress={() => this.props.pushRoute('Record', 'activities')}
         style={[getSizeByWidth('muuta', 0.1),
             { borderRadius: getSizeByWidth('muuta', 0.1).width / 2 }]}
       >

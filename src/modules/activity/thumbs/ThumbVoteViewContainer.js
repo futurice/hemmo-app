@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { List } from 'immutable';
+import { List, Map } from 'immutable';
 import TitlePanel from '../../../components/TitlePanel';
 import Hemmo from '../../../components/Hemmo';
 import { NavigationActions } from 'react-navigation';
@@ -25,11 +25,15 @@ const thumbs = [
 const mapStateToProps = state => ({
   savedActivities: state.getIn(['user', 'currentUser', 'answers', 'activities']),
   activityIndex: state.getIn(['user', 'currentUser', 'activityIndex']),
+  mainActivityIndex: state.getIn(['user', 'currentUser', 'answers', 'activities',
+    state.getIn(['user', 'currentUser', 'activityIndex']), 'main']),
+  subActivityIndex: state.getIn(['user', 'currentUser', 'answers', 'activities',
+    state.getIn(['user', 'currentUser', 'activityIndex']), 'sub']),
 });
 
 const mapDispatchToProps = dispatch => ({
   saveAnswer: (index, destination, answers) => dispatch(saveAnswer(index, destination, answers)),
-  pushRoute: key => dispatch(NavigationActions.navigate({ routeName: key})),
+  pushRoute: (key, phase) => dispatch(NavigationActions.navigate({ routeName: key, params: { phase } })),
   popRoute: () => dispatch(NavigationActions.back()),
 });
 
@@ -40,17 +44,30 @@ export default class ThumbVoteViewContainer extends Component {
     saveAnswer: PropTypes.func.isRequired,
     pushRoute: PropTypes.func.isRequired,
     popRoute: PropTypes.func.isRequired,
-    savedActivities: PropTypes.instanceOf(List),
+    savedActivities: PropTypes.instanceOf(List).isRequired,
     activityIndex: PropTypes.number.isRequired,
+    mainActivityIndex: PropTypes.number,
+    subActivityIndex: PropTypes.number,
   };
 
   state = {
     showBubble: true,
   };
 
+  // Resetting the navigation stack in Ending causes an
+  // unnecessary update in some inactive, stacked components
+  shouldComponentUpdate(nextProps) {
+    return nextProps.activityIndex !== -1 && nextProps.mainActivityIndex !== null && nextProps.subActivityIndex !== null;
+  }
+
+  // Clears the subactivity when the user navigates back
+  componentWillUnmount() {
+    this.props.saveAnswer(this.props.activityIndex, 'sub', null);
+  }
+
   vote = (vote) => {
     this.props.saveAnswer(this.props.activityIndex, 'thumb', vote);
-    this.props.pushRoute('RecordView');
+    this.props.pushRoute('Record', 'activities');
   };
 
   hideBubble = () => {
@@ -120,14 +137,11 @@ export default class ThumbVoteViewContainer extends Component {
     );
 
   render() {
-    const subActivity = this.props.savedActivities.get(this.props.activityIndex).get('sub');
-    const mainActivity = this.props.savedActivities.get(this.props.activityIndex).get('main');
-
     return (
       <Image source={getImage('tausta_perus')} style={styles.container}>
         {this.renderLeftColumn()}
         {this.renderRightColumn()}
-        {this.renderBubble('subActivity', mainActivity, subActivity)}
+        {this.renderBubble('subActivity', this.props.mainActivityIndex, this.props.subActivityIndex)}
       </Image>
     );
   }

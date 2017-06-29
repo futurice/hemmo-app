@@ -6,7 +6,7 @@ View that is shown when ever a round of feedback has been given.
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { resetRoute, pushRoute } from '../modules/navigation/NavigationState';
+import { NavigationActions } from 'react-navigation';
 import { addActivity, resetActivity } from '../modules/user/UserState';
 import SpeechBubble from '../components/SpeechBubble';
 import Hemmo from '../components/Hemmo';
@@ -32,8 +32,7 @@ const styles = StyleSheet.create({
 const mapDispatchToProps = dispatch => ({
   addActivity: () => dispatch(addActivity()),
   resetActivity: () => dispatch(resetActivity()),
-  resetRoute: () => dispatch(resetRoute()),
-  pushRoute: key => dispatch(pushRoute(key)),
+  pushRoute: key => dispatch(NavigationActions.navigate({ routeName: key })),
 });
 
 @connect(null, mapDispatchToProps)
@@ -42,7 +41,6 @@ export default class NewRoundContainer extends Component {
   static propTypes = {
     addActivity: PropTypes.func.isRequired,
     resetActivity: PropTypes.func.isRequired,
-    resetRoute: PropTypes.func.isRequired,
     pushRoute: PropTypes.func.isRequired,
   };
 
@@ -51,14 +49,13 @@ export default class NewRoundContainer extends Component {
   };
 
   newRound = () => {
-    this.props.resetRoute();
     this.props.addActivity();
-    this.props.pushRoute({ key: 'Activity', allowReturn: false });
+    this.props.pushRoute('Activity');
   };
 
   continue = () => {
     this.props.resetActivity();
-    this.props.pushRoute({ key: 'Moods', allowReturn: false });
+    this.props.pushRoute('Mood');
   };
 
   hideBubble = () => {
