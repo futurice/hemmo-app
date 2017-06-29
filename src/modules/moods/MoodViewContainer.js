@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { List } from 'immutable';
-import { pushRoute } from '../navigation/NavigationState';
+import { NavigationActions } from 'react-navigation';
 import { saveAnswer } from '../user/UserState';
 import SpeechBubble from '../../components/SpeechBubble';
 import Hemmo from '../../components/Hemmo';
@@ -16,20 +16,15 @@ import {
 const moods = require('../../data/moods.js');
 const styles = require('./styles.js');
 
-const mapStateToProps = state => ({
-  activityIndex: state.getIn(['user', 'currentUser', 'activityIndex']),
-});
-
 const mapDispatchToProps = dispatch => ({
   saveAnswer: (index, destination, answers) => dispatch(saveAnswer(index, destination, answers)),
-  pushRoute: key => dispatch(pushRoute(key)),
+  pushRoute: (key, phase) => dispatch(NavigationActions.navigate({ routeName: key, params: { phase } })),
 });
 
-@connect(mapStateToProps, mapDispatchToProps)
+@connect(null, mapDispatchToProps)
 export default class MoodViewContainer extends Component {
 
   static propTypes = {
-    activityIndex: PropTypes.number.isRequired,
     saveAnswer: PropTypes.func.isRequired,
     pushRoute: PropTypes.func.isRequired,
   };
@@ -47,18 +42,9 @@ export default class MoodViewContainer extends Component {
     this.setState({ showBubble: true });
   };
 
-  renderBubble = text => (
-    <SpeechBubble
-      text={text}
-      bubbleType={'puhekupla_oikea'}
-      hideBubble={this.hideBubble}
-      style={{ top: 110, left: 100, margin: 30, fontSize: 14, size: 0.5 }}
-    />
-    );
-
   save = () => {
     this.props.saveAnswer(null, 'moods', this.state.selectedMoods);
-    this.props.pushRoute({ key: 'Record', allowReturn: true });
+    this.props.pushRoute('Record', 'moods');
   };
 
   selectMood = (mood) => {
@@ -86,6 +72,15 @@ export default class MoodViewContainer extends Component {
       {this.state.selectedMoods.includes(mood) ? this.renderCheckmark() : null}
     </TouchableOpacity>
     );
+
+  renderBubble = text => (
+    <SpeechBubble
+      text={text}
+      bubbleType={'puhekupla_oikea'}
+      hideBubble={this.hideBubble}
+      style={{ top: 110, left: 100, margin: 30, fontSize: 14, size: 0.5 }}
+    />
+  );
 
   renderCheckmark = () => (
     <Image

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { List, Map } from 'immutable';
+import { Map } from 'immutable';
 import AudioRecorder from '../../../components/AudioRecorder';
 import Hemmo from '../../../components/Hemmo';
 import LoadingSpinner from '../../../components/LoadingSpinner';
@@ -20,15 +20,14 @@ import {
 
 const styles = require('./styles.js');
 
-const mapStateToProps = state => ({
-  savedActivities: state.getIn(['user', 'currentUser', 'answers', 'activities']),
+const mapStateToProps = (state, ownProps) => ({
   activityIndex: state.getIn(['user', 'currentUser', 'activityIndex']),
   answers: state.getIn(['user', 'currentUser', 'answers']),
+  phase: ownProps.navigation.state.params.phase,
 });
 
 const mapDispatchToProps = dispatch => ({
-  resetRoute: () => dispatch(resetRoute()),
-  pushRoute: key => dispatch(NavigationActions.navigate({ routeName: key})),
+  pushRoute: (key, phase) => dispatch(NavigationActions.navigate({ routeName: key, params: { phase } })),
   popRoute: () => dispatch(NavigationActions.back()),
 });
 
@@ -36,12 +35,11 @@ const mapDispatchToProps = dispatch => ({
 export default class RecordViewContainer extends Component {
 
   static propTypes = {
-    savedActivities: PropTypes.instanceOf(List),
     popRoute: PropTypes.func.isRequired,
-    resetRoute: PropTypes.func.isRequired,
+    phase: PropTypes.string.isRequired,
     pushRoute: PropTypes.func.isRequired,
     activityIndex: PropTypes.number.isRequired,
-    answers: PropTypes.instanceOf(Map),
+    answers: PropTypes.instanceOf(Map).isRequired,
   };
 
   state = {
@@ -49,30 +47,55 @@ export default class RecordViewContainer extends Component {
     showTextForm: false,
     showBubble: true,
     progress: 0,
-    generalFeedbackView: false,
     showMessage: false,
     disableWriting: false,
     showSpinner: false,
   };
 
-  toggleWriting = () => {
-    this.setState({ text: '', showTextForm: !this.state.showTextForm });
-  };
-
-  toggleWritingButton = (value) => {
-    this.setState({ disableWriting: value });
-  };
-
-  hideBubble = () => {
-    this.setState({ showBubble: false });
-  };
-
-  restartAudioAndText = () => {
-    this.setState({ showBubble: true });
-  };
-
   setText = (text) => {
     this.setState({ text });
+  };
+
+  getBubbleText = (phase) => {
+    if (phase === 'moods') {
+      return 'moodFeedback';
+    } else if (phase === 'general') {
+      return 'generalFeedback';
+    }
+
+    return 'record';
+  };
+
+  continue = (phase) => {
+    if (phase === 'activities') {
+      this.props.pushRoute('NewRound');
+    } else if (phase === 'moods') {
+      this.setState({
+        showTextForm: false,
+        showSpinner: false,
+        showBubble: true,
+        progress: 0,
+      });
+
+      this.props.pushRoute('Record', 'general');
+    } else if (phase === 'general') {
+      this.props.pushRoute('Ending');
+    }
+  };
+
+  closeConfirmationMessage = (phase) => {
+    this.setState({ showMessage: false });
+    this.continue(phase);
+  };
+
+  showConfirmationMessage = () => {
+    this.setState({ showMessage: true });
+  };
+
+  error = () => {
+    this.setState({ showSpinner: false });
+    Alert.alert('Ohops!', 'Jokin meni pieleen! Tarkista nettiyhteys tai yritä myöhemmin uudelleen!',
+      [{ text: 'Ok' }]);
   };
 
   async save(phase, attachmentType, attachmentPath) {
@@ -95,11 +118,11 @@ export default class RecordViewContainer extends Component {
         const wasSuccessful = await save(attachmentPath, attachmentType, body);
 
         if (wasSuccessful.success) {
-          if (attachmentType === 'audio') {
+          if (attachmentType === 'skipped') {
+            this.continue(phase);
+          } else {
             this.setState({ showSpinner: false });
             this.showConfirmationMessage();
-          } else {
-            this.continue(phase);
           }
         } else {
           this.error();
@@ -112,47 +135,20 @@ export default class RecordViewContainer extends Component {
     }
   }
 
-  error = () => {
-    this.setState({ showSpinner: false });
-    Alert.alert('Ohops!', 'Jokin meni pieleen! Tarkista nettiyhteys tai yritä myöhemmin uudelleen!',
-    [{ text: 'Ok', onPress: this.props.resetRoute }]);
+  restartAudioAndText = () => {
+    this.setState({ showBubble: true });
   };
 
-  showConfirmationMessage = () => {
-    this.setState({ showMessage: true });
+  hideBubble = () => {
+    this.setState({ showBubble: false });
   };
 
-  closeConfirmationMessage = (phase) => {
-    this.setState({ showMessage: false });
-    this.continue(phase);
+  toggleWritingButton = (value) => {
+    this.setState({ disableWriting: value });
   };
 
-  continue = (phase) => {
-    if (phase === 'activities') {
-      this.props.pushRoute('NewRound');
-    } else if (phase === 'moods') {
-      this.setState({
-        showTextForm: false,
-        showSpinner: false,
-        showBubble: true,
-        progress: 0,
-        generalFeedbackView: true,
-      });
-
-      this.props.pushRoute({ key: 'Record', allowReturn: false });
-    } else if (phase === 'general') {
-      this.props.pushRoute({ key: 'End', allowReturn: false });
-    }
-  };
-
-  getBubbleText = (phase) => {
-    if (phase === 'moods') {
-      return 'moodFeedback';
-    } else if (phase === 'general') {
-      return 'generalFeedback';
-    }
-
-    return 'record';
+  toggleWriting = () => {
+    this.setState({ text: '', showTextForm: !this.state.showTextForm });
   };
 
   renderBubble = phase => this.state.showBubble ? (
@@ -242,7 +238,7 @@ export default class RecordViewContainer extends Component {
       style={[styles.leftColumn, getSizeByWidth('tausta_kapea', 0.6)]}
     >
       {this.renderBackButton()}
-      {this.renderAudioRecorder(phase)}
+      {/*{this.renderAudioRecorder(phase)}*/}
       {this.renderWriteButton()}
     </Image>
     );
@@ -254,18 +250,6 @@ export default class RecordViewContainer extends Component {
     </View>
     );
 
-  getCurrentPhase = () => {
-    if (this.props.activityIndex === -1) {
-      if (!this.state.generalFeedbackView) {
-        return 'moods';
-      }
-
-      return 'general';
-    }
-
-    return 'activities';
-  };
-
   render() {
     if (this.state.showSpinner) {
       return (
@@ -273,7 +257,7 @@ export default class RecordViewContainer extends Component {
       );
     }
 
-    const phase = this.getCurrentPhase();
+    const phase = this.props.phase;
 
     return (
       <Image source={getImage('tausta_perus')} style={styles.container}>

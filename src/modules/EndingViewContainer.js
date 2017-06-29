@@ -36,10 +36,9 @@ const styles = StyleSheet.create({
 
 const mapDispatchToProps = dispatch => ({
   resetRoute: () => dispatch(NavigationActions.reset({
-    index: 1,
+    index: 0,
     actions: [
-      NavigationActions.navigate({ routeName: 'Ending' }),
-      NavigationActions.navigate({ routeName: 'Activity' }),
+      NavigationActions.navigate({ routeName: 'Home' }),
     ],
   })),
 });

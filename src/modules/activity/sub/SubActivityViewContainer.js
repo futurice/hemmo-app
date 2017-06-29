@@ -22,7 +22,6 @@ const activities = require('../../../data/activities.js');
 const mapStateToProps = state => ({
   savedActivities: state.getIn(['user', 'currentUser', 'answers', 'activities']),
   activityIndex: state.getIn(['user', 'currentUser', 'activityIndex']),
-  currentUser: state.getIn(['user', 'currentUser']),
   isReady: state.getIn(['session', 'isReady']),
   chosenMainActivity: activities[state.getIn(['user', 'currentUser', 'answers', 'activities',
     state.getIn(['user', 'currentUser', 'activityIndex']), 'main'])],
@@ -30,7 +29,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   saveAnswer: (index, destination, answers) => dispatch(saveAnswer(index, destination, answers)),
-  pushRoute: key => dispatch(NavigationActions.navigate({ routeName: key})),
+  pushRoute: (key, phase) => dispatch(NavigationActions.navigate({ routeName: key, params: { phase } })),
   popRoute: () => dispatch(NavigationActions.back()),
 });
 
@@ -41,9 +40,8 @@ export default class SubActivityView extends Component {
     saveAnswer: PropTypes.func.isRequired,
     pushRoute: PropTypes.func.isRequired,
     popRoute: PropTypes.func.isRequired,
-    isReady: PropTypes.bool,
-    savedActivities: PropTypes.instanceOf(List),
-    currentUser: PropTypes.instanceOf(Map),
+    isReady: PropTypes.bool.isRequired,
+    savedActivities: PropTypes.instanceOf(List).isRequired,
     chosenMainActivity: PropTypes.instanceOf(Map),
     activityIndex: PropTypes.number.isRequired,
   };
@@ -52,14 +50,26 @@ export default class SubActivityView extends Component {
     showBubble: true,
   };
 
-  componentWillMount() {
-    this.props.saveAnswer(this.props.currentUser.get('activityIndex'), 'sub', null);
-    this.props.saveAnswer(this.props.currentUser.get('activityIndex'), 'thumb', null);
+  // Resetting the navigation stack in Ending causes an
+  // unnecessary update in some inactive, stacked components
+  shouldComponentUpdate(nextProps) {
+    return nextProps.activityIndex !== -1 && nextProps.chosenMainActivity !== undefined;
+  }
+
+  // Clears the main activity when the user navigates back
+  componentWillUnmount() {
+    this.props.saveAnswer(this.props.activityIndex, 'main', null);
   }
 
   chooseActivity = (subActivity, subIndex) => {
     this.props.saveAnswer(this.props.activityIndex, 'sub', subIndex);
-    this.props.pushRoute(subActivity === 'Muuta' ? 'RecordView' : 'ThumbVote');
+
+    if (subActivity === 'Muuta') {
+      this.props.pushRoute('Record', 'activities');
+    }
+    else {
+      this.props.pushRoute('ThumbVote');
+    }
   };
 
   hideBubble = () => {

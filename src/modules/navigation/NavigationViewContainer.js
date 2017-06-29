@@ -1,4 +1,5 @@
-import React, { PropTypes, Component } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { addNavigationHelpers } from 'react-navigation';
 import AppNavigator from './Navigator';
@@ -18,6 +19,7 @@ class NavigatorView extends Component {
       routes: PropTypes.arrayOf(PropTypes.shape({
         key: PropTypes.string.isRequired,
         routeName: PropTypes.string.isRequired,
+        params: PropTypes.object,
       })),
     }).isRequired,
   };
