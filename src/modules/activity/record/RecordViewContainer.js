@@ -238,7 +238,7 @@ export default class RecordViewContainer extends Component {
       style={[styles.leftColumn, getSizeByWidth('tausta_kapea', 0.6)]}
     >
       {this.renderBackButton()}
-      {/*{this.renderAudioRecorder(phase)}*/}
+      {this.renderAudioRecorder(phase)}
       {this.renderWriteButton()}
     </Image>
     );

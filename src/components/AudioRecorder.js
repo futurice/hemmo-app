@@ -5,13 +5,16 @@ View block that includes audio recording button and progression bar.
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { getSizeByHeight, getImage } from '../services/graphics';
+import LoadingSpinner from './LoadingSpinner';
 import {
   View,
   Image,
+  Button,
   TouchableOpacity,
   StyleSheet,
+  PermissionsAndroid,
 } from 'react-native';
-import ProgressBarClassic from 'react-native-progress-bar-classic';
+import ProgressBar from 'react-native-progress/Bar';
 import TimerMixin from 'react-timer-mixin';
 import {
   Recorder,
@@ -37,6 +40,11 @@ const styles = StyleSheet.create({
   progressBar: {
     borderColor: 'black',
   },
+  recordPermissionButton: {
+    borderRadius: 10,
+    width: 100,
+    backgroundColor: '#87cefa',
+  },
 });
 
 const reactMixin = require('react-mixin');
@@ -55,31 +63,28 @@ export default class AudioRecorder extends Component {
   state = {
     recordButton: 'Preparing...',
     recordButtonDisabled: true,
-    progress: 0,
+    progress: 0.01,
     filePath: null,
     recording: false,
     error: null,
+    permissionGranted: false,
+    showSpinner: true,
   };
 
-  componentWillMount() {
-    this.recorder = null;
-    this.lastSeek = 0;
+  async componentDidMount() {
+    const permissionGranted = await this.checkRecordPermission();
 
-    this._reloadRecorder();
-
-    this._progressInterval = setInterval(() => {
-      if (this.recorder && this.recorder.isRecording) {
-        if (this.state.progress >= 100) {
-          this._toggleRecord();
-        } else {
-          this.setState({ progress: this.state.progress + 1 });
-        }
-      }
-    }, 1200);
+    if (!permissionGranted) {
+      await this.requestRecordPermission();
+    } else {
+      this.initializeRecorder();
+    }
   }
 
   componentWillUnmount() {
-    this.recorder.destroy();
+    if (this.recorder) {
+      this.recorder.destroy();
+    }
 
     if (this.player) {
       this.player.destroy();
@@ -87,6 +92,44 @@ export default class AudioRecorder extends Component {
 
     clearInterval(this._progressInterval);
   }
+
+  initializeRecorder = () => {
+    this._reloadRecorder();
+
+    this._progressInterval = setInterval(() => {
+      if (this.recorder && this.recorder.isRecording) {
+        if (this.state.progress >= 1) {
+          this._toggleRecord();
+        } else {
+          this.setState({ progress: this.state.progress + 0.01 });
+        }
+      }
+    }, 1200);
+
+    this.setState({ showSpinner: false, permissionGranted: true });
+  };
+
+  checkRecordPermission = async () => (
+    PermissionsAndroid.check(
+      PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+    ));
+
+  requestRecordPermission = async () => {
+    try {
+      const permission = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+      );
+
+      if (permission === 'granted') {
+        this.initializeRecorder();
+        return;
+      }
+    } catch (e) {
+      console.log(e);
+    }
+
+    this.setState({ showSpinner: false });
+  };
 
   _updateState = () => {
     this.setState({
@@ -100,7 +143,7 @@ export default class AudioRecorder extends Component {
 
   _reloadRecorder = () => {
     if (this.recorder) {
-      //this.recorder.destroy();
+      this.recorder.destroy();
     }
 
     this.recorder = new Recorder(filename, {
@@ -110,14 +153,13 @@ export default class AudioRecorder extends Component {
       quality: 'max',
       // format: 'ac3', // autodetected
       // encoder: 'aac', // autodetected
-    })/*.prepare((err, filePath) => {
+    }).prepare((err, filePath) => {
       if (err) {
         console.error(err);
       }
 
       this.setState({ filePath });
     });
-    */
 
     this._updateState();
   };
@@ -166,7 +208,7 @@ export default class AudioRecorder extends Component {
 
   renderStartRecordButton = () => (
     <TouchableOpacity
-      onPress={() => this._toggleRecord()}
+      onPress={this._toggleRecord}
       style={[styles.highlightCircle, getSizeByHeight('nappula_rec', 0.35)]}
     >
       <Image source={getImage('nappula_rec')} style={getSizeByHeight('nappula_rec', 0.35)} />
@@ -175,7 +217,7 @@ export default class AudioRecorder extends Component {
 
   renderStopRecordButton = () => (
     <TouchableOpacity
-      onPress={() => this._toggleRecord()}
+      onPress={this._toggleRecord}
       style={[styles.highlightSquare, getSizeByHeight('nappula_stop', 0.35)]}
     >
       <Image source={getImage('nappula_stop')} style={getSizeByHeight('nappula_stop', 0.35)} />
@@ -192,12 +234,31 @@ export default class AudioRecorder extends Component {
     return null;
   };
 
+  renderRecordPermissionButton = () => (
+    <View style={styles.recordRow}>
+      <Button
+        onPress={this.requestRecordPermission}
+        title={'Salli nauhoitus'}
+      />
+    </View>
+    );
+
   render() {
+    if (this.state.showSpinner) {
+      return (
+        <LoadingSpinner />
+      );
+    }
+
+    if (!this.state.permissionGranted) {
+      return this.renderRecordPermissionButton();
+    }
+
     return (
       <View style={styles.recordRow}>
         {this.renderRecordButton()}
         <View style={{ flex: 1, marginLeft: 20 }}>
-          <ProgressBarClassic style={styles.progressBar} valueStyle={'none'} progress={this.state.progress} />
+          <ProgressBar style={styles.progressBar} progress={this.state.progress} />
         </View>
       </View>
     );
