@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { List, Map } from 'immutable';
-import Button from '../../components/Button';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import SaveConfirmationWindow from '../../components/SaveConfirmationWindow';
 import { NavigationActions } from 'react-navigation';
@@ -17,9 +16,9 @@ import {
 import { post } from '../../utils/api';
 import { getSizeByHeight, getSizeByWidth, getImage } from '../../services/graphics';
 import {
-  NativeModules,
   PermissionsAndroid,
   Image,
+  Button,
   ScrollView,
   TouchableOpacity,
   Alert,
@@ -279,24 +278,14 @@ export default class SettingsViewContainer extends Component {
     </TouchableOpacity>
     );
 
-  renderCancelButton = () => (
-    <Button
-      style={styles.cancelbutton}
-      highlightStyle={styles.buttonHighlight}
-      onPress={this.props.popRoute}
-      text={'Peruuta'}
-      icon={''}
-    />
-    );
-
   renderRemoveUserButton = () => this.props.currentUser.get('id') !== null ? (
-    <Button
-      style={styles.removeButton}
-      highlightStyle={styles.buttonHighlight}
-      onPress={this.verifyRemoveUser}
-      text={'Poista'}
-      icon={''}
-    />
+    <View style={styles.removeButton}>
+      <Button
+        onPress={this.verifyRemoveUser}
+        title="Poista"
+        color={'#E64C4C'}
+      />
+    </View>
     ) : null;
 
   renderTabBodyRightColumn = () => (
@@ -305,7 +294,6 @@ export default class SettingsViewContainer extends Component {
         {this.renderSaveButton()}
 
         <View style={styles.bottomRow}>
-          {this.renderCancelButton()}
           {this.renderRemoveUserButton()}
         </View>
       </View>

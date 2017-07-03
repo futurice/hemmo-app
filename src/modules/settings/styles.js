@@ -106,14 +106,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: 50,
   },
-  cancelbutton: {
-    borderRadius: 10,
-    width: 100,
-  },
-  buttonHighlight: {
-    flex: 2,
-    borderRadius: 10,
-  },
   removeButton: {
     borderRadius: 10,
     width: 100,

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Map, List } from 'immutable';
 import { saveAnswer } from '../../../modules/user/UserState';
 import { NavigationActions } from 'react-navigation';
 import Hemmo from '../../../components/Hemmo';
