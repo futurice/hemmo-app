@@ -2,6 +2,9 @@ import {
   StyleSheet,
   Platform,
 } from 'react-native';
+import { getSizeByWidth } from '../../services/graphics';
+
+const iconSize = getSizeByWidth('nelio', 0.22).width;
 
 const styles = StyleSheet.create({
   container: {
@@ -96,6 +99,8 @@ const styles = StyleSheet.create({
   icon: {
     flex: 1,
     margin: 10,
+    width: iconSize,
+    height: iconSize,
   },
   buttonfield: {
     flex: 1,

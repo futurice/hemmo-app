@@ -16,7 +16,6 @@ import {
 import { post } from '../../utils/api';
 import { getSizeByHeight, getSizeByWidth, getImage } from '../../services/graphics';
 import {
-  PermissionsAndroid,
   Image,
   Button,
   ScrollView,
@@ -25,12 +24,14 @@ import {
   Text,
   TextInput,
   View,
+  Platform,
 } from 'react-native';
 
 const styles = require('./styles.js');
 const options = require('./image-picker-options');
 
 const ImagePicker = require('react-native-image-picker');
+const Permissions = require('react-native-permissions');
 
 const mapStateToProps = state => ({
   loading: state.getIn(['home', 'loading']),
@@ -67,6 +68,8 @@ export default class SettingsViewContainer extends Component {
     loading: false,
     disabled: true,
     showSucceedingMessage: false,
+    photoPermission: 'undetermined',
+    cameraPermission: 'undetermined',
   };
 
   infoIsMissing = () => this.props.currentUser.get('name') === '' || this.props.currentUser.get('image') === null;
@@ -137,32 +140,43 @@ export default class SettingsViewContainer extends Component {
   };
 
   // TODO: Display default-image after opening.
-  openImageGallery = async () => {
+  requestPhotoAndCameraPermission = async () => {
     try {
-      const grantedObj = await PermissionsAndroid.requestMultiple([
-        PermissionsAndroid.PERMISSIONS.CAMERA,
-        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-      ]);
+      const photoPermission = await Permissions.request('photo');
+      const cameraPermission = await Permissions.request('camera');
 
-      // Make sure each value is 'granted'
-      const granted = Object.values(grantedObj).reduce((a, b) => a && b === 'granted', true);
+      this.setState({ photoPermission, cameraPermission });
 
-      if (!granted) {
-        console.log('Camera permission denied');
-        return;
+      if (photoPermission === 'authorized' && cameraPermission === 'authorized') {
+        this.openImageGallery();
       }
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
-      ImagePicker.launchCamera(options, (response) => {
-        if (!response.didCancel) {
-          const source = { uri: response.uri, isStatic: true };
-          this.setState({ disabled: false });
+  checkPhotoAndCameraPermission = async () => {
+    try {
+      const permission = await Permissions.checkMultiple(['photo', 'camera']);
 
-          this.props.setCurrentUserValue('image', source.uri);
-        }
+      this.setState({
+        photoPermission: permission.photo,
+        cameraPermission: permission.camera,
       });
     } catch (e) {
       console.log(e);
     }
+  };
+
+  openImageGallery = () => {
+    ImagePicker.launchCamera(options, (response) => {
+      if (!response.didCancel) {
+        const source = { uri: response.uri, isStatic: true };
+        this.setState({ disabled: false });
+
+        this.props.setCurrentUserValue('image', source.uri);
+      }
+    });
   };
 
   handleTabClick = (user, index) => {
@@ -240,23 +254,50 @@ export default class SettingsViewContainer extends Component {
     </View>
     );
 
+  handleSelectImageClick = async () => {
+    await this.checkPhotoAndCameraPermission();
+
+    if (this.state.cameraPermission !== 'authorized' || this.state.photoPermission !== 'authorized') {
+      return Alert.alert(
+        'Saammeko käyttää laitteesi kameraa ja kuvakirjastoa?',
+        'Tarvitsemme oikeudet kameraan ja kuviin, jotta kuvan valitseminen onnistuu.',
+        [
+          { text: 'Estä', onPress: () => console.log('permission denied'), style: 'cancel' },
+          this.state.cameraPermission === 'undetermined' || this.state.photoPermission === 'undetermined' || Platform.OS === 'android' ?
+            { text: 'Salli', onPress: this.requestPhotoAndCameraPermission }
+            : { text: 'Avaa asetukset', onPress: Permissions.openSettings },
+        ],
+      );
+    }
+
+    this.openImageGallery();
+  };
+
   renderImageField = () => (
     <View style={styles.imagefield}>
-      <Image source={getImage('nelio')} style={getSizeByWidth('nelio', 0.25)}>
-        <Image
-          style={styles.icon}
-          source={{ uri: this.props.currentUser.get('image') }}
-        />
-      </Image>
-
-      <TouchableOpacity onPress={this.openImageGallery}>
-        <Image
-          source={getImage('nappula_uusikuva')}
-          style={[{ marginLeft: 20 }, getSizeByWidth('nappula_uusikuva', 0.15)]}
-        />
-      </TouchableOpacity>
+      {this.renderImage()}
+      {this.renderSelectImageButton()}
     </View>
     );
+
+  renderImage = () => (
+    <Image source={getImage('nelio')} style={getSizeByWidth('nelio', 0.25)}>
+      <Image
+        style={styles.icon}
+        source={this.props.currentUser.get('image') ?
+          { uri: this.props.currentUser.get('image') } : getImage('default_image')}
+      />
+    </Image>
+  );
+
+  renderSelectImageButton = () => (
+    <TouchableOpacity onPress={this.handleSelectImageClick}>
+      <Image
+        source={getImage('nappula_uusikuva')}
+        style={[{ marginLeft: 20 }, getSizeByWidth('nappula_uusikuva', 0.15)]}
+      />
+    </TouchableOpacity>
+  );
 
   renderTabBodyLeftColumn = () => (
     <View style={styles.leftColumn}>
