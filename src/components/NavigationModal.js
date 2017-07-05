@@ -43,6 +43,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(184, 184, 184, 0.9)',
   },
   upperModal: {
+    flex: 1,
     margin: 50,
     marginHorizontal: 100,
     flexDirection: 'row',
@@ -83,7 +84,7 @@ const styles = StyleSheet.create({
 export default class NavigationModal extends Component {
 
   static propTypes = {
-    resetRoute: PropTypes.func.isRequired,
+    reset: PropTypes.func.isRequired,
     quit: PropTypes.func.isRequired,
     shouldSave: PropTypes.bool,
     phase: PropTypes.string,
@@ -103,7 +104,7 @@ export default class NavigationModal extends Component {
       this.save();
     }
 
-    this.props.resetRoute();
+    this.props.reset();
   };
 
   quit = () => {
@@ -164,6 +165,7 @@ export default class NavigationModal extends Component {
       transparent
       visible={this.state.modalVisible}
       onRequestClose={() => console.log(' ')}
+      supportedOrientations={['portrait', 'landscape']}
     >
       <View style={styles.modalContainer}>
         <View style={styles.upperModal}>
