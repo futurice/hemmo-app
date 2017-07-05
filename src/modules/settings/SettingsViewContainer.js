@@ -68,8 +68,6 @@ export default class SettingsViewContainer extends Component {
     loading: false,
     disabled: true,
     showSucceedingMessage: false,
-    photoPermission: 'undetermined',
-    cameraPermission: 'undetermined',
   };
 
   infoIsMissing = () => this.props.currentUser.get('name') === '' || this.props.currentUser.get('image') === null;
@@ -142,30 +140,22 @@ export default class SettingsViewContainer extends Component {
   // TODO: Display default-image after opening.
   requestPhotoAndCameraPermission = async () => {
     try {
-      const photoPermission = await Permissions.request('photo');
-      const cameraPermission = await Permissions.request('camera');
-
-      this.setState({ photoPermission, cameraPermission });
-
-      if (photoPermission === 'authorized' && cameraPermission === 'authorized') {
-        this.openImageGallery();
-      }
+      return { photo: await Permissions.request('photo'), camera: await Permissions.request('camera') };
     } catch (e) {
       console.log(e);
     }
+
+    return { photo: 'undetermined', camera: 'undetermined' };
   };
 
   checkPhotoAndCameraPermission = async () => {
     try {
-      const permission = await Permissions.checkMultiple(['photo', 'camera']);
-
-      this.setState({
-        photoPermission: permission.photo,
-        cameraPermission: permission.camera,
-      });
+      return await Permissions.checkMultiple(['photo', 'camera']);
     } catch (e) {
       console.log(e);
     }
+
+    return { photo: 'undetermined', camera: 'undetermined' };
   };
 
   openImageGallery = () => {
@@ -254,17 +244,25 @@ export default class SettingsViewContainer extends Component {
     </View>
     );
 
-  handleSelectImageClick = async () => {
-    await this.checkPhotoAndCameraPermission();
+  showRequestDialog = async () => {
+    const permission = await this.requestPhotoAndCameraPermission();
 
-    if (this.state.cameraPermission !== 'authorized' || this.state.photoPermission !== 'authorized') {
+    if (permission.camera === 'authorized' && permission.photo === 'authorized') {
+      this.openImageGallery();
+    }
+  };
+
+  handleSelectImageClick = async () => {
+    const permission = await this.checkPhotoAndCameraPermission();
+
+    if (permission.camera !== 'authorized' || permission.photo !== 'authorized') {
       return Alert.alert(
         'Saammeko käyttää laitteesi kameraa ja kuvakirjastoa?',
         'Tarvitsemme oikeudet kameraan ja kuviin, jotta kuvan valitseminen onnistuu.',
         [
           { text: 'Estä', onPress: () => console.log('permission denied'), style: 'cancel' },
-          this.state.cameraPermission === 'undetermined' || this.state.photoPermission === 'undetermined' || Platform.OS === 'android' ?
-            { text: 'Salli', onPress: this.requestPhotoAndCameraPermission }
+          permission.camera === 'undetermined' || permission.photo === 'undetermined' || Platform.OS === 'android' ?
+            { text: 'Salli', onPress: this.showRequestDialog }
             : { text: 'Avaa asetukset', onPress: Permissions.openSettings },
         ],
       );

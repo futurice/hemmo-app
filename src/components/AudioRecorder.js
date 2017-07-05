@@ -5,21 +5,21 @@ View block that includes audio recording button and progression bar.
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { getSizeByHeight, getImage } from '../services/graphics';
-import LoadingSpinner from './LoadingSpinner';
 import {
   View,
   Image,
-  Button,
+  Alert,
   TouchableOpacity,
   StyleSheet,
-  PermissionsAndroid,
+  Platform,
 } from 'react-native';
 import ProgressBar from 'react-native-progress/Bar';
 import TimerMixin from 'react-timer-mixin';
 import {
   Recorder,
-  Player,
 } from 'react-native-audio-toolkit';
+
+const Permissions = require('react-native-permissions');
 
 const styles = StyleSheet.create({
   recordRow: {
@@ -61,25 +61,13 @@ export default class AudioRecorder extends Component {
   };
 
   state = {
-    recordButton: 'Preparing...',
+    recordButton: 'Record',
     recordButtonDisabled: true,
     progress: 0.01,
     filePath: null,
     recording: false,
     error: null,
-    permissionGranted: false,
-    showSpinner: true,
   };
-
-  async componentDidMount() {
-    const permissionGranted = await this.checkRecordPermission();
-
-    if (!permissionGranted) {
-      await this.requestRecordPermission();
-    } else {
-      this.initializeRecorder();
-    }
-  }
 
   componentWillUnmount() {
     if (this.recorder) {
@@ -105,30 +93,26 @@ export default class AudioRecorder extends Component {
         }
       }
     }, 1200);
-
-    this.setState({ showSpinner: false, permissionGranted: true });
   };
 
-  checkRecordPermission = async () => (
-    PermissionsAndroid.check(
-      PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
-    ));
-
-  requestRecordPermission = async () => {
+  checkRecordPermission = async () => {
     try {
-      const permission = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
-      );
-
-      if (permission === 'granted') {
-        this.initializeRecorder();
-        return;
-      }
+      return await Permissions.check('microphone');
     } catch (e) {
       console.log(e);
     }
 
-    this.setState({ showSpinner: false });
+    return 'undetermined';
+  };
+
+  requestRecordPermission = async () => {
+    try {
+      return await Permissions.request('microphone');
+    } catch (e) {
+      console.log(e);
+    }
+
+    return 'undetermined';
   };
 
   _updateState = () => {
@@ -164,29 +148,6 @@ export default class AudioRecorder extends Component {
     this._updateState();
   };
 
-  _reloadPlayer = () => {
-    if (this.player) {
-      this.player.destroy();
-    }
-    if (this.recorder) {
-      this.recorder.destroy();
-    }
-
-    this.player = new Player(filename, {
-      autoDestroy: false,
-    }).prepare((err) => {
-      if (err) {
-        console.log(err);
-      } else {
-        this.player.looping = this.state.loopButtonStatus;
-      }
-
-      this._updateState();
-    });
-
-    this.player.play();
-  };
-
   _toggleRecord = () => {
     this.recorder.toggleRecord((err, stopped) => {
       if (err) {
@@ -206,9 +167,38 @@ export default class AudioRecorder extends Component {
     });
   };
 
+  showRequestAlert = async () => {
+    const permission = await this.requestRecordPermission();
+
+    if (permission === 'authorized') {
+      this.initializeRecorder();
+      this._toggleRecord();
+    }
+  };
+
+  handleStartRecordClick = async () => {
+    const permission = await this.checkRecordPermission();
+
+    if (permission !== 'authorized') {
+      return Alert.alert(
+        'Saammeko käyttää laitteesi mikrofonia?',
+        'Tarvitsemme oikeuden mikrofoniin, jotta äänen nauhoittaminen onnistuu.',
+        [
+          { text: 'Estä', onPress: () => console.log('permission denied'), style: 'cancel' },
+          permission === 'undetermined' || Platform.OS === 'android' ?
+            { text: 'Salli', onPress: this.showRequestAlert }
+            : { text: 'Avaa asetukset', onPress: Permissions.openSettings },
+        ],
+      );
+    }
+
+    this.initializeRecorder();
+    this._toggleRecord();
+  };
+
   renderStartRecordButton = () => (
     <TouchableOpacity
-      onPress={this._toggleRecord}
+      onPress={this.handleStartRecordClick}
       style={[styles.highlightCircle, getSizeByHeight('nappula_rec', 0.35)]}
     >
       <Image source={getImage('nappula_rec')} style={getSizeByHeight('nappula_rec', 0.35)} />
@@ -234,26 +224,7 @@ export default class AudioRecorder extends Component {
     return null;
   };
 
-  renderRecordPermissionButton = () => (
-    <View style={styles.recordRow}>
-      <Button
-        onPress={this.requestRecordPermission}
-        title={'Salli nauhoitus'}
-      />
-    </View>
-    );
-
   render() {
-    if (this.state.showSpinner) {
-      return (
-        <LoadingSpinner />
-      );
-    }
-
-    if (!this.state.permissionGranted) {
-      return this.renderRecordPermissionButton();
-    }
-
     return (
       <View style={styles.recordRow}>
         {this.renderRecordButton()}
