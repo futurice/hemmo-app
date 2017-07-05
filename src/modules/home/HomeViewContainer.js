@@ -56,10 +56,6 @@ export default class HomeViewContainer extends Component {
     showBubble: true,
   };
 
-  componentWillMount() {
-    this.props.resetCurrentUser();
-  }
-
   openSettings = () => {
     this.props.resetCurrentUser();
     this.props.pushRoute('Settings');

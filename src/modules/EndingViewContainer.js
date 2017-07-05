@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import SpeechBubble from '../components/SpeechBubble';
 import Hemmo from '../components/Hemmo';
 import { getSizeByHeight, getImage } from '../services/graphics';
+import { resetCurrentUser } from './user/UserState';
 import { NavigationActions } from 'react-navigation';
 import {
   StyleSheet,
@@ -35,6 +36,7 @@ const styles = StyleSheet.create({
 });
 
 const mapDispatchToProps = dispatch => ({
+  resetCurrentUser: () => dispatch(resetCurrentUser()),
   resetRoute: () => dispatch(NavigationActions.reset({
     index: 0,
     actions: [
@@ -48,6 +50,7 @@ export default class EndingViewContainer extends Component {
 
   static propTypes = {
     resetRoute: PropTypes.func.isRequired,
+    resetCurrentUser: PropTypes.func.isRequired,
   };
 
   state = {
@@ -58,10 +61,15 @@ export default class EndingViewContainer extends Component {
     this.setState({ showBubble: true });
   };
 
+  end = () => {
+    this.props.resetCurrentUser();
+    this.props.resetRoute();
+  };
+
   renderSpeechBubble = () => this.state.showBubble ? (
     <SpeechBubble
       text={'ending'}
-      hideBubble={this.props.resetRoute}
+      hideBubble={this.end}
       bubbleType={'puhekupla_oikea'}
       style={{ top: 40, left: 40, margin: 45, fontSize: 14, size: 0.5 }}
     />
