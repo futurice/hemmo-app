@@ -37,7 +37,7 @@ async function clear() {
   try {
     await AsyncStorage.removeItem(STATE_STORAGE_KEY);
   } catch (e) {
-    console.error('Error clearing peristed application state', e);
+    console.error('Error clearing persisted application state', e);
   }
 }
 

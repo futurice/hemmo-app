@@ -76,7 +76,7 @@ export default class UserItem extends Component {
     >
       <Image
         style={styles.icon}
-        source={{ uri: this.props.image }}
+        source={this.props.image ? { uri: this.props.image } : getImage('default_image')}
       />
     </TouchableHighlight>
     );
@@ -95,7 +95,7 @@ export default class UserItem extends Component {
           >
             <Image
               style={[styles.smallIcon, { height: this.props.iconHeight - 20, width: this.props.iconHeight - 20 }]}
-              source={{ uri: this.props.image }}
+              source={this.props.image ? { uri: this.props.image } : getImage('default_image')}
             />
             {this.props.name}
           </Image>

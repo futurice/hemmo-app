@@ -13,6 +13,7 @@ import {
   deactivate,
   resetSessionStateFromSnapshot,
 } from '../modules/session/SessionState';
+import { resetCurrentUser } from './user/UserState';
 import store from '../redux/store';
 import Orientation from 'react-native-orientation';
 
@@ -33,6 +34,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   initializeSessionState: () => dispatch(initializeSessionState()),
+  resetCurrentUser: () => dispatch(resetCurrentUser()),
   activate: () => dispatch(activate()),
   deactivate: () => dispatch(deactivate()),
   resetSessionStateFromSnapshot: snapshot => dispatch(resetSessionStateFromSnapshot(snapshot)),
@@ -55,6 +57,7 @@ export default class AppViewContainer extends Component {
     deactivate: PropTypes.func.isRequired,
     resetSessionStateFromSnapshot: PropTypes.func.isRequired,
     navigate: PropTypes.func.isRequired,
+    resetCurrentUser: PropTypes.func.isRequired,
     resetRoute: PropTypes.func.isRequired,
     currentUser: PropTypes.instanceOf(Map),
     currentPage: PropTypes.number,
@@ -74,12 +77,9 @@ export default class AppViewContainer extends Component {
     snapshotUtil.resetSnapshot()
     .then((snapshot) => {
       /* Jos viimeisin tila löytyi */
-      if (false && snapshot) {
-        this.props.resetSessionStateFromSnapshot(snapshot)
-        .then(() => {
-          this.props.activate();
-          this.props.resetRoute();
-        });
+      if (snapshot) {
+        this.props.resetSessionStateFromSnapshot(snapshot);
+        this.props.activate();
       }
       /* Ei löytynyt. Aloitetaan alusta */
       else {
@@ -114,7 +114,8 @@ export default class AppViewContainer extends Component {
 
   renderNavigationModal = () => this.shouldRenderNavigationModal() ? (
     <NavigationModal
-      reset={this.props.resetRoute}
+      resetRoute={this.props.resetRoute}
+      resetCurrentUser={this.props.resetCurrentUser}
       phase={this.props.pages.get(this.props.currentPage - 1).get('key') === 'Mood' ? 'moods' : 'other'}
       shouldSave={this.props.currentPage !== 1}
       currentUser={this.props.currentUser}

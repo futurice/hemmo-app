@@ -84,7 +84,8 @@ const styles = StyleSheet.create({
 export default class NavigationModal extends Component {
 
   static propTypes = {
-    reset: PropTypes.func.isRequired,
+    resetRoute: PropTypes.func.isRequired,
+    resetCurrentUser: PropTypes.func.isRequired,
     quit: PropTypes.func.isRequired,
     shouldSave: PropTypes.bool,
     phase: PropTypes.string,
@@ -104,7 +105,8 @@ export default class NavigationModal extends Component {
       this.save();
     }
 
-    this.props.reset();
+    this.props.resetCurrentUser();
+    this.props.resetRoute();
   };
 
   quit = () => {
@@ -183,7 +185,10 @@ export default class NavigationModal extends Component {
     return (
       <View style={styles.container}>
         <TouchableOpacity onPress={this.toggleModal} style={styles.circle}>
-          <Image style={styles.image} source={{ uri: this.props.currentUser.get('image') }} />
+          <Image
+            style={styles.image}
+            source={this.props.currentUser.get('image') ? { uri: this.props.currentUser.get('image') } : getImage('default_image')}
+          />
         </TouchableOpacity>
         {this.renderModal()}
       </View>

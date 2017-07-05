@@ -70,7 +70,7 @@ export default class SettingsViewContainer extends Component {
     showSucceedingMessage: false,
   };
 
-  infoIsMissing = () => this.props.currentUser.get('name') === '' || this.props.currentUser.get('image') === null;
+  infoIsMissing = () => this.props.currentUser.get('name') === '';
 
   saveUser = () => {
     if (this.infoIsMissing()) {
@@ -164,7 +164,7 @@ export default class SettingsViewContainer extends Component {
         const source = { uri: response.uri, isStatic: true };
         this.setState({ disabled: false });
 
-        this.props.setCurrentUserValue('image', source.uri);
+        this.props.setCurrentUserValue('image', source.uri ? source.uri : null);
       }
     });
   };

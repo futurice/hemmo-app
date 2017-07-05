@@ -1,6 +1,6 @@
 import { AsyncStorage } from 'react-native';
 
-const AUTHENTICATION_STORAGE_KEY = 'PepperoniState:Authentication';
+const AUTHENTICATION_STORAGE_KEY = 'HemmoAppState:Authentication';
 
 export async function getAuthenticationToken() {
   return await AsyncStorage.getItem(AUTHENTICATION_STORAGE_KEY);
