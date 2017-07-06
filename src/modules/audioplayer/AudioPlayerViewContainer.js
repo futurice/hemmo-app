@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Platform } from 'react-native';
 import { Player } from 'react-native-audio-toolkit';
 
 const mapStateToProps = state => ({
@@ -18,15 +17,7 @@ export default class AudioPlayerViewContainer extends Component {
   };
 
   componentWillMount() {
-    let audioTrack;
-
-    if (Platform.OS === 'ios') {
-      audioTrack = `/audio/${this.props.audioTrack}.wav`;
-    } else {
-      audioTrack = this.props.audioTrack;
-    }
-
-    this.player = new Player(audioTrack).prepare();
+    this.player = new Player(`${this.props.audioTrack}.mp3`).prepare();
 
     this.player.on('ended', () => {
       this.props.onEnd();

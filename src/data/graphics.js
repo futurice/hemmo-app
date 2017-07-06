@@ -7,7 +7,7 @@ import { Map } from 'immutable';
 
 const graphics = Map({
   default_image: Map({
-    image: require('../../assets/default-icon.png') }),
+    image: require('../../assets/graphics/others/default-icon.png') }),
 
   /* backgrounds */
   tausta_perus: Map({
