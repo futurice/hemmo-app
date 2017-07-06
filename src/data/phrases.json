@@ -16,8 +16,8 @@
     "audio": "hemmo_05",
     "subTexts": [
       {"subText": "Millaista oli leipoa tai kokkailla?", "audio": "hemmo_14"},
-      {"subText": "Millaista oli tehdä kotihommia?", "audio": "hemmo_15"},
       {"subText": "Millaista oli piirtää tai askarrella?", "audio": "hemmo_16"},
+      {"subText": "Millaista oli tehdä kotihommia?", "audio": "hemmo_15"},
       {"subText": "Millaista oli lukea?", "audio": "hemmo_17"},
       {"subText": "Millaista oli rakennella, nikkaroida tai korjailla?", "audio": "hemmo_18"}
       ]},
