@@ -26,7 +26,6 @@
 		1A6A80C910CC4F25BD998C17 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF453048B18E41B89E9CCA3F /* Ionicons.ttf */; };
 		1AE3AE9CFEE9424C9FB3357B /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 49D5DB5081274466A6AC9253 /* MaterialIcons.ttf */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
-		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2D02E4C21E0B4AEC006451C7 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157351DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		2D02E4C31E0B4AEC006451C7 /* libRCTImage-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3E841DF850E9000B6D8A /* libRCTImage-tvOS.a */; };
@@ -49,6 +48,7 @@
 		82792494C43B482986F3867E /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C31BD6D48BB34318AF59E5C5 /* FontAwesome.ttf */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		B244B5E315CE4A7992E19BD3 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F03C96DABE3E42358573958E /* Octicons.ttf */; };
+		BAA8945A1F0E5C03008C35E1 /* Sounds.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BAA894591F0E5C03008C35E1 /* Sounds.xcassets */; };
 		BACA64351F0B980A004592F0 /* libReactNativePermissions.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BACA64321F0B97DC004592F0 /* libReactNativePermissions.a */; };
 		DC0D2FDF3DC34F57B94101DE /* libReactNativeAudioToolkit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BFCAA57F02E4A19BBE63ADA /* libReactNativeAudioToolkit.a */; };
 /* End PBXBuildFile section */
@@ -333,6 +333,7 @@
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		929B5CEF3FDA465E9E0EEFE0 /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; };
 		990FAB0F1B764EA4AABB9DE9 /* libRNVectorIcons.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNVectorIcons.a; sourceTree = "<group>"; };
+		BAA894591F0E5C03008C35E1 /* Sounds.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Sounds.xcassets; path = Hemmo/Sounds.xcassets; sourceTree = "<group>"; };
 		BACA64101F0B97DC004592F0 /* ReactNativePermissions.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativePermissions.xcodeproj; path = "../node_modules/react-native-permissions/ReactNativePermissions.xcodeproj"; sourceTree = "<group>"; };
 		C31BD6D48BB34318AF59E5C5 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		CF453048B18E41B89E9CCA3F /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
@@ -477,6 +478,7 @@
 		13B07FAE1A68108700A75B9A /* Hemmo */ = {
 			isa = PBXGroup;
 			children = (
+				BAA894591F0E5C03008C35E1 /* Sounds.xcassets */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -1064,6 +1066,7 @@
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				67E3BBFD743E49188EE3C81E /* Entypo.ttf in Resources */,
+				BAA8945A1F0E5C03008C35E1 /* Sounds.xcassets in Resources */,
 				632CE8C3B16245BB9F4C5C83 /* EvilIcons.ttf in Resources */,
 				82792494C43B482986F3867E /* FontAwesome.ttf in Resources */,
 				39A4A43F06AA4B0882DC8AE7 /* Foundation.ttf in Resources */,
@@ -1080,7 +1083,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
