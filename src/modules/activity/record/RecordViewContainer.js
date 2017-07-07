@@ -98,7 +98,7 @@ export default class RecordViewContainer extends Component {
       [{ text: 'Ok' }]);
   };
 
-  async save(phase, attachmentType, attachmentPath) {
+  save = async (phase, attachmentType, attachmentPath) => {
     this.setState({ showSpinner: true });
 
     if (attachmentType === 'text') {
@@ -166,7 +166,7 @@ export default class RecordViewContainer extends Component {
     <TextForm
       toggleWriting={this.toggleWriting}
       phase={phase}
-      save={this.save.bind(this)}
+      save={this.save}
       setText={this.setText}
     />
     ) : null;

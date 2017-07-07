@@ -61,7 +61,7 @@ export default class SubActivityView extends Component {
     this.props.saveAnswer(this.props.activityIndex, 'main', null);
   }
 
-  chooseActivity = async (subActivity, subIndex) => {
+  chooseSubActivity = async (subActivity, subIndex) => {
     await this.props.saveAnswer(this.props.activityIndex, 'sub', subIndex);
 
     if (subActivity === 'Muuta') {
@@ -84,7 +84,7 @@ export default class SubActivityView extends Component {
     <TouchableHighlight
       key={subActivity.get('key')}
       style={[styles.activityBlock, { margin: 5, borderRadius: getSizeByWidth(subActivity.get('key'), ratio).height / 2 }]}
-      onPress={() => this.chooseActivity(subActivity.get('name'), index)}
+      onPress={() => this.chooseSubActivity(subActivity.get('name'), index)}
     >
       <Image
         source={getImage(subActivity.get('key'))}

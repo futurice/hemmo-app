@@ -41,7 +41,7 @@ export default class ActivityViewContainer extends Component {
     showBubble: true,
   };
 
-  saveAnswer = async (activity) => {
+  chooseMainActivity = async (activity) => {
     await this.props.saveAnswer(this.props.activityIndex, 'main', activity.get('id'));
     this.props.pushRoute('SubActivity');
   };
@@ -94,7 +94,7 @@ export default class ActivityViewContainer extends Component {
   renderMainActivity = activity => (
     <TouchableHighlight
       style={[styles.highlight, getSizeByWidth('nelio', 0.3)]}
-      onPress={() => this.saveAnswer(activity)}
+      onPress={() => this.chooseMainActivity(activity)}
     >
       <Image
         style={[styles.activityImage, getSizeByWidth('nelio', 0.3)]}

@@ -1,3 +1,4 @@
+import CardStackStyleInterpolator from 'react-navigation/src/views/CardStackStyleInterpolator';
 import { StackNavigator } from 'react-navigation';
 import HomeViewContainer from '../home/HomeViewContainer';
 import LoginViewContainer from '../login/LoginViewContainer';
@@ -26,6 +27,19 @@ const routes = {
 const routerConfig = {
   headerMode: 'none',
   initialRouteName: 'Home',
+  transitionConfig: () => ({
+    screenInterpolator: (sceneProps) => {
+      // Disable the transition animation when resetting to the home screen
+      if (
+        sceneProps.index === 0 &&
+        sceneProps.scene.route.routeName !== 'Home' &&
+        sceneProps.scenes.length > 2
+      ) return null;
+
+      // Otherwise, use the usual horizontal animation
+      return CardStackStyleInterpolator.forHorizontal(sceneProps);
+    },
+  }),
 };
 
 const AppNavigator = StackNavigator(routes, routerConfig);
