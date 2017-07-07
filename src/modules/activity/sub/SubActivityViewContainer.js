@@ -61,8 +61,8 @@ export default class SubActivityView extends Component {
     this.props.saveAnswer(this.props.activityIndex, 'main', null);
   }
 
-  chooseActivity = (subActivity, subIndex) => {
-    this.props.saveAnswer(this.props.activityIndex, 'sub', subIndex);
+  chooseActivity = async (subActivity, subIndex) => {
+    await this.props.saveAnswer(this.props.activityIndex, 'sub', subIndex);
 
     if (subActivity === 'Muuta') {
       this.props.pushRoute('Record', 'activities');

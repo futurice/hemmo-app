@@ -1,5 +1,6 @@
 
 import { put, post, xhr } from '../utils/api';
+import { getSessionId } from '../utils/session';
 
 const activities = require('../data/activities.js');
 
@@ -7,7 +8,7 @@ export async function save(attachmentPath, attachmentType, body) {
   let attachmentQuestion;
 
   try {
-    const result = await post('/content', body);
+    const result = await post('/app/content', body);
 
     if (attachmentType === 'audio') {
       const contentId = result.contentId;
@@ -20,7 +21,7 @@ export async function save(attachmentPath, attachmentType, body) {
       attachmentBody.append('file', file);
 
       try {
-        const attachmentResult = await xhr('PUT', `/attachment/${contentId}`, attachmentBody);
+        const attachmentResult = await xhr('POST', `/app/content/${contentId}/attachment`, attachmentBody);
 
         const parsedResult = JSON.parse(attachmentResult);
         body.questions.push({ question: attachmentQuestion, attachmentId: parsedResult.attachmentId });
@@ -66,6 +67,8 @@ export async function formRequestBody(phase, attachmentType, text, activityIndex
   } else if (attachmentType === 'skipped') {
     body.questions.push({ question: attachmentQuestion, answer: 'Ohitettu' });
   }
+
+  body.feedbackId = await getSessionId();
 
   return body;
 }

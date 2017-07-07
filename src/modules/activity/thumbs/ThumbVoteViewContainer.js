@@ -65,8 +65,8 @@ export default class ThumbVoteViewContainer extends Component {
     this.props.saveAnswer(this.props.activityIndex, 'sub', null);
   }
 
-  vote = (vote) => {
-    this.props.saveAnswer(this.props.activityIndex, 'thumb', vote);
+  vote = async (vote) => {
+    await this.props.saveAnswer(this.props.activityIndex, 'thumb', vote);
     this.props.pushRoute('Record', 'activities');
   };
 

@@ -71,15 +71,16 @@ export default class HomeViewContainer extends Component {
   };
 
   startSession = (id) => {
-    post('/session')
+    post('/app/feedback')
       .then((result) => {
-        setSessionId(result.sessionId);
+        setSessionId(result.id);
         this.props.finishPreparing();
         this.props.addActivity();
         this.props.setCurrentUser(id);
         this.props.pushRoute('Activity');
       })
       .catch((error) => {
+        console.log(error);
         this.props.finishPreparing();
         Alert.alert('Oops! Jokin meni pieleen!', 'Yritä myöhemmin uudelleen!');
       });

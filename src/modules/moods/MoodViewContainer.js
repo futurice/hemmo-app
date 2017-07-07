@@ -42,8 +42,8 @@ export default class MoodViewContainer extends Component {
     this.setState({ showBubble: true });
   };
 
-  save = () => {
-    this.props.saveAnswer(null, 'moods', this.state.selectedMoods);
+  save = async () => {
+    await this.props.saveAnswer(null, 'moods', this.state.selectedMoods);
     this.props.pushRoute('Record', 'moods');
   };
 

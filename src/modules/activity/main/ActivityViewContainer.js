@@ -41,8 +41,8 @@ export default class ActivityViewContainer extends Component {
     showBubble: true,
   };
 
-  saveAnswer = (activity) => {
-    this.props.saveAnswer(this.props.activityIndex, 'main', activity.get('id'));
+  saveAnswer = async (activity) => {
+    await this.props.saveAnswer(this.props.activityIndex, 'main', activity.get('id'));
     this.props.pushRoute('SubActivity');
   };
 

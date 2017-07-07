@@ -13,7 +13,7 @@ import {
   resetCurrentUser,
   setCurrentUser,
 } from '../../modules/user/UserState';
-import { post } from '../../utils/api';
+import { post, patch } from '../../utils/api';
 import { getSizeByHeight, getSizeByWidth, getImage } from '../../services/graphics';
 import {
   Image,
@@ -72,35 +72,55 @@ export default class SettingsViewContainer extends Component {
 
   infoIsMissing = () => this.props.currentUser.get('name') === '';
 
-  saveUser = () => {
+  saveChild = () => {
     if (this.infoIsMissing()) {
       Alert.alert('Puuttuvia tietoja', 'Varmistathan, että kaikki kohdat on täytetty ennen jatkamista.');
     } else if (this.props.currentUser.get('id') === null) {
-      const name = this.props.currentUser.get('name');
-      const newId = this.props.users.size;
-
-      this.setState({ loading: true });
-
-      // TODO: move this API call to another place
-      post('/register', { name })
-        .then(result =>
-          this.props.setCurrentUserValue('token', `Bearer ${result.token}`),
-        )
-        .then(() => {
-          this.props.setCurrentUserValue('id', newId);
-          this.props.createUser(this.props.currentUser);
-          this.setState({ disabled: true, loading: false });
-          this.showSucceedingMessage();
-        })
-        .catch((error) => {
-          console.log(error);
-          this.setState({ loading: false });
-          Alert.alert('Virhe käyttäjän luonnissa!', 'Yritä myöhemmin uudelleen.');
-        });
+      this.createChild();
     } else {
-      this.props.editUser(this.props.currentUser);
-      this.setState({ disabled: true });
+      this.editChild();
     }
+  };
+
+  createChild = () => {
+    const name = this.props.currentUser.get('name');
+    const newId = this.props.users.size;
+
+    this.setState({ loading: true });
+
+    post('/app/children', { name })
+    .then(result =>
+      this.props.setCurrentUserValue('token', `Bearer ${result.token}`),
+    )
+    .then(() => {
+      this.props.setCurrentUserValue('id', newId);
+      this.props.createUser(this.props.currentUser);
+      this.setState({ disabled: true, loading: false });
+      this.showSucceedingMessage();
+    })
+    .catch((error) => {
+      console.log(error);
+      this.setState({ loading: false });
+      Alert.alert('Virhe käyttäjän luonnissa!', 'Yritä myöhemmin uudelleen.');
+    });
+  };
+
+  editChild = () => {
+    const name = this.props.currentUser.get('name');
+
+    this.setState({ loading: true });
+
+    patch(`/app/children/${this.props.currentUser.get('id')}`, { name })
+    .then(result => {
+      this.props.editUser(this.props.currentUser);
+      this.setState({ disabled: true, loading: false });
+      this.showSucceedingMessage();
+    })
+    .catch((error) => {
+      console.log(error);
+      this.setState({ loading: false });
+      Alert.alert('Virhe käyttäjän muokkaamisessa!', 'Yritä myöhemmin uudelleen.');
+    });
   };
 
   showSucceedingMessage = () => {
@@ -307,7 +327,7 @@ export default class SettingsViewContainer extends Component {
   renderSaveButton = () => (
     <TouchableOpacity
       disabled={this.state.disabled}
-      onPress={this.saveUser}
+      onPress={this.saveChild}
     >
       <Image
         source={getImage('nappula_tallenna')}

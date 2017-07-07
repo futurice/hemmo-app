@@ -2,7 +2,6 @@
 import HttpError from 'standard-http-error';
 import { getConfiguration } from '../utils/configuration';
 import { getAuthenticationToken } from '../utils/authentication';
-import { getSessionId } from '../utils/session';
 
 const EventEmitter = require('event-emitter');
 
@@ -46,6 +45,17 @@ export async function put(path, body, suppressRedBox) {
 }
 
 /**
+ * PATCH JSON to a path relative to API root url
+ * @param {String} path Relative path to the configured API endpoint
+ * @param {Object} body Anything that you can pass to JSON.stringify
+ * @param {Boolean} suppressRedBox If true, no warning is shown on failed request
+ * @returns {Promise}  of response body
+ */
+export async function patch(path, body, suppressRedBox) {
+  return bodyOf(request('patch', path, body, suppressRedBox));
+}
+
+/**
  * DELETE a path relative to API root url
  * @param {String} path Relative path to the configured API endpoint
  * @param {Boolean} suppressRedBox If true, no warning is shown on failed request
@@ -80,7 +90,6 @@ export async function request(method, path, body, suppressRedBox) {
 export async function xhr(method, path, body, suppressRedBox) {
   try {
     const token = await getAuthenticationToken();
-    const sessionId = await getSessionId();
 
     return new Promise((resolve, reject) => {
       const endpoint = url(path);
@@ -88,7 +97,6 @@ export async function xhr(method, path, body, suppressRedBox) {
       const req = new XMLHttpRequest();
       req.open(method, endpoint);
       req.setRequestHeader('Authorization', token);
-      req.setRequestHeader('Session', sessionId);
 
       req.onreadystatechange = (e) => {
         if (req.readyState !== 4) {
@@ -129,8 +137,7 @@ async function sendRequest(method, path, body) {
   try {
     const endpoint = url(path);
     const token = await getAuthenticationToken();
-    const sessionId = await getSessionId();
-    const headers = getRequestHeaders(body, token, sessionId);
+    const headers = getRequestHeaders(body, token);
     const options = body
       ? { method, headers, body: JSON.stringify(body) }
       : { method, headers };
@@ -173,16 +180,12 @@ async function handleResponse(path, response) {
   }
 }
 
-function getRequestHeaders(body, token, sessionId) {
+function getRequestHeaders(body, token) {
   const headers = body
     ? { Accept: 'application/json', 'Content-Type': 'application/json' }
     : { Accept: 'application/json' };
 
   if (token) {
-    if (sessionId) {
-      return { ...headers, Authorization: token, session: sessionId };
-    }
-
     return { ...headers, Authorization: token };
   }
 
