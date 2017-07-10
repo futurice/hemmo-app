@@ -70,7 +70,6 @@ export default class AppViewContainer extends Component {
   };
 
   componentDidMount() {
-    Orientation.lockToLandscape();
     AppState.addEventListener('change', this._handleAppStateChange);
 
     /* Haetaan viimeisin tila */
@@ -99,7 +98,6 @@ export default class AppViewContainer extends Component {
     this.setState({ currentState: appState, previousState: previous });
 
     if (this.state.currentState === 'active') {
-      Orientation.lockToLandscape();
       this.props.activate();
     } else if (this.state.currentState === 'inactive' || this.state.currentState === 'background') {
       this.props.deactivate();

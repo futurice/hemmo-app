@@ -50,17 +50,6 @@ export default class SubActivityView extends Component {
     showBubble: true,
   };
 
-  // Resetting the navigation stack in Ending causes an
-  // unnecessary update in some inactive, stacked components
-  shouldComponentUpdate(nextProps) {
-    return nextProps.activityIndex !== -1 && nextProps.chosenMainActivity !== undefined;
-  }
-
-  // Clears the main activity when the user navigates back
-  componentWillUnmount() {
-    this.props.saveAnswer(this.props.activityIndex, 'main', null);
-  }
-
   chooseSubActivity = async (subActivity, subIndex) => {
     await this.props.saveAnswer(this.props.activityIndex, 'sub', subIndex);
 

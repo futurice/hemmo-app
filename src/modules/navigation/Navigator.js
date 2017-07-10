@@ -1,5 +1,6 @@
+import React, { Component } from 'react';
 import CardStackStyleInterpolator from 'react-navigation/src/views/CardStackStyleInterpolator';
-import { StackNavigator } from 'react-navigation';
+import { StackRouter, addNavigationHelpers } from 'react-navigation';
 import HomeViewContainer from '../home/HomeViewContainer';
 import LoginViewContainer from '../login/LoginViewContainer';
 import SettingsViewContainer from '../settings/SettingsViewContainer';
@@ -42,6 +43,29 @@ const routerConfig = {
   }),
 };
 
-const AppNavigator = StackNavigator(routes, routerConfig);
+const Router = StackRouter(routes, routerConfig);
+
+class AppNavigator extends Component {
+  static router = Router;
+
+  render() {
+    const { state, dispatch } = this.props.navigation;
+    const { routes, index } = state;
+
+    // Figure out what to render based on the navigation state and the router:
+    const Screen = Router.getComponentForState(state);
+
+    // The state of the active child screen can be found at routes[index]
+    let childNavigation = { dispatch, state: routes[index] };
+    // If we want, we can also tinker with the dispatch function here, to limit
+    // or augment our children's actions
+
+    // Assuming our children want the convenience of calling .navigate() and so on,
+    // we should call addNavigationHelpers to augment our navigation prop:
+    childNavigation = addNavigationHelpers(childNavigation);
+
+    return <Screen navigation={childNavigation} />;
+  }
+}
 
 export default AppNavigator;

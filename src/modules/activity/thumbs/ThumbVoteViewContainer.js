@@ -54,17 +54,6 @@ export default class ThumbVoteViewContainer extends Component {
     showBubble: true,
   };
 
-  // Resetting the navigation stack in Ending causes an
-  // unnecessary update in some inactive, stacked components
-  shouldComponentUpdate(nextProps) {
-    return nextProps.activityIndex !== -1 && nextProps.mainActivityIndex !== null && nextProps.subActivityIndex !== null;
-  }
-
-  // Clears the subactivity when the user navigates back
-  componentWillUnmount() {
-    this.props.saveAnswer(this.props.activityIndex, 'sub', null);
-  }
-
   vote = async (vote) => {
     await this.props.saveAnswer(this.props.activityIndex, 'thumb', vote);
     this.props.pushRoute('Record', 'activities');
