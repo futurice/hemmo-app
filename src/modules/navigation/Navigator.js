@@ -51,6 +51,9 @@ const FeedbackNavigator = TabNavigator(
     swipeEnabled: true,
     lazy: true,
     backBehavior: 'none',
+    navigationOptions: {
+      tabBarVisible: false,
+    },
   },
 );
 
