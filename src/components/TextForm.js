@@ -56,7 +56,6 @@ export default class TextForm extends Component {
   static propTypes = {
     toggleWriting: PropTypes.func.isRequired,
     setText: PropTypes.func.isRequired,
-    phase: PropTypes.string,
     save: PropTypes.func.isRequired,
   };
 
@@ -106,7 +105,7 @@ export default class TextForm extends Component {
         </Image>
         <TouchableOpacity
           disabled={this.state.disabled}
-          onPress={() => this.props.save(this.props.phase, 'text')}
+          onPress={() => this.props.save('text')}
           style={styles.saveButton}
         >
           <Image

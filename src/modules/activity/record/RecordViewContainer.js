@@ -20,14 +20,13 @@ import {
 
 const styles = require('./styles.js');
 
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = state => ({
   activityIndex: state.getIn(['user', 'currentUser', 'activityIndex']),
   answers: state.getIn(['user', 'currentUser', 'answers']),
-  phase: ownProps.navigation.state.params.phase,
 });
 
 const mapDispatchToProps = dispatch => ({
-  pushRoute: (key, phase) => dispatch(NavigationActions.navigate({ routeName: key, params: { phase } })),
+  pushRoute: key => dispatch(NavigationActions.navigate({ routeName: key })),
   popRoute: () => dispatch(NavigationActions.back()),
 });
 
@@ -36,7 +35,6 @@ export default class RecordViewContainer extends Component {
 
   static propTypes = {
     popRoute: PropTypes.func.isRequired,
-    phase: PropTypes.string.isRequired,
     pushRoute: PropTypes.func.isRequired,
     activityIndex: PropTypes.number.isRequired,
     answers: PropTypes.instanceOf(Map).isRequired,
@@ -56,36 +54,17 @@ export default class RecordViewContainer extends Component {
     this.setState({ text });
   };
 
-  getBubbleText = (phase) => {
-    if (phase === 'moods') {
-      return 'moodFeedback';
-    } else if (phase === 'general') {
-      return 'generalFeedback';
-    }
+  getBubbleText = () => (
+    'generalFeedback'
+  );
 
-    return 'record';
+  continue = () => {
+    this.props.pushRoute('Ending');
   };
 
-  continue = (phase) => {
-    if (phase === 'activities') {
-      this.props.pushRoute('NewRound');
-    } else if (phase === 'moods') {
-      this.setState({
-        showTextForm: false,
-        showSpinner: false,
-        showBubble: true,
-        progress: 0,
-      });
-
-      this.props.pushRoute('Record', 'general');
-    } else if (phase === 'general') {
-      this.props.pushRoute('Ending');
-    }
-  };
-
-  closeConfirmationMessage = (phase) => {
+  closeConfirmationMessage = () => {
     this.setState({ showMessage: false });
-    this.continue(phase);
+    this.continue();
   };
 
   showConfirmationMessage = () => {
@@ -98,7 +77,7 @@ export default class RecordViewContainer extends Component {
       [{ text: 'Ok' }]);
   };
 
-  save = async (phase, attachmentType, attachmentPath) => {
+  save = async (attachmentType, attachmentPath) => {
     this.setState({ showSpinner: true });
 
     if (attachmentType === 'text') {
@@ -107,7 +86,6 @@ export default class RecordViewContainer extends Component {
 
     try {
       const body = await formRequestBody(
-        phase,
         attachmentType,
         this.state.text,
         this.props.activityIndex,
@@ -119,7 +97,7 @@ export default class RecordViewContainer extends Component {
 
         if (wasSuccessful.success) {
           if (attachmentType === 'skipped') {
-            this.continue(phase);
+            this.continue();
           } else {
             this.setState({ showSpinner: false });
             this.showConfirmationMessage();
@@ -133,7 +111,7 @@ export default class RecordViewContainer extends Component {
     } catch (e) {
       this.error();
     }
-  }
+  };
 
   restartAudioAndText = () => {
     this.setState({ showBubble: true });
@@ -151,36 +129,32 @@ export default class RecordViewContainer extends Component {
     this.setState({ text: '', showTextForm: !this.state.showTextForm });
   };
 
-  renderBubble = phase => this.state.showBubble ? (
+  renderBubble = () => this.state.showBubble ? (
     <SpeechBubble
-      text={this.getBubbleText(phase)}
+      text={this.getBubbleText('general')}
       bubbleType={'puhekupla_oikea'}
       hideBubble={this.hideBubble}
-      style={phase === 'moods' || phase === 'general'
-        ? { top: 85, left: 180, margin: 30, fontSize: 18, size: 0.4 }
-        : { top: 45, left: 40, margin: 50, fontSize: 17, size: 0.6 }}
+      style={{ top: 85, left: 180, margin: 30, fontSize: 18, size: 0.4 }}
     />
     ) : null;
 
-  renderTextForm = phase => this.state.showTextForm ? (
+  renderTextForm = () => this.state.showTextForm ? (
     <TextForm
       toggleWriting={this.toggleWriting}
-      phase={phase}
       save={this.save}
       setText={this.setText}
     />
     ) : null;
 
-  renderSaveConfirmationWindow = phase => this.state.showMessage ? (
+  renderSaveConfirmationWindow = () => this.state.showMessage ? (
     <SaveConfirmationWindow
-      phase={phase}
       closeWindow={this.closeConfirmationMessage}
     />
     ) : null;
 
-  renderSkipButton = phase => (
+  renderSkipButton = () => (
     <TouchableOpacity
-      onPress={() => this.save(phase, 'skipped')}
+      onPress={() => this.save('skipped')}
       style={styles.skipButtonHighlight}
     >
       <Image
@@ -199,11 +173,10 @@ export default class RecordViewContainer extends Component {
     </TouchableOpacity>
     );
 
-  renderAudioRecorder = phase => (
+  renderAudioRecorder = () => (
     <AudioRecorder
-      save={this.save.bind(this)}
+      save={this.save}
       toggleWritingButton={this.toggleWritingButton}
-      phase={phase}
     />
     );
 
@@ -232,21 +205,21 @@ export default class RecordViewContainer extends Component {
     />
     );
 
-  renderLeftColumn = phase => (
+  renderLeftColumn = () => (
     <Image
       source={getImage('tausta_kapea')}
       style={[styles.leftColumn, getSizeByWidth('tausta_kapea', 0.6)]}
     >
       {this.renderBackButton()}
-      {this.renderAudioRecorder(phase)}
+      {this.renderAudioRecorder()}
       {this.renderWriteButton()}
     </Image>
     );
 
-  renderRightColumn = phase => (
+  renderRightColumn = () => (
     <View style={styles.rightColumn}>
       {this.renderHemmo()}
-      {this.renderSkipButton(phase)}
+      {this.renderSkipButton()}
     </View>
     );
 
@@ -257,15 +230,13 @@ export default class RecordViewContainer extends Component {
       );
     }
 
-    const phase = this.props.phase;
-
     return (
       <Image source={getImage('tausta_perus')} style={styles.container}>
-        {this.renderLeftColumn(phase)}
-        {this.renderRightColumn(phase)}
-        {this.renderTextForm(phase)}
-        {this.renderBubble(phase)}
-        {this.renderSaveConfirmationWindow(phase)}
+        {this.renderLeftColumn()}
+        {this.renderRightColumn()}
+        {this.renderTextForm()}
+        {this.renderBubble()}
+        {this.renderSaveConfirmationWindow()}
       </Image>
     );
   }

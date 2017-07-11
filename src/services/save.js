@@ -43,24 +43,10 @@ export async function save(attachmentPath, attachmentType, body) {
   }
 }
 
-export async function formRequestBody(phase, attachmentType, text, activityIndex, answers) {
+export async function formRequestBody(attachmentType, text) {
   let questions = [];
-  let moods = [];
   let body = { questions };
-  let attachmentQuestion;
-
-  if (phase === 'activities' || (phase === 'other' && activityIndex !== -1)) {
-    questions = getActivities(activityIndex, answers);
-    attachmentQuestion = 'Mikä siitä jäi mieleen?';
-    body = { questions };
-  } else if (phase === 'moods') {
-    moods = getMoods(answers);
-    attachmentQuestion = 'Miksi sinusta tuntui siltä?';
-    body = { moods, questions };
-  } else if (phase === 'general') {
-    attachmentQuestion = 'Onko sinulla jotain muuta kerrottavaa?';
-    body = { questions };
-  }
+  let attachmentQuestion = 'Onko sinulla jotain muuta kerrottavaa?';
 
   if (attachmentType === 'text') {
     body.questions.push({ question: attachmentQuestion, answer: text });

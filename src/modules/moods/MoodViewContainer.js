@@ -18,7 +18,7 @@ const styles = require('./styles.js');
 
 const mapDispatchToProps = dispatch => ({
   saveAnswer: (index, destination, answers) => dispatch(saveAnswer(index, destination, answers)),
-  pushRoute: (key, phase) => dispatch(NavigationActions.navigate({ routeName: key, params: { phase } })),
+  pushRoute: key => dispatch(NavigationActions.navigate({ routeName: key })),
 });
 
 @connect(null, mapDispatchToProps)
@@ -44,7 +44,7 @@ export default class MoodViewContainer extends Component {
 
   save = async () => {
     await this.props.saveAnswer(null, 'moods', this.state.selectedMoods);
-    this.props.pushRoute('Record', 'moods');
+    this.props.pushRoute('Record');
   };
 
   selectMood = (mood) => {

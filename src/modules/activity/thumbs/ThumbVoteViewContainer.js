@@ -33,7 +33,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   saveAnswer: (index, destination, answers) => dispatch(saveAnswer(index, destination, answers)),
-  pushRoute: (key, phase) => dispatch(NavigationActions.navigate({ routeName: key, params: { phase } })),
+  pushRoute: key => dispatch(NavigationActions.navigate({ routeName: key })),
   popRoute: () => dispatch(NavigationActions.back()),
 });
 
@@ -56,7 +56,7 @@ export default class ThumbVoteViewContainer extends Component {
 
   vote = async (vote) => {
     await this.props.saveAnswer(this.props.activityIndex, 'thumb', vote);
-    this.props.pushRoute('Record', 'activities');
+    this.props.pushRoute('Mood');
   };
 
   hideBubble = () => {

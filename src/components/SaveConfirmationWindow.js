@@ -33,21 +33,16 @@ const styles = StyleSheet.create({
 export default class SaveConfirmationWindow extends Component {
 
   static propTypes = {
-    closeWindow: PropTypes.func,
-    phase: PropTypes.string,
-  };
-
-  close = () => {
-    this.props.closeWindow(this.props.phase);
+    closeWindow: PropTypes.func.isRequired,
   };
 
   render() {
     return (
-      <TouchableWithoutFeedback onPress={this.close}>
+      <TouchableWithoutFeedback onPress={this.props.closeWindow}>
         <View style={styles.container}>
           <SpeechBubble
             text={'saved'}
-            hideBubble={this.close}
+            hideBubble={this.props.closeWindow}
             bubbleType={'puhekupla_tallennettu'}
             style={{ top: 110, left: 300, margin: 10, fontSize: 17, size: 0.35 }}
           />

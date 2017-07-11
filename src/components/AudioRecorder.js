@@ -56,7 +56,6 @@ export default class AudioRecorder extends Component {
 
   static propTypes = {
     save: PropTypes.func.isRequired,
-    phase: PropTypes.string,
     toggleWritingButton: PropTypes.func,
   };
 
@@ -160,7 +159,7 @@ export default class AudioRecorder extends Component {
         this._updateState();
         this.setState({ progress: 0 });
         this.recorder.destroy();
-        this.props.save(this.props.phase, 'audio', this.state.filePath);
+        this.props.save('audio', this.state.filePath);
       } else {
         this._updateState();
       }
