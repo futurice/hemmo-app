@@ -124,7 +124,7 @@ export default class LoginModal extends Component {
       message: 'Kirjaudutaan...',
     });
 
-    post('/admin/users/authenticate', {
+    post('/admin/employees/authenticate', {
       email: this.state.email,
       password: this.state.password,
     })
