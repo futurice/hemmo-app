@@ -3,19 +3,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { View, StyleSheet, AppState, ActivityIndicator } from 'react-native';
 import NavigationViewContainer from './navigation/NavigationViewContainer';
-import { Map, List } from 'immutable';
-import NavigationModal from '../components/NavigationModal';
 import * as snapshotUtil from '../utils/snapshot';
-import { NavigationActions } from 'react-navigation';
 import {
   initializeSessionState,
   activate,
   deactivate,
   resetSessionStateFromSnapshot,
 } from '../modules/session/SessionState';
-import { resetCurrentUser } from './user/UserState';
 import store from '../redux/store';
-import Orientation from 'react-native-orientation';
 
 const styles = StyleSheet.create({
   centered: {
@@ -34,17 +29,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   initializeSessionState: () => dispatch(initializeSessionState()),
-  resetCurrentUser: () => dispatch(resetCurrentUser()),
   activate: () => dispatch(activate()),
   deactivate: () => dispatch(deactivate()),
   resetSessionStateFromSnapshot: snapshot => dispatch(resetSessionStateFromSnapshot(snapshot)),
-  navigate: route => dispatch(NavigationActions.navigate({ routeName: route })),
-  resetRoute: () => dispatch(NavigationActions.reset({
-    index: 0,
-    actions: [
-      NavigationActions.navigate({ routeName: 'Home' }),
-    ],
-  })),
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -56,12 +43,6 @@ export default class AppViewContainer extends Component {
     activate: PropTypes.func.isRequired,
     deactivate: PropTypes.func.isRequired,
     resetSessionStateFromSnapshot: PropTypes.func.isRequired,
-    navigate: PropTypes.func.isRequired,
-    resetCurrentUser: PropTypes.func.isRequired,
-    resetRoute: PropTypes.func.isRequired,
-    currentUser: PropTypes.instanceOf(Map),
-    currentPage: PropTypes.number,
-    pages: PropTypes.instanceOf(List),
   };
 
   state = {
@@ -76,7 +57,7 @@ export default class AppViewContainer extends Component {
     snapshotUtil.resetSnapshot()
     .then((snapshot) => {
       /* Jos viimeisin tila löytyi */
-      if (snapshot) {
+      if (false && snapshot) {
         this.props.resetSessionStateFromSnapshot(snapshot);
         this.props.activate();
       }
@@ -104,23 +85,6 @@ export default class AppViewContainer extends Component {
     }
   };
 
-  shouldRenderNavigationModal = () => {
-    const route = this.props.pages.get(this.props.currentPage).get('routeName');
-
-    return route !== 'Settings' && route !== 'Home' && route !== 'Ending' && route !== 'Login';
-  };
-
-  renderNavigationModal = () => this.shouldRenderNavigationModal() ? (
-    <NavigationModal
-      resetRoute={this.props.resetRoute}
-      resetCurrentUser={this.props.resetCurrentUser}
-      phase={this.props.pages.get(this.props.currentPage - 1).get('key') === 'Mood' ? 'moods' : 'other'}
-      shouldSave={this.props.currentPage !== 1}
-      currentUser={this.props.currentUser}
-      quit={() => this.props.navigate('Ending')}
-    />
-    ) : null;
-
   render() {
     if (!this.props.isReady) {
       return (
@@ -133,7 +97,6 @@ export default class AppViewContainer extends Component {
     return (
       <View style={{ flex: 1 }}>
         <NavigationViewContainer />
-        {this.renderNavigationModal()}
       </View>
     );
   }
