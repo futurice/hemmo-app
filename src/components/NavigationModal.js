@@ -4,8 +4,11 @@ Navigation modal on the upper left corner that allows user to return to home pag
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Map } from 'immutable';
 import { getSizeByHeight, getSizeByWidth, getImage } from '../services/graphics';
+import { NavigationActions } from 'react-navigation';
+import { resetCurrentUser, saveAnswer } from '../modules/user/UserState';
 import { save, formRequestBody } from '../services/save';
 import {
   View,
@@ -19,9 +22,7 @@ import {
 
 const styles = StyleSheet.create({
   container: {
-    position: 'absolute',
-    left: 2,
-    top: 2,
+
   },
   circle: {
     backgroundColor: 'white',
@@ -81,15 +82,30 @@ const styles = StyleSheet.create({
   },
 });
 
+const mapStateToProps = state => ({
+  currentUser: state.getIn(['user', 'currentUser']),
+});
+
+const mapDispatchToProps = dispatch => ({
+  navigate: route => dispatch(NavigationActions.navigate({ routeName: route })),
+  saveAnswer: (index, destination, answers) => dispatch(saveAnswer(index, destination, answers)),
+  resetCurrentUser: () => dispatch(resetCurrentUser()),
+  resetRoute: () => dispatch(NavigationActions.reset({
+    index: 0,
+    actions: [
+      NavigationActions.navigate({ routeName: 'Home' }),
+    ],
+  })),
+});
+
+@connect(mapStateToProps, mapDispatchToProps)
 export default class NavigationModal extends Component {
 
   static propTypes = {
     resetRoute: PropTypes.func.isRequired,
     resetCurrentUser: PropTypes.func.isRequired,
-    quit: PropTypes.func.isRequired,
-    shouldSave: PropTypes.bool,
-    phase: PropTypes.string,
-    currentUser: PropTypes.instanceOf(Map),
+    navigate: PropTypes.func.isRequired,
+    currentUser: PropTypes.instanceOf(Map).isRequired,
   };
 
   state = {
@@ -101,26 +117,19 @@ export default class NavigationModal extends Component {
   };
 
   reset = () => {
-    if (this.props.shouldSave) {
-      this.save();
-    }
-
+    this.save();
     this.props.resetCurrentUser();
     this.props.resetRoute();
   };
 
   quit = () => {
-    if (this.props.shouldSave) {
-      this.save();
-    }
-
+    this.save();
     this.setState({ modalVisible: false });
-    this.props.quit();
+    this.props.navigate('Ending');
   };
 
   save = () => {
     formRequestBody(
-      this.props.phase,
       'skipped', 'Ohitettu',
       this.props.currentUser.get('activityIndex'),
       this.props.currentUser.get('answers'))
