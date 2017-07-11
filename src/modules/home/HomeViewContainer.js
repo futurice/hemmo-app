@@ -77,7 +77,7 @@ export default class HomeViewContainer extends Component {
         this.props.finishPreparing();
         this.props.addActivity();
         this.props.setCurrentUser(id);
-        this.props.pushRoute('Activity');
+        this.props.pushRoute('Feedback');
       })
       .catch((error) => {
         console.log(error);
@@ -163,7 +163,7 @@ export default class HomeViewContainer extends Component {
       <Image source={getImage('tausta_perus3')} style={styles.container}>
         {this.renderLeftColumn()}
         {this.renderRightColumn(users)}
-        {this.renderSpeechBubble(users.size > 0)}
+        {/*{this.renderSpeechBubble(users.size > 0)}*/}
       </Image>
     );
   }

@@ -16,6 +16,7 @@
     "react-mixin": "^3.0.5",
     "react-native": "0.45.1",
     "react-native-audio-toolkit": "^1.0.5",
+    "react-native-collapsible": "^0.8.0",
     "react-native-image-picker": "^0.26.3",
     "react-native-orientation": "git+https://github.com/yamill/react-native-orientation.git",
     "react-native-permissions": "^1.0.0",

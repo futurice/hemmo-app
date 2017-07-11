@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import { NavigationActions } from 'react-navigation';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Accordion from 'react-native-collapsible/Accordion';
 import { saveAnswer } from '../../../modules/user/UserState';
-import { NavigationActions } from 'react-navigation';
 import Hemmo from '../../../components/Hemmo';
 import SpeechBubble from '../../../components/SpeechBubble';
 import LoadingSpinner from '../../../components/LoadingSpinner';
@@ -12,9 +13,23 @@ import {
   Image,
   TouchableHighlight,
   View,
+  ScrollView,
+  StyleSheet,
 } from 'react-native';
 
-const styles = require('./styles.js');
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    alignSelf: 'center',
+  },
+  subActivityContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+  },
+});
+
 const activities = require('../../../data/activities.js');
 
 const mapStateToProps = state => ({
@@ -24,7 +39,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   saveAnswer: (index, destination, answers) => dispatch(saveAnswer(index, destination, answers)),
-  pushRoute: (key, phase) => dispatch(NavigationActions.navigate({ routeName: key, params: { phase } })),
+  pushRoute: key => dispatch(NavigationActions.navigate({ routeName: key })),
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -39,17 +54,19 @@ export default class ActivityViewContainer extends Component {
 
   state = {
     showBubble: true,
+    chosenMainActivity: null,
   };
-
-  componentWillMount() {
-    this.props.saveAnswer(this.props.activityIndex, 'main', null);
-    this.props.saveAnswer(this.props.activityIndex, 'sub', null);
-    this.props.saveAnswer(this.props.activityIndex, 'thumb', null);
-  }
 
   chooseMainActivity = async (activity) => {
     await this.props.saveAnswer(this.props.activityIndex, 'main', activity.get('id'));
-    this.props.pushRoute('SubActivity');
+
+    this.setState({ chosenMainActivity: this.state.chosenMainActivity
+    && this.state.chosenMainActivity.get('id') === activity.get('id') ? null : activity });
+  };
+
+  chooseSubActivity = async (subActivity) => {
+    await this.props.saveAnswer(this.props.activityIndex, 'sub', subActivity.get('id'));
+    this.props.pushRoute('ThumbVote');
   };
 
   hideBubble = () => {
@@ -75,18 +92,6 @@ export default class ActivityViewContainer extends Component {
     />
   ) : null;
 
-  renderOtherActivity = () => (
-    <View style={styles.other}>
-      <TouchableHighlight
-        onPress={() => this.props.pushRoute('Record', 'activities')}
-        style={[getSizeByWidth('muuta', 0.1),
-            { borderRadius: getSizeByWidth('muuta', 0.1).width / 2 }]}
-      >
-        <Image source={getImage('muuta')} style={[getSizeByWidth('muuta', 0.1)]} />
-      </TouchableHighlight>
-    </View>
-    );
-
   renderHemmo = () => (
     <View style={styles.hemmo}>
       <Hemmo
@@ -97,19 +102,50 @@ export default class ActivityViewContainer extends Component {
     </View>
     );
 
-  renderMainActivity = activity => (
+  renderSubActivity = (subActivity, index) => (
     <TouchableHighlight
-      style={[styles.highlight, getSizeByWidth('nelio', 0.3)]}
-      onPress={() => this.chooseMainActivity(activity)}
+      key={index}
+      style={{ margin: 5, borderRadius: getSizeByWidth(subActivity.get('key'), 0.15).height / 2 }}
+      onPress={() => this.chooseSubActivity(subActivity)}
     >
       <Image
-        style={[styles.activityImage, getSizeByWidth('nelio', 0.3)]}
-        source={activity.get('imageRoute')}
+        source={getImage(subActivity.get('key'))}
+        style={getSizeByWidth(subActivity.get('key'), 0.20)}
       />
     </TouchableHighlight>
     );
 
-  renderMainActivities = () => activities.map(activity => this.renderMainActivity(activity));
+  renderSubActivities = mainActivity => (
+    <View style={styles.subActivityContainer}>
+      {mainActivity.get('subActivities').map((subActivity, index) =>
+        this.renderSubActivity(subActivity, index))}
+    </View>
+  );
+
+  renderMainActivity = (mainActivity, index) => (
+    <TouchableHighlight
+      key={index}
+      style={[{ margin: 5, alignSelf: 'center' }, getSizeByWidth('nelio', 0.3)]}
+      onPress={() => this.chooseMainActivity(mainActivity)}
+    >
+      <Image
+        style={getSizeByWidth('nelio', 0.3)}
+        source={mainActivity.get('imageRoute')}
+      />
+    </TouchableHighlight>
+    );
+
+  renderMainActivities = () => (
+    <ScrollView>
+      <Accordion
+        sections={activities}
+        activeSection={this.state.chosenMainActivity ? this.state.chosenMainActivity.get('id') : false}
+        renderHeader={this.renderMainActivity}
+        renderContent={this.renderSubActivities}
+        underlayColor={'white'}
+      />
+    </ScrollView>
+    );
 
   render() {
     if (!this.props.isReady) {
@@ -118,23 +154,11 @@ export default class ActivityViewContainer extends Component {
       );
     }
 
-    const mainActivities = this.renderMainActivities();
-
     return (
-      <Image source={getImage('tausta_perus2')} style={styles.container}>
-        <View style={styles.row}>
-          {mainActivities[0]}
-          {mainActivities[1]}
-          {mainActivities[2]}
-        </View>
-        <View style={styles.row}>
-          {mainActivities[3]}
-          {this.renderHemmo()}
-          {this.renderOtherActivity()}
-          {mainActivities[4]}
-        </View>
-        {this.renderBubble()}
-      </Image>
+      <View style={styles.container}>
+        {this.renderMainActivities()}
+        {/*{this.renderBubble()}*/}
+      </View>
     );
   }
 }
