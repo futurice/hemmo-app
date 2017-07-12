@@ -11,7 +11,8 @@ import RecordViewContainer from '../activity/record/RecordViewContainer';
 import MoodViewContainer from '../moods/MoodViewContainer';
 import NewRoundContainer from '../NewRoundContainer';
 import EndingViewContainer from '../EndingViewContainer';
-import NavigationModal from '../../components/NavigationModal';
+import NavigationModal from './NavigationModal';
+import Hemmo from './Hemmo';
 
 const HomeNavigator = StackNavigator(
   {
@@ -61,9 +62,13 @@ const FeedbackNavigatorWithHeader = StackNavigator(
   {
     FeedbackWithHeader: {
       screen: FeedbackNavigator,
-      navigationOptions: {
-        header: <NavigationModal />,
-      },
+      navigationOptions: ({ navigation }) => (
+        {
+          headerLeft: <NavigationModal />,
+          headerRight: <Hemmo navigation={navigation} />,
+          headerStyle: { backgroundColor: '#FFFFFF' },
+        }
+      ),
     },
   },
 );

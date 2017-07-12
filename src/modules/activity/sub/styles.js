@@ -41,12 +41,6 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     justifyContent: 'space-around',
   },
-  hemmo: {
-    flex: 1,
-    paddingRight: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   closeButton: {
     position: 'absolute',
     right: 10,

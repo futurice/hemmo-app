@@ -6,10 +6,8 @@ import { saveAnswer } from '../../../modules/user/UserState';
 import { NavigationActions } from 'react-navigation';
 import { getScreenWidth, getScreenHeight } from '../../../services/screenSize';
 import { getSizeByWidth, getImage } from '../../../services/graphics';
-import SpeechBubble from '../../../components/SpeechBubble';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 import TitlePanel from '../../../components/TitlePanel';
-import Hemmo from '../../../components/Hemmo';
 import {
   View,
   Image,
@@ -46,10 +44,6 @@ export default class SubActivityView extends Component {
     activityIndex: PropTypes.number.isRequired,
   };
 
-  state = {
-    showBubble: true,
-  };
-
   chooseSubActivity = async (subActivity, subIndex) => {
     await this.props.saveAnswer(this.props.activityIndex, 'sub', subIndex);
 
@@ -59,14 +53,6 @@ export default class SubActivityView extends Component {
     else {
       this.props.pushRoute('ThumbVote');
     }
-  };
-
-  hideBubble = () => {
-    this.setState({ showBubble: false });
-  };
-
-  restartAudioAndText = () => {
-    this.setState({ showBubble: true });
   };
 
   renderSubActivity = (subActivity, index, ratio) => (
@@ -95,16 +81,6 @@ export default class SubActivityView extends Component {
     );
   };
 
-  renderHemmo = () => (
-    <View style={styles.hemmo}>
-      <Hemmo
-        image={'hemmo_keski'}
-        size={0.45}
-        restartAudioAndText={this.restartAudioAndText}
-      />
-    </View>
-    );
-
   renderActivityBar = () => (
     <View style={styles.activityBar}>
       {this.renderSubActivities()}
@@ -119,16 +95,6 @@ export default class SubActivityView extends Component {
       popRoute={this.props.popRoute}
     />
     );
-
-  renderBubble = () => this.state.showBubble ? (
-    <SpeechBubble
-      text={'subActivity'}
-      bubbleType={'puhekupla_oikea'}
-      hideBubble={this.hideBubble}
-      style={{ top: getScreenHeight() * 0.25, left: getScreenWidth() * 0.25, margin: 40, fontSize: 14, size: 0.5 }}
-      maIndex={this.props.chosenMainActivity.get('id')}
-    />
-    ) : null;
 
   render() {
     if (!this.props.isReady) {
@@ -145,7 +111,6 @@ export default class SubActivityView extends Component {
         >
           {this.renderTitlePanel()}
           {this.renderActivityBar()}
-          {this.renderBubble()}
         </Image>
       </View>
     );

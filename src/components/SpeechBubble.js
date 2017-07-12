@@ -5,55 +5,66 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import AudioPlayerViewContainer from '../modules/audioplayer/AudioPlayerViewContainer';
 import { getSizeByHeight, getImage } from '../services/graphics';
+import { muteAudio } from '../modules/user/UserState';
 import TimerMixin from 'react-timer-mixin';
 import {
   StyleSheet,
   TouchableOpacity,
-  View,
   Text,
   Image,
   AppState,
 } from 'react-native';
 
 const styles = StyleSheet.create({
-  touchable: {
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    right: 0,
-    left: 0,
-    backgroundColor: 'rgba(184, 184, 184, 0.8)',
-  },
-  bubble: {
-    position: 'absolute',
-  },
-  bubbleText: {
-    justifyContent: 'center',
+  image: {
+    alignItems: 'center',
+    flexDirection: 'column',
   },
   text: {
     textAlign: 'center',
     fontFamily: 'Gill Sans',
+    fontSize: 12,
+    marginTop: 30,
+    marginLeft: 50,
+    marginRight: 50,
+    marginBottom: 10,
   },
 });
 
+const activities = require('../data/activities.js');
 const phrases = require('../data/phrases.json');
 const reactMixin = require('react-mixin');
 
 let audiotrack;
 
+const mapStateToProps = state => ({
+  maIndex: state.getIn(['user', 'currentUser', 'answers', 'activities',
+    state.getIn(['user', 'currentUser', 'activityIndex']), 'main']),
+  saIndex: state.getIn(['user', 'currentUser', 'answers', 'activities',
+    state.getIn(['user', 'currentUser', 'activityIndex']), 'sub']),
+  audioMuted: state.getIn(['user', 'currentUser', 'audioMuted']),
+});
+
+const mapDispatchToProps = dispatch => ({
+  muteAudio: () => dispatch(muteAudio()),
+});
+
+@connect(mapStateToProps, mapDispatchToProps)
 @reactMixin.decorate(TimerMixin)
 export default class SpeechBubble extends Component {
 
   static propTypes = {
-    text: PropTypes.string.isRequired,
-    hemmo: PropTypes.object,
-    maIndex: PropTypes.number, // index of the selected main activity
-    saIndex: PropTypes.number, // index of the selected sub activity
+    maIndex: PropTypes.number,
+    saIndex: PropTypes.number,
     hideBubble: PropTypes.func.isRequired,
     bubbleType: PropTypes.string,
-    style: PropTypes.object.isRequired,
+    style: PropTypes.object,
+    muteAudio: PropTypes.func,
+    audioMuted: PropTypes.bool,
+    navigatorState: PropTypes.object,
   };
 
   state = {
@@ -61,34 +72,42 @@ export default class SpeechBubble extends Component {
   };
 
   componentDidMount() {
-    AppState.addEventListener('change', this._handleAppStateChange);
+    AppState.addEventListener('change', this.handleAppStateChange);
   }
 
   componentWillUnmount() {
-    AppState.removeEventListener('change', this._handleAppStateChange);
+    AppState.removeEventListener('change', this.handleAppStateChange);
   }
 
-  _handleAppStateChange = (currentAppState) => {
+  handleAppStateChange = (currentAppState) => {
     this.setState({ currentAppState });
   };
 
+  renderMuteButton = () => (
+    <TouchableOpacity onPress={this.props.muteAudio}>
+      <Text>Hiljennä</Text>
+    </TouchableOpacity>
+    );
+
   renderBubbleText = () => {
+    const text = this.props.navigatorState.routes[this.props.navigatorState.index].key;
+
     // Text of the speech bubble is related to selected main activity.
     // maIndex is the index of the selected main activity.
     if (this.props.maIndex || this.props.maIndex === 0) {
       // Text of the speech bubble is related to selected sub activity.
       // saIndex is the index of the selected sub activity.
       if (this.props.saIndex || this.props.saIndex === 0) {
-        audiotrack = phrases[this.props.text][this.props.maIndex].subTexts[this.props.saIndex].audio;
-        return phrases[this.props.text][this.props.maIndex].subTexts[this.props.saIndex].subText;
+        audiotrack = phrases[text][this.props.maIndex].subTexts[this.props.saIndex].audio;
+        return phrases[text][this.props.maIndex].subTexts[this.props.saIndex].subText;
       }
 
-      audiotrack = phrases[this.props.text][this.props.maIndex].audio;
-      return phrases[this.props.text][this.props.maIndex].text;
+      audiotrack = phrases[text][this.props.maIndex].audio;
+      return phrases[text][this.props.maIndex].text;
     }
 
-    audiotrack = phrases[this.props.text].audio;
-    return phrases[this.props.text].text;
+    audiotrack = phrases[text].audio;
+    return phrases[text].text;
   };
 
   onEnd = () => {
@@ -102,31 +121,17 @@ export default class SpeechBubble extends Component {
     }
 
     return (
-      <TouchableOpacity style={styles.touchable} onPress={this.props.hideBubble}>
-        <View
-          style={[styles.bubble, {
-            top: this.props.style.top,
-            right: this.props.style.right,
-            left: this.props.style.left },
-          ]}
+      <TouchableOpacity onPress={this.props.hideBubble}>
+        <Image
+          source={getImage(this.props.bubbleType)}
+          style={[styles.image, getSizeByHeight(this.props.bubbleType, 0.5)]}
         >
-          <Image
-            source={getImage(this.props.bubbleType)}
-            style={[styles.bubbleText, getSizeByHeight(this.props.bubbleType, this.props.style.size)]}
-          >
-            <Text
-              style={[styles.text, {
-                marginTop: this.props.style.marginTop,
-                margin: this.props.style.margin,
-                fontSize: this.props.style.fontSize,
-              }]}
-            >
-              {this.renderBubbleText()}
-            </Text>
-          </Image>
-          <AudioPlayerViewContainer onEnd={this.onEnd} audioTrack={audiotrack} />
-        </View>
-        {this.props.hemmo}
+          <Text style={styles.text}>
+            {this.renderBubbleText()}
+          </Text>
+          {this.renderMuteButton()}
+        </Image>
+        {this.props.audioMuted ? null : <AudioPlayerViewContainer onEnd={this.onEnd} audioTrack={audiotrack} />}
       </TouchableOpacity>
     );
   }

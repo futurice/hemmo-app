@@ -6,10 +6,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Map } from 'immutable';
-import { getSizeByHeight, getSizeByWidth, getImage } from '../services/graphics';
+import { getSizeByHeight, getSizeByWidth, getImage } from '../../services/graphics';
 import { NavigationActions } from 'react-navigation';
-import { resetCurrentUser, saveAnswer } from '../modules/user/UserState';
-import { save, formRequestBody } from '../services/save';
+import { resetCurrentUser, saveAnswer } from '../user/UserState';
+import { save, formRequestBody } from '../../services/save';
 import {
   View,
   Modal,
@@ -21,22 +21,9 @@ import {
 } from 'react-native';
 
 const styles = StyleSheet.create({
-  container: {
-
-  },
-  circle: {
-    backgroundColor: 'white',
-    borderWidth: 3,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 25,
-    height: 50,
-    width: 50,
-  },
   image: {
     height: 40,
     width: 40,
-    borderWidth: 1,
     borderRadius: 20,
   },
   modalContainer: {

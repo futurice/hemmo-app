@@ -5,8 +5,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { List, Map } from 'immutable';
-import SpeechBubble from '../../components/SpeechBubble';
-import Hemmo from '../../components/Hemmo';
 import UserItem from '../../components/UserItem';
 import { setAuthenticationToken } from '../../utils/authentication';
 import { setSessionId } from '../../utils/session';
@@ -75,7 +73,6 @@ export default class HomeViewContainer extends Component {
       .then((result) => {
         setSessionId(result.id);
         this.props.finishPreparing();
-        this.props.addActivity();
         this.props.setCurrentUser(id);
         this.props.pushRoute('Feedback');
       })
@@ -86,17 +83,8 @@ export default class HomeViewContainer extends Component {
       });
   };
 
-  hideBubble = () => {
-    this.setState({ showBubble: false });
-  };
-
-  restartAudioAndText = () => {
-    this.setState({ showBubble: true });
-  };
-
   renderLeftColumn = () => (
     <View style={styles.leftColumn}>
-      <Hemmo image={'hemmo_keski'} size={0.8} restartAudioAndText={this.restartAudioAndText} />
       <View style={styles.settingsButton}>
         <TouchableHighlight onPress={() => this.props.pushRoute('Login')}>
           <Image
@@ -137,16 +125,6 @@ export default class HomeViewContainer extends Component {
     />
     );
 
-  renderSpeechBubble = usersNotEmpty => this.state.showBubble ? (
-    <SpeechBubble
-      text={usersNotEmpty ? 'userIsKnown' : 'userIsUnknown'}
-      hideBubble={this.hideBubble}
-      bubbleType={usersNotEmpty ? 'puhekupla_vasen2' : 'puhekupla_aset'}
-      style={usersNotEmpty ? { top: 40, left: 280, margin: 20, marginTop: 20, size: 0.6 }
-          : { top: 40, left: 230, margin: 40, size: 0.5 }}
-    />
-    ) : null;
-
   renderUserName = name => (
     <Text
       ellipsizeMode="tail"
@@ -163,7 +141,6 @@ export default class HomeViewContainer extends Component {
       <Image source={getImage('tausta_perus3')} style={styles.container}>
         {this.renderLeftColumn()}
         {this.renderRightColumn(users)}
-        {/*{this.renderSpeechBubble(users.size > 0)}*/}
       </Image>
     );
   }

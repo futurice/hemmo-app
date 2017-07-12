@@ -4,8 +4,6 @@ import { connect } from 'react-redux';
 import { List } from 'immutable';
 import { NavigationActions } from 'react-navigation';
 import { saveAnswer } from '../user/UserState';
-import SpeechBubble from '../../components/SpeechBubble';
-import Hemmo from '../../components/Hemmo';
 import { getSizeByHeight, getSizeByWidth, getImage } from '../../services/graphics';
 import {
   TouchableOpacity,
@@ -31,15 +29,6 @@ export default class MoodViewContainer extends Component {
 
   state = {
     selectedMoods: List(),
-    showBubble: true,
-  };
-
-  hideBubble = () => {
-    this.setState({ showBubble: false });
-  };
-
-  restartAudioAndText = () => {
-    this.setState({ showBubble: true });
   };
 
   save = async () => {
@@ -73,15 +62,6 @@ export default class MoodViewContainer extends Component {
     </TouchableOpacity>
     );
 
-  renderBubble = text => (
-    <SpeechBubble
-      text={text}
-      bubbleType={'puhekupla_oikea'}
-      hideBubble={this.hideBubble}
-      style={{ top: 110, left: 100, margin: 30, fontSize: 14, size: 0.5 }}
-    />
-  );
-
   renderCheckmark = () => (
     <Image
       source={getImage('valittu')}
@@ -92,17 +72,6 @@ export default class MoodViewContainer extends Component {
   renderMoods = () => (
     <View style={styles.moodColumn}>
       {moods.map((mood, key) => this.renderMood(mood, key))}
-    </View>
-    );
-
-  renderHemmo = () => (
-    <View style={styles.hemmo}>
-      <Hemmo
-        key={'hemmo'}
-        image={'hemmo_keski'}
-        size={0.45}
-        restartAudioAndText={this.restartAudioAndText}
-      />
     </View>
     );
 
@@ -117,9 +86,7 @@ export default class MoodViewContainer extends Component {
       <Image source={getImage('tausta_perus2')} style={styles.container}>
         <Image source={getImage('tausta_levea')} style={styles.moodContainer}>
           {this.renderMoods()}
-          {this.renderHemmo()}
           {this.renderNextButton()}
-          {this.state.showBubble ? this.renderBubble('moods') : null}
         </Image>
       </Image>
     );

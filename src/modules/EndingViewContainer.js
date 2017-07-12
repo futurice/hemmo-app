@@ -7,7 +7,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import SpeechBubble from '../components/SpeechBubble';
-import Hemmo from '../components/Hemmo';
+import Hemmo from './navigation/Hemmo';
 import { getSizeByHeight, getImage } from '../services/graphics';
 import { resetCurrentUser } from './user/UserState';
 import { NavigationActions } from 'react-navigation';

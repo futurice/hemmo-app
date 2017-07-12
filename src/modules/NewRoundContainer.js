@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 import { addActivity, resetActivity } from '../modules/user/UserState';
 import SpeechBubble from '../components/SpeechBubble';
-import Hemmo from '../components/Hemmo';
+import Hemmo from './navigation/Hemmo';
 import { getSizeByWidth, getImage } from '../services/graphics';
 import {
   StyleSheet,

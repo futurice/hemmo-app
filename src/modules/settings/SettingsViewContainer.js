@@ -386,7 +386,7 @@ export default class SettingsViewContainer extends Component {
         {this.renderTitleBar()}
         {this.renderTabBar()}
         {this.renderTabBody()}
-        {this.renderSaveConfirmationWindow()}
+        {/*{this.renderSaveConfirmationWindow()}*/}
       </Image>
     );
   }
