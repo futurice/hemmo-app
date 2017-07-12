@@ -7,7 +7,7 @@ import SettingsViewContainer from '../settings/SettingsViewContainer';
 import ActivityViewContainer from '../activity/main/ActivityViewContainer';
 import SubActivityViewContainer from '../activity/sub/SubActivityViewContainer';
 import ThumbVoteViewContainer from '../activity/thumbs/ThumbVoteViewContainer';
-import RecordViewContainer from '../activity/record/RecordViewContainer';
+import FreeWordViewContainer from '../activity/freeword/FreeWordViewContainer';
 import MoodViewContainer from '../moods/MoodViewContainer';
 import NewRoundContainer from '../NewRoundContainer';
 import EndingViewContainer from '../EndingViewContainer';
@@ -42,10 +42,9 @@ const FeedbackNavigator = TabNavigator(
   {
     Activity: { screen: ActivityViewContainer },
     // SubActivity: { screen: SubActivityViewContainer },
-    ThumbVote: { screen: ThumbVoteViewContainer },
     Mood: { screen: MoodViewContainer },
-    Record: { screen: RecordViewContainer },
-    Ending: { screen: EndingViewContainer },
+    FreeWord: { screen: FreeWordViewContainer },
+    // Ending: { screen: EndingViewContainer },
     // NewRound: { screen: NewRoundContainer },
   }, {
     initialRouteName: 'Activity',

@@ -3,9 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Map } from 'immutable';
 import AudioRecorder from '../../../components/AudioRecorder';
-import Hemmo from '../../../components/Hemmo';
 import LoadingSpinner from '../../../components/LoadingSpinner';
-import SpeechBubble from '../../../components/SpeechBubble';
 import SaveConfirmationWindow from '../../../components/SaveConfirmationWindow';
 import TextForm from '../../../components/TextForm';
 import { NavigationActions } from 'react-navigation';
@@ -43,7 +41,6 @@ export default class RecordViewContainer extends Component {
   state = {
     text: '',
     showTextForm: false,
-    showBubble: true,
     progress: 0,
     showMessage: false,
     disableWriting: false,
@@ -53,10 +50,6 @@ export default class RecordViewContainer extends Component {
   setText = (text) => {
     this.setState({ text });
   };
-
-  getBubbleText = () => (
-    'generalFeedback'
-  );
 
   continue = () => {
     this.props.pushRoute('Ending');
@@ -129,15 +122,6 @@ export default class RecordViewContainer extends Component {
     this.setState({ text: '', showTextForm: !this.state.showTextForm });
   };
 
-  renderBubble = () => this.state.showBubble ? (
-    <SpeechBubble
-      text={this.getBubbleText('general')}
-      bubbleType={'puhekupla_oikea'}
-      hideBubble={this.hideBubble}
-      style={{ top: 85, left: 180, margin: 30, fontSize: 18, size: 0.4 }}
-    />
-    ) : null;
-
   renderTextForm = () => this.state.showTextForm ? (
     <TextForm
       toggleWriting={this.toggleWriting}
@@ -197,14 +181,6 @@ export default class RecordViewContainer extends Component {
     </View>
     );
 
-  renderHemmo = () => (
-    <Hemmo
-      image={'hemmo'}
-      size={0.7}
-      restartAudioAndText={this.restartAudioAndText}
-    />
-    );
-
   renderLeftColumn = () => (
     <Image
       source={getImage('tausta_kapea')}
@@ -218,7 +194,6 @@ export default class RecordViewContainer extends Component {
 
   renderRightColumn = () => (
     <View style={styles.rightColumn}>
-      {this.renderHemmo()}
       {this.renderSkipButton()}
     </View>
     );
@@ -235,8 +210,7 @@ export default class RecordViewContainer extends Component {
         {this.renderLeftColumn()}
         {this.renderRightColumn()}
         {this.renderTextForm()}
-        {this.renderBubble()}
-        {this.renderSaveConfirmationWindow()}
+        {/*{this.renderSaveConfirmationWindow()}*/}
       </Image>
     );
   }
