@@ -1,17 +1,17 @@
 {
-  "userIsUnknown": {
+  "UserIsUnknown": {
     "text": "Moikka, näyttää siltä etten tiedä kuka olet. Käy asetuksissa lisäämässä nimesi ja kuvasi.",
     "audio": "hemmo_01"
   },
-  "userIsKnown": {
+  "UserIsKnown": {
     "text": "Moikka, kiva kun tulit taas juttelemaan kanssani. Nyt voit kertoa siitä, millaista sinulla oli viime kerralla tukiperheessä. Olen apunasi alusta loppuun, joten ei huolta, osaat kyllä!",
     "audio": "hemmo_02"
   },
-  "mainActivity":{
+  "Activity":{
     "text": "Kertoisitko minulle mikä sinulle jäi erityisesti mieleen viime kerrastasi tukiperheessä? Liittyikö se puuhailuun - leikkimiseen ja pelaamiseen - ulkoiluun ja retkeilyyn - yhdessä vietettyyn aikaan tai lemmikkeihin ja kotieläimiin? Tai voit myös kertoa minulle jostain ihan muusta asiasta tukiperheessä.",
     "audio": "hemmo_03"
   },
-  "subActivity": [
+  "SubActivity": [
     {"text": "Kerro minulle vielä hieman tarkemmin? Leivoitteko tai kokkailitteko, puuhasitteko tai askartelitteko, luitko itseksesi, teittekö kotihommia tai rakentelitteko, nikkaroitteko tai korjailitte?",
     "audio": "hemmo_05",
     "subTexts": [
@@ -59,33 +59,25 @@
         {"subText": "Millaista oli hoitaa muita eläimiä?", "audio": "hemmo_34"}
         ]}
   ],
-  "record": {
+  "Record": {
     "text": "Kertoisitko minulle vielä mikä siitä erityisesti jäi mieleen? Paina pyöreää punaista nappia niin aloitetaan tallennus. Kun olet valmis, paina samalta paikalta mustaa nappia.",
     "audio": "hemmo_35"
   },
-  "newRound": {
+  "NewRound": {
     "text": "Tahdotko kertoa vielä jostain muustakin, mitä teitte? Vai siirtyä eteenpäin?",
     "audio": "hemmo_37"
   },
-  "moods": {
+  "Mood": {
     "text": "Millainen olo sinulle jäi koko viime kerrastasi tukiperheessä? Valitse näistä omaa oloasi vastaavia kuvia, tai kerro minulle puhumalla tai kirjoittamalla.",
     "audio": "hemmo_38"
   },
-  "moodFeedback": {
-    "text": "Kerro tarkemmin miksi sinusta tuntui siltä?",
-    "audio": "hemmo_39"
-  },
-  "generalFeedback": {
-    "text": "Haluaisitko vielä lopuksi kertoa minulle jotain muuta?",
-    "audio": "hemmo_41"
-  },
-  "ending": {
+  "Ending": {
     "text": "Kiitos että kerroit minulle. Minusta on kiva kuulla mitä sanottavaa sinulla on, kerrothan kuulumisesi taas seuraavan kerran jälkeen.",
     "audio": "hemmo_42"
   },
-  "saved": {
+  "Saved": {
     "text": "",
     "audio": "hemmo_43"
   },
-  "deliveredBy": "Mitä olet Hemmolle kertonut, sen kuuntelee Pelastakaa Lasten työntekijä"
+  "DeliveredBy": "Mitä olet Hemmolle kertonut, sen kuuntelee Pelastakaa Lasten työntekijä"
 }
