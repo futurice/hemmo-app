@@ -1,15 +1,20 @@
 import { Map, List } from 'immutable';
 
-// Initial state. user Hemmo created for testing.
+const initialAnswers = Map({
+  activities: Map(),
+  moods: Map(),
+});
+
 const initialState = Map({
   users: List(),
   currentUser: Map({
     id: null,
-    activityIndex: -1,
     token: '',
     name: '',
     image: null,
-    answers: Map({ activities: List() }) }),
+    audioMuted: false,
+    answers: initialAnswers,
+  }),
 });
 
 const CREATE_USER = 'UserState/CREATE_USER';
@@ -18,11 +23,9 @@ const REMOVE_USER = 'UserState/REMOVE_USER';
 const RESET_CURRENT_USER = 'UserState/RESET_CURRENT_USER';
 const SET_CURRENT_USER = 'UserState/SET_CURRENT_USER';
 const SET_CURRENT_USER_VALUE = 'UserState/SET_CURRENT_USER_VALUE';
-const SAVE_ANSWER = 'UserState/SAVE_ANSWER';
-const ADD_ACTIVITY = 'UserState/ADD_ACTIVITY';
-const RESET_ACTIVITIES = 'UserState/RESET_ACTIVITIES';
+const ADD_ANSWER = 'UserState/ADD_ANSWER';
+const MUTE_AUDIO = 'UserState/MUTE_AUDIO';
 
-// Action creators
 export function createUser(newUser) {
   return {
     type: CREATE_USER,
@@ -30,8 +33,8 @@ export function createUser(newUser) {
       name: newUser.get('name'),
       token: newUser.get('token'),
       image: newUser.get('image'),
-      answers: Map({
-        activities: List() }) }),
+      answers: initialAnswers,
+    }),
   };
 }
 
@@ -44,8 +47,7 @@ export function editUser(user) {
         name: user.get('name'),
         token: user.get('token'),
         image: user.get('image'),
-        answers: Map({
-          activities: List() }),
+        answers: initialAnswers,
       }),
     },
   };
@@ -61,13 +63,7 @@ export function removeUser(id) {
 export function resetCurrentUser() {
   return {
     type: RESET_CURRENT_USER,
-    payload: Map({
-      id: null,
-      activityIndex: -1,
-      token: '',
-      name: '',
-      image: null,
-      answers: Map({ activities: List() }) }),
+    payload: initialState,
   };
 }
 
@@ -85,26 +81,16 @@ export function setCurrentUser(id) {
   };
 }
 
-export function addActivity() {
+export function addAnswer(type, answer) {
   return {
-    type: ADD_ACTIVITY,
-    payload: Map({
-      main: null,
-      sub: null,
-      thumb: null }),
+    type: ADD_ANSWER,
+    payload: { type, answer },
   };
 }
 
-export function saveAnswer(index, destination, answers) {
+export function muteAudio() {
   return {
-    type: SAVE_ANSWER,
-    payload: { index, destination, answers },
-  };
-}
-
-export function resetActivity() {
-  return {
-    type: RESET_ACTIVITIES,
+    type: MUTE_AUDIO,
   };
 }
 
@@ -144,35 +130,20 @@ function currentUserReducer(state = Map(), action, wholeState) {
       .set('token', wholeState.getIn(['users', action.payload, 'token']))
       .set('id', action.payload);
 
-    case ADD_ACTIVITY:
+    case ADD_ANSWER:
       return state
-        .updateIn(['answers', 'activities'], list => list.push(action.payload))
-        .update('activityIndex', value => value + 1);
+        .setIn(['answers', action.payload.type, action.payload.answer.main, action.payload.answer.sub],
+          action.payload.answer.thumb);
 
-    case RESET_ACTIVITIES:
+    case MUTE_AUDIO:
       return state
-        .set('activityIndex', -1);
-
-    case SAVE_ANSWER:
-      if (action.payload.index === null) {
-        return state
-          .setIn(['answers', action.payload.destination], action.payload.answers);
-      }
-
-      return state
-          .setIn([
-            'answers',
-            'activities',
-            action.payload.index,
-            action.payload.destination], action.payload.answers);
-
+      .set('audioMuted', !state.get('audioMuted'));
 
     default:
       return state;
   }
 }
 
-// Reducer
 export default function UserStateReducer(state = initialState, action = {}) {
   return state
     .set('users', usersReducer(state.get('users'), action))
