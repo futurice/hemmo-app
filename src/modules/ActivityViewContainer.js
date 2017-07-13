@@ -1,0 +1,274 @@
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { Map } from 'immutable';
+import {
+  Image,
+  TouchableHighlight,
+  View,
+  ScrollView,
+  StyleSheet,
+  Modal,
+  TouchableOpacity,
+  Text,
+} from 'react-native';
+import Accordion from 'react-native-collapsible/Accordion';
+import { addActivity, deleteActivity } from './user/UserState';
+import LoadingSpinner from '../components/LoadingSpinner';
+import { getImage, getSizeByWidth, getSizeByHeight } from '../services/graphics';
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF',
+  },
+  title: {
+    fontSize: 20,
+    margin: 17,
+  },
+  thumbModal: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  subActivityContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+  },
+  actionRow: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  titleRow: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+  },
+  titles: {
+    alignItems: 'center',
+    flexDirection: 'column',
+  },
+  mainTitle: {
+    fontSize: 20,
+    fontFamily: 'Gill Sans',
+  },
+  subTitle: {
+    fontSize: 10,
+    fontFamily: 'Gill Sans',
+  },
+  voteButton: {
+    margin: 5,
+  },
+  selectedThumbButton: {
+    margin: 5,
+    opacity: 0.4,
+  },
+  unselectedThumbButton: {
+    margin: 5,
+  },
+});
+
+const activities = require('../data/activities.js');
+
+const thumbs = [
+  { value: 1, imageName: 'peukku_ylos_0' },
+  { value: 0, imageName: 'peukku_keski_0' },
+  { value: -1, imageName: 'peukku_alas_0' },
+];
+
+const mapStateToProps = state => ({
+  isReady: state.getIn(['session', 'isReady']),
+  chosenActivities: state.getIn(['user', 'currentUser', 'answers', 'activities']),
+});
+
+const mapDispatchToProps = dispatch => ({
+  addActivity: activity => dispatch(addActivity(activity)),
+  deleteActivity: activity => dispatch(deleteActivity(activity)),
+});
+
+@connect(mapStateToProps, mapDispatchToProps)
+export default class ActivityViewContainer extends Component {
+
+  static navigationOptions = {
+    title: 'Mitä teitte?',
+  };
+
+  static propTypes = {
+    addActivity: PropTypes.func.isRequired,
+    deleteActivity: PropTypes.func.isRequired,
+    isReady: PropTypes.bool.isRequired,
+    chosenActivities: PropTypes.instanceOf(Map).isRequired,
+  };
+
+  state = {
+    modalVisible: false,
+    chosenMainActivity: Map(),
+    chosenSubActivity: Map(),
+  };
+
+  chooseMainActivity = (activity) => {
+    this.setState({ chosenMainActivity: this.state.chosenMainActivity.get('id') === activity.get('id') ? Map() : activity });
+  };
+
+  chooseSubActivity = (subActivity) => {
+    this.setState({ chosenSubActivity: subActivity, modalVisible: true });
+  };
+
+  chooseThumb = async (thumbValue) => {
+    if (this.isSelected(thumbValue)) {
+      await this.props.deleteActivity({
+        main: this.state.chosenMainActivity.get('id'),
+        sub: this.state.chosenSubActivity.get('id'),
+      });
+    } else {
+      await this.props.addActivity({
+        main: this.state.chosenMainActivity.get('id'),
+        sub: this.state.chosenSubActivity.get('id'),
+        thumb: thumbValue,
+      });
+    }
+
+    this.setState({
+      modalVisible: false,
+      chosenSubActivity: Map(),
+    });
+  };
+
+  isSelected = thumbValue => thumbValue === this.props.chosenActivities.getIn([this.state.chosenMainActivity.get('id'), this.state.chosenSubActivity.get('id')]);
+
+  renderThumbButton = (thumb, i) => (
+    <View key={i}>
+      <TouchableOpacity onPress={() => this.chooseThumb(thumb.value)}>
+        <Image
+          source={getImage(thumb.imageName)}
+          style={[this.isSelected(thumb.value) ? styles.selectedThumbButton : styles.unselectedThumbButton, getSizeByHeight(thumb.imageName, 0.25)]}
+        />
+      </TouchableOpacity>
+    </View>
+    );
+
+  renderThumbButtons = () => thumbs.map((thumb, i) => this.renderThumbButton(thumb, i));
+
+  renderTitlePanel = () => (
+    <View style={styles.titleRow}>
+      <TouchableOpacity onPress={() => { this.setState({ modalVisible: false, chosenSubActivity: Map() }); }}>
+        <Image
+          source={getImage('nappula_rasti')}
+          style={getSizeByHeight('nappula_rasti', 0.10)}
+        />
+      </TouchableOpacity>
+      <View style={styles.titles}>
+        <Text style={styles.mainTitle}>{this.state.chosenMainActivity.get('key')}</Text>
+        <Text style={styles.subtitle}>{this.state.chosenSubActivity.get('name')}</Text>
+      </View>
+    </View>
+  );
+
+  renderActionPanel = () => (
+    <View style={styles.actionRow}>
+      {this.renderThumbButtons()}
+    </View>
+  );
+
+  renderThumbModal = () => this.state.modalVisible ? (
+    <Modal
+      animationType={'fade'}
+      transparent
+      visible={this.state.modalVisible}
+      onRequestClose={() => console.log(' ')}
+      supportedOrientations={['portrait', 'landscape']}
+    >
+      <View style={styles.thumbModal}>
+        <Image
+          source={getImage('tausta_kapea')}
+          style={[styles.leftColumn, getSizeByWidth('tausta_kapea', 0.5)]}
+        >
+          {this.renderTitlePanel()}
+          {this.renderActionPanel()}
+        </Image>
+      </View>
+    </Modal>
+    ) : null;
+
+  renderChosenThumb = thumb => thumb !== undefined ? (
+    <Image
+      source={getImage(thumb.imageName)}
+      style={getSizeByHeight(thumb.imageName, 0.10)}
+    />
+  ) : null;
+
+  renderSubActivity = (subActivity, index) => {
+    const existingThumbValue = this.props.chosenActivities.getIn([this.state.chosenMainActivity.get('id'), subActivity.get('id')]);
+    const thumb = thumbs.find(t => t.value === existingThumbValue);
+
+    return (
+      <TouchableHighlight
+        key={index}
+        style={{ margin: 5, borderRadius: getSizeByWidth(subActivity.get('key'), 0.15).height / 2 }}
+        onPress={() => this.chooseSubActivity(subActivity)}
+      >
+        <View>
+          <Image
+            source={getImage(subActivity.get('key'))}
+            style={getSizeByWidth(subActivity.get('key'), 0.20)}>
+
+            {this.renderChosenThumb(thumb)}
+          </Image>
+        </View>
+      </TouchableHighlight>
+    );
+  };
+
+  renderSubActivities = mainActivity => (
+    <View style={styles.subActivityContainer}>
+      {mainActivity.get('subActivities').map((subActivity, index) =>
+        this.renderSubActivity(subActivity, index))}
+    </View>
+  );
+
+  renderMainActivity = (mainActivity, index) => (
+    <TouchableHighlight
+      key={index}
+      style={[{ margin: 5, alignSelf: 'center' }, getSizeByWidth('nelio', 0.3)]}
+      onPress={() => this.chooseMainActivity(mainActivity)}
+    >
+      <Image
+        style={getSizeByWidth('nelio', 0.3)}
+        source={mainActivity.get('imageRoute')}
+      />
+    </TouchableHighlight>
+    );
+
+  renderMainActivities = () => (
+    <ScrollView>
+      <Accordion
+        sections={activities}
+        activeSection={!this.state.chosenMainActivity.isEmpty() ? this.state.chosenMainActivity.get('id') : false}
+        renderHeader={this.renderMainActivity}
+        renderContent={this.renderSubActivities}
+        underlayColor={'#FFFFFF'}
+      />
+    </ScrollView>
+    );
+
+  render() {
+    if (!this.props.isReady) {
+      return (
+        <LoadingSpinner />
+      );
+    }
+
+    return (
+      <View style={styles.container}>
+        {this.renderMainActivities()}
+        {this.renderThumbModal()}
+      </View>
+    );
+  }
+}

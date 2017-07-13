@@ -2,24 +2,38 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Map } from 'immutable';
-import AudioRecorder from '../../../components/AudioRecorder';
-import LoadingSpinner from '../../../components/LoadingSpinner';
-import SaveConfirmationWindow from '../../../components/SaveConfirmationWindow';
-import TextForm from '../../../components/TextForm';
 import { NavigationActions } from 'react-navigation';
-import { getSizeByHeight, getSizeByWidth, getImage } from '../../../services/graphics';
-import { save, formRequestBody } from '../../../services/save';
 import {
   TouchableOpacity,
   Image,
   Alert,
   View,
+  StyleSheet,
 } from 'react-native';
+import AudioRecorder from '../components/AudioRecorder';
+import LoadingSpinner from '../components/LoadingSpinner';
+import SaveConfirmationWindow from '../components/SaveConfirmationWindow';
+import TextForm from '../components/TextForm';
+import { getSizeByHeight, getImage } from '../services/graphics';
+import { save, formRequestBody } from '../services/save';
 
-const styles = require('./styles.js');
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#FFFFFF',
+  },
+  writeButton: {
+    margin: 50,
+  },
+  audioRecorder: {
+    margin: 50,
+  },
+});
 
 const mapStateToProps = state => ({
-  activityIndex: state.getIn(['user', 'currentUser', 'activityIndex']),
   answers: state.getIn(['user', 'currentUser', 'answers']),
 });
 
@@ -29,12 +43,15 @@ const mapDispatchToProps = dispatch => ({
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
-export default class RecordViewContainer extends Component {
+export default class FreeWordViewContainer extends Component {
+
+  static navigationOptions = {
+    title: 'Kerro vapaasti',
+  };
 
   static propTypes = {
     popRoute: PropTypes.func.isRequired,
     pushRoute: PropTypes.func.isRequired,
-    activityIndex: PropTypes.number.isRequired,
     answers: PropTypes.instanceOf(Map).isRequired,
   };
 
@@ -51,13 +68,8 @@ export default class RecordViewContainer extends Component {
     this.setState({ text });
   };
 
-  continue = () => {
-    this.props.pushRoute('Ending');
-  };
-
   closeConfirmationMessage = () => {
     this.setState({ showMessage: false });
-    this.continue();
   };
 
   showConfirmationMessage = () => {
@@ -106,14 +118,6 @@ export default class RecordViewContainer extends Component {
     }
   };
 
-  restartAudioAndText = () => {
-    this.setState({ showBubble: true });
-  };
-
-  hideBubble = () => {
-    this.setState({ showBubble: false });
-  };
-
   toggleWritingButton = (value) => {
     this.setState({ disableWriting: value });
   };
@@ -136,66 +140,29 @@ export default class RecordViewContainer extends Component {
     />
     ) : null;
 
-  renderSkipButton = () => (
-    <TouchableOpacity
-      onPress={() => this.save('skipped')}
-      style={styles.skipButtonHighlight}
-    >
-      <Image
-        source={getImage('nappula_ohita')}
-        style={[styles.skipButton, getSizeByHeight('nappula_ohita', 0.1)]}
-      />
-    </TouchableOpacity>
-    );
-
-  renderBackButton = () => (
-    <TouchableOpacity onPress={this.props.popRoute}>
-      <Image
-        source={getImage('nappula_takaisin')}
-        style={[styles.returnButton, getSizeByHeight('nappula_takaisin', 0.15)]}
-      />
-    </TouchableOpacity>
-    );
-
   renderAudioRecorder = () => (
-    <AudioRecorder
-      save={this.save}
-      toggleWritingButton={this.toggleWritingButton}
-    />
-    );
+    <View style={styles.audioRecorder}>
+      <AudioRecorder
+        save={this.save}
+        toggleWritingButton={this.toggleWritingButton}
+      />
+    </View>
+  );
 
   renderWriteButton = () => (
-    <View style={styles.buttonRow}>
-      <TouchableOpacity
-        disabled={this.state.disableWriting}
-        onPress={this.toggleWriting}
-      >
-        <Image
-          source={getImage('nappula_kirjoita')}
-          style={[
-            getSizeByHeight('nappula_kirjoita', 0.1),
-            { opacity: this.state.disableWriting ? 0.4 : 1,
-              backgroundColor: this.state.disableWriting ? 'gray' : 'white' }]}
-        />
-      </TouchableOpacity>
-    </View>
-    );
-
-  renderLeftColumn = () => (
-    <Image
-      source={getImage('tausta_kapea')}
-      style={[styles.leftColumn, getSizeByWidth('tausta_kapea', 0.6)]}
+    <TouchableOpacity
+      disabled={this.state.disableWriting}
+      onPress={this.toggleWriting}
+      style={styles.writeButton}
     >
-      {this.renderBackButton()}
-      {this.renderAudioRecorder()}
-      {this.renderWriteButton()}
-    </Image>
-    );
-
-  renderRightColumn = () => (
-    <View style={styles.rightColumn}>
-      {this.renderSkipButton()}
-    </View>
+      <Image
+        source={getImage('nappula_kirjoita')}
+        style={[
+          getSizeByHeight('nappula_kirjoita', 0.15),
+          { opacity: this.state.disableWriting ? 0.4 : 1,
+            backgroundColor: this.state.disableWriting ? 'gray' : 'white' }]}
+      />
+    </TouchableOpacity>
     );
 
   render() {
@@ -206,12 +173,12 @@ export default class RecordViewContainer extends Component {
     }
 
     return (
-      <Image source={getImage('tausta_perus')} style={styles.container}>
-        {this.renderLeftColumn()}
-        {this.renderRightColumn()}
+      <View style={styles.container}>
+        {this.renderAudioRecorder()}
+        {this.renderWriteButton()}
         {this.renderTextForm()}
         {/*{this.renderSaveConfirmationWindow()}*/}
-      </Image>
+      </View>
     );
   }
 }

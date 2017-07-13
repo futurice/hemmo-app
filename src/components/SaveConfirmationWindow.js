@@ -5,8 +5,6 @@ or audio has been successfully recorded and saved,
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Hemmo from './Hemmo';
-import SpeechBubble from './SpeechBubble';
 import {
   View,
   StyleSheet,
@@ -43,12 +41,9 @@ export default class SaveConfirmationWindow extends Component {
           <SpeechBubble
             text={'saved'}
             hideBubble={this.props.closeWindow}
+            audioMuted
             bubbleType={'puhekupla_tallennettu'}
-            style={{ top: 110, left: 300, margin: 10, fontSize: 17, size: 0.35 }}
           />
-          <View style={styles.hemmo}>
-            <Hemmo image={'hemmo_keski'} size={0.8} />
-          </View>
         </View>
       </TouchableWithoutFeedback>
     );

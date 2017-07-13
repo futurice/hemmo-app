@@ -4,7 +4,6 @@ View block that includes audio recording button and progression bar.
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { getSizeByHeight, getImage } from '../services/graphics';
 import {
   View,
   Image,
@@ -18,16 +17,15 @@ import TimerMixin from 'react-timer-mixin';
 import {
   Recorder,
 } from 'react-native-audio-toolkit';
+import { getSizeByHeight, getImage } from '../services/graphics';
 
 const Permissions = require('react-native-permissions');
 
 const styles = StyleSheet.create({
   recordRow: {
-    flex: 2,
-    marginLeft: 10,
-    padding: 20,
     flexDirection: 'row',
     alignItems: 'center',
+    alignSelf: 'center',
   },
   highlightCircle: {
     alignItems: 'center',
@@ -36,9 +34,6 @@ const styles = StyleSheet.create({
   highlightSquare: {
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  progressBar: {
-    borderColor: 'black',
   },
   recordPermissionButton: {
     borderRadius: 10,
@@ -228,7 +223,7 @@ export default class AudioRecorder extends Component {
       <View style={styles.recordRow}>
         {this.renderRecordButton()}
         <View style={{ flex: 1, marginLeft: 20 }}>
-          <ProgressBar style={styles.progressBar} progress={this.state.progress} />
+          <ProgressBar progress={this.state.progress} />
         </View>
       </View>
     );

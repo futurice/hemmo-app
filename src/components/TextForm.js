@@ -78,11 +78,11 @@ export default class TextForm extends Component {
       <View style={styles.container}>
         <Image
           source={getImage('tausta_kirjoitus')}
-          style={getSizeByWidth('tausta_kirjoitus', 0.9)}
+          style={getSizeByWidth('tausta_kirjoitus', 0.5)}
         >
           <Image
             source={getImage('kirjoituskentta')}
-            style={[styles.textInput, getSizeByWidth('kirjoituskentta', 0.7)]}
+            style={[styles.textInput, getSizeByWidth('kirjoituskentta', 0.35)]}
           >
             <TextInput
               multiline

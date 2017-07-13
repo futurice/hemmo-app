@@ -1,15 +1,15 @@
-import { resetCurrentUser, setCurrentUser, addActivity } from '../user/UserState';
-import { startPreparing, finishPreparing } from '../session/SessionState';
+import { resetCurrentUser, setCurrentUser, addActivity } from './user/UserState';
+import { startPreparing, finishPreparing } from './session/SessionState';
 import { NavigationActions } from 'react-navigation';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { List, Map } from 'immutable';
-import UserItem from '../../components/UserItem';
-import { setAuthenticationToken } from '../../utils/authentication';
-import { setSessionId } from '../../utils/session';
-import { post } from '../../utils/api';
-import { getSizeByHeight, getImage } from '../../services/graphics';
+import UserItem from '../components/UserItem';
+import { setAuthenticationToken } from '../utils/authentication';
+import { setSessionId } from '../utils/session';
+import { post } from '../utils/api';
+import { getSizeByHeight, getImage } from '../services/graphics';
 import {
   TouchableHighlight,
   Image,
@@ -17,9 +17,38 @@ import {
   Alert,
   Text,
   View,
+  StyleSheet,
 } from 'react-native';
 
-const styles = require('./styles.js');
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: 'white',
+    flexDirection: 'row',
+    height: null,
+    width: null,
+  },
+  leftColumn: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  rightColumn: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  font: {
+    fontSize: 20,
+    fontFamily: 'Gill Sans',
+  },
+  settingsButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    bottom: 10,
+    left: 10,
+  },
+});
 
 const mapStateToProps = state => ({
   users: state.getIn(['user', 'users']),

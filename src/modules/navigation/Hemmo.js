@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontFamily: 'Gill Sans',
     fontSize: 12,
-    marginTop: 30,
+    marginTop: 50,
     marginLeft: 50,
     marginRight: 50,
     marginBottom: 10,

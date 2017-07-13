@@ -17,8 +17,8 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 
-import { post } from '../../utils/api';
-import { setAuthenticationToken } from '../../utils/authentication';
+import { post } from '../utils/api';
+import { setAuthenticationToken } from '../utils/authentication';
 
 const privacyPolicyURL = 'https://spiceprogram.org/assets/docs/privacy-policy-hemmo.txt';
 

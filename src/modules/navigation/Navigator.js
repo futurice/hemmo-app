@@ -1,16 +1,12 @@
 import React from 'react';
 import CardStackStyleInterpolator from 'react-navigation/src/views/CardStackStyleInterpolator';
 import { StackNavigator, TabNavigator } from 'react-navigation';
-import HomeViewContainer from '../home/HomeViewContainer';
-import LoginViewContainer from '../login/LoginViewContainer';
+import HomeViewContainer from '../HomeViewContainer';
+import LoginViewContainer from '../LoginViewContainer';
 import SettingsViewContainer from '../settings/SettingsViewContainer';
-import ActivityViewContainer from '../activity/main/ActivityViewContainer';
-import SubActivityViewContainer from '../activity/sub/SubActivityViewContainer';
-import ThumbVoteViewContainer from '../activity/thumbs/ThumbVoteViewContainer';
-import FreeWordViewContainer from '../activity/freeword/FreeWordViewContainer';
-import MoodViewContainer from '../moods/MoodViewContainer';
-import NewRoundContainer from '../NewRoundContainer';
-import EndingViewContainer from '../EndingViewContainer';
+import ActivityViewContainer from '../ActivityViewContainer';
+import FreeWordViewContainer from '../FreeWordViewContainer';
+import MoodViewContainer from '../MoodViewContainer';
 import NavigationModal from './NavigationModal';
 import Hemmo from './Hemmo';
 
@@ -41,19 +37,13 @@ const HomeNavigator = StackNavigator(
 const FeedbackNavigator = TabNavigator(
   {
     Activity: { screen: ActivityViewContainer },
-    // SubActivity: { screen: SubActivityViewContainer },
     Mood: { screen: MoodViewContainer },
     FreeWord: { screen: FreeWordViewContainer },
-    // Ending: { screen: EndingViewContainer },
-    // NewRound: { screen: NewRoundContainer },
   }, {
     initialRouteName: 'Activity',
     swipeEnabled: true,
     lazy: true,
     backBehavior: 'none',
-    navigationOptions: {
-      tabBarVisible: false,
-    },
   },
 );
 
