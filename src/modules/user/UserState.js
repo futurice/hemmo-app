@@ -1,8 +1,8 @@
-import { Map, List } from 'immutable';
+import { Map, List, Set } from 'immutable';
 
 const initialAnswers = Map({
   activities: Map(),
-  moods: Map(),
+  moods: Set(),
 });
 
 const initialState = Map({
@@ -23,7 +23,10 @@ const REMOVE_USER = 'UserState/REMOVE_USER';
 const RESET_CURRENT_USER = 'UserState/RESET_CURRENT_USER';
 const SET_CURRENT_USER = 'UserState/SET_CURRENT_USER';
 const SET_CURRENT_USER_VALUE = 'UserState/SET_CURRENT_USER_VALUE';
-const ADD_ANSWER = 'UserState/ADD_ANSWER';
+const ADD_ACTIVITY = 'UserState/ADD_ACTIVITY';
+const DELETE_ACTIVITY = 'UserState/DELETE_ACTIVITY';
+const ADD_MOOD = 'UserState/ADD_MOOD';
+const DELETE_MOOD = 'UserState/DELETE_MOOD';
 const MUTE_AUDIO = 'UserState/MUTE_AUDIO';
 
 export function createUser(newUser) {
@@ -81,10 +84,31 @@ export function setCurrentUser(id) {
   };
 }
 
-export function addAnswer(type, answer) {
+export function addActivity(activity) {
   return {
-    type: ADD_ANSWER,
-    payload: { type, answer },
+    type: ADD_ACTIVITY,
+    payload: activity,
+  };
+}
+
+export function deleteActivity(activity) {
+  return {
+    type: DELETE_ACTIVITY,
+    payload: activity,
+  };
+}
+
+export function addMood(mood) {
+  return {
+    type: ADD_MOOD,
+    payload: mood,
+  };
+}
+
+export function deleteMood(mood) {
+  return {
+    type: DELETE_MOOD,
+    payload: mood,
   };
 }
 
@@ -130,10 +154,22 @@ function currentUserReducer(state = Map(), action, wholeState) {
       .set('token', wholeState.getIn(['users', action.payload, 'token']))
       .set('id', action.payload);
 
-    case ADD_ANSWER:
+    case ADD_ACTIVITY:
       return state
-        .setIn(['answers', action.payload.type, action.payload.answer.main, action.payload.answer.sub],
-          action.payload.answer.thumb);
+        .setIn(['answers', 'activities', action.payload.main, action.payload.sub],
+          action.payload.thumb);
+
+    case DELETE_ACTIVITY:
+      return state
+        .deleteIn(['answers', 'activities', action.payload.main, action.payload.sub]);
+
+    case ADD_MOOD:
+      return state
+      .updateIn(['answers', 'moods'], moods => moods.add(action.payload));
+
+    case DELETE_MOOD:
+      return state
+      .updateIn(['answers', 'moods'], moods => moods.delete(action.payload));
 
     case MUTE_AUDIO:
       return state
