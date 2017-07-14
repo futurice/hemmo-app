@@ -13,7 +13,7 @@ import {
   Text,
 } from 'react-native';
 import Accordion from 'react-native-collapsible/Accordion';
-import { addActivity, deleteActivity } from './user/UserState';
+import { addActivity, deleteActivity } from '../state/UserState';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { getImage, getSizeByWidth, getSizeByHeight } from '../services/graphics';
 
@@ -22,7 +22,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
-    backgroundColor: '#FFFFFF',
   },
   title: {
     fontSize: 20,
@@ -30,6 +29,7 @@ const styles = StyleSheet.create({
   },
   thumbModal: {
     flex: 1,
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -44,23 +44,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  titleRow: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
+  thumbSubActivityContainer: {
+    alignSelf: 'center',
   },
-  titles: {
-    alignItems: 'center',
-    flexDirection: 'column',
+  closeButton: {
+    alignSelf: 'flex-start',
+    marginLeft: 15,
+    marginTop: 15,
   },
-  mainTitle: {
-    fontSize: 20,
-    fontFamily: 'Gill Sans',
-  },
-  subTitle: {
-    fontSize: 10,
-    fontFamily: 'Gill Sans',
+  subActivityThumbImage: {
+    alignSelf: 'center',
+    margin: 5,
   },
   voteButton: {
     margin: 5,
@@ -96,7 +90,7 @@ const mapDispatchToProps = dispatch => ({
 export default class ActivityViewContainer extends Component {
 
   static navigationOptions = {
-    title: 'Mitä teitte?',
+    title: 'Tekeminen',
   };
 
   static propTypes = {
@@ -147,7 +141,7 @@ export default class ActivityViewContainer extends Component {
       <TouchableOpacity onPress={() => this.chooseThumb(thumb.value)}>
         <Image
           source={getImage(thumb.imageName)}
-          style={[this.isSelected(thumb.value) ? styles.selectedThumbButton : styles.unselectedThumbButton, getSizeByHeight(thumb.imageName, 0.25)]}
+          style={[this.isSelected(thumb.value) ? styles.selectedThumbButton : styles.unselectedThumbButton, getSizeByHeight(thumb.imageName, 0.2)]}
         />
       </TouchableOpacity>
     </View>
@@ -156,17 +150,17 @@ export default class ActivityViewContainer extends Component {
   renderThumbButtons = () => thumbs.map((thumb, i) => this.renderThumbButton(thumb, i));
 
   renderTitlePanel = () => (
-    <View style={styles.titleRow}>
+    <View>
       <TouchableOpacity onPress={() => { this.setState({ modalVisible: false, chosenSubActivity: Map() }); }}>
         <Image
           source={getImage('nappula_rasti')}
-          style={getSizeByHeight('nappula_rasti', 0.10)}
+          style={[styles.closeButton, getSizeByHeight('nappula_rasti', 0.10)]}
         />
       </TouchableOpacity>
-      <View style={styles.titles}>
-        <Text style={styles.mainTitle}>{this.state.chosenMainActivity.get('key')}</Text>
-        <Text style={styles.subtitle}>{this.state.chosenSubActivity.get('name')}</Text>
-      </View>
+      <Image
+        source={getImage(this.state.chosenSubActivity.get('key'))}
+        style={[styles.subActivityThumbImage, getSizeByWidth(this.state.chosenSubActivity.get('key'), 0.20)]}
+      />
     </View>
   );
 
