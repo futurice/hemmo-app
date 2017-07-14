@@ -12,7 +12,7 @@ import {
   removeUser,
   resetCurrentUser,
   setCurrentUser,
-} from '../../modules/user/UserState';
+} from '../../state/UserState';
 import { post, patch } from '../../utils/api';
 import { getSizeByHeight, getSizeByWidth, getImage } from '../../services/graphics';
 import {

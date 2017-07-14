@@ -1,5 +1,5 @@
-import { resetCurrentUser, setCurrentUser, addActivity } from './user/UserState';
-import { startPreparing, finishPreparing } from './session/SessionState';
+import { resetCurrentUser, setCurrentUser, addActivity } from '../state/UserState';
+import { startPreparing, finishPreparing } from '../state/SessionState';
 import { NavigationActions } from 'react-navigation';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';

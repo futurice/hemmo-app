@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { getImage, getSizeByHeight } from '../../services/graphics';
 import AudioPlayerViewContainer from '../AudioPlayerViewContainer';
-import { muteAudio } from '../user/UserState';
+import { muteAudio } from '../../state/UserState';
 
 const styles = StyleSheet.create({
   container: {

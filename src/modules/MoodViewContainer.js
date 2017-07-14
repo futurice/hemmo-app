@@ -8,7 +8,7 @@ import {
   View,
   StyleSheet,
 } from 'react-native';
-import { addMood, deleteMood } from './user/UserState';
+import { addMood, deleteMood } from '../state/UserState';
 import { getSizeByHeight, getSizeByWidth, getImage } from '../services/graphics';
 
 const moods = require('../data/moods.js');

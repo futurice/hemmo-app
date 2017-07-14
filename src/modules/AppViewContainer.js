@@ -9,7 +9,7 @@ import {
   activate,
   deactivate,
   resetSessionStateFromSnapshot,
-} from '../modules/session/SessionState';
+} from '../state/SessionState';
 import store from '../redux/store';
 
 const styles = StyleSheet.create({

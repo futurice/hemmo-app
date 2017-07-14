@@ -16,7 +16,7 @@ import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 import { Map } from 'immutable';
 import { getSizeByHeight, getSizeByWidth, getImage } from '../../services/graphics';
-import { resetCurrentUser } from '../user/UserState';
+import { resetCurrentUser } from '../../state/UserState';
 import { save, formRequestBody } from '../../services/save';
 
 const styles = StyleSheet.create({
