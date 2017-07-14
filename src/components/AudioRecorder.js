@@ -23,9 +23,12 @@ const Permissions = require('react-native-permissions');
 
 const styles = StyleSheet.create({
   recordRow: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     alignItems: 'center',
     alignSelf: 'center',
+  },
+  progressBar: {
+    margin: 20,
   },
   highlightCircle: {
     alignItems: 'center',
@@ -222,8 +225,8 @@ export default class AudioRecorder extends Component {
     return (
       <View style={styles.recordRow}>
         {this.renderRecordButton()}
-        <View style={{ flex: 1, marginLeft: 20 }}>
-          <ProgressBar progress={this.state.progress} />
+        <View style={styles.progressBar}>
+          <ProgressBar progress={this.state.progress} height={50} width={200} />
         </View>
       </View>
     );
