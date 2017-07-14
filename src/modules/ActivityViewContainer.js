@@ -91,6 +91,10 @@ export default class ActivityViewContainer extends Component {
 
   static navigationOptions = {
     title: 'Tekeminen',
+    tabBarIcon: <Image
+      source={getImage('lukeminen')}
+      style={getSizeByHeight('lukeminen', 0.07)}
+    />,
   };
 
   static propTypes = {

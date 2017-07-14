@@ -23,13 +23,9 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#FFFFFF',
-  },
-  writeButton: {
-    margin: 50,
   },
   audioRecorder: {
-    margin: 50,
+    marginBottom: 50,
   },
 });
 
@@ -47,6 +43,10 @@ export default class FreeWordViewContainer extends Component {
 
   static navigationOptions = {
     title: 'Kerro vapaasti',
+    tabBarIcon: <Image
+      source={getImage('nappula_rec')}
+      style={getSizeByHeight('nappula_rec', 0.07)}
+    />,
   };
 
   static propTypes = {

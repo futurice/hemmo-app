@@ -20,16 +20,10 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#FFFFFF',
   },
   font: {
     fontSize: 20,
     fontFamily: 'Gill Sans',
-  },
-  moodColumn: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   check: {
     position: 'absolute',
@@ -38,15 +32,6 @@ const styles = StyleSheet.create({
   },
   mood: {
     margin: 5,
-  },
-  other: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  saveButton: {
-    position: 'absolute',
-    bottom: 10,
-    right: 140,
   },
 });
 
@@ -63,7 +48,11 @@ const mapDispatchToProps = dispatch => ({
 export default class MoodViewContainer extends Component {
 
   static navigationOptions = {
-    title: 'Mieliala',
+    title: 'Tunteet',
+    tabBarIcon: <Image
+      source={getImage('iloinen')}
+      style={getSizeByHeight('iloinen', 0.07)}
+    />,
   };
 
   static propTypes = {

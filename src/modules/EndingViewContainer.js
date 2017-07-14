@@ -1,8 +1,3 @@
-/*
-View that is shown at the end of application.
-When speech ends or the speech bubble is closed, user is moved to home page
-*/
-
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -32,9 +27,6 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: '#1E90FF',
   },
-  tabBarIcon: {
-    alignSelf: 'center',
-  },
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -54,7 +46,7 @@ export default class EndingViewContainer extends Component {
     title: 'Valmis',
     tabBarIcon: <Image
       source={getImage('valittu')}
-      style={[styles.tabBarIcon, getSizeByHeight('valittu', 0.06)]}
+      style={getSizeByHeight('valittu', 0.06)}
     />,
   };
 
@@ -75,7 +67,7 @@ export default class EndingViewContainer extends Component {
           onPress={this.end}
           style={styles.sendButton}
         >
-            <Text style={styles.sendButtonText}>Lähetä</Text>
+          <Text style={styles.sendButtonText}>Lähetä</Text>
         </TouchableOpacity>
       </View>
     );
