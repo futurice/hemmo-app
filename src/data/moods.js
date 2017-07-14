@@ -1,13 +1,13 @@
 const moods = [
-  'iloinen',
-  'surullinen',
-  'jannittynyt',
-  'pelokas',
-  'vihainen',
   'innostunut',
-  'rauhallinen',
+  'iloinen',
+  // 'rauhallinen',
+  'jannittynyt',
   'yksinainen',
-  'muu tunne',
+  'surullinen',
+  'vihainen',
+  // 'pelokas',
+  // 'muu tunne',
 ];
 
 module.exports = moods;
