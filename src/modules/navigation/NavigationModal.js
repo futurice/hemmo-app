@@ -3,68 +3,45 @@ Navigation modal on the upper left corner that allows user to return to home pag
 */
 
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { Map } from 'immutable';
-import { getSizeByHeight, getSizeByWidth, getImage } from '../../services/graphics';
-import { NavigationActions } from 'react-navigation';
-import { resetCurrentUser, saveAnswer } from '../user/UserState';
-import { save, formRequestBody } from '../../services/save';
 import {
   View,
   Modal,
   Image,
   TouchableOpacity,
-  TouchableHighlight,
-  Text,
   StyleSheet,
+  Text,
 } from 'react-native';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { NavigationActions } from 'react-navigation';
+import { Map } from 'immutable';
+import { getSizeByHeight, getSizeByWidth, getImage } from '../../services/graphics';
+import { resetCurrentUser } from '../user/UserState';
+import { save, formRequestBody } from '../../services/save';
 
 const styles = StyleSheet.create({
-  image: {
+  userImage: {
     height: 40,
     width: 40,
     borderRadius: 20,
   },
-  modalContainer: {
+  navigationModal: {
     flex: 1,
-    backgroundColor: 'rgba(184, 184, 184, 0.9)',
-  },
-  upperModal: {
-    flex: 1,
-    margin: 50,
-    marginHorizontal: 100,
-    flexDirection: 'row',
-  },
-  closeButton: {
-    flex: 1,
-    position: 'absolute',
-    right: 0,
-    top: 0,
-  },
-  modal: {
-    flex: 1,
-    margin: 10,
-    borderWidth: 4,
-    borderRadius: 20,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'white',
   },
-  font: {
+  closeButton: {
+    margin: 20,
+  },
+  text: {
+    alignSelf: 'center',
     fontSize: 25,
+    color: '#1E90FF',
     fontFamily: 'Gill Sans',
   },
-  row: {
+  button: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  highlight: {
-    flex: 1,
-    justifyContent: 'center',
-    margin: 20,
     alignItems: 'center',
   },
 });
@@ -75,7 +52,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   navigate: route => dispatch(NavigationActions.navigate({ routeName: route })),
-  saveAnswer: (index, destination, answers) => dispatch(saveAnswer(index, destination, answers)),
   resetCurrentUser: () => dispatch(resetCurrentUser()),
   resetRoute: () => dispatch(NavigationActions.reset({
     index: 0,
@@ -104,15 +80,13 @@ export default class NavigationModal extends Component {
   };
 
   reset = () => {
-    this.save();
-    this.props.resetCurrentUser();
-    this.props.resetRoute();
+    // this.props.resetCurrentUser();
+    // this.props.resetRoute();
   };
 
   quit = () => {
-    this.save();
     this.setState({ modalVisible: false });
-    this.props.navigate('Ending');
+    // this.props.navigate('Ending');
   };
 
   save = () => {
@@ -124,25 +98,15 @@ export default class NavigationModal extends Component {
   };
 
   renderQuitButton = () => (
-    <TouchableHighlight style={styles.highlight} onPress={this.quit}>
-      <Image
-        source={getImage('kehys_palkki')}
-        style={[getSizeByWidth('kehys_palkki', 0.5), styles.row]}
-      >
-        <Text style={styles.font}>Lopeta</Text>
-      </Image>
-    </TouchableHighlight>
+    <TouchableOpacity style={styles.button} onPress={this.quit}>
+      <Text style={styles.text}>Lopeta</Text>
+    </TouchableOpacity>
     );
 
   renderChangeUserButton = () => (
-    <TouchableHighlight style={styles.highlight} onPress={this.reset}>
-      <Image
-        source={getImage('kehys_palkki')}
-        style={[getSizeByWidth('kehys_palkki', 0.5), styles.row]}
-      >
-        <Text style={styles.font}>Vaihda käyttäjää</Text>
-      </Image>
-    </TouchableHighlight>
+    <TouchableOpacity style={styles.button} onPress={this.reset}>
+      <Text style={styles.text}>Vaihda käyttäjää</Text>
+    </TouchableOpacity>
     );
 
   renderCloseButton = () => (
@@ -165,24 +129,25 @@ export default class NavigationModal extends Component {
       onRequestClose={() => console.log(' ')}
       supportedOrientations={['portrait', 'landscape']}
     >
-      <View style={styles.modalContainer}>
-        <View style={styles.upperModal}>
-          <View style={styles.modal}>
-            {this.renderChangeUserButton()}
-            {this.renderQuitButton()}
-          </View>
+      <View style={styles.navigationModal}>
+        <Image
+          source={getImage('tausta_kapea')}
+          style={getSizeByWidth('tausta_kapea', 0.5)}
+        >
           {this.renderCloseButton()}
-        </View>
+          {this.renderChangeUserButton()}
+          {this.renderQuitButton()}
+        </Image>
       </View>
     </Modal>
     ) : null;
 
   render() {
     return (
-      <View style={styles.container}>
+      <View>
         <TouchableOpacity onPress={this.toggleModal} style={styles.circle}>
           <Image
-            style={styles.image}
+            style={styles.userImage}
             source={this.props.currentUser.get('image') ? { uri: this.props.currentUser.get('image') } : getImage('default_image')}
           />
         </TouchableOpacity>
