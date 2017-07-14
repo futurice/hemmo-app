@@ -7,6 +7,7 @@ import SettingsViewContainer from '../settings/SettingsViewContainer';
 import ActivityViewContainer from '../ActivityViewContainer';
 import FreeWordViewContainer from '../FreeWordViewContainer';
 import MoodViewContainer from '../MoodViewContainer';
+import EndingViewContainer from '../EndingViewContainer';
 import NavigationModal from './NavigationModal';
 import Hemmo from './Hemmo';
 
@@ -39,6 +40,7 @@ const FeedbackNavigator = TabNavigator(
     Activity: { screen: ActivityViewContainer },
     Mood: { screen: MoodViewContainer },
     FreeWord: { screen: FreeWordViewContainer },
+    Ending: { screen: EndingViewContainer },
   }, {
     initialRouteName: 'Activity',
     swipeEnabled: true,
