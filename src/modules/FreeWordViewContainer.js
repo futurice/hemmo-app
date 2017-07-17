@@ -98,7 +98,9 @@ export default class FreeWordViewContainer extends Component {
       );
 
       try {
-        const wasSuccessful = await save(attachmentPath, attachmentType, body);
+        // Prototype version doesn't talk to API:
+        // const wasSuccessful = await save(attachmentPath, attachmentType, body);
+        const wasSuccessful = { success: true };
 
         if (wasSuccessful.success) {
           if (attachmentType === 'skipped') {

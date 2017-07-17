@@ -8,6 +8,7 @@ import {
   View,
   Text,
   Image,
+  Alert,
 } from 'react-native';
 import { resetCurrentUser } from '../state/UserState';
 import { getImage, getSizeByHeight } from '../services/graphics';
@@ -31,12 +32,17 @@ const styles = StyleSheet.create({
 
 const mapDispatchToProps = dispatch => ({
   resetCurrentUser: () => dispatch(resetCurrentUser()),
+
+  // welp this should really use .reset(), but couldn't get it work for proto
+  resetRoute: () => dispatch(NavigationActions.back()),
+  /*
   resetRoute: () => dispatch(NavigationActions.reset({
     index: 0,
     actions: [
       NavigationActions.navigate({ routeName: 'Home' }),
     ],
   })),
+  */
 });
 
 @connect(null, mapDispatchToProps)
@@ -56,6 +62,14 @@ export default class EndingViewContainer extends Component {
   };
 
   end = () => {
+    Alert.alert(
+      'Kiitos palautteesta!',
+      'Kiitos että kerroit. :)',
+      [
+        { text: 'OK', onPress: this.props.resetRoute },
+      ],
+      { cancelable: false },
+    );
     // this.props.resetCurrentUser();
     // this.props.resetRoute();
   };

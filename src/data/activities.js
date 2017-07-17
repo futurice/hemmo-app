@@ -61,11 +61,13 @@ const activities = [
       Map({ id: 1, key: 'kissa', name: 'Kissa' }),
       Map({ id: 2, key: 'hevonen', name: 'Hevonen' }),
       Map({ id: 3, key: 'elaimet_muuta', name: 'Muut eläimet' })]) }),
+      /*
   Map({
     id: 5,
     key: 'Muuta',
     imageRoute: getImage('muuta'),
     subActivities: List() }),
+    */
 ];
 
 module.exports = activities;

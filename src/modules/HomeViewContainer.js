@@ -98,6 +98,13 @@ export default class HomeViewContainer extends Component {
   };
 
   startSession = (id) => {
+    // Prototype version doesn't talk to API:
+    setSessionId('foobar');
+    this.props.finishPreparing();
+    this.props.setCurrentUser(id);
+    this.props.pushRoute('Feedback');
+
+    /*
     post('/app/feedback')
       .then((result) => {
         setSessionId(result.id);
@@ -110,6 +117,7 @@ export default class HomeViewContainer extends Component {
         this.props.finishPreparing();
         Alert.alert('Oops! Jokin meni pieleen!', 'Yritä myöhemmin uudelleen!');
       });
+    */
   };
 
   renderLeftColumn = () => (

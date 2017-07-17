@@ -3575,6 +3575,10 @@ react-native-audio-toolkit@^1.0.5:
     eventemitter3 "^1.2.0"
     lodash "^4.13.1"
 
+react-native-collapsible@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/react-native-collapsible/-/react-native-collapsible-0.8.0.tgz#169af4b2e596e45fa0df0769118e8a78d1491486"
+
 react-native-dismiss-keyboard@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/react-native-dismiss-keyboard/-/react-native-dismiss-keyboard-1.0.0.tgz#32886242b3f2317e121f3aeb9b0a585e2b879b49"
@@ -3599,9 +3603,15 @@ react-native-image-picker@^0.26.3:
   version "1.17.0"
   resolved "git+https://github.com/yamill/react-native-orientation.git#ef221b5720ced0d9ed0c9de14082a5eabba4db7a"
 
-react-native-progress-bar-classic@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/react-native-progress-bar-classic/-/react-native-progress-bar-classic-1.2.1.tgz#ec419449d075fb868152d7eb9ae64b6250cd34fa"
+react-native-permissions@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-permissions/-/react-native-permissions-1.0.0.tgz#96a79c8fe525d9d4813febdcbb3d35dc66268956"
+
+react-native-progress@^3.2.1:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/react-native-progress/-/react-native-progress-3.3.0.tgz#da7a6942f44c42aed507576525d9e15cee1a7c2f"
+  dependencies:
+    prop-types "^15.5.8"
 
 react-native-tab-view@^0.0.65:
   version "0.0.65"

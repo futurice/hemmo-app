@@ -6,7 +6,16 @@ const initialAnswers = Map({
 });
 
 const initialState = Map({
-  users: List(),
+  users: __DEV__ ? List([
+    Map({
+      id: 42,
+      token: 'foobar',
+      name: 'Testikäyttäjä',
+      image: null,
+      audioMuted: false,
+      answers: initialAnswers,
+    }),
+  ]) : List(),
   currentUser: Map({
     id: null,
     token: '',
