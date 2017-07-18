@@ -126,7 +126,7 @@ export default class ActivityViewContainer extends Component {
       this.scrollView.scrollTo({ y: activity.get('id') *
         (getSizeByWidth('nelio', 0.3).height + (2 * margin)),
       }),
-      animationDuration,
+      0,
     );
     this.setState({
       chosenMainActivity: this.state.chosenMainActivity.get('id') === activity.get('id') ? Map() : activity,
