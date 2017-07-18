@@ -11,7 +11,7 @@ import { setSessionId } from '../utils/session';
 import { post } from '../utils/api';
 import { getSizeByHeight, getImage } from '../services/graphics';
 import {
-  TouchableHighlight,
+  TouchableOpacity,
   Image,
   Dimensions,
   Alert,
@@ -124,12 +124,12 @@ export default class HomeViewContainer extends Component {
   renderLeftColumn = () => (
     <View style={styles.leftColumn}>
       <View style={styles.settingsButton}>
-        <TouchableHighlight onPress={() => this.props.pushRoute('Login')}>
+        <TouchableOpacity onPress={() => this.props.pushRoute('Login')}>
           <Image
             source={getImage('nappula_aset')}
             style={getSizeByHeight('nappula_aset', 0.15)}
           />
-        </TouchableHighlight>
+        </TouchableOpacity>
       </View>
     </View>
     );

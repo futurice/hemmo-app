@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import {
   View,
   Image,
-  TouchableHighlight,
+  TouchableOpacity,
   StyleSheet,
 } from 'react-native';
 import { getSizeByWidth, getSizeByHeight, getImage } from '../services/graphics';
@@ -71,20 +71,20 @@ export default class UserItem extends Component {
     );
 
   renderIconImage = () => (
-    <TouchableHighlight
+    <TouchableOpacity
       onPress={() => this.startJourney(this.props.index)}
     >
       <Image
         style={styles.icon}
         source={this.props.image ? { uri: this.props.image } : getImage('default_image')}
       />
-    </TouchableHighlight>
+    </TouchableOpacity>
     );
 
   render() {
     if (this.props.isColumn) {
       return (
-        <TouchableHighlight
+        <TouchableOpacity
           style={styles.rowWithSmallImageContainer}
           key={this.props.index}
           onPress={() => this.startJourney(this.props.index)}
@@ -99,7 +99,7 @@ export default class UserItem extends Component {
             />
             {this.props.name}
           </Image>
-        </TouchableHighlight>
+        </TouchableOpacity>
       );
     }
 

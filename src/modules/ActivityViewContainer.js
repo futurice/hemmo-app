@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { Map } from 'immutable';
 import {
   Image,
-  TouchableHighlight,
   View,
   ScrollView,
   StyleSheet,
@@ -226,7 +225,7 @@ export default class ActivityViewContainer extends Component {
     const thumb = thumbs.find(t => t.value === existingThumbValue);
 
     return (
-      <TouchableHighlight
+      <TouchableOpacity
         key={index}
         style={{ margin: 5, borderRadius: getSizeByWidth(subActivity.get('key'), 0.15).height / 2 }}
         onPress={() => this.chooseSubActivity(subActivity)}
@@ -239,7 +238,7 @@ export default class ActivityViewContainer extends Component {
             {this.renderChosenThumb(thumb)}
           </Image>
         </View>
-      </TouchableHighlight>
+      </TouchableOpacity>
     );
   };
 
@@ -251,7 +250,7 @@ export default class ActivityViewContainer extends Component {
   );
 
   renderMainActivity = (mainActivity, index) => (
-    <TouchableHighlight
+    <TouchableOpacity
       key={index}
       style={[{ margin: 5, alignSelf: 'center' }, getSizeByWidth('nelio', 0.3)]}
       onPress={() => this.chooseMainActivity(mainActivity)}
@@ -260,7 +259,7 @@ export default class ActivityViewContainer extends Component {
         style={getSizeByWidth('nelio', 0.3)}
         source={mainActivity.get('imageRoute')}
       />
-    </TouchableHighlight>
+    </TouchableOpacity>
     );
 
   renderMainActivities = () => (
