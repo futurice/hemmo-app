@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   progressBar: {
-    margin: 20,
+    marginTop: 20,
   },
   highlightCircle: {
     alignItems: 'center',
@@ -197,18 +197,20 @@ export default class AudioRecorder extends Component {
   renderStartRecordButton = () => (
     <TouchableOpacity
       onPress={this.handleStartRecordClick}
+      style={{flexDirection: 'row', alignItems: 'center'}}
     >
-      <Text style={{textAlign: 'center', fontSize: 30, paddingBottom: 20}}>Nauhoita</Text>
       <Image source={getImage('nappula_rec')} style={getSizeByHeight('nappula_rec', 0.35)} />
+      <Text style={{textAlign: 'center', fontSize: 30, padding: 20}}>Nauhoita</Text>
     </TouchableOpacity>
     );
 
   renderStopRecordButton = () => (
     <TouchableOpacity
       onPress={this._toggleRecord}
+      style={{flexDirection: 'row', alignItems: 'center'}}
     >
-      <Text style={{textAlign: 'center', fontSize: 30, paddingBottom: 20}}>Pysäytä</Text>
       <Image source={getImage('nappula_stop')} style={getSizeByHeight('nappula_stop', 0.35)} />
+      <Text style={{textAlign: 'center', fontSize: 30, padding: 20}}>Pysäytä</Text>
     </TouchableOpacity>
     );
 

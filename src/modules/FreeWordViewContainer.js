@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   audioRecorder: {
-    marginBottom: 50,
+    marginBottom: 70,
   },
 });
 
@@ -36,6 +36,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+  back: () => dispatch(NavigationActions.back()),
   pushRoute: key => dispatch(NavigationActions.navigate({ routeName: key })),
   popRoute: () => dispatch(NavigationActions.back()),
   saveFreeWord: () => dispatch(addFreeWord()),
@@ -160,9 +161,8 @@ export default class FreeWordViewContainer extends Component {
     <TouchableOpacity
       disabled={this.state.disableWriting}
       onPress={this.toggleWriting}
-      style={styles.writeButton}
+      style={{flexDirection: 'row', alignItems: 'center'}}
     >
-      <Text style={{textAlign: 'center', fontSize: 30, paddingBottom: 20}}>Kirjoita</Text>
       <Image
         source={require('./write.png')}
         style={{
@@ -172,6 +172,7 @@ export default class FreeWordViewContainer extends Component {
           //backgroundColor: this.state.disableWriting ? 'gray' : 'white',
         }}
       />
+      <Text style={{textAlign: 'center', fontSize: 30, padding: 20}}>Kirjoita</Text>
     </TouchableOpacity>
     );
 
@@ -188,6 +189,12 @@ export default class FreeWordViewContainer extends Component {
         {this.renderWriteButton()}
         {this.renderTextForm()}
         {/*{this.renderSaveConfirmationWindow()}*/}
+        <TouchableOpacity
+          onPress={this.props.back}
+          style={{ paddingTop: 20 }}
+        >
+          <Image source={require('./done.png')} style={{width: 120, height: 60}}/>
+        </TouchableOpacity>
       </View>
     );
   }

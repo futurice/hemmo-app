@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import {
-  TouchableHighlight,
+  TouchableOpacity,
   Image,
   Button,
   Dimensions,
@@ -95,7 +95,7 @@ export default class HomeViewContainer extends Component {
     );
 
   renderButton = (title, image, onPress, done) => (
-    <TouchableHighlight
+    <TouchableOpacity
       activeOpacity={0.5}
       underlayColor="rgba(128, 128, 128, 0.5)"
       style={{
@@ -123,7 +123,7 @@ export default class HomeViewContainer extends Component {
           }
         </View>
       </View>
-    </TouchableHighlight>
+    </TouchableOpacity>
   );
 
   render() {

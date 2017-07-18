@@ -8,6 +8,7 @@ import {
   View,
   StyleSheet,
 } from 'react-native';
+import { NavigationActions } from 'react-navigation';
 import { addMood, deleteMood } from '../state/UserState';
 import { getSizeByHeight, getSizeByWidth, getImage } from '../services/graphics';
 
@@ -40,6 +41,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+  back: () => dispatch(NavigationActions.back()),
   addMood: mood => dispatch(addMood(mood)),
   deleteMood: mood => dispatch(deleteMood(mood)),
 });
@@ -93,6 +95,11 @@ export default class MoodViewContainer extends Component {
     return (
       <View style={styles.container}>
         {this.renderMoods()}
+        <TouchableOpacity
+          onPress={this.props.back}
+        >
+          <Image source={require('./done.png')} style={{width: 120, height: 60}}/>
+        </TouchableOpacity>
       </View>
     );
   }
