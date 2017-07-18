@@ -6,6 +6,7 @@ import { NavigationActions } from 'react-navigation';
 import {
   TouchableOpacity,
   Image,
+  Text,
   Alert,
   View,
   StyleSheet,
@@ -14,6 +15,7 @@ import AudioRecorder from '../components/AudioRecorder';
 import LoadingSpinner from '../components/LoadingSpinner';
 import SaveConfirmationWindow from '../components/SaveConfirmationWindow';
 import TextForm from '../components/TextForm';
+import { addFreeWord } from '../state/UserState';
 import { getSizeByHeight, getImage } from '../services/graphics';
 import { save, formRequestBody } from '../services/save';
 
@@ -36,6 +38,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   pushRoute: key => dispatch(NavigationActions.navigate({ routeName: key })),
   popRoute: () => dispatch(NavigationActions.back()),
+  saveFreeWord: () => dispatch(addFreeWord()),
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -84,6 +87,8 @@ export default class FreeWordViewContainer extends Component {
 
   save = async (attachmentType, attachmentPath) => {
     this.setState({ showSpinner: true });
+
+    this.props.saveFreeWord();
 
     if (attachmentType === 'text') {
       this.toggleWriting();
@@ -157,12 +162,15 @@ export default class FreeWordViewContainer extends Component {
       onPress={this.toggleWriting}
       style={styles.writeButton}
     >
+      <Text style={{textAlign: 'center', fontSize: 30, paddingBottom: 20}}>Kirjoita</Text>
       <Image
-        source={getImage('nappula_kirjoita')}
-        style={[
-          getSizeByHeight('nappula_kirjoita', 0.15),
-          { opacity: this.state.disableWriting ? 0.4 : 1,
-            backgroundColor: this.state.disableWriting ? 'gray' : 'white' }]}
+        source={require('./write.png')}
+        style={{
+          height: 150,
+          width: 150,
+          opacity: this.state.disableWriting ? 0.4 : 1,
+          //backgroundColor: this.state.disableWriting ? 'gray' : 'white',
+        }}
       />
     </TouchableOpacity>
     );

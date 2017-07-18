@@ -70,7 +70,7 @@ export default class EndingViewContainer extends Component {
       ],
       { cancelable: false },
     );
-    // this.props.resetCurrentUser();
+    this.props.resetCurrentUser();
     // this.props.resetRoute();
   };
 

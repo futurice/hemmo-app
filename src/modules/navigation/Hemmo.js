@@ -20,8 +20,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   image: {
-    height: 40,
-    width: 40,
+    height: 51,
+    width: 87,
   },
   bubbleImage: {
     alignSelf: 'center',
@@ -153,7 +153,7 @@ export default class Hemmo extends Component {
         {this.renderBubble()}
         <TouchableOpacity onPress={this.toggleBubble}>
           <Image
-            source={getImage('hemmo_pieni')}
+            source={require('./hemmo.png')}
             style={styles.image}
           />
         </TouchableOpacity>

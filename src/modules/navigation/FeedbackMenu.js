@@ -48,6 +48,9 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => ({
   users: state.getIn(['user', 'users']),
   currentUser: state.getIn(['user', 'currentUser']),
+  activitiesSize: state.getIn(['user', 'currentUser', 'answers', 'activities']).size,
+  moodsSize: state.getIn(['user', 'currentUser', 'answers', 'moods']).size,
+  freeWordSize: state.getIn(['user', 'currentUser', 'answers', 'freeWord']).size,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -91,7 +94,7 @@ export default class HomeViewContainer extends Component {
     </Text>
     );
 
-  renderButton = (title, image, onPress) => (
+  renderButton = (title, image, onPress, done) => (
     <TouchableHighlight
       activeOpacity={0.5}
       underlayColor="rgba(128, 128, 128, 0.5)"
@@ -113,6 +116,12 @@ export default class HomeViewContainer extends Component {
         <Text style={{ fontSize: 24, textAlign: 'center', paddingLeft: 20, paddingTop: 16 }}>
           { title }
         </Text>
+        <View style={{flex: 1, alignItems: 'flex-end'}}>
+          { done
+            ? <Image source={require('./checkmark.png')} style={{ width: 48, height: 48, marginTop: 8 }} />
+            : null
+          }
+        </View>
       </View>
     </TouchableHighlight>
   );
@@ -127,7 +136,8 @@ export default class HomeViewContainer extends Component {
             { this.renderButton(
               'Tekeminen',
               require('../icon_activities.png'),
-              () => this.props.pushRoute('Activity')
+              () => this.props.pushRoute('Activity'),
+              this.props.activitiesSize,
             ) }
           </View>
 
@@ -135,7 +145,8 @@ export default class HomeViewContainer extends Component {
             { this.renderButton(
               'Tunteet',
               require('../icon_moods.png'),
-              () => this.props.pushRoute('Mood')
+              () => this.props.pushRoute('Mood'),
+              this.props.moodsSize,
             ) }
           </View>
 
@@ -143,7 +154,8 @@ export default class HomeViewContainer extends Component {
             { this.renderButton(
               'Kerro vapaasti',
               require('../icon_tellfreely.png'),
-              () => this.props.pushRoute('FreeWord')
+              () => this.props.pushRoute('FreeWord'),
+              this.props.freeWordSize,
             ) }
           </View>
 

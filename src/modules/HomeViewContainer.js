@@ -99,6 +99,7 @@ export default class HomeViewContainer extends Component {
 
   startSession = (id) => {
     // Prototype version doesn't talk to API:
+    this.props.resetCurrentUser();
     setSessionId('foobar');
     this.props.finishPreparing();
     this.props.setCurrentUser(id);

@@ -8,6 +8,7 @@ import {
   View,
   Image,
   Alert,
+  Text,
   TouchableOpacity,
   StyleSheet,
   Platform,
@@ -196,8 +197,8 @@ export default class AudioRecorder extends Component {
   renderStartRecordButton = () => (
     <TouchableOpacity
       onPress={this.handleStartRecordClick}
-      style={[styles.highlightCircle, getSizeByHeight('nappula_rec', 0.35)]}
     >
+      <Text style={{textAlign: 'center', fontSize: 30, paddingBottom: 20}}>Nauhoita</Text>
       <Image source={getImage('nappula_rec')} style={getSizeByHeight('nappula_rec', 0.35)} />
     </TouchableOpacity>
     );
@@ -205,8 +206,8 @@ export default class AudioRecorder extends Component {
   renderStopRecordButton = () => (
     <TouchableOpacity
       onPress={this._toggleRecord}
-      style={[styles.highlightSquare, getSizeByHeight('nappula_stop', 0.35)]}
     >
+      <Text style={{textAlign: 'center', fontSize: 30, paddingBottom: 20}}>Pysäytä</Text>
       <Image source={getImage('nappula_stop')} style={getSizeByHeight('nappula_stop', 0.35)} />
     </TouchableOpacity>
     );

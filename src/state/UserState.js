@@ -3,6 +3,7 @@ import { Map, List, Set } from 'immutable';
 const initialAnswers = Map({
   activities: Map(),
   moods: Set(),
+  freeWord: Set(),
 });
 
 const initialState = Map({
@@ -36,6 +37,7 @@ const ADD_ACTIVITY = 'UserState/ADD_ACTIVITY';
 const DELETE_ACTIVITY = 'UserState/DELETE_ACTIVITY';
 const ADD_MOOD = 'UserState/ADD_MOOD';
 const DELETE_MOOD = 'UserState/DELETE_MOOD';
+const ADD_FREEWORD = 'UserState/ADD_FREEWORD';
 const MUTE_AUDIO = 'UserState/MUTE_AUDIO';
 
 export function createUser(newUser) {
@@ -121,6 +123,12 @@ export function deleteMood(mood) {
   };
 }
 
+export function addFreeWord() {
+  return {
+    type: ADD_FREEWORD,
+  };
+}
+
 export function muteAudio() {
   return {
     type: MUTE_AUDIO,
@@ -149,9 +157,6 @@ function usersReducer(state = List(), action) {
 
 function currentUserReducer(state = Map(), action, wholeState) {
   switch (action.type) {
-    case RESET_CURRENT_USER:
-      return action.payload;
-
     case SET_CURRENT_USER_VALUE:
       return state
         .set(action.payload.destination, action.payload.value);
@@ -180,6 +185,10 @@ function currentUserReducer(state = Map(), action, wholeState) {
       return state
       .updateIn(['answers', 'moods'], moods => moods.delete(action.payload));
 
+    case ADD_FREEWORD:
+      return state
+      .updateIn(['answers', 'freeWord'], freeword => freeword.add('entry'));
+
     case MUTE_AUDIO:
       return state
       .set('audioMuted', !state.get('audioMuted'));
@@ -190,7 +199,13 @@ function currentUserReducer(state = Map(), action, wholeState) {
 }
 
 export default function UserStateReducer(state = initialState, action = {}) {
-  return state
-    .set('users', usersReducer(state.get('users'), action))
-    .set('currentUser', currentUserReducer(state.get('currentUser'), action, state));
+  switch (action.type) {
+    case RESET_CURRENT_USER:
+      return action.payload;
+
+    default:
+      return state
+      .set('users', usersReducer(state.get('users'), action))
+      .set('currentUser', currentUserReducer(state.get('currentUser'), action, state));
+  }
 }
