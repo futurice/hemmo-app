@@ -51,8 +51,8 @@ export default class EndingViewContainer extends Component {
   static navigationOptions = {
     title: 'Valmis',
     tabBarIcon: <Image
-      source={getImage('valittu')}
-      style={getSizeByHeight('valittu', 0.06)}
+      source={require('./icon_send.png')}
+      style={{ width: 64, height: 64 }}
     />,
   };
 
@@ -81,7 +81,13 @@ export default class EndingViewContainer extends Component {
           onPress={this.end}
           style={styles.sendButton}
         >
-          <Text style={styles.sendButtonText}>Lähetä</Text>
+          <View style={{ alignItems: 'center' }}>
+            <Image
+              source={require('./icon_send.png')}
+              style={{ width: 64, height: 64 }}
+            />
+            <Text style={styles.sendButtonText}>Lähetä</Text>
+          </View>
         </TouchableOpacity>
       </View>
     );

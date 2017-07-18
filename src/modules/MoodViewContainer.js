@@ -50,8 +50,8 @@ export default class MoodViewContainer extends Component {
   static navigationOptions = {
     title: 'Tunteet',
     tabBarIcon: <Image
-      source={getImage('iloinen')}
-      style={getSizeByHeight('iloinen', 0.07)}
+      source={require('./icon_moods.png')}
+      style={{ width: 64, height: 64 }}
     />,
   };
 

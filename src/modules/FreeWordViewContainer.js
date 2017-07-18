@@ -44,8 +44,8 @@ export default class FreeWordViewContainer extends Component {
   static navigationOptions = {
     title: 'Kerro vapaasti',
     tabBarIcon: <Image
-      source={getImage('nappula_rec')}
-      style={getSizeByHeight('nappula_rec', 0.07)}
+      source={require('./icon_tellfreely.png')}
+      style={{ width: 64, height: 64 }}
     />,
   };
 

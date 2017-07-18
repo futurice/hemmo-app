@@ -86,7 +86,7 @@ export default class Hemmo extends Component {
   };
 
   getBubbleText = () => {
-    const text = this.props.navigation.state.routes[this.props.navigation.state.index].key;
+    const text = this.props.navigation.state.routes[this.props.navigation.state.index].routeName;
 
     // Text of the speech bubble is related to selected main activity.
     // maIndex is the index of the selected main activity.
@@ -102,8 +102,12 @@ export default class Hemmo extends Component {
       return phrases[text][this.props.maIndex].text;
     }
 
-    audiotrack = phrases[text].audio;
-    return phrases[text].text;
+    if (phrases[text]) {
+      audiotrack = phrases[text].audio;
+      return phrases[text].text;
+    }
+
+    return null;
   };
 
   toggleBubble = () => {
