@@ -6,7 +6,7 @@ const initialAnswers = Map({
 });
 
 const initialState = Map({
-  users: __DEV__ ? List([
+  users: true ? List([
     Map({
       id: 42,
       token: 'foobar',
