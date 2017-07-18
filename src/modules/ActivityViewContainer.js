@@ -12,6 +12,7 @@ import {
   TouchableOpacity,
   Text,
 } from 'react-native';
+import { NavigationActions } from 'react-navigation';
 import Accordion from 'react-native-collapsible/Accordion';
 import { addActivity, deleteActivity } from '../state/UserState';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -70,6 +71,8 @@ const styles = StyleSheet.create({
 
 const activities = require('../data/activities.js');
 
+const animationDuration = 300;
+
 const thumbs = [
   { value: 1, imageName: 'peukku_ylos_0' },
   { value: 0, imageName: 'peukku_keski_0' },
@@ -82,6 +85,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+  back: () => dispatch(NavigationActions.back()),
   addActivity: activity => dispatch(addActivity(activity)),
   deleteActivity: activity => dispatch(deleteActivity(activity)),
 });
@@ -110,8 +114,24 @@ export default class ActivityViewContainer extends Component {
     chosenSubActivity: Map(),
   };
 
+  getSubActivityHeight = () =>
+    getSizeByWidth('leikkiminen', 0.20).height + (2 * 5);
+
+  getMainActivityHeight = () =>
+    getSizeByWidth('nelio', 0.3).height + (2 * 5);
+
   chooseMainActivity = (activity) => {
-    this.setState({ chosenMainActivity: this.state.chosenMainActivity.get('id') === activity.get('id') ? Map() : activity });
+    const margin = 5;
+
+    setTimeout(() =>
+      this.scrollView.scrollTo({ y: activity.get('id') *
+        (getSizeByWidth('nelio', 0.3).height + (2 * margin)),
+      }),
+      animationDuration,
+    );
+    this.setState({
+      chosenMainActivity: this.state.chosenMainActivity.get('id') === activity.get('id') ? Map() : activity,
+    });
   };
 
   chooseSubActivity = (subActivity) => {
@@ -244,8 +264,29 @@ export default class ActivityViewContainer extends Component {
     );
 
   renderMainActivities = () => (
-    <ScrollView>
+    <ScrollView
+      /**
+       * This is a hack which allows scrolling to positions currently outside of
+       * the ScrollView. As soon as an activity is selected, expand the scrolling
+       * view height to equal to the height of all visible activities and
+       * subactivities.
+       */
+      contentContainerStyle={{
+        minHeight: this.state.chosenMainActivity.isEmpty() ? null : (
+          (
+            activities.length * this.getMainActivityHeight()
+          ) + Math.ceil((
+              this.state.chosenMainActivity.get('subActivities').size / 2
+            ) * this.getSubActivityHeight(),
+          )
+        ),
+      }}
+      ref={(scrollView) => { this.scrollView = scrollView; }}
+    >
       <Accordion
+        align="bottom"
+        duration={ animationDuration }
+        onChange={index => console.log('active index', index)}
         sections={activities}
         activeSection={!this.state.chosenMainActivity.isEmpty() ? this.state.chosenMainActivity.get('id') : false}
         renderHeader={this.renderMainActivity}
@@ -266,6 +307,11 @@ export default class ActivityViewContainer extends Component {
       <View style={styles.container}>
         {this.renderMainActivities()}
         {this.renderThumbModal()}
+        <TouchableOpacity
+          onPress={this.props.back}
+        >
+          <Image source={require('./done.png')} style={{width: 120, height: 60}}/>
+        </TouchableOpacity>
       </View>
     );
   }
