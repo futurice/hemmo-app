@@ -59,40 +59,9 @@ const mapDispatchToProps = dispatch => ({
 
 @connect(mapStateToProps, mapDispatchToProps)
 export default class HomeViewContainer extends Component {
-  renderLeftColumn = () => (
-    <View style={styles.leftColumn}>
-    </View>
-    );
-
-  renderRightColumn = users => (
-    <View style={[styles.rightColumn, users.size <= 4 ? { flexDirection: 'row', flexWrap: 'wrap' } : null]}>
-      {users.size > 0 ? this.renderUserIcons(users) : this.renderEmptyIcon()}
-    </View>
-    );
-
-  renderUserIcons = users => users.map((user) =>
-    (<Text>
-    Hello world!
-    </Text>),
-    );
-
-  renderEmptyIcon = () => (
-    <UserItem
-      name={this.renderUserName('Nimi')}
-      key={0}
-      index={0}
-      empty
-    />
-    );
-
-  renderUserName = name => (
-    <Text
-      ellipsizeMode="tail"
-      numberOfLines={1}
-      style={styles.font}
-    >{name}
-    </Text>
-    );
+  static navigationOptions = {
+    title: 'Valikko',
+  };
 
   renderButton = (title, image, onPress, done) => (
     <TouchableOpacity
@@ -133,38 +102,46 @@ export default class HomeViewContainer extends Component {
       <Image source={getImage('tausta_perus3')} style={styles.container}>
         <View style={{ flex: 1 }}>
           <View style={{ height: 100 }}>
-            { this.renderButton(
-              'Tekeminen',
-              require('../icon_activities.png'),
-              () => this.props.pushRoute('Activity'),
-              this.props.activitiesSize,
-            ) }
+            {
+              this.renderButton(
+                'Tekeminen',
+                require('../icon_activities.png'),
+                () => this.props.pushRoute('Activity'),
+                this.props.activitiesSize,
+              )
+            }
           </View>
 
           <View style={{ height: 100 }}>
-            { this.renderButton(
-              'Tunteet',
-              require('../icon_moods.png'),
-              () => this.props.pushRoute('Mood'),
-              this.props.moodsSize,
-            ) }
+            {
+              this.renderButton(
+                'Tunteet',
+                require('../icon_moods.png'),
+                () => this.props.pushRoute('Mood'),
+                this.props.moodsSize,
+              )
+            }
           </View>
 
           <View style={{ height: 100 }}>
-            { this.renderButton(
-              'Kerro vapaasti',
-              require('../icon_tellfreely.png'),
-              () => this.props.pushRoute('FreeWord'),
-              this.props.freeWordSize,
-            ) }
+            {
+              this.renderButton(
+                'Kerro vapaasti',
+                require('../icon_tellfreely.png'),
+                () => this.props.pushRoute('FreeWord'),
+                this.props.freeWordSize,
+              )
+            }
           </View>
 
           <View style={{ height: 100 }}>
-            { this.renderButton(
-              'Lähetä',
-              require('../icon_send.png'),
-              () => this.props.pushRoute('Ending')
-            ) }
+            {
+              this.renderButton(
+                'Lähetä',
+                require('../icon_send.png'),
+                () => this.props.pushRoute('Ending')
+              )
+            }
           </View>
         </View>
       </Image>

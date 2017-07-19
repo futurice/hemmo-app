@@ -3,7 +3,7 @@
     "text": "Moikka, näyttää siltä etten tiedä kuka olet. Käy asetuksissa lisäämässä nimesi ja kuvasi.",
     "audio": "hemmo_01"
   },
-  "UserIsKnown": {
+  "FeedbackMenu": {
     "text": "Moikka, kiva kun tulit taas juttelemaan kanssani. Nyt voit kertoa siitä, millaista sinulla oli viime kerralla tukiperheessä. Olen apunasi alusta loppuun, joten ei huolta, osaat kyllä!",
     "audio": "hemmo_02"
   },
