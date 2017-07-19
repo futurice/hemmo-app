@@ -15,7 +15,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 import { Map } from 'immutable';
-import { getSizeByHeight, getSizeByWidth, getImage } from '../../services/graphics';
+import {
+  getSizeByHeight,
+  getSizeByWidth,
+  getImage,
+} from '../../services/graphics';
 import { resetCurrentUser } from '../../state/UserState';
 import { save, formRequestBody } from '../../services/save';
 
@@ -53,17 +57,17 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   navigate: route => dispatch(NavigationActions.navigate({ routeName: route })),
   resetCurrentUser: () => dispatch(resetCurrentUser()),
-  resetRoute: () => dispatch(NavigationActions.reset({
-    index: 0,
-    actions: [
-      NavigationActions.navigate({ routeName: 'Home' }),
-    ],
-  })),
+  resetRoute: () =>
+    dispatch(
+      NavigationActions.reset({
+        index: 0,
+        actions: [NavigationActions.navigate({ routeName: 'Home' })],
+      }),
+    ),
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
 export default class NavigationModal extends Component {
-
   static propTypes = {
     resetRoute: PropTypes.func.isRequired,
     resetCurrentUser: PropTypes.func.isRequired,
@@ -91,25 +95,24 @@ export default class NavigationModal extends Component {
 
   save = () => {
     formRequestBody(
-      'skipped', 'Ohitettu',
+      'skipped',
+      'Ohitettu',
       this.props.currentUser.get('activityIndex'),
-      this.props.currentUser.get('answers'))
-        .then(body => save(null, 'skipped', body));
+      this.props.currentUser.get('answers'),
+    ).then(body => save(null, 'skipped', body));
   };
 
-  renderQuitButton = () => (
+  renderQuitButton = () =>
     <TouchableOpacity style={styles.button} onPress={this.quit}>
       <Text style={styles.text}>Lopeta</Text>
-    </TouchableOpacity>
-    );
+    </TouchableOpacity>;
 
-  renderChangeUserButton = () => (
+  renderChangeUserButton = () =>
     <TouchableOpacity style={styles.button} onPress={this.reset}>
       <Text style={styles.text}>Vaihda käyttäjää</Text>
-    </TouchableOpacity>
-    );
+    </TouchableOpacity>;
 
-  renderCloseButton = () => (
+  renderCloseButton = () =>
     <TouchableOpacity
       onPress={this.toggleModal}
       style={[styles.closeButton, getSizeByHeight('nappula_rasti', 0.1)]}
@@ -118,29 +121,29 @@ export default class NavigationModal extends Component {
         source={getImage('nappula_rasti')}
         style={[getSizeByHeight('nappula_rasti', 0.1)]}
       />
-    </TouchableOpacity>
-    );
+    </TouchableOpacity>;
 
-  renderModal = () => this.state.modalVisible ? (
-    <Modal
-      animationType={'fade'}
-      transparent
-      visible={this.state.modalVisible}
-      onRequestClose={() => console.log(' ')}
-      supportedOrientations={['portrait', 'landscape']}
-    >
-      <View style={styles.navigationModal}>
-        <Image
-          source={getImage('tausta_kapea')}
-          style={getSizeByWidth('tausta_kapea', 0.5)}
+  renderModal = () =>
+    this.state.modalVisible
+      ? <Modal
+          animationType={'fade'}
+          transparent
+          visible={this.state.modalVisible}
+          onRequestClose={() => console.log(' ')}
+          supportedOrientations={['portrait', 'landscape']}
         >
-          {this.renderCloseButton()}
-          {this.renderChangeUserButton()}
-          {this.renderQuitButton()}
-        </Image>
-      </View>
-    </Modal>
-    ) : null;
+          <View style={styles.navigationModal}>
+            <Image
+              source={getImage('tausta_kapea')}
+              style={getSizeByWidth('tausta_kapea', 0.5)}
+            >
+              {this.renderCloseButton()}
+              {this.renderChangeUserButton()}
+              {this.renderQuitButton()}
+            </Image>
+          </View>
+        </Modal>
+      : null;
 
   render() {
     return (
@@ -148,7 +151,11 @@ export default class NavigationModal extends Component {
         <TouchableOpacity onPress={this.toggleModal} style={styles.circle}>
           <Image
             style={styles.userImage}
-            source={this.props.currentUser.get('image') ? { uri: this.props.currentUser.get('image') } : getImage('default_image')}
+            source={
+              this.props.currentUser.get('image')
+                ? { uri: this.props.currentUser.get('image') }
+                : getImage('default_image')
+            }
           />
         </TouchableOpacity>
         {this.renderModal()}

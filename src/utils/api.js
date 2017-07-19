@@ -75,10 +75,7 @@ export async function del(path, suppressRedBox) {
 export async function request(method, path, body, suppressRedBox) {
   try {
     const response = await sendRequest(method, path, body, suppressRedBox);
-    return handleResponse(
-      path,
-      response,
-    );
+    return handleResponse(path, response);
   } catch (error) {
     if (!suppressRedBox) {
       logError(error, url(path), method);
@@ -98,7 +95,7 @@ export async function xhr(method, path, body, suppressRedBox) {
       req.open(method, endpoint);
       req.setRequestHeader('Authorization', token);
 
-      req.onreadystatechange = (e) => {
+      req.onreadystatechange = e => {
         if (req.readyState !== 4) {
           return;
         }
@@ -125,9 +122,7 @@ export async function xhr(method, path, body, suppressRedBox) {
  */
 export function url(path) {
   const apiRoot = getConfiguration('API_ROOT');
-  return path.indexOf('/') === 0
-    ? apiRoot + path
-    : `${apiRoot}/${path}`;
+  return path.indexOf('/') === 0 ? apiRoot + path : `${apiRoot}/${path}`;
 }
 
 /**
@@ -222,7 +217,7 @@ function timeout(promise, ms) {
   return new Promise((resolve, reject) => {
     const timer = setTimeout(() => reject(new Error('timeout')), ms);
     promise
-      .then((response) => {
+      .then(response => {
         clearTimeout(timer);
         resolve(response);
       })
@@ -245,8 +240,12 @@ async function bodyOf(requestPromise) {
 function logError(error, endpoint, method) {
   if (error.status) {
     const summary = `(${error.status} ${error.statusText}): ${error._bodyInit}`;
-    console.error(`API request ${method.toUpperCase()} ${endpoint} responded with ${summary}`);
+    console.error(
+      `API request ${method.toUpperCase()} ${endpoint} responded with ${summary}`,
+    );
   } else {
-    console.error(`API request ${method.toUpperCase()} ${endpoint} failed with message "${error.message}"`);
+    console.error(
+      `API request ${method.toUpperCase()} ${endpoint} failed with message "${error.message}"`,
+    );
   }
 }

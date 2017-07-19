@@ -13,14 +13,13 @@ const reducers = {
   user: UserStateReducer,
 };
 
-const namespacedReducer = combineReducers(
-  reducers,
-);
+const namespacedReducer = combineReducers(reducers);
 
 export default function mainReducer(state, action) {
-  const nextState = action.type === RESET_STATE
-    ? namespacedReducer(action.payload, action)
-    : namespacedReducer(state || void 0, action);
+  const nextState =
+    action.type === RESET_STATE
+      ? namespacedReducer(action.payload, action)
+      : namespacedReducer(state || void 0, action);
 
   // enforce the state is immutable
   return fromJS(nextState);

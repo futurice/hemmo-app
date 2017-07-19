@@ -16,23 +16,23 @@ class NavigatorView extends Component {
     dispatch: PropTypes.func.isRequired,
     navigatorState: PropTypes.shape({
       index: PropTypes.number.isRequired,
-      routes: PropTypes.arrayOf(PropTypes.shape({
-        key: PropTypes.string.isRequired,
-        routeName: PropTypes.string.isRequired,
-        params: PropTypes.object,
-      })),
+      routes: PropTypes.arrayOf(
+        PropTypes.shape({
+          key: PropTypes.string.isRequired,
+          routeName: PropTypes.string.isRequired,
+          params: PropTypes.object,
+        }),
+      ),
     }).isRequired,
   };
 
   render() {
     return (
       <AppNavigator
-        navigation={
-          addNavigationHelpers({
-            dispatch: this.props.dispatch,
-            state: this.props.navigatorState,
-          })
-        }
+        navigation={addNavigationHelpers({
+          dispatch: this.props.dispatch,
+          state: this.props.navigatorState,
+        })}
       />
     );
   }

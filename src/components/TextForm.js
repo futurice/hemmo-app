@@ -3,7 +3,11 @@
 */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { getSizeByHeight, getSizeByWidth, getImage } from '../services/graphics';
+import {
+  getSizeByHeight,
+  getSizeByWidth,
+  getImage,
+} from '../services/graphics';
 import {
   View,
   TextInput,
@@ -52,7 +56,6 @@ const styles = StyleSheet.create({
 });
 
 export default class TextForm extends Component {
-
   static propTypes = {
     toggleWriting: PropTypes.func.isRequired,
     setText: PropTypes.func.isRequired,
@@ -64,7 +67,7 @@ export default class TextForm extends Component {
     text: '',
   };
 
-  setText = (e) => {
+  setText = e => {
     this.setState({ text: e.nativeEvent.text });
     this.props.setText(e.nativeEvent.text);
 
@@ -110,9 +113,13 @@ export default class TextForm extends Component {
         >
           <Image
             source={getImage('nappula_tallenna')}
-            style={[getSizeByHeight('nappula_tallenna', 0.1),
-              { opacity: this.state.disabled ? 0.1 : 1,
-                backgroundColor: this.state.disabled ? 'gray' : 'white' }]}
+            style={[
+              getSizeByHeight('nappula_tallenna', 0.1),
+              {
+                opacity: this.state.disabled ? 0.1 : 1,
+                backgroundColor: this.state.disabled ? 'gray' : 'white',
+              },
+            ]}
           />
         </TouchableOpacity>
       </View>

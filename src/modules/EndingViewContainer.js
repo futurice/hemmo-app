@@ -47,13 +47,14 @@ const mapDispatchToProps = dispatch => ({
 
 @connect(null, mapDispatchToProps)
 export default class EndingViewContainer extends Component {
-
   static navigationOptions = {
     title: 'Valmis',
-    tabBarIcon: <Image
-      source={require('./icon_send.png')}
-      style={{ width: 64, height: 64 }}
-    />,
+    tabBarIcon: (
+      <Image
+        source={require('./icon_send.png')}
+        style={{ width: 64, height: 64 }}
+      />
+    ),
   };
 
   static propTypes = {
@@ -65,9 +66,7 @@ export default class EndingViewContainer extends Component {
     Alert.alert(
       'Kiitos palautteesta!',
       'Kiitos että kerroit. :)',
-      [
-        { text: 'OK', onPress: this.props.resetRoute },
-      ],
+      [{ text: 'OK', onPress: this.props.resetRoute }],
       { cancelable: false },
     );
     this.props.resetCurrentUser();
@@ -77,10 +76,7 @@ export default class EndingViewContainer extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <TouchableOpacity
-          onPress={this.end}
-          style={styles.sendButton}
-        >
+        <TouchableOpacity onPress={this.end} style={styles.sendButton}>
           <View style={{ alignItems: 'center' }}>
             <Image
               source={require('./icon_send.png')}

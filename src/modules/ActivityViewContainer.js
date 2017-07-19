@@ -15,7 +15,11 @@ import { NavigationActions } from 'react-navigation';
 import Accordion from 'react-native-collapsible/Accordion';
 import { addActivity, deleteActivity } from '../state/UserState';
 import LoadingSpinner from '../components/LoadingSpinner';
-import { getImage, getSizeByWidth, getSizeByHeight } from '../services/graphics';
+import {
+  getImage,
+  getSizeByWidth,
+  getSizeByHeight,
+} from '../services/graphics';
 
 const styles = StyleSheet.create({
   container: {
@@ -80,7 +84,12 @@ const thumbs = [
 
 const mapStateToProps = state => ({
   isReady: state.getIn(['session', 'isReady']),
-  chosenActivities: state.getIn(['user', 'currentUser', 'answers', 'activities']),
+  chosenActivities: state.getIn([
+    'user',
+    'currentUser',
+    'answers',
+    'activities',
+  ]),
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -91,13 +100,14 @@ const mapDispatchToProps = dispatch => ({
 
 @connect(mapStateToProps, mapDispatchToProps)
 export default class ActivityViewContainer extends Component {
-
   static navigationOptions = {
     title: 'Tekeminen',
-    tabBarIcon: <Image
-      source={require('./icon_activities.png')}
-      style={{ width: 64, height: 64 }}
-    />,
+    tabBarIcon: (
+      <Image
+        source={require('./icon_activities.png')}
+        style={{ width: 64, height: 64 }}
+      />
+    ),
   };
 
   static propTypes = {
@@ -114,30 +124,35 @@ export default class ActivityViewContainer extends Component {
   };
 
   getSubActivityHeight = () =>
-    getSizeByWidth('leikkiminen', 0.20).height + (2 * 5);
+    getSizeByWidth('leikkiminen', 0.2).height + 2 * 5;
 
-  getMainActivityHeight = () =>
-    getSizeByWidth('nelio', 0.3).height + (2 * 5);
+  getMainActivityHeight = () => getSizeByWidth('nelio', 0.3).height + 2 * 5;
 
-  chooseMainActivity = (activity) => {
+  chooseMainActivity = activity => {
     const margin = 5;
 
-    setTimeout(() =>
-      this.scrollView.scrollTo({ y: activity.get('id') *
-        (getSizeByWidth('nelio', 0.3).height + (2 * margin)),
-      }),
+    setTimeout(
+      () =>
+        this.scrollView.scrollTo({
+          y:
+            activity.get('id') *
+            (getSizeByWidth('nelio', 0.3).height + 2 * margin),
+        }),
       0,
     );
     this.setState({
-      chosenMainActivity: this.state.chosenMainActivity.get('id') === activity.get('id') ? Map() : activity,
+      chosenMainActivity:
+        this.state.chosenMainActivity.get('id') === activity.get('id')
+          ? Map()
+          : activity,
     });
   };
 
-  chooseSubActivity = (subActivity) => {
+  chooseSubActivity = subActivity => {
     this.setState({ chosenSubActivity: subActivity, modalVisible: true });
   };
 
-  chooseThumb = async (thumbValue) => {
+  chooseThumb = async thumbValue => {
     if (this.isSelected(thumbValue)) {
       await this.props.deleteActivity({
         main: this.state.chosenMainActivity.get('id'),
@@ -157,84 +172,107 @@ export default class ActivityViewContainer extends Component {
     });
   };
 
-  isSelected = thumbValue => thumbValue === this.props.chosenActivities.getIn([this.state.chosenMainActivity.get('id'), this.state.chosenSubActivity.get('id')]);
+  isSelected = thumbValue =>
+    thumbValue ===
+    this.props.chosenActivities.getIn([
+      this.state.chosenMainActivity.get('id'),
+      this.state.chosenSubActivity.get('id'),
+    ]);
 
-  renderThumbButton = (thumb, i) => (
+  renderThumbButton = (thumb, i) =>
     <View key={i}>
       <TouchableOpacity onPress={() => this.chooseThumb(thumb.value)}>
         <Image
           source={getImage(thumb.imageName)}
-          style={[this.isSelected(thumb.value) ? styles.selectedThumbButton : styles.unselectedThumbButton, getSizeByHeight(thumb.imageName, 0.2)]}
+          style={[
+            this.isSelected(thumb.value)
+              ? styles.selectedThumbButton
+              : styles.unselectedThumbButton,
+            getSizeByHeight(thumb.imageName, 0.2),
+          ]}
         />
       </TouchableOpacity>
-    </View>
-    );
+    </View>;
 
-  renderThumbButtons = () => thumbs.map((thumb, i) => this.renderThumbButton(thumb, i));
+  renderThumbButtons = () =>
+    thumbs.map((thumb, i) => this.renderThumbButton(thumb, i));
 
-  renderTitlePanel = () => (
+  renderTitlePanel = () =>
     <View>
-      <TouchableOpacity onPress={() => { this.setState({ modalVisible: false, chosenSubActivity: Map() }); }}>
+      <TouchableOpacity
+        onPress={() => {
+          this.setState({ modalVisible: false, chosenSubActivity: Map() });
+        }}
+      >
         <Image
           source={getImage('nappula_rasti')}
-          style={[styles.closeButton, getSizeByHeight('nappula_rasti', 0.10)]}
+          style={[styles.closeButton, getSizeByHeight('nappula_rasti', 0.1)]}
         />
       </TouchableOpacity>
       <Image
         source={getImage(this.state.chosenSubActivity.get('key'))}
-        style={[styles.subActivityThumbImage, getSizeByWidth(this.state.chosenSubActivity.get('key'), 0.20)]}
+        style={[
+          styles.subActivityThumbImage,
+          getSizeByWidth(this.state.chosenSubActivity.get('key'), 0.2),
+        ]}
       />
-    </View>
-  );
+    </View>;
 
-  renderActionPanel = () => (
+  renderActionPanel = () =>
     <View style={styles.actionRow}>
       {this.renderThumbButtons()}
-    </View>
-  );
+    </View>;
 
-  renderThumbModal = () => this.state.modalVisible ? (
-    <Modal
-      animationType={'fade'}
-      transparent
-      visible={this.state.modalVisible}
-      onRequestClose={() => console.log(' ')}
-      supportedOrientations={['portrait', 'landscape']}
-    >
-      <View style={styles.thumbModal}>
-        <Image
-          source={getImage('tausta_kapea')}
-          style={[styles.leftColumn, getSizeByWidth('tausta_kapea', 0.5)]}
+  renderThumbModal = () =>
+    this.state.modalVisible
+      ? <Modal
+          animationType={'fade'}
+          transparent
+          visible={this.state.modalVisible}
+          onRequestClose={() => console.log(' ')}
+          supportedOrientations={['portrait', 'landscape']}
         >
-          {this.renderTitlePanel()}
-          {this.renderActionPanel()}
-        </Image>
-      </View>
-    </Modal>
-    ) : null;
+          <View style={styles.thumbModal}>
+            <Image
+              source={getImage('tausta_kapea')}
+              style={[styles.leftColumn, getSizeByWidth('tausta_kapea', 0.5)]}
+            >
+              {this.renderTitlePanel()}
+              {this.renderActionPanel()}
+            </Image>
+          </View>
+        </Modal>
+      : null;
 
-  renderChosenThumb = thumb => thumb !== undefined ? (
-    <Image
-      source={getImage(thumb.imageName)}
-      style={getSizeByHeight(thumb.imageName, 0.10)}
-    />
-  ) : null;
+  renderChosenThumb = thumb =>
+    thumb !== undefined
+      ? <Image
+          source={getImage(thumb.imageName)}
+          style={getSizeByHeight(thumb.imageName, 0.1)}
+        />
+      : null;
 
   renderSubActivity = (subActivity, index) => {
-    const existingThumbValue = this.props.chosenActivities.getIn([this.state.chosenMainActivity.get('id'), subActivity.get('id')]);
+    const existingThumbValue = this.props.chosenActivities.getIn([
+      this.state.chosenMainActivity.get('id'),
+      subActivity.get('id'),
+    ]);
     const thumb = thumbs.find(t => t.value === existingThumbValue);
 
     return (
       <TouchableOpacity
         key={index}
-        style={{ margin: 5, borderRadius: getSizeByWidth(subActivity.get('key'), 0.15).height / 2 }}
+        style={{
+          margin: 5,
+          borderRadius: getSizeByWidth(subActivity.get('key'), 0.15).height / 2,
+        }}
         onPress={() => this.chooseSubActivity(subActivity)}
       >
         <View>
           <Image
             source={getImage(subActivity.get('key'))}
-            style={getSizeByWidth(subActivity.get('key'), 0.20)}>
-
+            style={getSizeByWidth(subActivity.get('key'), 0.2)}
+          >
             {this.renderChosenThumb(thumb)}
           </Image>
         </View>
@@ -242,14 +280,16 @@ export default class ActivityViewContainer extends Component {
     );
   };
 
-  renderSubActivities = mainActivity => (
+  renderSubActivities = mainActivity =>
     <View style={styles.subActivityContainer}>
-      {mainActivity.get('subActivities').map((subActivity, index) =>
-        this.renderSubActivity(subActivity, index))}
-    </View>
-  );
+      {mainActivity
+        .get('subActivities')
+        .map((subActivity, index) =>
+          this.renderSubActivity(subActivity, index),
+        )}
+    </View>;
 
-  renderMainActivity = (mainActivity, index) => (
+  renderMainActivity = (mainActivity, index) =>
     <TouchableOpacity
       key={index}
       style={[{ margin: 5, alignSelf: 'center' }, getSizeByWidth('nelio', 0.3)]}
@@ -259,10 +299,9 @@ export default class ActivityViewContainer extends Component {
         style={getSizeByWidth('nelio', 0.3)}
         source={mainActivity.get('imageRoute')}
       />
-    </TouchableOpacity>
-    );
+    </TouchableOpacity>;
 
-  renderMainActivities = () => (
+  renderMainActivities = () =>
     <ScrollView
       /**
        * This is a hack which allows scrolling to positions currently outside of
@@ -271,45 +310,49 @@ export default class ActivityViewContainer extends Component {
        * subactivities.
        */
       contentContainerStyle={{
-        minHeight: this.state.chosenMainActivity.isEmpty() ? null : (
-          (
-            activities.length * this.getMainActivityHeight()
-          ) + Math.ceil((
-              this.state.chosenMainActivity.get('subActivities').size / 2
-            ) * this.getSubActivityHeight(),
-          )
-        ),
+        minHeight: this.state.chosenMainActivity.isEmpty()
+          ? null
+          : activities.length * this.getMainActivityHeight() +
+            Math.ceil(
+              this.state.chosenMainActivity.get('subActivities').size /
+                2 *
+                this.getSubActivityHeight(),
+            ),
       }}
-      ref={(scrollView) => { this.scrollView = scrollView; }}
+      ref={scrollView => {
+        this.scrollView = scrollView;
+      }}
     >
       <Accordion
         align="bottom"
-        duration={ animationDuration }
+        duration={animationDuration}
         onChange={index => console.log('active index', index)}
         sections={activities}
-        activeSection={!this.state.chosenMainActivity.isEmpty() ? this.state.chosenMainActivity.get('id') : false}
+        activeSection={
+          !this.state.chosenMainActivity.isEmpty()
+            ? this.state.chosenMainActivity.get('id')
+            : false
+        }
         renderHeader={this.renderMainActivity}
         renderContent={this.renderSubActivities}
         underlayColor={'#FFFFFF'}
       />
-    </ScrollView>
-    );
+    </ScrollView>;
 
   render() {
     if (!this.props.isReady) {
-      return (
-        <LoadingSpinner />
-      );
+      return <LoadingSpinner />;
     }
 
     return (
       <View style={styles.container}>
         {this.renderMainActivities()}
         {this.renderThumbModal()}
-        <TouchableOpacity
-          onPress={this.props.back}
-        >
-          <Image source={require('./done.png')} style={{width: 120, height: 60}}/>
+        <TouchableOpacity onPress={this.props.back}>
+          <Image
+            source={require('./done.png')}
+            style={{ width: 120, height: 60 }}
+          />
         </TouchableOpacity>
       </View>
     );

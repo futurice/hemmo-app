@@ -1,6 +1,4 @@
-import {
-  Dimensions,
-} from 'react-native';
+import { Dimensions } from 'react-native';
 
 export function getScreenHeight() {
   const height = Dimensions.get('window').height;

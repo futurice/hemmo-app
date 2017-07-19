@@ -24,9 +24,7 @@ async function persist(state) {
 async function rehydrate() {
   try {
     const state = await AsyncStorage.getItem(STATE_STORAGE_KEY);
-    return state
-      ? JSON.parse(state)
-      : null;
+    return state ? JSON.parse(state) : null;
   } catch (e) {
     console.error('Error reading persisted application state', e);
     return null;

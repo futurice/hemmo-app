@@ -9,7 +9,7 @@
     "test": "jest",
     "lint": "eslint src",
     "precommit": "lint-staged",
-    "prettier": "prettier --single-quote --trailing-comma all --write src/**/*.js src/**/*.jsx"
+    "prettier": "prettier --single-quote --trailing-comma all --write \"{,!(android|ios|node_modules)/**/}*.js*\""
   },
   "lint-staged": {
     "*.{js,jsx}": [

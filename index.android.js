@@ -7,7 +7,6 @@ import { AppRegistry, BackHandler } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 
 class Hemmo extends Component {
-
   componentWillMount() {
     BackHandler.addEventListener('hardwareBackPress', this.navigateBack);
 

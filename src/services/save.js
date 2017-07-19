@@ -1,4 +1,3 @@
-
 import { put, post, xhr } from '../utils/api';
 import { getSessionId } from '../utils/session';
 
@@ -21,10 +20,17 @@ export async function save(attachmentPath, attachmentType, body) {
       attachmentBody.append('file', file);
 
       try {
-        const attachmentResult = await xhr('POST', `/app/content/${contentId}/attachment`, attachmentBody);
+        const attachmentResult = await xhr(
+          'POST',
+          `/app/content/${contentId}/attachment`,
+          attachmentBody,
+        );
 
         const parsedResult = JSON.parse(attachmentResult);
-        body.questions.push({ question: attachmentQuestion, attachmentId: parsedResult.attachmentId });
+        body.questions.push({
+          question: attachmentQuestion,
+          attachmentId: parsedResult.attachmentId,
+        });
 
         try {
           const updateResult = await put(`/content/${contentId}`, body);
@@ -67,7 +73,11 @@ export function getActivities(activityIndex, answers) {
 
   if (mainIndex !== null) {
     const main = activities[mainIndex].get('key');
-    const sub = activities[mainIndex].getIn(['subActivities', subIndex, 'name']);
+    const sub = activities[mainIndex].getIn([
+      'subActivities',
+      subIndex,
+      'name',
+    ]);
     const like = answers.getIn(['activities', curr, 'thumb']);
 
     if (main) {

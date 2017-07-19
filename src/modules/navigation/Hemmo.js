@@ -45,10 +45,22 @@ const reactMixin = require('react-mixin');
 let audiotrack;
 
 const mapStateToProps = state => ({
-  maIndex: state.getIn(['user', 'currentUser', 'answers', 'activities',
-    state.getIn(['user', 'currentUser', 'activityIndex']), 'main']),
-  saIndex: state.getIn(['user', 'currentUser', 'answers', 'activities',
-    state.getIn(['user', 'currentUser', 'activityIndex']), 'sub']),
+  maIndex: state.getIn([
+    'user',
+    'currentUser',
+    'answers',
+    'activities',
+    state.getIn(['user', 'currentUser', 'activityIndex']),
+    'main',
+  ]),
+  saIndex: state.getIn([
+    'user',
+    'currentUser',
+    'answers',
+    'activities',
+    state.getIn(['user', 'currentUser', 'activityIndex']),
+    'sub',
+  ]),
   audioMuted: state.getIn(['user', 'currentUser', 'audioMuted']),
 });
 
@@ -59,7 +71,6 @@ const mapDispatchToProps = dispatch => ({
 @connect(mapStateToProps, mapDispatchToProps)
 @reactMixin.decorate(TimerMixin)
 export default class Hemmo extends Component {
-
   static propTypes = {
     navigation: PropTypes.object.isRequired,
     maIndex: PropTypes.number,
@@ -86,7 +97,9 @@ export default class Hemmo extends Component {
   };
 
   getBubbleText = () => {
-    const text = this.props.navigation.state.routes[this.props.navigation.state.index].routeName;
+    const text = this.props.navigation.state.routes[
+      this.props.navigation.state.index
+    ].routeName;
 
     // Text of the speech bubble is related to selected main activity.
     // maIndex is the index of the selected main activity.
@@ -94,8 +107,10 @@ export default class Hemmo extends Component {
       // Text of the speech bubble is related to selected sub activity.
       // saIndex is the index of the selected sub activity.
       if (this.props.saIndex || this.props.saIndex === 0) {
-        audiotrack = phrases[text][this.props.maIndex].subTexts[this.props.saIndex].audio;
-        return phrases[text][this.props.maIndex].subTexts[this.props.saIndex].subText;
+        audiotrack =
+          phrases[text][this.props.maIndex].subTexts[this.props.saIndex].audio;
+        return phrases[text][this.props.maIndex].subTexts[this.props.saIndex]
+          .subText;
       }
 
       audiotrack = phrases[text][this.props.maIndex].audio;
@@ -114,48 +129,55 @@ export default class Hemmo extends Component {
     this.setState({ showBubble: !this.state.showBubble });
   };
 
-  handleAppStateChange = (currentAppState) => {
+  handleAppStateChange = currentAppState => {
     this.setState({ currentAppState });
   };
 
-  renderMuteButton = () => (
+  renderMuteButton = () =>
     <TouchableOpacity onPress={this.props.muteAudio}>
       <Text>Hiljennä</Text>
-    </TouchableOpacity>
-    );
+    </TouchableOpacity>;
 
-  renderBubble = () => this.state.currentAppState === 'active' && this.state.showBubble ? (
-    <Modal
-      animationType={'fade'}
-      transparent
-      visible={this.state.showBubble && this.state.currentAppState === 'active'}
-      onRequestClose={() => console.log(' ')}
-      supportedOrientations={['portrait', 'landscape']}
-    >
-      <TouchableOpacity onPress={this.toggleBubble}>
-        <Image
-          source={getImage('puhekupla_oikea')}
-          style={[styles.bubbleImage, getSizeByHeight('puhekupla_oikea', 0.5)]}
+  renderBubble = () =>
+    this.state.currentAppState === 'active' && this.state.showBubble
+      ? <Modal
+          animationType={'fade'}
+          transparent
+          visible={
+            this.state.showBubble && this.state.currentAppState === 'active'
+          }
+          onRequestClose={() => console.log(' ')}
+          supportedOrientations={['portrait', 'landscape']}
         >
-          <Text style={styles.text}>
-            {this.getBubbleText()}
-          </Text>
-          {this.renderMuteButton()}
-        </Image>
-        {this.props.audioMuted ? null : <AudioPlayerViewContainer onEnd={this.onEnd} audioTrack={audiotrack} />}
-      </TouchableOpacity>
-    </Modal>
-    ) : null;
+          <TouchableOpacity onPress={this.toggleBubble}>
+            <Image
+              source={getImage('puhekupla_oikea')}
+              style={[
+                styles.bubbleImage,
+                getSizeByHeight('puhekupla_oikea', 0.5),
+              ]}
+            >
+              <Text style={styles.text}>
+                {this.getBubbleText()}
+              </Text>
+              {this.renderMuteButton()}
+            </Image>
+            {this.props.audioMuted
+              ? null
+              : <AudioPlayerViewContainer
+                  onEnd={this.onEnd}
+                  audioTrack={audiotrack}
+                />}
+          </TouchableOpacity>
+        </Modal>
+      : null;
 
   render() {
     return (
       <TouchableOpacity style={styles.container}>
         {this.renderBubble()}
         <TouchableOpacity onPress={this.toggleBubble}>
-          <Image
-            source={require('./hemmo.png')}
-            style={styles.image}
-          />
+          <Image source={require('./hemmo.png')} style={styles.image} />
         </TouchableOpacity>
       </TouchableOpacity>
     );

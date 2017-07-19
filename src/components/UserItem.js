@@ -4,15 +4,14 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { View, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import {
-  View,
-  Image,
-  TouchableOpacity,
-  StyleSheet,
-} from 'react-native';
-import { getSizeByWidth, getSizeByHeight, getImage } from '../services/graphics';
+  getSizeByWidth,
+  getSizeByHeight,
+  getImage,
+} from '../services/graphics';
 
-const frameSize = getSizeByWidth('kehys_iso', 0.20);
+const frameSize = getSizeByWidth('kehys_iso', 0.2);
 const iconSize = getSizeByWidth('kehys_iso', 0.17).width;
 
 const styles = StyleSheet.create({
@@ -47,7 +46,6 @@ const styles = StyleSheet.create({
 });
 
 export default class UserItem extends Component {
-
   static propTypes = {
     name: PropTypes.object.isRequired,
     index: PropTypes.number.isRequired,
@@ -59,27 +57,24 @@ export default class UserItem extends Component {
     iconHeight: PropTypes.number,
   };
 
-  startJourney = (id) => {
+  startJourney = id => {
     this.props.startJourney(id);
   };
 
-  renderDefaultIconImage = () => (
-    <Image
-      style={styles.icon}
-      source={getImage('default_image')}
-    />
-    );
+  renderDefaultIconImage = () =>
+    <Image style={styles.icon} source={getImage('default_image')} />;
 
-  renderIconImage = () => (
-    <TouchableOpacity
-      onPress={() => this.startJourney(this.props.index)}
-    >
+  renderIconImage = () =>
+    <TouchableOpacity onPress={() => this.startJourney(this.props.index)}>
       <Image
         style={styles.icon}
-        source={this.props.image ? { uri: this.props.image } : getImage('default_image')}
+        source={
+          this.props.image
+            ? { uri: this.props.image }
+            : getImage('default_image')
+        }
       />
-    </TouchableOpacity>
-    );
+    </TouchableOpacity>;
 
   render() {
     if (this.props.isColumn) {
@@ -91,11 +86,24 @@ export default class UserItem extends Component {
         >
           <Image
             source={getImage('kehys_palkki')}
-            style={[styles.rowWithSmallImage, getSizeByHeight('kehys_palkki', this.props.rowHeight)]}
+            style={[
+              styles.rowWithSmallImage,
+              getSizeByHeight('kehys_palkki', this.props.rowHeight),
+            ]}
           >
             <Image
-              style={[styles.smallIcon, { height: this.props.iconHeight - 20, width: this.props.iconHeight - 20 }]}
-              source={this.props.image ? { uri: this.props.image } : getImage('default_image')}
+              style={[
+                styles.smallIcon,
+                {
+                  height: this.props.iconHeight - 20,
+                  width: this.props.iconHeight - 20,
+                },
+              ]}
+              source={
+                this.props.image
+                  ? { uri: this.props.image }
+                  : getImage('default_image')
+              }
             />
             {this.props.name}
           </Image>
@@ -109,7 +117,9 @@ export default class UserItem extends Component {
         key={this.props.index}
         style={styles.userRow}
       >
-        {this.props.empty ? this.renderDefaultIconImage() : this.renderIconImage()}
+        {this.props.empty
+          ? this.renderDefaultIconImage()
+          : this.renderIconImage()}
         <View style={styles.name}>
           {this.props.name}
         </View>

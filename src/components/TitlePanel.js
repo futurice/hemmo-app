@@ -6,13 +6,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { List } from 'immutable';
 import { getSizeByHeight, getImage } from '../services/graphics';
-import {
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-  StyleSheet,
-} from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 
 const activities = require('../data/activities.js');
 
@@ -43,33 +37,37 @@ const styles = StyleSheet.create({
 });
 
 export default class TitlePanel extends Component {
-
   static propTypes = {
     savedActivities: PropTypes.instanceOf(List),
     activityIndex: PropTypes.number.isRequired,
     popRoute: PropTypes.func.isRequired,
   };
 
-  renderBackButton = () => (
+  renderBackButton = () =>
     <TouchableOpacity onPress={this.props.popRoute}>
       <Image
         source={getImage('nappula_takaisin')}
         style={[styles.backButton, getSizeByHeight('nappula_takaisin', 0.15)]}
       />
-    </TouchableOpacity>
-    );
+    </TouchableOpacity>;
 
-  renderMainTitle = mainIndex => (
-    <Text style={styles.mainTitle}>{activities[mainIndex].get('key')}</Text>
-    );
+  renderMainTitle = mainIndex =>
+    <Text style={styles.mainTitle}>
+      {activities[mainIndex].get('key')}
+    </Text>;
 
-  renderSubTitle = (mainIndex, subIndex) => (
-    <Text style={styles.subtitle}>{activities[mainIndex].get('subActivities').get(subIndex).get('name')}</Text>
-    );
+  renderSubTitle = (mainIndex, subIndex) =>
+    <Text style={styles.subtitle}>
+      {activities[mainIndex].get('subActivities').get(subIndex).get('name')}
+    </Text>;
 
   render() {
-    const mainIndex = this.props.savedActivities.get(this.props.activityIndex).get('main');
-    const subIndex = this.props.savedActivities.get(this.props.activityIndex).get('sub');
+    const mainIndex = this.props.savedActivities
+      .get(this.props.activityIndex)
+      .get('main');
+    const subIndex = this.props.savedActivities
+      .get(this.props.activityIndex)
+      .get('sub');
 
     return (
       <View style={styles.titleRow}>
@@ -77,7 +75,9 @@ export default class TitlePanel extends Component {
 
         <View style={styles.titles}>
           {mainIndex !== null ? this.renderMainTitle(mainIndex) : null}
-          {mainIndex !== null && subIndex !== null ? this.renderSubTitle(mainIndex, subIndex) : null}
+          {mainIndex !== null && subIndex !== null
+            ? this.renderSubTitle(mainIndex, subIndex)
+            : null}
         </View>
       </View>
     );

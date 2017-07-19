@@ -15,9 +15,7 @@ import {
 } from 'react-native';
 import ProgressBar from 'react-native-progress/Bar';
 import TimerMixin from 'react-timer-mixin';
-import {
-  Recorder,
-} from 'react-native-audio-toolkit';
+import { Recorder } from 'react-native-audio-toolkit';
 import { getSizeByHeight, getImage } from '../services/graphics';
 
 const Permissions = require('react-native-permissions');
@@ -52,7 +50,6 @@ const filename = 'test.mp4';
 
 @reactMixin.decorate(TimerMixin)
 export default class AudioRecorder extends Component {
-
   static propTypes = {
     save: PropTypes.func.isRequired,
     toggleWritingButton: PropTypes.func,
@@ -115,7 +112,8 @@ export default class AudioRecorder extends Component {
 
   _updateState = () => {
     this.setState({
-      recordButton: this.recorder && this.recorder.isRecording ? 'Stop' : 'Record',
+      recordButton:
+        this.recorder && this.recorder.isRecording ? 'Stop' : 'Record',
       recording: !!(this.recorder && this.recorder.isRecording),
       recordButtonDisabled: !this.recorder,
     });
@@ -182,9 +180,13 @@ export default class AudioRecorder extends Component {
         'Saammeko käyttää laitteesi mikrofonia?',
         'Tarvitsemme oikeuden mikrofoniin, jotta äänen nauhoittaminen onnistuu.',
         [
-          { text: 'Estä', onPress: () => console.log('permission denied'), style: 'cancel' },
-          permission === 'undetermined' || Platform.OS === 'android' ?
-            { text: 'Salli', onPress: this.showRequestAlert }
+          {
+            text: 'Estä',
+            onPress: () => console.log('permission denied'),
+            style: 'cancel',
+          },
+          permission === 'undetermined' || Platform.OS === 'android'
+            ? { text: 'Salli', onPress: this.showRequestAlert }
             : { text: 'Avaa asetukset', onPress: Permissions.openSettings },
         ],
       );
@@ -194,25 +196,33 @@ export default class AudioRecorder extends Component {
     this._toggleRecord();
   };
 
-  renderStartRecordButton = () => (
+  renderStartRecordButton = () =>
     <TouchableOpacity
       onPress={this.handleStartRecordClick}
-      style={{flexDirection: 'row', alignItems: 'center'}}
+      style={{ flexDirection: 'row', alignItems: 'center' }}
     >
-      <Image source={getImage('nappula_rec')} style={getSizeByHeight('nappula_rec', 0.35)} />
-      <Text style={{textAlign: 'center', fontSize: 30, padding: 20}}>Nauhoita</Text>
-    </TouchableOpacity>
-    );
+      <Image
+        source={getImage('nappula_rec')}
+        style={getSizeByHeight('nappula_rec', 0.35)}
+      />
+      <Text style={{ textAlign: 'center', fontSize: 30, padding: 20 }}>
+        Nauhoita
+      </Text>
+    </TouchableOpacity>;
 
-  renderStopRecordButton = () => (
+  renderStopRecordButton = () =>
     <TouchableOpacity
       onPress={this._toggleRecord}
-      style={{flexDirection: 'row', alignItems: 'center'}}
+      style={{ flexDirection: 'row', alignItems: 'center' }}
     >
-      <Image source={getImage('nappula_stop')} style={getSizeByHeight('nappula_stop', 0.35)} />
-      <Text style={{textAlign: 'center', fontSize: 30, padding: 20}}>Pysäytä</Text>
-    </TouchableOpacity>
-    );
+      <Image
+        source={getImage('nappula_stop')}
+        style={getSizeByHeight('nappula_stop', 0.35)}
+      />
+      <Text style={{ textAlign: 'center', fontSize: 30, padding: 20 }}>
+        Pysäytä
+      </Text>
+    </TouchableOpacity>;
 
   renderRecordButton = () => {
     if (this.state.recordButton === 'Record') {

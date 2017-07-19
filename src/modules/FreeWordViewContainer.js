@@ -44,13 +44,14 @@ const mapDispatchToProps = dispatch => ({
 
 @connect(mapStateToProps, mapDispatchToProps)
 export default class FreeWordViewContainer extends Component {
-
   static navigationOptions = {
     title: 'Kerro vapaasti',
-    tabBarIcon: <Image
-      source={require('./icon_tellfreely.png')}
-      style={{ width: 64, height: 64 }}
-    />,
+    tabBarIcon: (
+      <Image
+        source={require('./icon_tellfreely.png')}
+        style={{ width: 64, height: 64 }}
+      />
+    ),
   };
 
   static propTypes = {
@@ -68,7 +69,7 @@ export default class FreeWordViewContainer extends Component {
     showSpinner: false,
   };
 
-  setText = (text) => {
+  setText = text => {
     this.setState({ text });
   };
 
@@ -82,8 +83,11 @@ export default class FreeWordViewContainer extends Component {
 
   error = () => {
     this.setState({ showSpinner: false });
-    Alert.alert('Ohops!', 'Jokin meni pieleen! Tarkista nettiyhteys tai yritä myöhemmin uudelleen!',
-      [{ text: 'Ok' }]);
+    Alert.alert(
+      'Ohops!',
+      'Jokin meni pieleen! Tarkista nettiyhteys tai yritä myöhemmin uudelleen!',
+      [{ text: 'Ok' }],
+    );
   };
 
   save = async (attachmentType, attachmentPath) => {
@@ -126,7 +130,7 @@ export default class FreeWordViewContainer extends Component {
     }
   };
 
-  toggleWritingButton = (value) => {
+  toggleWritingButton = value => {
     this.setState({ disableWriting: value });
   };
 
@@ -134,34 +138,33 @@ export default class FreeWordViewContainer extends Component {
     this.setState({ text: '', showTextForm: !this.state.showTextForm });
   };
 
-  renderTextForm = () => this.state.showTextForm ? (
-    <TextForm
-      toggleWriting={this.toggleWriting}
-      save={this.save}
-      setText={this.setText}
-    />
-    ) : null;
+  renderTextForm = () =>
+    this.state.showTextForm
+      ? <TextForm
+          toggleWriting={this.toggleWriting}
+          save={this.save}
+          setText={this.setText}
+        />
+      : null;
 
-  renderSaveConfirmationWindow = () => this.state.showMessage ? (
-    <SaveConfirmationWindow
-      closeWindow={this.closeConfirmationMessage}
-    />
-    ) : null;
+  renderSaveConfirmationWindow = () =>
+    this.state.showMessage
+      ? <SaveConfirmationWindow closeWindow={this.closeConfirmationMessage} />
+      : null;
 
-  renderAudioRecorder = () => (
+  renderAudioRecorder = () =>
     <View style={styles.audioRecorder}>
       <AudioRecorder
         save={this.save}
         toggleWritingButton={this.toggleWritingButton}
       />
-    </View>
-  );
+    </View>;
 
-  renderWriteButton = () => (
+  renderWriteButton = () =>
     <TouchableOpacity
       disabled={this.state.disableWriting}
       onPress={this.toggleWriting}
-      style={{flexDirection: 'row', alignItems: 'center'}}
+      style={{ flexDirection: 'row', alignItems: 'center' }}
     >
       <Image
         source={require('./write.png')}
@@ -172,15 +175,14 @@ export default class FreeWordViewContainer extends Component {
           //backgroundColor: this.state.disableWriting ? 'gray' : 'white',
         }}
       />
-      <Text style={{textAlign: 'center', fontSize: 30, padding: 20}}>Kirjoita</Text>
-    </TouchableOpacity>
-    );
+      <Text style={{ textAlign: 'center', fontSize: 30, padding: 20 }}>
+        Kirjoita
+      </Text>
+    </TouchableOpacity>;
 
   render() {
     if (this.state.showSpinner) {
-      return (
-        <LoadingSpinner />
-      );
+      return <LoadingSpinner />;
     }
 
     return (
@@ -189,11 +191,11 @@ export default class FreeWordViewContainer extends Component {
         {this.renderWriteButton()}
         {this.renderTextForm()}
         {/*{this.renderSaveConfirmationWindow()}*/}
-        <TouchableOpacity
-          onPress={this.props.back}
-          style={{ paddingTop: 20 }}
-        >
-          <Image source={require('./done.png')} style={{width: 120, height: 60}}/>
+        <TouchableOpacity onPress={this.props.back} style={{ paddingTop: 20 }}>
+          <Image
+            source={require('./done.png')}
+            style={{ width: 120, height: 60 }}
+          />
         </TouchableOpacity>
       </View>
     );

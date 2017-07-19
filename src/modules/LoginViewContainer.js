@@ -20,7 +20,8 @@ import { connect } from 'react-redux';
 import { post } from '../utils/api';
 import { setAuthenticationToken } from '../utils/authentication';
 
-const privacyPolicyURL = 'https://spiceprogram.org/assets/docs/privacy-policy-hemmo.txt';
+const privacyPolicyURL =
+  'https://spiceprogram.org/assets/docs/privacy-policy-hemmo.txt';
 
 const styles = StyleSheet.create({
   container: {
@@ -86,18 +87,20 @@ const styles = StyleSheet.create({
 
 const mapDispatchToProps = dispatch => ({
   onClose: () => dispatch(NavigationActions.back()),
-  onSuccess: () => dispatch(NavigationActions.reset({
-    index: 1,
-    actions: [
-      NavigationActions.navigate({ routeName: 'Home' }),
-      NavigationActions.navigate({ routeName: 'Settings' }),
-    ],
-  })),
+  onSuccess: () =>
+    dispatch(
+      NavigationActions.reset({
+        index: 1,
+        actions: [
+          NavigationActions.navigate({ routeName: 'Home' }),
+          NavigationActions.navigate({ routeName: 'Settings' }),
+        ],
+      }),
+    ),
 });
 
 @connect(undefined, mapDispatchToProps)
 export default class LoginModal extends Component {
-
   static propTypes = {
     onClose: PropTypes.func.isRequired,
     onSuccess: PropTypes.func.isRequired,
@@ -111,7 +114,9 @@ export default class LoginModal extends Component {
   };
 
   openPrivacyPolicy = () => {
-    Linking.openURL(privacyPolicyURL).catch(err => console.error('An error occurred', err));
+    Linking.openURL(privacyPolicyURL).catch(err =>
+      console.error('An error occurred', err),
+    );
   };
 
   verifyPassword = () => {
@@ -128,60 +133,50 @@ export default class LoginModal extends Component {
       email: this.state.email,
       password: this.state.password,
     })
-    .then(
-      (result) => {
+      .then(result => {
         this.setState({
           loading: false,
           message: '',
         });
-        setAuthenticationToken(result.token)
-        .then(() => {
+        setAuthenticationToken(result.token).then(() => {
           this.props.onSuccess();
         });
-      },
-    )
-    .catch((error) => {
-      console.log(`error ${error}`);
-      this.setState({
-        loading: false,
-        message: 'Virhe sisäänkirjautumisessa, tarkista salasana ja internetyhteys',
+      })
+      .catch(error => {
+        console.log(`error ${error}`);
+        this.setState({
+          loading: false,
+          message:
+            'Virhe sisäänkirjautumisessa, tarkista salasana ja internetyhteys',
+        });
       });
-    });
   };
 
-  renderEmailFieldTitle = () => (
-    <Text style={styles.text}>
-      Syötä sähköpostiosoite
-    </Text>
-  );
+  renderEmailFieldTitle = () =>
+    <Text style={styles.text}>Syötä sähköpostiosoite</Text>;
 
-  renderEmailField = () => (
+  renderEmailField = () =>
     <TextInput
       style={styles.email}
       keyboardType={'email-address'}
       onChangeText={email => this.setState({ email: email.toLowerCase() })}
       value={this.state.email}
       secureTextEntry={false}
-    />
-  );
+    />;
 
-  renderPasswordFieldTitle = () => (
-    <Text style={styles.text}>
-      Syötä salasana
-    </Text>
-  );
+  renderPasswordFieldTitle = () =>
+    <Text style={styles.text}>Syötä salasana</Text>;
 
-  renderPasswordField = () => (
+  renderPasswordField = () =>
     <TextInput
       style={styles.password}
       keyboardType={'default'}
       onChangeText={password => this.setState({ password })}
       value={this.state.password}
       secureTextEntry
-    />
-  );
+    />;
 
-  renderLoginButton = () => (
+  renderLoginButton = () =>
     <View style={styles.buttonContainer}>
       <Button
         color={'rgb(127, 192, 194)'}
@@ -189,16 +184,14 @@ export default class LoginModal extends Component {
         onPress={this.verifyPassword}
         disabled={this.state.loading}
       />
-    </View>
-  );
+    </View>;
 
-  renderMessage = () => (
+  renderMessage = () =>
     <Text style={styles.message}>
       {this.state.message}
-    </Text>
-  );
+    </Text>;
 
-  renderCancelButton = () => (
+  renderCancelButton = () =>
     <View style={styles.buttonContainer}>
       <Button
         color={'rgb(64, 127, 127)'}
@@ -206,17 +199,12 @@ export default class LoginModal extends Component {
         onPress={this.props.onClose}
         disabled={this.state.loading}
       />
-    </View>
-  );
+    </View>;
 
-  renderPrivacyPolicyLink = () => (
-    <Text
-      style={styles.privpolicy}
-      onPress={this.openPrivacyPolicy}
-    >
+  renderPrivacyPolicyLink = () =>
+    <Text style={styles.privpolicy} onPress={this.openPrivacyPolicy}>
       Tietosuojakäytäntö
-    </Text>
-  );
+    </Text>;
 
   render() {
     return (

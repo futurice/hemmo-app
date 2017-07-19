@@ -2,15 +2,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Set } from 'immutable';
-import {
-  TouchableOpacity,
-  Image,
-  View,
-  StyleSheet,
-} from 'react-native';
+import { TouchableOpacity, Image, View, StyleSheet } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { addMood, deleteMood } from '../state/UserState';
-import { getSizeByHeight, getSizeByWidth, getImage } from '../services/graphics';
+import {
+  getSizeByHeight,
+  getSizeByWidth,
+  getImage,
+} from '../services/graphics';
 
 const moods = require('../data/moods.js');
 
@@ -48,13 +47,14 @@ const mapDispatchToProps = dispatch => ({
 
 @connect(mapStateToProps, mapDispatchToProps)
 export default class MoodViewContainer extends Component {
-
   static navigationOptions = {
     title: 'Tunteet',
-    tabBarIcon: <Image
-      source={require('./icon_moods.png')}
-      style={{ width: 64, height: 64 }}
-    />,
+    tabBarIcon: (
+      <Image
+        source={require('./icon_moods.png')}
+        style={{ width: 64, height: 64 }}
+      />
+    ),
   };
 
   static propTypes = {
@@ -63,31 +63,30 @@ export default class MoodViewContainer extends Component {
     selectedMoods: PropTypes.instanceOf(Set).isRequired,
   };
 
-  addMood = async (mood) => {
-    await this.props.selectedMoods.includes(mood) ? this.props.deleteMood(mood) : this.props.addMood(mood);
+  addMood = async mood => {
+    (await this.props.selectedMoods.includes(mood))
+      ? this.props.deleteMood(mood)
+      : this.props.addMood(mood);
   };
 
-  renderMood = (mood, key) => (
+  renderMood = (mood, key) =>
     <TouchableOpacity
       key={key}
       style={styles.mood}
       onPress={() => this.addMood(mood)}
     >
-      <Image
-        source={getImage(mood)}
-        style={getSizeByWidth(mood, 0.20)}
-      >
-        {this.props.selectedMoods.includes(mood) ? this.renderCheckmark() : null}
+      <Image source={getImage(mood)} style={getSizeByWidth(mood, 0.2)}>
+        {this.props.selectedMoods.includes(mood)
+          ? this.renderCheckmark()
+          : null}
       </Image>
-    </TouchableOpacity>
-    );
+    </TouchableOpacity>;
 
-  renderCheckmark = () => (
+  renderCheckmark = () =>
     <Image
       source={getImage('valittu')}
       style={[styles.check, getSizeByHeight('valittu', 0.1)]}
-    />
-    );
+    />;
 
   renderMoods = () => moods.map((mood, key) => this.renderMood(mood, key));
 
@@ -95,10 +94,11 @@ export default class MoodViewContainer extends Component {
     return (
       <View style={styles.container}>
         {this.renderMoods()}
-        <TouchableOpacity
-          onPress={this.props.back}
-        >
-          <Image source={require('./done.png')} style={{width: 120, height: 60}}/>
+        <TouchableOpacity onPress={this.props.back}>
+          <Image
+            source={require('./done.png')}
+            style={{ width: 120, height: 60 }}
+          />
         </TouchableOpacity>
       </View>
     );

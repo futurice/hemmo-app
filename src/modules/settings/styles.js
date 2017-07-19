@@ -1,7 +1,4 @@
-import {
-  StyleSheet,
-  Platform,
-} from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 import { getSizeByWidth } from '../../services/graphics';
 
 const iconSize = getSizeByWidth('nelio', 0.22).width;

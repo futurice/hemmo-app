@@ -5,11 +5,7 @@ or audio has been successfully recorded and saved,
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  View,
-  StyleSheet,
-  TouchableWithoutFeedback,
-} from 'react-native';
+import { View, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -29,7 +25,6 @@ const styles = StyleSheet.create({
 });
 
 export default class SaveConfirmationWindow extends Component {
-
   static propTypes = {
     closeWindow: PropTypes.func.isRequired,
   };

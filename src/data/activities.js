@@ -16,7 +16,9 @@ const activities = [
       Map({ id: 2, key: 'kotihommia', name: 'Kotihommia' }),
       Map({ id: 3, key: 'lukeminen', name: 'Lukeminen' }),
       Map({ id: 4, key: 'rakentaminen', name: 'Rakentaminen' }),
-      Map({ id: 5, key: 'puuhasimme_muuta', name: 'Muuta' })]) }),
+      Map({ id: 5, key: 'puuhasimme_muuta', name: 'Muuta' }),
+    ]),
+  }),
   Map({
     id: 1,
     key: 'Ulkoilimme, retkeilimme',
@@ -29,7 +31,9 @@ const activities = [
       Map({ id: 4, key: 'leikkipuisto', name: 'Leikkipuisto' }),
       Map({ id: 5, key: 'kalastaminen', name: 'Kalastaminen' }),
       Map({ id: 6, key: 'mokkeily', name: 'Mökkeily' }),
-      Map({ id: 7, key: 'ulkoilimme_muuta', name: 'Muuta' })]) }),
+      Map({ id: 7, key: 'ulkoilimme_muuta', name: 'Muuta' }),
+    ]),
+  }),
   Map({
     id: 2,
     key: 'Leikimme, pelasimme',
@@ -40,7 +44,9 @@ const activities = [
       Map({ id: 2, key: 'videopelit', name: 'Videopelit' }),
       Map({ id: 3, key: 'liikunta', name: 'Liikunta' }),
       Map({ id: 4, key: 'uiminen', name: 'Uiminen' }),
-      Map({ id: 5, key: 'leikimme_muuta', name: 'Muuta' })]) }),
+      Map({ id: 5, key: 'leikimme_muuta', name: 'Muuta' }),
+    ]),
+  }),
   Map({
     id: 3,
     key: 'Vietimme aikaa yhdessä',
@@ -51,7 +57,9 @@ const activities = [
       Map({ id: 2, key: 'kylaily', name: 'Kyläily' }),
       Map({ id: 3, key: 'elokuva', name: 'Elokuvien katselu' }),
       Map({ id: 4, key: 'kirjat', name: 'Kirjat' }),
-      Map({ id: 5, key: 'vietimme_muuta', name: 'Muuta' })]) }),
+      Map({ id: 5, key: 'vietimme_muuta', name: 'Muuta' }),
+    ]),
+  }),
   Map({
     id: 4,
     key: 'Lemmikit, kotieläimet',
@@ -60,8 +68,10 @@ const activities = [
       Map({ id: 0, key: 'koira', name: 'Koira' }),
       Map({ id: 1, key: 'kissa', name: 'Kissa' }),
       Map({ id: 2, key: 'hevonen', name: 'Hevonen' }),
-      Map({ id: 3, key: 'elaimet_muuta', name: 'Muut eläimet' })]) }),
-      /*
+      Map({ id: 3, key: 'elaimet_muuta', name: 'Muut eläimet' }),
+    ]),
+  }),
+  /*
   Map({
     id: 5,
     key: 'Muuta',

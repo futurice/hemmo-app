@@ -18,17 +18,19 @@ const HomeNavigator = StackNavigator(
     Home: { screen: HomeViewContainer },
     Login: { screen: LoginViewContainer },
     Settings: { screen: SettingsViewContainer },
-  }, {
+  },
+  {
     headerMode: 'none',
     initialRouteName: 'Home',
     transitionConfig: () => ({
-      screenInterpolator: (sceneProps) => {
+      screenInterpolator: sceneProps => {
         // Disable the transition animation when resetting to the home screen
         if (
           sceneProps.index === 0 &&
           sceneProps.scene.route.routeName !== 'Home' &&
           sceneProps.scenes.length > 2
-        ) return null;
+        )
+          return null;
 
         // Otherwise, use the usual horizontal animation
         return CardStackStyleInterpolator.forHorizontal(sceneProps);
@@ -91,27 +93,24 @@ const FeedbackNavigator = StackNavigator(
     Mood: { screen: MoodViewContainer },
     FreeWord: { screen: FreeWordViewContainer },
     Ending: { screen: EndingViewContainer },
-  }, {
+  },
+  {
     initialRouteName: 'FeedbackMenu',
     swipeEnabled: true,
     headerMode: 'none',
   },
 );
 
-const FeedbackNavigatorWithHeader = StackNavigator(
-  {
-    FeedbackWithHeader: {
-      screen: FeedbackNavigator,
-      navigationOptions: ({ navigation }) => (
-        {
-          headerLeft: navigation.state.index !== 0 ? <BackButton /> : null,
-          headerRight: <Hemmo navigation={navigation} />,
-          headerStyle: { backgroundColor: '#FFFFFF' },
-        }
-      ),
-    },
+const FeedbackNavigatorWithHeader = StackNavigator({
+  FeedbackWithHeader: {
+    screen: FeedbackNavigator,
+    navigationOptions: ({ navigation }) => ({
+      headerLeft: navigation.state.index !== 0 ? <BackButton /> : null,
+      headerRight: <Hemmo navigation={navigation} />,
+      headerStyle: { backgroundColor: '#FFFFFF' },
+    }),
   },
-);
+});
 
 const AppNavigator = StackNavigator(
   {
@@ -119,7 +118,8 @@ const AppNavigator = StackNavigator(
     Feedback: {
       screen: FeedbackNavigatorWithHeader,
     },
-  }, { headerMode: 'none', initialRouteName: 'Home' },
+  },
+  { headerMode: 'none', initialRouteName: 'Home' },
 );
 
 export default AppNavigator;

@@ -48,13 +48,16 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => ({
   users: state.getIn(['user', 'users']),
   currentUser: state.getIn(['user', 'currentUser']),
-  activitiesSize: state.getIn(['user', 'currentUser', 'answers', 'activities']).size,
+  activitiesSize: state.getIn(['user', 'currentUser', 'answers', 'activities'])
+    .size,
   moodsSize: state.getIn(['user', 'currentUser', 'answers', 'moods']).size,
-  freeWordSize: state.getIn(['user', 'currentUser', 'answers', 'freeWord']).size,
+  freeWordSize: state.getIn(['user', 'currentUser', 'answers', 'freeWord'])
+    .size,
 });
 
 const mapDispatchToProps = dispatch => ({
-  pushRoute: route => dispatch(NavigationActions.navigate({ routeName: route })),
+  pushRoute: route =>
+    dispatch(NavigationActions.navigate({ routeName: route })),
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -63,7 +66,7 @@ export default class HomeViewContainer extends Component {
     title: 'Valikko',
   };
 
-  renderButton = (title, image, onPress, done) => (
+  renderButton = (title, image, onPress, done) =>
     <TouchableOpacity
       activeOpacity={0.5}
       underlayColor="rgba(128, 128, 128, 0.5)"
@@ -78,22 +81,27 @@ export default class HomeViewContainer extends Component {
       title={title}
     >
       <View style={{ padding: 10, flexDirection: 'row' }}>
-        <Image
-          source={image}
-          style={{ width: 64, height: 64 }}
-        />
-        <Text style={{ fontSize: 24, textAlign: 'center', paddingLeft: 20, paddingTop: 16 }}>
-          { title }
+        <Image source={image} style={{ width: 64, height: 64 }} />
+        <Text
+          style={{
+            fontSize: 24,
+            textAlign: 'center',
+            paddingLeft: 20,
+            paddingTop: 16,
+          }}
+        >
+          {title}
         </Text>
-        <View style={{flex: 1, alignItems: 'flex-end'}}>
-          { done
-            ? <Image source={require('./checkmark.png')} style={{ width: 48, height: 48, marginTop: 8 }} />
-            : null
-          }
+        <View style={{ flex: 1, alignItems: 'flex-end' }}>
+          {done
+            ? <Image
+                source={require('./checkmark.png')}
+                style={{ width: 48, height: 48, marginTop: 8 }}
+              />
+            : null}
         </View>
       </View>
-    </TouchableOpacity>
-  );
+    </TouchableOpacity>;
 
   render() {
     const users = this.props.users;
@@ -102,46 +110,36 @@ export default class HomeViewContainer extends Component {
       <Image source={getImage('tausta_perus3')} style={styles.container}>
         <View style={{ flex: 1 }}>
           <View style={{ height: 100 }}>
-            {
-              this.renderButton(
-                'Tekeminen',
-                require('../icon_activities.png'),
-                () => this.props.pushRoute('Activity'),
-                this.props.activitiesSize,
-              )
-            }
+            {this.renderButton(
+              'Tekeminen',
+              require('../icon_activities.png'),
+              () => this.props.pushRoute('Activity'),
+              this.props.activitiesSize,
+            )}
           </View>
 
           <View style={{ height: 100 }}>
-            {
-              this.renderButton(
-                'Tunteet',
-                require('../icon_moods.png'),
-                () => this.props.pushRoute('Mood'),
-                this.props.moodsSize,
-              )
-            }
+            {this.renderButton(
+              'Tunteet',
+              require('../icon_moods.png'),
+              () => this.props.pushRoute('Mood'),
+              this.props.moodsSize,
+            )}
           </View>
 
           <View style={{ height: 100 }}>
-            {
-              this.renderButton(
-                'Kerro vapaasti',
-                require('../icon_tellfreely.png'),
-                () => this.props.pushRoute('FreeWord'),
-                this.props.freeWordSize,
-              )
-            }
+            {this.renderButton(
+              'Kerro vapaasti',
+              require('../icon_tellfreely.png'),
+              () => this.props.pushRoute('FreeWord'),
+              this.props.freeWordSize,
+            )}
           </View>
 
           <View style={{ height: 100 }}>
-            {
-              this.renderButton(
-                'Lähetä',
-                require('../icon_send.png'),
-                () => this.props.pushRoute('Ending')
-              )
-            }
+            {this.renderButton('Lähetä', require('../icon_send.png'), () =>
+              this.props.pushRoute('Ending'),
+            )}
           </View>
         </View>
       </Image>

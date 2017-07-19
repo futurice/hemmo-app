@@ -7,16 +7,18 @@ const initialAnswers = Map({
 });
 
 const initialState = Map({
-  users: true ? List([
-    Map({
-      id: 42,
-      token: 'foobar',
-      name: 'Testikäyttäjä',
-      image: null,
-      audioMuted: false,
-      answers: initialAnswers,
-    }),
-  ]) : List(),
+  users: true
+    ? List([
+        Map({
+          id: 42,
+          token: 'foobar',
+          name: 'Testikäyttäjä',
+          image: null,
+          audioMuted: false,
+          answers: initialAnswers,
+        }),
+      ])
+    : List(),
   currentUser: Map({
     id: null,
     token: '',
@@ -138,12 +140,10 @@ export function muteAudio() {
 function usersReducer(state = List(), action) {
   switch (action.type) {
     case CREATE_USER:
-      return state
-        .update(list => list.push(action.payload));
+      return state.update(list => list.push(action.payload));
 
     case EDIT_USER:
-      return state
-        .set(action.payload.id, action.payload.values);
+      return state.set(action.payload.id, action.payload.values);
 
     case REMOVE_USER:
       let tmp = state.slice();
@@ -158,40 +158,46 @@ function usersReducer(state = List(), action) {
 function currentUserReducer(state = Map(), action, wholeState) {
   switch (action.type) {
     case SET_CURRENT_USER_VALUE:
-      return state
-        .set(action.payload.destination, action.payload.value);
+      return state.set(action.payload.destination, action.payload.value);
 
     case SET_CURRENT_USER:
       return state
-      .set('name', wholeState.getIn(['users', action.payload, 'name']))
-      .set('image', wholeState.getIn(['users', action.payload, 'image']))
-      .set('token', wholeState.getIn(['users', action.payload, 'token']))
-      .set('id', action.payload);
+        .set('name', wholeState.getIn(['users', action.payload, 'name']))
+        .set('image', wholeState.getIn(['users', action.payload, 'image']))
+        .set('token', wholeState.getIn(['users', action.payload, 'token']))
+        .set('id', action.payload);
 
     case ADD_ACTIVITY:
-      return state
-        .setIn(['answers', 'activities', action.payload.main, action.payload.sub],
-          action.payload.thumb);
+      return state.setIn(
+        ['answers', 'activities', action.payload.main, action.payload.sub],
+        action.payload.thumb,
+      );
 
     case DELETE_ACTIVITY:
-      return state
-        .deleteIn(['answers', 'activities', action.payload.main, action.payload.sub]);
+      return state.deleteIn([
+        'answers',
+        'activities',
+        action.payload.main,
+        action.payload.sub,
+      ]);
 
     case ADD_MOOD:
-      return state
-      .updateIn(['answers', 'moods'], moods => moods.add(action.payload));
+      return state.updateIn(['answers', 'moods'], moods =>
+        moods.add(action.payload),
+      );
 
     case DELETE_MOOD:
-      return state
-      .updateIn(['answers', 'moods'], moods => moods.delete(action.payload));
+      return state.updateIn(['answers', 'moods'], moods =>
+        moods.delete(action.payload),
+      );
 
     case ADD_FREEWORD:
-      return state
-      .updateIn(['answers', 'freeWord'], freeword => freeword.add('entry'));
+      return state.updateIn(['answers', 'freeWord'], freeword =>
+        freeword.add('entry'),
+      );
 
     case MUTE_AUDIO:
-      return state
-      .set('audioMuted', !state.get('audioMuted'));
+      return state.set('audioMuted', !state.get('audioMuted'));
 
     default:
       return state;
@@ -205,7 +211,10 @@ export default function UserStateReducer(state = initialState, action = {}) {
 
     default:
       return state
-      .set('users', usersReducer(state.get('users'), action))
-      .set('currentUser', currentUserReducer(state.get('currentUser'), action, state));
+        .set('users', usersReducer(state.get('users'), action))
+        .set(
+          'currentUser',
+          currentUserReducer(state.get('currentUser'), action, state),
+        );
   }
 }

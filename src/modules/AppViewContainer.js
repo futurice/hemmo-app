@@ -31,12 +31,12 @@ const mapDispatchToProps = dispatch => ({
   initializeSessionState: () => dispatch(initializeSessionState()),
   activate: () => dispatch(activate()),
   deactivate: () => dispatch(deactivate()),
-  resetSessionStateFromSnapshot: snapshot => dispatch(resetSessionStateFromSnapshot(snapshot)),
+  resetSessionStateFromSnapshot: snapshot =>
+    dispatch(resetSessionStateFromSnapshot(snapshot)),
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
 export default class AppViewContainer extends Component {
-
   static propTypes = {
     isReady: PropTypes.bool.isRequired,
     initializeSessionState: PropTypes.func.isRequired,
@@ -54,15 +54,13 @@ export default class AppViewContainer extends Component {
     AppState.addEventListener('change', this._handleAppStateChange);
 
     /* Haetaan viimeisin tila */
-    snapshotUtil.resetSnapshot()
-    .then((snapshot) => {
+    snapshotUtil.resetSnapshot().then(snapshot => {
       /* Jos viimeisin tila löytyi */
       if (false && snapshot) {
         this.props.resetSessionStateFromSnapshot(snapshot);
         this.props.activate();
-      }
-      /* Ei löytynyt. Aloitetaan alusta */
-      else {
+      } else {
+        /* Ei löytynyt. Aloitetaan alusta */
         this.props.initializeSessionState();
       }
 
@@ -73,14 +71,17 @@ export default class AppViewContainer extends Component {
     });
   }
 
-  _handleAppStateChange = (appState) => {
+  _handleAppStateChange = appState => {
     const previous = this.state.currentState;
 
     this.setState({ currentState: appState, previousState: previous });
 
     if (this.state.currentState === 'active') {
       this.props.activate();
-    } else if (this.state.currentState === 'inactive' || this.state.currentState === 'background') {
+    } else if (
+      this.state.currentState === 'inactive' ||
+      this.state.currentState === 'background'
+    ) {
       this.props.deactivate();
     }
   };

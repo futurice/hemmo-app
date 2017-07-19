@@ -55,7 +55,6 @@ export function deactivate() {
 // Reducer
 export default function SessionStateReducer(state = initialState, action = {}) {
   switch (action.type) {
-
     case INITIALIZE_STATE:
     case RESET_STATE:
       return state.set('isReady', true);

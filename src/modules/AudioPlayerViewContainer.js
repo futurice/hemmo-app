@@ -9,7 +9,6 @@ const mapStateToProps = state => ({
 
 @connect(mapStateToProps)
 export default class AudioPlayerViewContainer extends Component {
-
   static propTypes = {
     audioTrack: PropTypes.string,
     onEnd: PropTypes.func.isRequired,

@@ -1,4 +1,8 @@
-import { resetCurrentUser, setCurrentUser, addActivity } from '../state/UserState';
+import {
+  resetCurrentUser,
+  setCurrentUser,
+  addActivity,
+} from '../state/UserState';
 import { startPreparing, finishPreparing } from '../state/SessionState';
 import { NavigationActions } from 'react-navigation';
 import React, { Component } from 'react';
@@ -61,12 +65,12 @@ const mapDispatchToProps = dispatch => ({
   addActivity: () => dispatch(addActivity()),
   startPreparing: () => dispatch(startPreparing()),
   finishPreparing: () => dispatch(finishPreparing()),
-  pushRoute: route => dispatch(NavigationActions.navigate({ routeName: route })),
+  pushRoute: route =>
+    dispatch(NavigationActions.navigate({ routeName: route })),
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
 export default class HomeViewContainer extends Component {
-
   static propTypes = {
     resetCurrentUser: PropTypes.func.isRequired,
     setCurrentUser: PropTypes.func.isRequired,
@@ -88,16 +92,15 @@ export default class HomeViewContainer extends Component {
     this.props.pushRoute('Settings');
   };
 
-  startJourney = (id) => {
+  startJourney = id => {
     this.props.startPreparing();
 
-    setAuthenticationToken(this.props.users.get(id).get('token'))
-      .then(() => {
-        this.startSession(id);
-      });
+    setAuthenticationToken(this.props.users.get(id).get('token')).then(() => {
+      this.startSession(id);
+    });
   };
 
-  startSession = (id) => {
+  startSession = id => {
     // Prototype version doesn't talk to API:
     this.props.resetCurrentUser();
     setSessionId('foobar');
@@ -121,7 +124,7 @@ export default class HomeViewContainer extends Component {
     */
   };
 
-  renderLeftColumn = () => (
+  renderLeftColumn = () =>
     <View style={styles.leftColumn}>
       <View style={styles.settingsButton}>
         <TouchableOpacity onPress={() => this.props.pushRoute('Login')}>
@@ -131,46 +134,43 @@ export default class HomeViewContainer extends Component {
           />
         </TouchableOpacity>
       </View>
-    </View>
-    );
+    </View>;
 
-  renderRightColumn = users => (
-    <View style={[styles.rightColumn, users.size <= 4 ? { flexDirection: 'row', flexWrap: 'wrap' } : null]}>
+  renderRightColumn = users =>
+    <View
+      style={[
+        styles.rightColumn,
+        users.size <= 4 ? { flexDirection: 'row', flexWrap: 'wrap' } : null,
+      ]}
+    >
       {users.size > 0 ? this.renderUserIcons(users) : this.renderEmptyIcon()}
-    </View>
+    </View>;
+
+  renderUserIcons = users =>
+    users.map((user, key) =>
+      <UserItem
+        key={key}
+        name={this.renderUserName(user.get('name'))}
+        index={key}
+        empty={false}
+        startJourney={this.startJourney}
+        image={user.get('image')}
+        isColumn={users.size > 4}
+        iconHeight={Dimensions.get('window').height / users.size}
+        rowHeight={
+          (Dimensions.get('window').height / users.size - 10) /
+          Dimensions.get('window').height
+        }
+      />,
     );
 
-  renderUserIcons = users => users.map((user, key) =>
-    (<UserItem
-      key={key}
-      name={this.renderUserName(user.get('name'))}
-      index={key}
-      empty={false}
-      startJourney={this.startJourney}
-      image={user.get('image')}
-      isColumn={users.size > 4}
-      iconHeight={Dimensions.get('window').height / users.size}
-      rowHeight={((Dimensions.get('window').height / users.size) - 10) / Dimensions.get('window').height}
-    />),
-    );
+  renderEmptyIcon = () =>
+    <UserItem name={this.renderUserName('Nimi')} key={0} index={0} empty />;
 
-  renderEmptyIcon = () => (
-    <UserItem
-      name={this.renderUserName('Nimi')}
-      key={0}
-      index={0}
-      empty
-    />
-    );
-
-  renderUserName = name => (
-    <Text
-      ellipsizeMode="tail"
-      numberOfLines={1}
-      style={styles.font}
-    >{name}
-    </Text>
-    );
+  renderUserName = name =>
+    <Text ellipsizeMode="tail" numberOfLines={1} style={styles.font}>
+      {name}
+    </Text>;
 
   render() {
     const users = this.props.users;

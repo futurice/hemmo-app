@@ -1,13 +1,12 @@
-import {Provider} from 'react-redux';
+import { Provider } from 'react-redux';
 import store from './src/redux/store';
 import AppViewContainer from './src/modules/AppViewContainer';
-import {setConfiguration} from './src/utils/configuration';
+import { setConfiguration } from './src/utils/configuration';
 //import Orientation from 'react-native-orientation';
-import React, {Component} from 'react';
-import {AppRegistry} from 'react-native';
+import React, { Component } from 'react';
+import { AppRegistry } from 'react-native';
 
 class Hemmo extends Component {
-
   componentWillMount() {
     if (__DEV__) {
       setConfiguration('API_ROOT', 'http://localhost:3001');
