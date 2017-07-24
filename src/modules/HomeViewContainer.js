@@ -22,35 +22,21 @@ import {
   Text,
   View,
   StyleSheet,
+  ScrollView,
 } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
-    flexDirection: 'row',
-    height: null,
-    width: null,
+    backgroundColor: '#FFFFFF',
   },
-  leftColumn: {
-    flex: 1,
+  scrollContainer: {
     alignItems: 'center',
-    justifyContent: 'center',
-  },
-  rightColumn: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  font: {
-    fontSize: 20,
-    fontFamily: 'Gill Sans',
   },
   settingsButton: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'absolute',
-    bottom: 10,
-    left: 10,
+    alignSelf: 'flex-start',
+    justifyContent: 'flex-end',
+    margin: 15,
   },
 });
 
@@ -71,6 +57,11 @@ const mapDispatchToProps = dispatch => ({
 
 @connect(mapStateToProps, mapDispatchToProps)
 export default class HomeViewContainer extends Component {
+  static navigationOptions = {
+    title: 'Etusivu',
+    headerStyle: { backgroundColor: '#FFFFFF' },
+  };
+
   static propTypes = {
     resetCurrentUser: PropTypes.func.isRequired,
     setCurrentUser: PropTypes.func.isRequired,
@@ -88,7 +79,6 @@ export default class HomeViewContainer extends Component {
   };
 
   openSettings = () => {
-    this.props.resetCurrentUser();
     this.props.pushRoute('Settings');
   };
 
@@ -124,27 +114,18 @@ export default class HomeViewContainer extends Component {
     */
   };
 
-  renderLeftColumn = () =>
-    <View style={styles.leftColumn}>
-      <View style={styles.settingsButton}>
-        <TouchableOpacity onPress={() => this.props.pushRoute('Login')}>
-          <Image
-            source={getImage('nappula_aset')}
-            style={getSizeByHeight('nappula_aset', 0.15)}
-          />
-        </TouchableOpacity>
-      </View>
+  renderSettingsRow = () =>
+    <View style={styles.settingsButton}>
+      <TouchableOpacity onPress={() => this.props.pushRoute('Login')}>
+        <Image
+          source={getImage('nappula_aset')}
+          style={getSizeByHeight('nappula_aset', 0.15)}
+        />
+      </TouchableOpacity>
     </View>;
 
-  renderRightColumn = users =>
-    <View
-      style={[
-        styles.rightColumn,
-        users.size <= 4 ? { flexDirection: 'row', flexWrap: 'wrap' } : null,
-      ]}
-    >
-      {users.size > 0 ? this.renderUserIcons(users) : this.renderEmptyIcon()}
-    </View>;
+  renderUsers = users =>
+    users.size > 0 ? this.renderUserIcons(users) : this.renderEmptyIcon();
 
   renderUserIcons = users =>
     users.map((user, key) =>
@@ -155,7 +136,6 @@ export default class HomeViewContainer extends Component {
         empty={false}
         startJourney={this.startJourney}
         image={user.get('image')}
-        isColumn={users.size > 4}
         iconHeight={Dimensions.get('window').height / users.size}
         rowHeight={
           (Dimensions.get('window').height / users.size - 10) /
@@ -176,10 +156,16 @@ export default class HomeViewContainer extends Component {
     const users = this.props.users;
 
     return (
-      <Image source={getImage('tausta_perus3')} style={styles.container}>
-        {this.renderLeftColumn()}
-        {this.renderRightColumn(users)}
-      </Image>
+      <View style={styles.container}>
+        <ScrollView
+          keyboardShouldPersistTaps={'always'}
+          overScrollMode={'always'}
+          contentContainerStyle={styles.scrollContainer}
+        >
+          {this.renderUsers(users)}
+        </ScrollView>
+        {this.renderSettingsRow()}
+      </View>
     );
   }
 }

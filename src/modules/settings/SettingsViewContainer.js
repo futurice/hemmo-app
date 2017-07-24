@@ -2,11 +2,22 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { List, Map } from 'immutable';
+import {
+  Image,
+  Button,
+  ScrollView,
+  TouchableOpacity,
+  Alert,
+  Text,
+  TextInput,
+  View,
+  Platform,
+  StyleSheet,
+} from 'react-native';
+import { NavigationActions } from 'react-navigation';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import SaveConfirmationWindow from '../../components/SaveConfirmationWindow';
-import { NavigationActions } from 'react-navigation';
 import {
-  setCurrentUserValue,
   createUser,
   editUser,
   removeUser,
@@ -19,19 +30,69 @@ import {
   getSizeByWidth,
   getImage,
 } from '../../services/graphics';
-import {
-  Image,
-  Button,
-  ScrollView,
-  TouchableOpacity,
-  Alert,
-  Text,
-  TextInput,
-  View,
-  Platform,
-} from 'react-native';
 
-const styles = require('./styles.js');
+const iconSize = getSizeByWidth('nelio', 0.22).width;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    backgroundColor: '#FFFFFF',
+  },
+  scrollContainer: {},
+  tabBar: {
+    flexDirection: 'row',
+    flexGrow: 0,
+    margin: 10,
+  },
+  tab: {
+    borderBottomWidth: 3,
+  },
+  tabText: {
+    margin: 10,
+    backgroundColor: '#FFFFFF',
+    fontSize: 15,
+  },
+  formField: {
+    marginTop: 10,
+  },
+  label: {
+    marginLeft: 10,
+    fontSize: 17,
+  },
+  input: {
+    marginLeft: 10,
+    marginRight: 10,
+    ...Platform.select({
+      ios: {
+        height: 40,
+        borderWidth: 1,
+        padding: 10,
+        borderRadius: 10,
+        borderColor: 'rgba(65,65,65,1)',
+        backgroundColor: 'rgba(209, 209, 209, 0.29)',
+      },
+    }),
+  },
+  tabBody: {},
+  image: {
+    margin: 10,
+  },
+  icon: {
+    flex: 1,
+    margin: 10,
+    width: iconSize,
+    height: iconSize,
+  },
+  button: {
+    margin: 15,
+  },
+  buttonColumn: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+});
+
 const options = require('./image-picker-options');
 
 const ImagePicker = require('react-native-image-picker');
@@ -40,12 +101,9 @@ const Permissions = require('react-native-permissions');
 const mapStateToProps = state => ({
   loading: state.getIn(['home', 'loading']),
   users: state.getIn(['user', 'users']),
-  currentUser: state.getIn(['user', 'currentUser']),
 });
 
 const mapDispatchToProps = dispatch => ({
-  setCurrentUserValue: (key, value) =>
-    dispatch(setCurrentUserValue(key, value)),
   createUser: user => dispatch(createUser(user)),
   editUser: user => dispatch(editUser(user)),
   removeUser: id => dispatch(removeUser(id)),
@@ -56,25 +114,33 @@ const mapDispatchToProps = dispatch => ({
 
 @connect(mapStateToProps, mapDispatchToProps)
 export default class SettingsViewContainer extends Component {
+  static navigationOptions = {
+    title: 'Asetukset',
+    headerStyle: { backgroundColor: '#FFFFFF' },
+  };
+
   static propTypes = {
-    setCurrentUserValue: PropTypes.func.isRequired,
     createUser: PropTypes.func.isRequired,
     editUser: PropTypes.func.isRequired,
     removeUser: PropTypes.func.isRequired,
     resetCurrentUser: PropTypes.func.isRequired,
     setCurrentUser: PropTypes.func.isRequired,
     popRoute: PropTypes.func.isRequired,
-    users: PropTypes.instanceOf(List),
-    currentUser: PropTypes.instanceOf(Map),
+    users: PropTypes.instanceOf(List).isRequired,
   };
 
   state = {
     loading: false,
     disabled: true,
     showSucceedingMessage: false,
+    id: -1,
+    nickName: '',
+    fullName: '',
+    birthYear: null,
+    image: null,
   };
 
-  infoIsMissing = () => this.props.currentUser.get('name') === '';
+  infoIsMissing = () => this.state.nickName === '';
 
   saveChild = () => {
     if (this.infoIsMissing()) {
@@ -82,7 +148,7 @@ export default class SettingsViewContainer extends Component {
         'Puuttuvia tietoja',
         'Varmistathan, että kaikki kohdat on täytetty ennen jatkamista.',
       );
-    } else if (this.props.currentUser.get('id') === null) {
+    } else if (this.state.id === -1) {
       this.createChild();
     } else {
       this.editChild();
@@ -90,19 +156,24 @@ export default class SettingsViewContainer extends Component {
   };
 
   createChild = () => {
-    const name = this.props.currentUser.get('name');
-    const newId = this.props.users.size;
-
     this.setState({ loading: true });
 
-    post('/app/children', { name })
-      .then(result =>
-        this.props.setCurrentUserValue('token', `Bearer ${result.token}`),
-      )
-      .then(() => {
-        this.props.setCurrentUserValue('id', newId);
-        this.props.createUser(this.props.currentUser);
+    post('/app/children', {
+      name: this.state.fullName,
+      birthYear: this.state.birthYear,
+    })
+      .then(result => {
+        this.props.createUser(
+          Map({
+            id: this.props.users.size,
+            token: `Bearer ${result.token}`,
+            name: this.state.nickName,
+            image: this.state.image,
+          }),
+        );
+
         this.setState({ disabled: true, loading: false });
+        this.resetForm();
         this.showSucceedingMessage();
       })
       .catch(error => {
@@ -113,24 +184,18 @@ export default class SettingsViewContainer extends Component {
   };
 
   editChild = () => {
-    const name = this.props.currentUser.get('name');
-
     this.setState({ loading: true });
 
-    patch(`/app/children/${this.props.currentUser.get('id')}`, { name })
-      .then(result => {
-        this.props.editUser(this.props.currentUser);
-        this.setState({ disabled: true, loading: false });
-        this.showSucceedingMessage();
-      })
-      .catch(error => {
-        console.log(error);
-        this.setState({ loading: false });
-        Alert.alert(
-          'Virhe käyttäjän muokkaamisessa!',
-          'Yritä myöhemmin uudelleen.',
-        );
-      });
+    this.props.editUser(
+      Map({
+        id: this.state.id,
+        name: this.state.nickName,
+        image: this.state.image,
+      }),
+    );
+
+    this.setState({ disabled: true, loading: false });
+    this.showSucceedingMessage();
   };
 
   showSucceedingMessage = () => {
@@ -144,9 +209,7 @@ export default class SettingsViewContainer extends Component {
   verifyRemoveUser = () => {
     Alert.alert(
       'Oletko varma?',
-      `Haluatko varmasti poistaa käyttäjän ${this.props.currentUser.get(
-        'name',
-      )}?`,
+      `Haluatko varmasti poistaa lapsen ${this.state.nickName}?`,
       [
         {
           text: 'Kyllä',
@@ -160,16 +223,38 @@ export default class SettingsViewContainer extends Component {
   };
 
   removeUser = () => {
-    this.props.removeUser(this.props.currentUser.get('id'));
-    this.props.resetCurrentUser();
+    this.props.removeUser(this.state.id);
+    this.resetForm();
   };
 
-  getChangedName = e => {
+  getChangedNickName = e => {
     if (this.state.disabled === true) {
       this.setState({ disabled: false });
     }
 
-    this.props.setCurrentUserValue('name', e.nativeEvent.text);
+    this.setState({
+      nickName: e.nativeEvent.text,
+    });
+  };
+
+  getChangedFullName = e => {
+    if (this.state.disabled === true) {
+      this.setState({ disabled: false });
+    }
+
+    this.setState({
+      fullName: e.nativeEvent.text,
+    });
+  };
+
+  getChangedBirthYear = e => {
+    if (this.state.disabled === true) {
+      this.setState({ disabled: false });
+    }
+
+    this.setState({
+      birthYear: e.nativeEvent.text,
+    });
   };
 
   // TODO: Display default-image after opening.
@@ -200,19 +285,36 @@ export default class SettingsViewContainer extends Component {
     ImagePicker.launchCamera(options, response => {
       if (!response.didCancel) {
         const source = { uri: response.uri, isStatic: true };
-        this.setState({ disabled: false });
 
-        this.props.setCurrentUserValue('image', source.uri ? source.uri : null);
+        this.setState({
+          disabled: false,
+          image: source.uri ? source.uri : null,
+        });
       }
     });
   };
 
-  handleTabClick = (user, index) => {
-    if (user === '+ Lisää lapsi') {
-      this.props.resetCurrentUser();
-    } else {
-      this.props.setCurrentUser(index);
-    }
+  resetForm = () => {
+    this.setState({
+      id: -1,
+      nickName: '',
+      fullName: '',
+      birthYear: null,
+      image: null,
+    });
+  };
+
+  handleTabClick = user => {
+    const isEmptyTab = user.get('id') === -1;
+
+    this.setState({
+      disabled: true,
+      id: user.get('id'),
+      nickName: user.get('name') === '+ Lisää lapsi' ? '' : user.get('name'),
+      image: user.get('image'),
+      fullName: isEmptyTab ? '' : '*********',
+      birthYear: isEmptyTab ? '' : '*********',
+    });
   };
 
   renderTabBar = () =>
@@ -226,74 +328,82 @@ export default class SettingsViewContainer extends Component {
 
   renderTabs = () =>
     this.props.users
-      .map((user, key) => this.renderTab(user.get('name'), key))
-      .concat(this.renderTab('+ Lisää lapsi', -1));
+      .unshift(
+        Map(
+          {
+            name: '+ Lisää lapsi',
+            image: null,
+            id: -1,
+          },
+          -1,
+        ),
+      )
+      .map((user, key) => this.renderTab(user, key));
 
-  renderTab = (name, key) =>
-    <TouchableOpacity key={key} onPress={() => this.handleTabClick(name, key)}>
-      <Image
-        source={getImage('valilehti_tyhja')}
-        onPress={() => this.handleTabClick(name, key)}
-        style={[styles.tab, getSizeByHeight('valilehti_tyhja', 0.12)]}
-      >
-        <Text
-          ellipsizeMode="tail"
-          numberOfLines={1}
-          style={[
-            styles.tabText,
-            styles.font,
-            { fontWeight: this.tabIsSelected(key) ? 'bold' : 'normal' },
-          ]}
-        >
-          {name}
-        </Text>
-      </Image>
-    </TouchableOpacity>;
-
-  tabIsSelected = key =>
-    key === this.props.currentUser.get('id') ||
-    (this.props.currentUser.get('id') === null && key === -1);
-
-  renderBackButton = () =>
+  renderTab = (user, key) =>
     <TouchableOpacity
-      onPress={this.props.popRoute}
-      style={styles.titleBarSection}
+      key={key}
+      onPress={() => this.handleTabClick(user)}
+      style={[
+        styles.tab,
+        { borderColor: user.get('id') === this.state.id ? '#1E90FF' : '#fff' },
+      ]}
     >
-      <Image
-        source={getImage('nappula_takaisin')}
-        onPress={this.props.popRoute}
-        style={[styles.backButton, getSizeByHeight('nappula_takaisin', 0.1)]}
-      />
+      <Text
+        ellipsizeMode="tail"
+        numberOfLines={1}
+        style={[
+          styles.tabText,
+          styles.font,
+          {
+            fontWeight: user.get('id') === this.state.id ? 'bold' : 'normal',
+          },
+        ]}
+      >
+        {user.get('name')}
+      </Text>
     </TouchableOpacity>;
 
-  renderTitleBar = () =>
-    <View style={styles.titleBar}>
-      {this.renderBackButton()}
-
-      <View style={styles.titleBarSection}>
-        <Image
-          source={getImage('ratas')}
-          style={getSizeByHeight('ratas', 0.08)}
-        />
-        <Image
-          source={getImage('asetukset')}
-          style={getSizeByHeight('asetukset', 0.05)}
-        />
-      </View>
+  renderNickNameField = () =>
+    <View style={styles.formField}>
+      <Text style={[styles.label, styles.font]}>Lempinimi</Text>
+      <TextInput
+        style={styles.input}
+        ref="nickName"
+        onChange={this.getChangedNickName}
+        value={this.state.nickName}
+      />
     </View>;
 
-  renderTextInput = () =>
-    <View style={styles.inputField}>
-      <Text style={[styles.label, styles.font]}>Nimi</Text>
+  renderFullNameField = () =>
+    <View style={styles.formField}>
+      <Text style={[styles.label, styles.font]}>Koko nimi</Text>
+      <TextInput
+        style={[
+          styles.input,
+          { color: this.state.id === -1 ? '#000' : '#D3D3D3' },
+        ]}
+        ref="fullName"
+        editable={this.state.id === -1}
+        onChange={this.getChangedFullName}
+        value={this.state.fullName}
+      />
+    </View>;
 
-      <View style={styles.textInputView}>
-        <TextInput
-          style={styles.input}
-          ref="name"
-          onChange={this.getChangedName}
-          value={this.props.currentUser.get('name')}
-        />
-      </View>
+  renderBirthYearField = () =>
+    <View style={styles.formField}>
+      <Text style={[styles.label, styles.font]}>Syntymävuosi</Text>
+      <TextInput
+        style={[
+          styles.input,
+          { color: this.state.id === -1 ? '#000' : '#D3D3D3' },
+        ]}
+        ref="birthYear"
+        editable={this.state.id === -1}
+        onChange={this.getChangedBirthYear}
+        value={this.state.birthYear}
+        keyboardType={'numeric'}
+      />
     </View>;
 
   showRequestDialog = async () => {
@@ -335,85 +445,65 @@ export default class SettingsViewContainer extends Component {
     this.openImageGallery();
   };
 
-  renderImageField = () =>
-    <View style={styles.imagefield}>
-      {this.renderImage()}
-      {this.renderSelectImageButton()}
-    </View>;
-
   renderImage = () =>
-    <Image source={getImage('nelio')} style={getSizeByWidth('nelio', 0.25)}>
-      <Image
-        style={styles.icon}
-        source={
-          this.props.currentUser.get('image')
-            ? { uri: this.props.currentUser.get('image') }
-            : getImage('default_image')
-        }
-      />
-    </Image>;
-
-  renderSelectImageButton = () =>
-    <TouchableOpacity onPress={this.handleSelectImageClick}>
-      <Image
-        source={getImage('nappula_uusikuva')}
-        style={[{ marginLeft: 20 }, getSizeByWidth('nappula_uusikuva', 0.15)]}
-      />
+    <TouchableOpacity
+      onPress={this.handleSelectImageClick}
+      style={styles.image}
+    >
+      <Image source={getImage('nelio')} style={getSizeByWidth('nelio', 0.25)}>
+        <Image
+          style={styles.icon}
+          source={
+            this.state.image
+              ? { uri: this.state.image }
+              : getImage('default_image')
+          }
+        />
+      </Image>
     </TouchableOpacity>;
-
-  renderTabBodyLeftColumn = () =>
-    <View style={styles.leftColumn}>
-      {this.renderTextInput()}
-      {this.renderImageField()}
-    </View>;
 
   renderSaveButton = () =>
-    <TouchableOpacity disabled={this.state.disabled} onPress={this.saveChild}>
-      <Image
-        source={getImage('nappula_tallenna')}
-        style={[
-          getSizeByWidth('nappula_tallenna', 0.25),
-          { opacity: this.state.disabled ? 0.2 : 1 },
-        ]}
+    <View style={styles.button}>
+      <Button
+        onPress={this.saveChild}
+        title="Tallenna"
+        color={'#41A62A'}
+        disabled={this.state.disabled}
       />
-    </TouchableOpacity>;
+    </View>;
 
   renderRemoveUserButton = () =>
-    this.props.currentUser.get('id') !== null
-      ? <View style={styles.removeButton}>
+    this.state.id !== -1
+      ? <View style={styles.button}>
           <Button
             onPress={this.verifyRemoveUser}
-            title="Poista"
+            title="Poista lapsi"
             color={'#E64C4C'}
           />
         </View>
       : null;
 
-  renderTabBodyRightColumn = () =>
-    <View style={styles.rightColumn}>
-      <View style={styles.buttonfield}>
-        {this.renderSaveButton()}
-
-        <View style={styles.bottomRow}>
+  renderTabBody = () =>
+    <ScrollView
+      keyboardShouldPersistTaps={'always'}
+      overScrollMode={'always'}
+      contentContainerStyle={styles.scrollContainer}
+    >
+      <View style={styles.tabBody}>
+        {this.renderImage()}
+        {this.renderNickNameField()}
+        {this.renderFullNameField()}
+        {this.renderBirthYearField()}
+        <View style={styles.buttonColumn}>
+          {this.renderSaveButton()}
           {this.renderRemoveUserButton()}
         </View>
       </View>
-    </View>;
-
-  renderTabBody = () =>
-    <Image
-      source={getImage('tausta_asetukset')}
-      style={[styles.form, getSizeByWidth('tausta_asetukset', 0.9)]}
-    >
-      {this.renderTabBodyLeftColumn()}
-      {this.renderTabBodyRightColumn()}
-    </Image>;
+    </ScrollView>;
 
   renderSaveConfirmationWindow = () =>
     this.state.showSucceedingMessage
-      ? <SaveConfirmationWindow
-          closeWindow={() => this.closeSucceedingMessage()}
-        />
+      ? <SaveConfirmationWindow closeWindow={this.closeSucceedingMessage} />
       : null;
 
   render() {
@@ -422,12 +512,11 @@ export default class SettingsViewContainer extends Component {
     }
 
     return (
-      <Image source={getImage('tausta_perus')} style={styles.container}>
-        {this.renderTitleBar()}
+      <View style={styles.container}>
         {this.renderTabBar()}
         {this.renderTabBody()}
-        {/*{this.renderSaveConfirmationWindow()}*/}
-      </Image>
+        {this.renderSaveConfirmationWindow()}
+      </View>
     );
   }
 }

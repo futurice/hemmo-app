@@ -25,63 +25,44 @@ const privacyPolicyURL =
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'rgba(233, 233, 233, 0.93)',
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
+    flex: 1,
+    backgroundColor: '#FFFFFF',
   },
-  scrollContainer: {
-    alignItems: 'stretch',
-    justifyContent: 'center',
-    flexGrow: 1,
-    padding: 16,
+  scrollContainer: {},
+  formField: {
+    marginTop: 10,
   },
-  buttonContainer: {
-    paddingVertical: 8,
-    alignSelf: 'stretch',
-    alignItems: 'stretch',
-    justifyContent: 'space-between',
-  },
-  passwordView: {
-    alignItems: 'center',
-  },
-  email: {
+  input: {
+    marginLeft: 10,
+    marginRight: 10,
+    textAlign: 'center',
     ...Platform.select({
       ios: {
         height: 40,
         borderWidth: 1,
-        borderColor: 'gray',
-        backgroundColor: 'rgba(209, 209, 209, 0.59)',
+        borderRadius: 10,
+        borderColor: 'rgba(65,65,65,1)',
+        backgroundColor: 'rgba(209, 209, 209, 0.29)',
       },
     }),
-    textAlign: 'center',
-  },
-  password: {
-    ...Platform.select({
-      ios: {
-        height: 40,
-        borderWidth: 1,
-        borderColor: 'gray',
-        backgroundColor: 'rgba(209, 209, 209, 0.59)',
-      },
-    }),
-    textAlign: 'center',
   },
   message: {
     color: 'red',
     textAlign: 'center',
     minHeight: 40,
   },
-  text: {
-    fontSize: 17,
+  label: {
     textAlign: 'center',
+    margin: 5,
+    fontSize: 17,
   },
-  privpolicy: {
+  privacyPolicy: {
     marginTop: 20,
     fontSize: 14,
     textAlign: 'center',
+  },
+  loginButton: {
+    alignSelf: 'center',
   },
 });
 
@@ -101,6 +82,11 @@ const mapDispatchToProps = dispatch => ({
 
 @connect(undefined, mapDispatchToProps)
 export default class LoginModal extends Component {
+  static navigationOptions = {
+    title: 'Kirjaudu sisään',
+    headerStyle: { backgroundColor: '#FFFFFF' },
+  };
+
   static propTypes = {
     onClose: PropTypes.func.isRequired,
     onSuccess: PropTypes.func.isRequired,
@@ -152,34 +138,34 @@ export default class LoginModal extends Component {
       });
   };
 
-  renderEmailFieldTitle = () =>
-    <Text style={styles.text}>Syötä sähköpostiosoite</Text>;
-
   renderEmailField = () =>
-    <TextInput
-      style={styles.email}
-      keyboardType={'email-address'}
-      onChangeText={email => this.setState({ email: email.toLowerCase() })}
-      value={this.state.email}
-      secureTextEntry={false}
-    />;
-
-  renderPasswordFieldTitle = () =>
-    <Text style={styles.text}>Syötä salasana</Text>;
+    <View style={styles.formField}>
+      <Text style={styles.label}>Sähköpostiosoite</Text>
+      <TextInput
+        style={styles.input}
+        keyboardType={'email-address'}
+        onChangeText={email => this.setState({ email: email.toLowerCase() })}
+        value={this.state.email}
+        secureTextEntry={false}
+      />
+    </View>;
 
   renderPasswordField = () =>
-    <TextInput
-      style={styles.password}
-      keyboardType={'default'}
-      onChangeText={password => this.setState({ password })}
-      value={this.state.password}
-      secureTextEntry
-    />;
+    <View style={styles.formField}>
+      <Text style={styles.label}>Salasana</Text>
+      <TextInput
+        style={styles.input}
+        keyboardType={'default'}
+        onChangeText={password => this.setState({ password })}
+        value={this.state.password}
+        secureTextEntry
+      />
+    </View>;
 
   renderLoginButton = () =>
-    <View style={styles.buttonContainer}>
+    <View style={styles.loginButton}>
       <Button
-        color={'rgb(127, 192, 194)'}
+        color={'#1E90FF'}
         title={'Kirjaudu'}
         onPress={this.verifyPassword}
         disabled={this.state.loading}
@@ -191,18 +177,8 @@ export default class LoginModal extends Component {
       {this.state.message}
     </Text>;
 
-  renderCancelButton = () =>
-    <View style={styles.buttonContainer}>
-      <Button
-        color={'rgb(64, 127, 127)'}
-        title={'Peruuta'}
-        onPress={this.props.onClose}
-        disabled={this.state.loading}
-      />
-    </View>;
-
   renderPrivacyPolicyLink = () =>
-    <Text style={styles.privpolicy} onPress={this.openPrivacyPolicy}>
+    <Text style={styles.privacyPolicy} onPress={this.openPrivacyPolicy}>
       Tietosuojakäytäntö
     </Text>;
 
@@ -214,13 +190,10 @@ export default class LoginModal extends Component {
           contentContainerStyle={styles.scrollContainer}
           overScrollMode={'always'}
         >
-          {this.renderEmailFieldTitle()}
           {this.renderEmailField()}
-          {this.renderPasswordFieldTitle()}
           {this.renderPasswordField()}
           {this.renderMessage()}
           {this.renderLoginButton()}
-          {this.renderCancelButton()}
           {this.renderPrivacyPolicyLink()}
         </ScrollView>
       </View>

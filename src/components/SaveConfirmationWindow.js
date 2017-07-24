@@ -5,7 +5,9 @@ or audio has been successfully recorded and saved,
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, StyleSheet, TouchableWithoutFeedback } from 'react-native';
+import TimerMixin from 'react-timer-mixin';
+import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { getSizeByWidth, getImage } from '../services/graphics';
 
 const styles = StyleSheet.create({
   container: {
@@ -17,30 +19,45 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  hemmo: {
-    position: 'absolute',
-    top: 60,
-    left: 80,
+  content: {
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 50,
+    borderWidth: 2,
+    borderRadius: 10,
+  },
+  text: {
+    fontSize: 20,
   },
 });
 
+const reactMixin = require('react-mixin');
+
+@reactMixin.decorate(TimerMixin)
 export default class SaveConfirmationWindow extends Component {
   static propTypes = {
     closeWindow: PropTypes.func.isRequired,
   };
 
+  componentWillMount() {
+    this.setTimeout(this.props.closeWindow, 1000);
+  }
+
   render() {
     return (
-      <TouchableWithoutFeedback onPress={this.props.closeWindow}>
-        <View style={styles.container}>
-          <SpeechBubble
-            text={'saved'}
-            hideBubble={this.props.closeWindow}
-            audioMuted
-            bubbleType={'puhekupla_tallennettu'}
+      <View style={styles.container}>
+        <TouchableOpacity
+          style={styles.content}
+          onPress={this.props.closeWindow}
+        >
+          <Image
+            source={getImage('valittu')}
+            style={getSizeByWidth('valittu', 0.05)}
           />
-        </View>
-      </TouchableWithoutFeedback>
+          <Text style={styles.text}>Tallennettu!</Text>
+        </TouchableOpacity>
+      </View>
     );
   }
 }

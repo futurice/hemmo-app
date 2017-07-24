@@ -20,7 +20,6 @@ const HomeNavigator = StackNavigator(
     Settings: { screen: SettingsViewContainer },
   },
   {
-    headerMode: 'none',
     initialRouteName: 'Home',
     transitionConfig: () => ({
       screenInterpolator: sceneProps => {

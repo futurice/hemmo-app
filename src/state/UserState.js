@@ -7,18 +7,7 @@ const initialAnswers = Map({
 });
 
 const initialState = Map({
-  users: true
-    ? List([
-        Map({
-          id: 42,
-          token: 'foobar',
-          name: 'Testikäyttäjä',
-          image: null,
-          audioMuted: false,
-          answers: initialAnswers,
-        }),
-      ])
-    : List(),
+  users: List(),
   currentUser: Map({
     id: null,
     token: '',
@@ -34,7 +23,6 @@ const EDIT_USER = 'UserState/EDIT_USER';
 const REMOVE_USER = 'UserState/REMOVE_USER';
 const RESET_CURRENT_USER = 'UserState/RESET_CURRENT_USER';
 const SET_CURRENT_USER = 'UserState/SET_CURRENT_USER';
-const SET_CURRENT_USER_VALUE = 'UserState/SET_CURRENT_USER_VALUE';
 const ADD_ACTIVITY = 'UserState/ADD_ACTIVITY';
 const DELETE_ACTIVITY = 'UserState/DELETE_ACTIVITY';
 const ADD_MOOD = 'UserState/ADD_MOOD';
@@ -46,6 +34,7 @@ export function createUser(newUser) {
   return {
     type: CREATE_USER,
     payload: Map({
+      id: newUser.get('id'),
       name: newUser.get('name'),
       token: newUser.get('token'),
       image: newUser.get('image'),
@@ -60,6 +49,7 @@ export function editUser(user) {
     payload: {
       id: user.get('id'),
       values: Map({
+        id: user.get('id'),
         name: user.get('name'),
         token: user.get('token'),
         image: user.get('image'),
@@ -80,13 +70,6 @@ export function resetCurrentUser() {
   return {
     type: RESET_CURRENT_USER,
     payload: initialState,
-  };
-}
-
-export function setCurrentUserValue(destination, value) {
-  return {
-    type: SET_CURRENT_USER_VALUE,
-    payload: { destination, value },
   };
 }
 
@@ -157,9 +140,6 @@ function usersReducer(state = List(), action) {
 
 function currentUserReducer(state = Map(), action, wholeState) {
   switch (action.type) {
-    case SET_CURRENT_USER_VALUE:
-      return state.set(action.payload.destination, action.payload.value);
-
     case SET_CURRENT_USER:
       return state
         .set('name', wholeState.getIn(['users', action.payload, 'name']))
