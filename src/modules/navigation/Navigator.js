@@ -105,7 +105,7 @@ const FeedbackNavigatorWithHeader = StackNavigator({
     screen: FeedbackNavigator,
     navigationOptions: ({ navigation }) => ({
       headerLeft: navigation.state.index !== 0 ? <BackButton /> : null,
-      headerRight: <Hemmo navigation={navigation} />,
+      headerRight: <Hemmo />,
       headerStyle: { backgroundColor: '#FFFFFF' },
     }),
   },

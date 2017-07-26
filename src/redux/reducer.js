@@ -2,6 +2,7 @@ import { Map, fromJS } from 'immutable';
 import { combineReducers } from 'redux-immutable';
 import NavigationStateReducer from '../state/NavigationState';
 import UserStateReducer from '../state/UserState';
+import HemmoStateReducer from '../state/HemmoState';
 import SessionStateReducer, { RESET_STATE } from '../state/SessionState';
 
 const reducers = {
@@ -11,6 +12,8 @@ const reducers = {
   session: SessionStateReducer,
 
   user: UserStateReducer,
+
+  hemmo: HemmoStateReducer,
 };
 
 const namespacedReducer = combineReducers(reducers);

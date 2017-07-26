@@ -5,6 +5,7 @@ import { Set } from 'immutable';
 import { TouchableOpacity, Image, View, StyleSheet } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { addMood, deleteMood } from '../state/UserState';
+import { setText, setAudio } from '../state/HemmoState';
 import {
   getSizeByHeight,
   getSizeByWidth,
@@ -12,6 +13,7 @@ import {
 } from '../services/graphics';
 
 const moods = require('../data/moods.js');
+const phrases = require('../data/phrases.json');
 
 const styles = StyleSheet.create({
   container: {
@@ -43,6 +45,8 @@ const mapDispatchToProps = dispatch => ({
   back: () => dispatch(NavigationActions.back()),
   addMood: mood => dispatch(addMood(mood)),
   deleteMood: mood => dispatch(deleteMood(mood)),
+  setText: text => dispatch(setText(text)),
+  setAudio: audio => dispatch(setAudio(audio)),
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -60,8 +64,15 @@ export default class MoodViewContainer extends Component {
   static propTypes = {
     addMood: PropTypes.func.isRequired,
     deleteMood: PropTypes.func.isRequired,
+    setText: PropTypes.func.isRequired,
+    setAudio: PropTypes.func.isRequired,
     selectedMoods: PropTypes.instanceOf(Set).isRequired,
   };
+
+  componentWillMount() {
+    this.props.setText(phrases.Mood.text);
+    this.props.setAudio(phrases.Mood.audio);
+  }
 
   addMood = async mood => {
     (await this.props.selectedMoods.includes(mood))
@@ -73,10 +84,13 @@ export default class MoodViewContainer extends Component {
     <TouchableOpacity
       key={key}
       style={styles.mood}
-      onPress={() => this.addMood(mood)}
+      onPress={() => this.addMood(mood.get('name'))}
     >
-      <Image source={getImage(mood)} style={getSizeByWidth(mood, 0.2)}>
-        {this.props.selectedMoods.includes(mood)
+      <Image
+        source={mood.get('imageRoute')}
+        style={getSizeByWidth(mood.get('key'), 0.2)}
+      >
+        {this.props.selectedMoods.includes(mood.get('name'))
           ? this.renderCheckmark()
           : null}
       </Image>

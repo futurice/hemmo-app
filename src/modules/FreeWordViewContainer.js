@@ -16,8 +16,8 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import SaveConfirmationWindow from '../components/SaveConfirmationWindow';
 import TextForm from '../components/TextForm';
 import { addFreeWord } from '../state/UserState';
+import { setText, setAudio } from '../state/HemmoState';
 import { getSizeByHeight, getImage } from '../services/graphics';
-import { save, formRequestBody } from '../services/save';
 
 const styles = StyleSheet.create({
   container: {
@@ -31,6 +31,8 @@ const styles = StyleSheet.create({
   },
 });
 
+const phrases = require('../data/phrases.json');
+
 const mapStateToProps = state => ({
   answers: state.getIn(['user', 'currentUser', 'answers']),
 });
@@ -39,7 +41,9 @@ const mapDispatchToProps = dispatch => ({
   back: () => dispatch(NavigationActions.back()),
   pushRoute: key => dispatch(NavigationActions.navigate({ routeName: key })),
   popRoute: () => dispatch(NavigationActions.back()),
-  saveFreeWord: () => dispatch(addFreeWord()),
+  saveFreeWord: freeWord => dispatch(addFreeWord(freeWord)),
+  setText: text => dispatch(setText(text)),
+  setAudio: audio => dispatch(setAudio(audio)),
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -57,6 +61,9 @@ export default class FreeWordViewContainer extends Component {
   static propTypes = {
     popRoute: PropTypes.func.isRequired,
     pushRoute: PropTypes.func.isRequired,
+    setText: PropTypes.func.isRequired,
+    setAudio: PropTypes.func.isRequired,
+    saveFreeWord: PropTypes.func.isRequired,
     answers: PropTypes.instanceOf(Map).isRequired,
   };
 
@@ -68,6 +75,11 @@ export default class FreeWordViewContainer extends Component {
     disableWriting: false,
     showSpinner: false,
   };
+
+  componentWillMount() {
+    this.props.setText(phrases.FreeWord.text);
+    this.props.setAudio(phrases.FreeWord.audio);
+  }
 
   setText = text => {
     this.setState({ text });
@@ -90,44 +102,16 @@ export default class FreeWordViewContainer extends Component {
     );
   };
 
-  save = async (attachmentType, attachmentPath) => {
+  save = async (type, content) => {
     this.setState({ showSpinner: true });
 
-    this.props.saveFreeWord();
+    this.props.saveFreeWord({ type, content });
 
-    if (attachmentType === 'text') {
+    if (type === 'text') {
       this.toggleWriting();
     }
 
-    try {
-      const body = await formRequestBody(
-        attachmentType,
-        this.state.text,
-        this.props.activityIndex,
-        this.props.answers,
-      );
-
-      try {
-        // Prototype version doesn't talk to API:
-        // const wasSuccessful = await save(attachmentPath, attachmentType, body);
-        const wasSuccessful = { success: true };
-
-        if (wasSuccessful.success) {
-          if (attachmentType === 'skipped') {
-            this.continue();
-          } else {
-            this.setState({ showSpinner: false });
-            this.showConfirmationMessage();
-          }
-        } else {
-          this.error();
-        }
-      } catch (e) {
-        this.error();
-      }
-    } catch (e) {
-      this.error();
-    }
+    this.setState({ showSpinner: false });
   };
 
   toggleWritingButton = value => {
