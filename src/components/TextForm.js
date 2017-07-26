@@ -108,7 +108,7 @@ export default class TextForm extends Component {
         </Image>
         <TouchableOpacity
           disabled={this.state.disabled}
-          onPress={() => this.props.save('text')}
+          onPress={() => this.props.save('text', this.state.text)}
           style={styles.saveButton}
         >
           <Image

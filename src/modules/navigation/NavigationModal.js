@@ -21,7 +21,6 @@ import {
   getImage,
 } from '../../services/graphics';
 import { resetCurrentUser } from '../../state/UserState';
-import { save, formRequestBody } from '../../services/save';
 
 const styles = StyleSheet.create({
   userImage: {
@@ -91,15 +90,6 @@ export default class NavigationModal extends Component {
   quit = () => {
     this.setState({ modalVisible: false });
     // this.props.navigate('Ending');
-  };
-
-  save = () => {
-    formRequestBody(
-      'skipped',
-      'Ohitettu',
-      this.props.currentUser.get('activityIndex'),
-      this.props.currentUser.get('answers'),
-    ).then(body => save(null, 'skipped', body));
   };
 
   renderQuitButton = () =>

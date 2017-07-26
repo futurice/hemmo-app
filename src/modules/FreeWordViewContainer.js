@@ -17,6 +17,8 @@ import SaveConfirmationWindow from '../components/SaveConfirmationWindow';
 import TextForm from '../components/TextForm';
 import { addFreeWord } from '../state/UserState';
 import { setText, setAudio } from '../state/HemmoState';
+import { getSessionId } from '../utils/session';
+import { xhr } from '../utils/api';
 import { getSizeByHeight, getImage } from '../services/graphics';
 
 const styles = StyleSheet.create({
@@ -59,6 +61,7 @@ export default class FreeWordViewContainer extends Component {
   };
 
   static propTypes = {
+    back: PropTypes.func.isRequired,
     popRoute: PropTypes.func.isRequired,
     pushRoute: PropTypes.func.isRequired,
     setText: PropTypes.func.isRequired,
@@ -71,7 +74,7 @@ export default class FreeWordViewContainer extends Component {
     text: '',
     showTextForm: false,
     progress: 0,
-    showMessage: false,
+    showSucceedingMessage: false,
     disableWriting: false,
     showSpinner: false,
   };
@@ -85,14 +88,6 @@ export default class FreeWordViewContainer extends Component {
     this.setState({ text });
   };
 
-  closeConfirmationMessage = () => {
-    this.setState({ showMessage: false });
-  };
-
-  showConfirmationMessage = () => {
-    this.setState({ showMessage: true });
-  };
-
   error = () => {
     this.setState({ showSpinner: false });
     Alert.alert(
@@ -102,13 +97,46 @@ export default class FreeWordViewContainer extends Component {
     );
   };
 
-  save = async (type, content) => {
+  getRequestBody = (type, content) => {
+    const attachmentBody = new FormData();
+
+    if (type === 'audio') {
+      const file = {
+        uri: `file://${content}`,
+        type: 'audio/mp4',
+        name: 'file',
+      };
+
+      attachmentBody.append('data', file);
+    } else {
+      attachmentBody.append('data', content);
+    }
+
+    return attachmentBody;
+  };
+
+  sendFreeWord = async (type, content) => {
     this.setState({ showSpinner: true });
 
     this.props.saveFreeWord({ type, content });
 
     if (type === 'text') {
       this.toggleWriting();
+    }
+
+    const feedbackId = await getSessionId();
+
+    try {
+      await xhr(
+        'POST',
+        `/app/feedback/${feedbackId}/attachments`,
+        this.getRequestBody(type, content),
+      );
+
+      this.setState({ showSucceedingMessage: true });
+    } catch (error) {
+      console.log(error);
+      Alert.alert('Oops! Jokin meni pieleen!', 'Yritä myöhemmin uudelleen!');
     }
 
     this.setState({ showSpinner: false });
@@ -126,20 +154,20 @@ export default class FreeWordViewContainer extends Component {
     this.state.showTextForm
       ? <TextForm
           toggleWriting={this.toggleWriting}
-          save={this.save}
+          save={this.sendFreeWord}
           setText={this.setText}
         />
       : null;
 
   renderSaveConfirmationWindow = () =>
-    this.state.showMessage
-      ? <SaveConfirmationWindow closeWindow={this.closeConfirmationMessage} />
+    this.state.showSucceedingMessage
+      ? <SaveConfirmationWindow closeWindow={this.props.back} />
       : null;
 
   renderAudioRecorder = () =>
     <View style={styles.audioRecorder}>
       <AudioRecorder
-        save={this.save}
+        save={this.sendFreeWord}
         toggleWritingButton={this.toggleWritingButton}
       />
     </View>;
@@ -174,13 +202,7 @@ export default class FreeWordViewContainer extends Component {
         {this.renderAudioRecorder()}
         {this.renderWriteButton()}
         {this.renderTextForm()}
-        {/*{this.renderSaveConfirmationWindow()}*/}
-        <TouchableOpacity onPress={this.props.back} style={{ paddingTop: 20 }}>
-          <Image
-            source={require('./done.png')}
-            style={{ width: 120, height: 60 }}
-          />
-        </TouchableOpacity>
+        {this.renderSaveConfirmationWindow()}
       </View>
     );
   }

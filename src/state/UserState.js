@@ -13,7 +13,6 @@ const initialState = Map({
     token: '',
     name: '',
     image: null,
-    audioMuted: false,
     answers: initialAnswers,
   }),
 });
@@ -28,7 +27,6 @@ const DELETE_ACTIVITY = 'UserState/DELETE_ACTIVITY';
 const ADD_MOOD = 'UserState/ADD_MOOD';
 const DELETE_MOOD = 'UserState/DELETE_MOOD';
 const ADD_FREEWORD = 'UserState/ADD_FREEWORD';
-const MUTE_AUDIO = 'UserState/MUTE_AUDIO';
 
 export function createUser(newUser) {
   return {
@@ -107,15 +105,10 @@ export function deleteMood(mood) {
   };
 }
 
-export function addFreeWord() {
+export function addFreeWord(freeWord) {
   return {
     type: ADD_FREEWORD,
-  };
-}
-
-export function muteAudio() {
-  return {
-    type: MUTE_AUDIO,
+    payload: freeWord,
   };
 }
 
@@ -172,12 +165,9 @@ function currentUserReducer(state = Map(), action, wholeState) {
       );
 
     case ADD_FREEWORD:
-      return state.updateIn(['answers', 'freeWord'], freeword =>
-        freeword.add('entry'),
+      return state.updateIn(['answers', 'freeWord'], freeWord =>
+        freeWord.add(action.payload),
       );
-
-    case MUTE_AUDIO:
-      return state.set('audioMuted', !state.get('audioMuted'));
 
     default:
       return state;

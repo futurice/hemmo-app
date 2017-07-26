@@ -2,7 +2,6 @@ import { Map } from 'immutable';
 
 export const RESET_STATE = 'SessionState/RESET';
 export const INITIALIZE_STATE = 'SessionState/INITIALIZE';
-export const SET_SESSIONID = 'SessionState/SET_SESSIONID';
 export const TOGGLE_ISREADY = 'SessionState/TOGGLE_ISREADY';
 export const ACTIVATE = 'SessionState/ACTIVATE';
 export const DEACTIVATE = 'SessionState/DEACTIVATE';

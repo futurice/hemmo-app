@@ -10,12 +10,16 @@ import {
   Modal,
   TouchableOpacity,
   Text,
+  Alert,
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import Accordion from 'react-native-collapsible/Accordion';
 import { addActivity, deleteActivity } from '../state/UserState';
+import { getSessionId } from '../utils/session';
+import { patch } from '../utils/api';
 import { setText, setAudio } from '../state/HemmoState';
 import LoadingSpinner from '../components/LoadingSpinner';
+import SaveConfirmationWindow from '../components/SaveConfirmationWindow';
 import {
   getImage,
   getSizeByWidth,
@@ -115,6 +119,7 @@ export default class ActivityViewContainer extends Component {
   };
 
   static propTypes = {
+    back: PropTypes.func.isRequired,
     addActivity: PropTypes.func.isRequired,
     deleteActivity: PropTypes.func.isRequired,
     setText: PropTypes.func.isRequired,
@@ -125,6 +130,7 @@ export default class ActivityViewContainer extends Component {
 
   state = {
     modalVisible: false,
+    showSucceedingMessage: false,
     chosenMainActivity: Map(),
     chosenSubActivity: Map(),
   };
@@ -138,6 +144,35 @@ export default class ActivityViewContainer extends Component {
     getSizeByWidth('leikkiminen', 0.2).height + 2 * 5;
 
   getMainActivityHeight = () => getSizeByWidth('nelio', 0.3).height + 2 * 5;
+
+  getRequestBody = () => {
+    const namedActivities = [];
+
+    this.props.chosenActivities.entrySeq().forEach(mainActivity => {
+      const main = mainActivity[0];
+
+      mainActivity[1].entrySeq().forEach(subActivity => {
+        const sub = subActivity[0];
+        const like = subActivity[1];
+
+        namedActivities.push({ main, sub, like });
+      });
+    });
+
+    return { activities: namedActivities };
+  };
+
+  sendActivities = async () => {
+    const feedbackId = await getSessionId();
+
+    try {
+      await patch(`/app/feedback/${feedbackId}`, this.getRequestBody());
+      this.setState({ showSucceedingMessage: true });
+    } catch (error) {
+      console.log(error);
+      Alert.alert('Oops! Jokin meni pieleen!', 'Yritä myöhemmin uudelleen!');
+    }
+  };
 
   chooseMainActivity = activity => {
     const margin = 5;
@@ -177,13 +212,13 @@ export default class ActivityViewContainer extends Component {
   chooseThumb = async thumbValue => {
     if (this.isSelected(thumbValue)) {
       await this.props.deleteActivity({
-        main: this.state.chosenMainActivity.get('id'),
-        sub: this.state.chosenSubActivity.get('id'),
+        main: this.state.chosenMainActivity.get('name'),
+        sub: this.state.chosenSubActivity.get('name'),
       });
     } else {
       await this.props.addActivity({
-        main: this.state.chosenMainActivity.get('id'),
-        sub: this.state.chosenSubActivity.get('id'),
+        main: this.state.chosenMainActivity.get('name'),
+        sub: this.state.chosenSubActivity.get('name'),
         thumb: thumbValue,
       });
     }
@@ -204,9 +239,14 @@ export default class ActivityViewContainer extends Component {
   isSelected = thumbValue =>
     thumbValue ===
     this.props.chosenActivities.getIn([
-      this.state.chosenMainActivity.get('id'),
-      this.state.chosenSubActivity.get('id'),
+      this.state.chosenMainActivity.get('name'),
+      this.state.chosenSubActivity.get('name'),
     ]);
+
+  renderSaveConfirmationWindow = () =>
+    this.state.showSucceedingMessage
+      ? <SaveConfirmationWindow closeWindow={this.props.back} />
+      : null;
 
   renderThumbButton = (thumb, i) =>
     <View key={i}>
@@ -235,11 +275,8 @@ export default class ActivityViewContainer extends Component {
         />
       </TouchableOpacity>
       <Image
-        source={getImage(this.state.chosenSubActivity.get('key'))}
-        style={[
-          styles.subActivityThumbImage,
-          getSizeByWidth(this.state.chosenSubActivity.get('key'), 0.2),
-        ]}
+        source={this.state.chosenSubActivity.get('imageRoute')}
+        style={[styles.subActivityThumbImage, getSizeByWidth('kirjat', 0.2)]}
       />
     </View>;
 
@@ -279,9 +316,10 @@ export default class ActivityViewContainer extends Component {
 
   renderSubActivity = (subActivity, index) => {
     const existingThumbValue = this.props.chosenActivities.getIn([
-      this.state.chosenMainActivity.get('id'),
-      subActivity.get('id'),
+      this.state.chosenMainActivity.get('name'),
+      subActivity.get('name'),
     ]);
+
     const thumb = thumbs.find(t => t.value === existingThumbValue);
 
     return (
@@ -289,14 +327,14 @@ export default class ActivityViewContainer extends Component {
         key={index}
         style={{
           margin: 5,
-          borderRadius: getSizeByWidth(subActivity.get('key'), 0.15).height / 2,
+          borderRadius: getSizeByWidth('kirjat', 0.15).height / 2,
         }}
         onPress={() => this.chooseSubActivity(subActivity)}
       >
         <View>
           <Image
-            source={getImage(subActivity.get('key'))}
-            style={getSizeByWidth(subActivity.get('key'), 0.2)}
+            source={subActivity.get('imageRoute')}
+            style={getSizeByWidth('kirjat', 0.2)}
           >
             {this.renderChosenThumb(thumb)}
           </Image>
@@ -373,12 +411,13 @@ export default class ActivityViewContainer extends Component {
       <View style={styles.container}>
         {this.renderMainActivities()}
         {this.renderThumbModal()}
-        <TouchableOpacity onPress={this.props.back}>
+        <TouchableOpacity onPress={this.sendActivities}>
           <Image
             source={require('./done.png')}
             style={{ width: 120, height: 60 }}
           />
         </TouchableOpacity>
+        {this.renderSaveConfirmationWindow()}
       </View>
     );
   }

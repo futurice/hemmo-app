@@ -1,19 +1,5 @@
-import {
-  resetCurrentUser,
-  setCurrentUser,
-  addActivity,
-} from '../state/UserState';
-import { startPreparing, finishPreparing } from '../state/SessionState';
 import { NavigationActions } from 'react-navigation';
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { List, Map } from 'immutable';
-import UserItem from '../components/UserItem';
-import { setAuthenticationToken } from '../utils/authentication';
-import { setSessionId } from '../utils/session';
-import { post } from '../utils/api';
-import { getSizeByHeight, getImage } from '../services/graphics';
 import {
   TouchableOpacity,
   Image,
@@ -24,6 +10,20 @@ import {
   StyleSheet,
   ScrollView,
 } from 'react-native';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { List, Map } from 'immutable';
+import UserItem from '../components/UserItem';
+import {
+  resetCurrentUser,
+  setCurrentUser,
+  addActivity,
+} from '../state/UserState';
+import { startPreparing, finishPreparing } from '../state/SessionState';
+import { setAuthenticationToken } from '../utils/authentication';
+import { setSessionId } from '../utils/session';
+import { post } from '../utils/api';
+import { getSizeByHeight, getImage } from '../services/graphics';
 
 const styles = StyleSheet.create({
   container: {
@@ -89,36 +89,23 @@ export default class HomeViewContainer extends Component {
     this.props.pushRoute('Settings');
   };
 
-  startJourney = id => {
+  startSession = async user => {
     this.props.startPreparing();
 
-    setAuthenticationToken(this.props.users.get(id).get('token')).then(() => {
-      this.startSession(id);
-    });
-  };
+    await setAuthenticationToken(user.get('token'));
 
-  startSession = id => {
-    // Prototype version doesn't talk to API:
-    this.props.resetCurrentUser();
-    setSessionId('foobar');
-    this.props.finishPreparing();
-    this.props.setCurrentUser(id);
-    this.props.resetRoute('FeedbackMenu');
-
-    /*
-    post('/app/feedback')
-      .then((result) => {
+    post('/app/feedback', { activities: [], moods: [] })
+      .then(result => {
         setSessionId(result.id);
         this.props.finishPreparing();
-        this.props.setCurrentUser(id);
-        this.props.pushRoute('Feedback');
+        this.props.setCurrentUser(user.get('id'));
+        this.props.pushRoute('FeedbackMenu');
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error);
         this.props.finishPreparing();
         Alert.alert('Oops! Jokin meni pieleen!', 'Yritä myöhemmin uudelleen!');
       });
-    */
   };
 
   renderSettingsRow = () =>
@@ -141,7 +128,7 @@ export default class HomeViewContainer extends Component {
         name={this.renderUserName(user.get('name'))}
         index={key}
         empty={false}
-        startJourney={this.startJourney}
+        startJourney={() => this.startSession(user)}
         image={user.get('image')}
         iconHeight={Dimensions.get('window').height / users.size}
         rowHeight={

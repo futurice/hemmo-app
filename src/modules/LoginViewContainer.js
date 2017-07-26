@@ -105,7 +105,7 @@ export default class LoginModal extends Component {
     );
   };
 
-  verifyPassword = () => {
+  verifyPassword = async () => {
     if (this.state.loading) {
       return;
     }
@@ -115,27 +115,28 @@ export default class LoginModal extends Component {
       message: 'Kirjaudutaan...',
     });
 
-    post('/admin/employees/authenticate', {
-      email: this.state.email,
-      password: this.state.password,
-    })
-      .then(result => {
-        this.setState({
-          loading: false,
-          message: '',
-        });
-        setAuthenticationToken(result.token).then(() => {
-          this.props.onSuccess();
-        });
-      })
-      .catch(error => {
-        console.log(`error ${error}`);
-        this.setState({
-          loading: false,
-          message:
-            'Virhe sisäänkirjautumisessa, tarkista salasana ja internetyhteys',
-        });
+    try {
+      const result = await post('/admin/employees/authenticate', {
+        email: this.state.email,
+        password: this.state.password,
       });
+
+      this.setState({
+        loading: false,
+        message: '',
+      });
+
+      await setAuthenticationToken(result.token);
+      this.props.onSuccess();
+    } catch (error) {
+      console.log(`error ${error}`);
+
+      this.setState({
+        loading: false,
+        message:
+          'Virhe sisäänkirjautumisessa, tarkista salasana ja internetyhteys',
+      });
+    }
   };
 
   renderEmailField = () =>

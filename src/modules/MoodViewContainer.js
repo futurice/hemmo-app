@@ -2,15 +2,18 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Set } from 'immutable';
-import { TouchableOpacity, Image, View, StyleSheet } from 'react-native';
+import { TouchableOpacity, Image, View, StyleSheet, Alert } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { addMood, deleteMood } from '../state/UserState';
 import { setText, setAudio } from '../state/HemmoState';
+import SaveConfirmationWindow from '../components/SaveConfirmationWindow';
 import {
   getSizeByHeight,
   getSizeByWidth,
   getImage,
 } from '../services/graphics';
+import { getSessionId } from '../utils/session';
+import { patch } from '../utils/api';
 
 const moods = require('../data/moods.js');
 const phrases = require('../data/phrases.json');
@@ -62,6 +65,7 @@ export default class MoodViewContainer extends Component {
   };
 
   static propTypes = {
+    back: PropTypes.func.isRequired,
     addMood: PropTypes.func.isRequired,
     deleteMood: PropTypes.func.isRequired,
     setText: PropTypes.func.isRequired,
@@ -69,16 +73,39 @@ export default class MoodViewContainer extends Component {
     selectedMoods: PropTypes.instanceOf(Set).isRequired,
   };
 
+  state = {
+    showSucceedingMessage: false,
+  };
+
   componentWillMount() {
     this.props.setText(phrases.Mood.text);
     this.props.setAudio(phrases.Mood.audio);
   }
+
+  sendMoods = async () => {
+    const feedbackId = await getSessionId();
+
+    try {
+      await patch(`/app/feedback/${feedbackId}`, {
+        moods: this.props.selectedMoods.toJS(),
+      });
+      this.setState({ showSucceedingMessage: true });
+    } catch (error) {
+      console.log(error);
+      Alert.alert('Oops! Jokin meni pieleen!', 'Yritä myöhemmin uudelleen!');
+    }
+  };
 
   addMood = async mood => {
     (await this.props.selectedMoods.includes(mood))
       ? this.props.deleteMood(mood)
       : this.props.addMood(mood);
   };
+
+  renderSaveConfirmationWindow = () =>
+    this.state.showSucceedingMessage
+      ? <SaveConfirmationWindow closeWindow={this.props.back} />
+      : null;
 
   renderMood = (mood, key) =>
     <TouchableOpacity
@@ -108,12 +135,13 @@ export default class MoodViewContainer extends Component {
     return (
       <View style={styles.container}>
         {this.renderMoods()}
-        <TouchableOpacity onPress={this.props.back}>
+        <TouchableOpacity onPress={this.sendMoods}>
           <Image
             source={require('./done.png')}
             style={{ width: 120, height: 60 }}
           />
         </TouchableOpacity>
+        {this.renderSaveConfirmationWindow()}
       </View>
     );
   }

@@ -51,12 +51,12 @@ export default class AppViewContainer extends Component {
   };
 
   componentDidMount() {
-    AppState.addEventListener('change', this._handleAppStateChange);
+    AppState.addEventListener('change', this.handleAppStateChange);
 
     /* Haetaan viimeisin tila */
     snapshotUtil.resetSnapshot().then(snapshot => {
       /* Jos viimeisin tila löytyi */
-      if (snapshot) {
+      if (false && snapshot) {
         this.props.resetSessionStateFromSnapshot(snapshot);
         this.props.activate();
       } else {
@@ -71,7 +71,7 @@ export default class AppViewContainer extends Component {
     });
   }
 
-  _handleAppStateChange = appState => {
+  handleAppStateChange = appState => {
     const previous = this.state.currentState;
 
     this.setState({ currentState: appState, previousState: previous });
