@@ -58,7 +58,6 @@ const mapDispatchToProps = dispatch => ({
 @connect(mapStateToProps, mapDispatchToProps)
 export default class HomeViewContainer extends Component {
   static navigationOptions = {
-    title: 'Etusivu',
     headerStyle: { backgroundColor: '#FFFFFF' },
   };
 
@@ -119,7 +118,7 @@ export default class HomeViewContainer extends Component {
       <TouchableOpacity onPress={() => this.props.pushRoute('Login')}>
         <Image
           source={getImage('nappula_aset')}
-          style={getSizeByHeight('nappula_aset', 0.15)}
+          style={getSizeByHeight('nappula_aset', 0.1)}
         />
       </TouchableOpacity>
     </View>;

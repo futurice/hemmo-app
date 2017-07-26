@@ -43,14 +43,14 @@ const styles = StyleSheet.create({
   tabBar: {
     flexDirection: 'row',
     flexGrow: 0,
-    margin: 10,
+    padding: 15,
   },
   tab: {
     borderBottomWidth: 3,
+    padding: 10,
+    marginRight: 15,
   },
   tabText: {
-    margin: 10,
-    backgroundColor: '#FFFFFF',
     fontSize: 15,
   },
   formField: {
@@ -84,12 +84,19 @@ const styles = StyleSheet.create({
     width: iconSize,
     height: iconSize,
   },
-  button: {
+  saveButton: {
     margin: 15,
+  },
+  removeButton: {
+    margin: 15,
+  },
+  removeButtonText: {
+    color: '#E64C4C',
   },
   buttonColumn: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
   },
 });
 
@@ -133,14 +140,14 @@ export default class SettingsViewContainer extends Component {
     loading: false,
     disabled: true,
     showSucceedingMessage: false,
-    id: -1,
+    id: null,
     nickName: '',
     fullName: '',
     birthYear: null,
     image: null,
   };
 
-  infoIsMissing = () => this.state.nickName === '';
+  infoIsMissing = () => this.state.nickName.length === 0;
 
   saveChild = () => {
     if (this.infoIsMissing()) {
@@ -148,7 +155,7 @@ export default class SettingsViewContainer extends Component {
         'Puuttuvia tietoja',
         'Varmistathan, että kaikki kohdat on täytetty ennen jatkamista.',
       );
-    } else if (this.state.id === -1) {
+    } else if (this.state.id === null) {
       this.createChild();
     } else {
       this.editChild();
@@ -165,7 +172,7 @@ export default class SettingsViewContainer extends Component {
       .then(result => {
         this.props.createUser(
           Map({
-            id: this.props.users.size,
+            id: result.id,
             token: `Bearer ${result.token}`,
             name: this.state.nickName,
             image: this.state.image,
@@ -296,7 +303,7 @@ export default class SettingsViewContainer extends Component {
 
   resetForm = () => {
     this.setState({
-      id: -1,
+      id: null,
       nickName: '',
       fullName: '',
       birthYear: null,
@@ -305,12 +312,12 @@ export default class SettingsViewContainer extends Component {
   };
 
   handleTabClick = user => {
-    const isEmptyTab = user.get('id') === -1;
+    const isEmptyTab = user.get('id') === null;
 
     this.setState({
       disabled: true,
       id: user.get('id'),
-      nickName: user.get('name') === '+ Lisää lapsi' ? '' : user.get('name'),
+      nickName: user.get('name') === '+ Lisää' ? '' : user.get('name'),
       image: user.get('image'),
       fullName: isEmptyTab ? '' : '*********',
       birthYear: isEmptyTab ? '' : '*********',
@@ -328,15 +335,12 @@ export default class SettingsViewContainer extends Component {
 
   renderTabs = () =>
     this.props.users
-      .unshift(
-        Map(
-          {
-            name: '+ Lisää lapsi',
-            image: null,
-            id: -1,
-          },
-          -1,
-        ),
+      .push(
+        Map({
+          name: '+ Lisää',
+          image: null,
+          id: null,
+        }),
       )
       .map((user, key) => this.renderTab(user, key));
 
@@ -381,10 +385,10 @@ export default class SettingsViewContainer extends Component {
       <TextInput
         style={[
           styles.input,
-          { color: this.state.id === -1 ? '#000' : '#D3D3D3' },
+          { color: this.state.id === null ? '#000' : '#D3D3D3' },
         ]}
         ref="fullName"
-        editable={this.state.id === -1}
+        editable={this.state.id === null}
         onChange={this.getChangedFullName}
         value={this.state.fullName}
       />
@@ -396,10 +400,10 @@ export default class SettingsViewContainer extends Component {
       <TextInput
         style={[
           styles.input,
-          { color: this.state.id === -1 ? '#000' : '#D3D3D3' },
+          { color: this.state.id === null ? '#000' : '#D3D3D3' },
         ]}
         ref="birthYear"
-        editable={this.state.id === -1}
+        editable={this.state.id === null}
         onChange={this.getChangedBirthYear}
         value={this.state.birthYear}
         keyboardType={'numeric'}
@@ -463,24 +467,23 @@ export default class SettingsViewContainer extends Component {
     </TouchableOpacity>;
 
   renderSaveButton = () =>
-    <View style={styles.button}>
+    <View style={styles.saveButton}>
       <Button
         onPress={this.saveChild}
-        title="Tallenna"
+        title={this.state.id === null ? 'Lisää lapsi' : 'Tallenna muutokset'}
         color={'#41A62A'}
         disabled={this.state.disabled}
       />
     </View>;
 
   renderRemoveUserButton = () =>
-    this.state.id !== -1
-      ? <View style={styles.button}>
-          <Button
-            onPress={this.verifyRemoveUser}
-            title="Poista lapsi"
-            color={'#E64C4C'}
-          />
-        </View>
+    this.state.id !== null
+      ? <TouchableOpacity
+          style={styles.removeButton}
+          onPress={this.verifyRemoveUser}
+        >
+          <Text style={styles.removeButtonText}>Poista lapsi</Text>
+        </TouchableOpacity>
       : null;
 
   renderTabBody = () =>

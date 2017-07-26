@@ -129,9 +129,7 @@ function usersReducer(state = List(), action) {
       return state.set(action.payload.id, action.payload.values);
 
     case REMOVE_USER:
-      let tmp = state.slice();
-      tmp = tmp.filter((user, index) => index !== action.payload);
-      return tmp;
+      return state.filter(user => user.get('id') !== action.payload);
 
     default:
       return state;
