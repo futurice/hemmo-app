@@ -56,7 +56,7 @@ export default class AppViewContainer extends Component {
     /* Haetaan viimeisin tila */
     snapshotUtil.resetSnapshot().then(snapshot => {
       /* Jos viimeisin tila löytyi */
-      if (false && snapshot) {
+      if (snapshot) {
         this.props.resetSessionStateFromSnapshot(snapshot);
         this.props.activate();
       } else {

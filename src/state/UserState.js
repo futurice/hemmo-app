@@ -69,7 +69,6 @@ export function removeUser(id) {
 export function resetCurrentUser() {
   return {
     type: RESET_CURRENT_USER,
-    payload: initialState,
   };
 }
 
@@ -138,6 +137,9 @@ function usersReducer(state = List(), action) {
 
 function currentUserReducer(state = Map(), action, wholeState) {
   switch (action.type) {
+    case RESET_CURRENT_USER:
+      return initialState.get('currentUser');
+
     case SET_CURRENT_USER:
       return state
         .set('name', wholeState.getIn(['users', action.payload, 'name']))
@@ -183,16 +185,10 @@ function currentUserReducer(state = Map(), action, wholeState) {
 }
 
 export default function UserStateReducer(state = initialState, action = {}) {
-  switch (action.type) {
-    case RESET_CURRENT_USER:
-      return action.payload;
-
-    default:
-      return state
-        .set('users', usersReducer(state.get('users'), action))
-        .set(
-          'currentUser',
-          currentUserReducer(state.get('currentUser'), action, state),
-        );
-  }
+  return state
+    .set('users', usersReducer(state.get('users'), action))
+    .set(
+      'currentUser',
+      currentUserReducer(state.get('currentUser'), action, state),
+    );
 }
