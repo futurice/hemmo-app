@@ -14,6 +14,7 @@ import {
 import { NavigationActions } from 'react-navigation';
 import Accordion from 'react-native-collapsible/Accordion';
 import { addActivity, deleteActivity } from '../state/UserState';
+import { setText, setAudio } from '../state/HemmoState';
 import LoadingSpinner from '../components/LoadingSpinner';
 import {
   getImage,
@@ -73,6 +74,7 @@ const styles = StyleSheet.create({
 });
 
 const activities = require('../data/activities.js');
+const phrases = require('../data/phrases.json');
 
 const animationDuration = 300;
 
@@ -96,6 +98,8 @@ const mapDispatchToProps = dispatch => ({
   back: () => dispatch(NavigationActions.back()),
   addActivity: activity => dispatch(addActivity(activity)),
   deleteActivity: activity => dispatch(deleteActivity(activity)),
+  setText: text => dispatch(setText(text)),
+  setAudio: audio => dispatch(setAudio(audio)),
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -113,6 +117,8 @@ export default class ActivityViewContainer extends Component {
   static propTypes = {
     addActivity: PropTypes.func.isRequired,
     deleteActivity: PropTypes.func.isRequired,
+    setText: PropTypes.func.isRequired,
+    setAudio: PropTypes.func.isRequired,
     isReady: PropTypes.bool.isRequired,
     chosenActivities: PropTypes.instanceOf(Map).isRequired,
   };
@@ -122,6 +128,11 @@ export default class ActivityViewContainer extends Component {
     chosenMainActivity: Map(),
     chosenSubActivity: Map(),
   };
+
+  componentWillMount() {
+    this.props.setText(phrases.Activity.text);
+    this.props.setAudio(phrases.Activity.audio);
+  }
 
   getSubActivityHeight = () =>
     getSizeByWidth('leikkiminen', 0.2).height + 2 * 5;
@@ -140,15 +151,26 @@ export default class ActivityViewContainer extends Component {
         }),
       0,
     );
-    this.setState({
-      chosenMainActivity:
-        this.state.chosenMainActivity.get('id') === activity.get('id')
-          ? Map()
-          : activity,
-    });
+
+    if (this.state.chosenMainActivity.get('id') === activity.get('id')) {
+      this.setState({
+        chosenMainActivity: Map(),
+      });
+
+      this.props.setText('');
+      this.props.setAudio('');
+    } else {
+      this.setState({
+        chosenMainActivity: activity,
+      });
+
+      this.props.setText(activity.get('text'));
+      this.props.setAudio(activity.get('audio'));
+    }
   };
 
   chooseSubActivity = subActivity => {
+    this.props.setAudio(subActivity.get('audio'));
     this.setState({ chosenSubActivity: subActivity, modalVisible: true });
   };
 
@@ -165,6 +187,13 @@ export default class ActivityViewContainer extends Component {
         thumb: thumbValue,
       });
     }
+
+    this.closeModal();
+  };
+
+  closeModal = () => {
+    this.props.setText('');
+    this.props.setAudio('');
 
     this.setState({
       modalVisible: false,
@@ -199,11 +228,7 @@ export default class ActivityViewContainer extends Component {
 
   renderTitlePanel = () =>
     <View>
-      <TouchableOpacity
-        onPress={() => {
-          this.setState({ modalVisible: false, chosenSubActivity: Map() });
-        }}
-      >
+      <TouchableOpacity onPress={this.closeModal}>
         <Image
           source={getImage('nappula_rasti')}
           style={[styles.closeButton, getSizeByHeight('nappula_rasti', 0.1)]}

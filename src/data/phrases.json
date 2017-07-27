@@ -1,8 +1,4 @@
 {
-  "UserIsUnknown": {
-    "text": "Moikka, näyttää siltä etten tiedä kuka olet. Käy asetuksissa lisäämässä nimesi ja kuvasi.",
-    "audio": "hemmo_01"
-  },
   "FeedbackMenu": {
     "text": "Moikka, kiva kun tulit taas juttelemaan kanssani. Nyt voit kertoa siitä, millaista sinulla oli viime kerralla tukiperheessä. Olen apunasi alusta loppuun, joten ei huolta, osaat kyllä!",
     "audio": "hemmo_02"
@@ -11,86 +7,9 @@
     "text": "Kertoisitko minulle mitä teitte viime kerralla tukiperheessä? Liittyikö se puuhailuun - leikkimiseen ja pelaamiseen - ulkoiluun ja retkeilyyn - yhdessä vietettyyn aikaan tai lemmikkeihin ja kotieläimiin?",
     "audio": "hemmo_03"
   },
-  "SubActivity": [
-    {
-      "text": "Kerro minulle vielä hieman tarkemmin? Leivoitteko tai kokkailitteko, puuhasitteko tai askartelitteko, luitko itseksesi, teittekö kotihommia tai rakentelitteko, nikkaroitteko tai korjailitte?",
-      "audio": "hemmo_05",
-      "subTexts": [
-        {
-          "subText": "Millaista oli leipoa tai kokkailla?",
-          "audio": "hemmo_14"
-        },
-        {
-          "subText": "Millaista oli piirtää tai askarrella?",
-          "audio": "hemmo_16"
-        },
-        { "subText": "Millaista oli tehdä kotihommia?", "audio": "hemmo_15" },
-        { "subText": "Millaista oli lukea?", "audio": "hemmo_17" },
-        {
-          "subText": "Millaista oli rakennella, nikkaroida tai korjailla?",
-          "audio": "hemmo_18"
-        }
-      ]
-    },
-    {
-      "text": "Kerro minulle vielä hieman tarkemmin? Ulkoilitteko, paistoitteko makkaraa, retkeilittekö, teittekö pihahommia, kävittekö leikkipuistossa, kalastitteko tai mökkeilittekö?",
-      "audio": "hemmo_06",
-      "subTexts": [
-        { "subText": "Millaista oli ulkoilla?", "audio": "hemmo_19" },
-        { "subText": "Millaista oli paistaa makkaraa?", "audio": "hemmo_20" },
-        { "subText": "Millaista oli retkeillä?", "audio": "hemmo_21" },
-        { "subText": "Millaista oli tehdä pihahommia?", "audio": "hemmo_22" },
-        {
-          "subText": "Millaista oli käydä leikkipuistossa?",
-          "audio": "hemmo_23"
-        },
-        { "subText": "Millaista oli kalastaa?", "audio": "hemmo_24" },
-        { "subText": "Millaista oli mökkeillä?", "audio": "hemmo_25" }
-      ]
-    },
-    {
-      "text": "Kerro minulle vielä hieman tarkemmin? Leikittekö, pelasitteko lautapelejä, pelasitteko videopelejä, liikuitteko tai uitteko?",
-      "audio": "hemmo_07",
-      "subTexts": [
-        { "subText": "Millaista oli leikkiä?", "audio": "hemmo_26" },
-        { "subText": "Millaista oli pelata lautapelejä?", "audio": "hemmo_27" },
-        { "subText": "Millaista oli pelata videopelejä?", "audio": "hemmo_28" },
-        { "subText": "Millaista oli liikunta?", "audio": "hemmo_29" },
-        { "subText": "Millaista oli uiminen?", "audio": "hemmo_30" }
-      ]
-    },
-    {
-      "text": "Kerro minulle vielä hieman tarkemmin? Saunoitteko, juttelitteko, kyläilittekö, katselitteko elokuvaa tai luitteko yhdessä?",
-      "audio": "hemmo_04",
-      "subTexts": [
-        { "subText": "Millaista oli saunoa?", "audio": "hemmo_09" },
-        { "subText": "Millaista oli jutella?", "audio": "hemmo_10" },
-        { "subText": "Millaista oli kyläillä?", "audio": "hemmo_11" },
-        { "subText": "Millaista oli katsella elokuvia?", "audio": "hemmo_12" },
-        { "subText": "Millaista oli lukea yhdessä?", "audio": "hemmo_13" }
-      ]
-    },
-    {
-      "text": "Kerro minulle vielä hieman tarkemmin? Koira, kissa, hevonen vai muita eläimiä?",
-      "audio": "hemmo_08",
-      "subTexts": [
-        { "subText": "Millaista oli hoitaa koiraa?", "audio": "hemmo_31" },
-        { "subText": "Millaista oli hoitaa kissaa?", "audio": "hemmo_32" },
-        { "subText": "Millaista oli hoitaa hevosta?", "audio": "hemmo_33" },
-        {
-          "subText": "Millaista oli hoitaa muita eläimiä?",
-          "audio": "hemmo_34"
-        }
-      ]
-    }
-  ],
   "FreeWord": {
     "text": "Haluaisitko vielä lopuksi kertoa minulle jotain muuta?",
     "audio": "hemmo_41"
-  },
-  "NewRound": {
-    "text": "Tahdotko kertoa vielä jostain muustakin, mitä teitte? Vai siirtyä eteenpäin?",
-    "audio": "hemmo_37"
   },
   "Mood": {
     "text": "Millainen olo sinulle jäi koko viime kerrastasi tukiperheessä? Valitse näistä omaa oloasi vastaavia kuvia, tai kerro minulle puhumalla tai kirjoittamalla.",
