@@ -40,6 +40,7 @@ const styles = StyleSheet.create({
 });
 
 const reactMixin = require('react-mixin');
+const phrases = require('../../data/phrases.json');
 
 const mapStateToProps = state => ({
   text: state.getIn(['hemmo', 'text']),
@@ -57,6 +58,7 @@ const mapDispatchToProps = dispatch => ({
 @reactMixin.decorate(TimerMixin)
 export default class Hemmo extends Component {
   static propTypes = {
+    navigation: PropTypes.object.isRequired,
     text: PropTypes.string,
     audio: PropTypes.string,
     setText: PropTypes.func,
@@ -84,18 +86,35 @@ export default class Hemmo extends Component {
     this.props.setAudio('');
   };
 
+  playDefault = () => {
+    const routeName = this.props.navigation.state.routes[
+      this.props.navigation.state.index
+    ].routeName;
+
+    this.props.setText(phrases[routeName].text);
+    this.props.setAudio(phrases[routeName].audio);
+  };
+
   toggleMute = () => {
-    this.props.setText(
-      this.props.muted
-        ? 'Nyt puhun taas!'
-        : 'Tästä lähtien olen hiljaa! Klikkaa minua uudestaan, niin alan taas puhumaan.',
-    );
-    this.props.toggleMute();
+    if (this.props.muted) {
+      this.props.toggleMute();
+      this.playDefault();
+    } else {
+      this.props.toggleMute();
+      this.props.setText(
+        'Tästä lähtien olen hiljaa! Klikkaa nappia uudestaan, niin alan taas puhumaan.',
+      );
+    }
   };
 
   handleAppStateChange = currentAppState => {
     this.setState({ currentAppState });
   };
+
+  renderMuteButton = () =>
+    <TouchableOpacity onPress={this.toggleMute}>
+      <Text>Hiljennä</Text>
+    </TouchableOpacity>;
 
   renderBubble = () =>
     this.state.currentAppState === 'active' && this.props.text.length !== 0
@@ -120,6 +139,7 @@ export default class Hemmo extends Component {
               <Text style={styles.text}>
                 {this.props.text}
               </Text>
+              {this.renderMuteButton()}
             </Image>
           </TouchableOpacity>
         </Modal>
@@ -138,7 +158,7 @@ export default class Hemmo extends Component {
       <TouchableOpacity style={styles.container}>
         {this.renderBubble()}
         {this.renderAudio()}
-        <TouchableOpacity onPress={this.toggleMute}>
+        <TouchableOpacity onPress={this.playDefault}>
           <Image source={require('./hemmo.png')} style={styles.image} />
         </TouchableOpacity>
       </TouchableOpacity>
