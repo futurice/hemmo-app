@@ -31,18 +31,15 @@ const styles = StyleSheet.create({
 });
 
 const mapDispatchToProps = dispatch => ({
-  resetCurrentUser: () => dispatch(resetCurrentUser()),
-
-  // welp this should really use .reset(), but couldn't get it work for proto
-  resetRoute: () => dispatch(NavigationActions.back()),
-  /*
-  resetRoute: () => dispatch(NavigationActions.reset({
-    index: 0,
-    actions: [
-      NavigationActions.navigate({ routeName: 'Home' }),
-    ],
-  })),
-  */
+  reset: () => {
+    dispatch(resetCurrentUser());
+    dispatch(
+      NavigationActions.reset({
+        index: 0,
+        actions: [NavigationActions.navigate({ routeName: 'Home' })],
+      }),
+    );
+  },
 });
 
 @connect(null, mapDispatchToProps)
@@ -58,19 +55,16 @@ export default class EndingViewContainer extends Component {
   };
 
   static propTypes = {
-    resetRoute: PropTypes.func.isRequired,
-    resetCurrentUser: PropTypes.func.isRequired,
+    reset: PropTypes.func.isRequired,
   };
 
   end = () => {
     Alert.alert(
       'Kiitos palautteesta!',
       'Kiitos että kerroit. :)',
-      [{ text: 'OK', onPress: this.props.resetRoute }],
+      [{ text: 'OK', onPress: this.props.reset }],
       { cancelable: false },
     );
-    this.props.resetCurrentUser();
-    // this.props.resetRoute();
   };
 
   render() {

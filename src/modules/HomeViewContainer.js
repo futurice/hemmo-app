@@ -53,6 +53,13 @@ const mapDispatchToProps = dispatch => ({
   finishPreparing: () => dispatch(finishPreparing()),
   pushRoute: route =>
     dispatch(NavigationActions.navigate({ routeName: route })),
+  resetRoute: route =>
+    dispatch(
+      NavigationActions.reset({
+        index: 0,
+        actions: [NavigationActions.navigate({ routeName: route })],
+      }),
+    ),
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -68,6 +75,7 @@ export default class HomeViewContainer extends Component {
     startPreparing: PropTypes.func.isRequired,
     finishPreparing: PropTypes.func.isRequired,
     pushRoute: PropTypes.func.isRequired,
+    resetRoute: PropTypes.func.isRequired,
     users: PropTypes.instanceOf(List).isRequired,
     currentUser: PropTypes.instanceOf(Map).isRequired,
   };
@@ -95,7 +103,7 @@ export default class HomeViewContainer extends Component {
     setSessionId('foobar');
     this.props.finishPreparing();
     this.props.setCurrentUser(id);
-    this.props.pushRoute('Feedback');
+    this.props.resetRoute('FeedbackMenu');
 
     /*
     post('/app/feedback')

@@ -87,9 +87,9 @@ export default class Hemmo extends Component {
   };
 
   playDefault = () => {
-    const routeName = this.props.navigation.state.routes[
-      this.props.navigation.state.index
-    ].routeName;
+    const routeName = this.props.navigation.state.routeName;
+
+    if (!phrases[routeName]) return;
 
     this.props.setText(phrases[routeName].text);
     this.props.setAudio(phrases[routeName].audio);
@@ -154,6 +154,11 @@ export default class Hemmo extends Component {
       : null;
 
   render() {
+    const routeName = this.props.navigation.state.routeName;
+
+    // Don't render button if there is no phrase for current screen
+    if (!phrases[routeName]) return null;
+
     return (
       <TouchableOpacity style={styles.container}>
         {this.renderBubble()}
