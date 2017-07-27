@@ -46,6 +46,12 @@ const mapStateToProps = state => ({
   text: state.getIn(['hemmo', 'text']),
   audio: state.getIn(['hemmo', 'audio']),
   muted: state.getIn(['hemmo', 'muted']),
+  activeRoute: state.getIn([
+    'navigatorState',
+    'routes',
+    state.getIn(['navigatorState', 'index']),
+    'routeName',
+  ]),
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -59,6 +65,7 @@ const mapDispatchToProps = dispatch => ({
 export default class Hemmo extends Component {
   static propTypes = {
     navigation: PropTypes.object.isRequired,
+    activeRoute: PropTypes.string,
     text: PropTypes.string,
     audio: PropTypes.string,
     setText: PropTypes.func,
@@ -145,13 +152,25 @@ export default class Hemmo extends Component {
         </Modal>
       : null;
 
-  renderAudio = () =>
-    this.props.audio && !this.props.muted
-      ? <AudioPlayerViewContainer
+  renderAudio = () => {
+    // Name of route where this instance of Hemmo is rendered
+    const routeName = this.props.navigation.state.routeName;
+
+    // Name of active route
+    const activeRoute = this.props.activeRoute;
+
+    // Hemmo only talks on the active screen
+    if (routeName === activeRoute && this.props.audio && !this.props.muted) {
+      return (
+        <AudioPlayerViewContainer
           onEnd={this.onEnd}
           audioTrack={this.props.audio}
         />
-      : null;
+      );
+    }
+
+    return null;
+  };
 
   render() {
     const routeName = this.props.navigation.state.routeName;
