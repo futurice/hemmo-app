@@ -10,9 +10,11 @@ import {
   Dimensions,
   Text,
   View,
+  ScrollView,
   StyleSheet,
 } from 'react-native';
 
+import AppButton from '../../components/AppButton';
 import { getSizeByHeight, getImage } from '../../services/graphics';
 import { setText, setAudio } from '../../state/HemmoState';
 
@@ -82,82 +84,65 @@ export default class HomeViewContainer extends Component {
     this.props.setAudio(phrases.FeedbackMenu.audio);
   }
 
-  renderButton = (title, image, onPress, done) =>
-    <TouchableOpacity
-      activeOpacity={0.5}
-      underlayColor="rgba(128, 128, 128, 0.5)"
-      style={{
-        backgroundColor: 'rgba(255, 255, 255, 0.6)',
-        margin: 20,
-        height: 80,
-        justifyContent: 'center',
-        borderRadius: 20,
-      }}
-      onPress={onPress}
-      title={title}
-    >
-      <View style={{ padding: 10, flexDirection: 'row' }}>
-        <Image source={image} style={{ width: 64, height: 64 }} />
-        <Text
-          style={{
-            fontSize: 24,
-            textAlign: 'center',
-            paddingLeft: 20,
-            paddingTop: 16,
-          }}
-        >
-          {title}
-        </Text>
+  renderBigButton = (background, onPress, done) =>
+    <View style={{ paddingVertical: 16 }}>
+      <AppButton
+        width={Dimensions.get('window').width * 0.8}
+        onPress={onPress}
+        background={background}
+        shadow
+      >
         <View style={{ flex: 1, alignItems: 'flex-end' }}>
           {done
             ? <Image
-                source={require('./checkmark.png')}
-                style={{ width: 48, height: 48, marginTop: 8 }}
+                source={require('../../../assets/graphics/others/checkmark_big_s2dp.png')}
+                style={{ width: 72, height: 72 }}
               />
             : null}
         </View>
-      </View>
-    </TouchableOpacity>;
+      </AppButton>
+    </View>;
+
+  renderSendButton = (onPress, disabled) =>
+    <View style={{ paddingTop: 32, paddingBottom: 16 }}>
+      <AppButton
+        width={Dimensions.get('window').width * 0.5}
+        onPress={onPress}
+        background="envelope_closed"
+        disabled={disabled}
+        shadow
+      />
+    </View>;
 
   render() {
-    const users = this.props.users;
-
     return (
       <Image source={getImage('tausta_perus3')} style={styles.container}>
-        <View style={{ flex: 1 }}>
-          <View style={{ height: 100 }}>
-            {this.renderButton(
-              'Tekeminen',
-              require('../icon_activities.png'),
-              () => this.props.pushRoute('Activity'),
-              this.props.activitiesSize,
-            )}
-          </View>
+        <ScrollView
+          contentContainerStyle={{ paddingVertical: 32, alignItems: 'center' }}
+        >
+          {this.renderBigButton(
+            'whatdoned',
+            () => this.props.pushRoute('Activity'),
+            this.props.activitiesSize,
+          )}
+          {this.renderBigButton(
+            'howfelt',
+            () => this.props.pushRoute('Mood'),
+            this.props.moodsSize,
+          )}
+          {this.renderBigButton(
+            'tellfreely',
+            () => this.props.pushRoute('FreeWord'),
+            this.props.freeWordSize,
+          )}
 
-          <View style={{ height: 100 }}>
-            {this.renderButton(
-              'Tunteet',
-              require('../icon_moods.png'),
-              () => this.props.pushRoute('Mood'),
-              this.props.moodsSize,
-            )}
-          </View>
-
-          <View style={{ height: 100 }}>
-            {this.renderButton(
-              'Kerro vapaasti',
-              require('../icon_tellfreely.png'),
-              () => this.props.pushRoute('FreeWord'),
-              this.props.freeWordSize,
-            )}
-          </View>
-
-          <View style={{ height: 100 }}>
-            {this.renderButton('Lähetä', require('../icon_send.png'), () =>
-              this.props.pushRoute('Ending'),
-            )}
-          </View>
-        </View>
+          {this.renderSendButton(
+            () => this.props.pushRoute('Ending'),
+            !this.props.activitiesSize ||
+              !this.props.moodsSize ||
+              !this.props.freeWordSize,
+          )}
+        </ScrollView>
       </Image>
     );
   }
