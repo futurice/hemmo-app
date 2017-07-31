@@ -135,11 +135,6 @@ export default class ActivityViewContainer extends Component {
     chosenSubActivity: Map(),
   };
 
-  componentWillMount() {
-    this.props.setText(phrases.Activity.text);
-    this.props.setAudio(phrases.Activity.audio);
-  }
-
   getSubActivityHeight = () =>
     getSizeByWidth('leikkiminen', 0.2).height + 2 * 5;
 
@@ -192,20 +187,19 @@ export default class ActivityViewContainer extends Component {
         chosenMainActivity: Map(),
       });
 
-      this.props.setText('');
       this.props.setAudio('');
     } else {
       this.setState({
         chosenMainActivity: activity,
       });
 
-      this.props.setText(activity.get('text'));
       this.props.setAudio(activity.get('audio'));
     }
   };
 
-  chooseSubActivity = subActivity => {
-    this.props.setAudio(subActivity.get('audio'));
+  chooseSubActivity = async subActivity => {
+    await this.props.setAudio('');
+    await this.props.setAudio(subActivity.get('audio'));
     this.setState({ chosenSubActivity: subActivity, modalVisible: true });
   };
 

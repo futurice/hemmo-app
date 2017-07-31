@@ -81,25 +81,9 @@ const graphics = Map({
   }),
 
   /* speech bubbles */
-  puhekupla_aset: Map({
-    image: require('../../assets/graphics/bubbles/puhekupla_aset.png'),
-    ratio: 1.7734,
-  }),
-  puhekupla_oikea: Map({
-    image: require('../../assets/graphics/bubbles/puhekupla_oikea.png'),
+  puhekupla: Map({
+    image: require('../../assets/graphics/bubbles/up_small.png'),
     ratio: 1.6386,
-  }),
-  puhekupla_tallennettu: Map({
-    image: require('../../assets/graphics/bubbles/puhekupla_tallennettu.png'),
-    ratio: 1.6361,
-  }),
-  puhekupla_vasen: Map({
-    image: require('../../assets/graphics/bubbles/puhekupla_vasen.png'),
-    ratio: 1.6361,
-  }),
-  puhekupla_vasen2: Map({
-    image: require('../../assets/graphics/bubbles/puhekupla_vasen2.png'),
-    ratio: 1.1514,
   }),
 
   /* buttons */
@@ -368,20 +352,8 @@ const graphics = Map({
   }),
 
   /* Muuta */
-  hemmo_iso: Map({
-    image: require('../../assets/graphics/others/hemmo_iso.png'),
-    ratio: 0.8878,
-  }),
-  hemmo_keski: Map({
-    image: require('../../assets/graphics/others/hemmo_keski.png'),
-    ratio: 0.8875,
-  }),
-  hemmo_pieni: Map({
-    image: require('../../assets/graphics/others/hemmo_pieni.png'),
-    ratio: 0.8864,
-  }),
   hemmo: Map({
-    image: require('../../assets/graphics/others/hemmo.png'),
+    image: require('../../assets/graphics/buttons/hemmo.png'),
     ratio: 0.9328,
   }),
   asetukset: Map({

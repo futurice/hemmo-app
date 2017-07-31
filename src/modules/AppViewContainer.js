@@ -11,6 +11,7 @@ import {
   resetSessionStateFromSnapshot,
 } from '../state/SessionState';
 import store from '../redux/store';
+import Hemmo from './Hemmo';
 
 const styles = StyleSheet.create({
   centered: {
@@ -98,6 +99,7 @@ export default class AppViewContainer extends Component {
     return (
       <View style={{ flex: 1 }}>
         <NavigationViewContainer />
+        <Hemmo />
       </View>
     );
   }

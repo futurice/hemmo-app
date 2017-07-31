@@ -10,7 +10,7 @@ import MoodViewContainer from '../MoodViewContainer';
 import EndingViewContainer from '../EndingViewContainer';
 import NavigationModal from './NavigationModal';
 import BackButton from './BackButton';
-import Hemmo from './Hemmo';
+import Hemmo from '../Hemmo';
 
 const AppNavigator = StackNavigator(
   {
@@ -30,7 +30,6 @@ const AppNavigator = StackNavigator(
         navigation.state.routeName === 'FeedbackMenu'
           ? <NavigationModal />
           : undefined,
-      headerRight: <Hemmo navigation={navigation} />,
       headerStyle: { backgroundColor: '#FFFFFF' },
     }),
   },

@@ -50,8 +50,13 @@ export default class SaveConfirmationWindow extends Component {
 
   componentWillMount() {
     this.props.setAudio('hemmo_43');
-    this.setTimeout(this.props.closeWindow, 1000);
+    this.setTimeout(this.closeWindow, 1000);
   }
+
+  closeWindow = () => {
+    this.props.closeWindow();
+    this.props.setAudio('');
+  };
 
   render() {
     return (

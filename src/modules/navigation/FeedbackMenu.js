@@ -16,7 +16,6 @@ import {
 
 import AppButton from '../../components/AppButton';
 import { getSizeByHeight, getImage } from '../../services/graphics';
-import { setText, setAudio } from '../../state/HemmoState';
 
 const phrases = require('../../data/phrases.json');
 
@@ -64,8 +63,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   pushRoute: route =>
     dispatch(NavigationActions.navigate({ routeName: route })),
-  setText: text => dispatch(setText(text)),
-  setAudio: audio => dispatch(setAudio(audio)),
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -73,16 +70,6 @@ export default class HomeViewContainer extends Component {
   static navigationOptions = {
     title: 'Valikko',
   };
-
-  static propTypes = {
-    setText: PropTypes.func.isRequired,
-    setAudio: PropTypes.func.isRequired,
-  };
-
-  componentWillMount() {
-    this.props.setText(phrases.FeedbackMenu.text);
-    this.props.setAudio(phrases.FeedbackMenu.audio);
-  }
 
   renderBigButton = (background, onPress, done) =>
     <View style={{ paddingVertical: 16 }}>

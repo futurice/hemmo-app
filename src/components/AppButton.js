@@ -36,6 +36,22 @@ const assets = {
     normal: require('../../assets/graphics/buttons/button_small.png'),
     shadow: require('../../assets/graphics/buttons/button_small_s2dp.png'),
   },
+  up_small: {
+    normal: require('../../assets/graphics/bubbles/up_small.png'),
+    shadow: require('../../assets/graphics/bubbles/up_small_s2dp.png'),
+  },
+  hemmo: {
+    normal: require('../../assets/graphics/buttons/hemmo.png'),
+    shadow: require('../../assets/graphics/buttons/hemmo_s2dp.png'),
+  },
+  volume_is_off: {
+    normal: require('../../assets/graphics/buttons/volume_is_off.png'),
+    shadow: require('../../assets/graphics/buttons/volume_is_off_s2dp.png'),
+  },
+  volume_is_on: {
+    normal: require('../../assets/graphics/buttons/volume_is_on.png'),
+    shadow: require('../../assets/graphics/buttons/volume_is_on_s2dp.png'),
+  },
   whatdoned: {
     normal: require('../../assets/graphics/buttons/whatdoned.png'),
     shadow: require('../../assets/graphics/buttons/whatdoned_s2dp.png'),
