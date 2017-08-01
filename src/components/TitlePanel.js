@@ -46,7 +46,7 @@ export default class TitlePanel extends Component {
   renderBackButton = () =>
     <TouchableOpacity onPress={this.props.popRoute}>
       <Image
-        source={getImage('nappula_takaisin')}
+        source={getImage('nappula_takaisin').normal}
         style={[styles.backButton, getSizeByHeight('nappula_takaisin', 0.15)]}
       />
     </TouchableOpacity>;

@@ -5,389 +5,363 @@
 
 import { Map } from 'immutable';
 
-const graphics = Map({
-  default_image: Map({
-    image: require('../../assets/graphics/others/default-icon.png'),
-  }),
+const graphics = {
+  default_image: {
+    normal: require('../../assets/graphics/others/default-icon.png'),
+  },
 
   /* backgrounds */
-  tausta_perus: Map({
-    image: require('../../assets/graphics/backgrounds/tausta_perus.png'),
+  tausta_perus: {
+    normal: require('../../assets/graphics/backgrounds/tausta_perus.png'),
     ratio: 1.7777,
-  }),
-  tausta_perus2: Map({
-    image: require('../../assets/graphics/backgrounds/tausta_perus2.png'),
+  },
+  tausta_perus2: {
+    normal: require('../../assets/graphics/backgrounds/tausta_perus2.png'),
     ratio: 1.7777,
-  }),
-  tausta_perus3: Map({
-    image: require('../../assets/graphics/backgrounds/tausta_perus3.png'),
+  },
+  tausta_perus3: {
+    normal: require('../../assets/graphics/backgrounds/tausta_perus3.png'),
     ratio: 1.7777,
-  }),
-  tausta_kirjoitus: Map({
-    image: require('../../assets/graphics/backgrounds/tausta_kirjoitus.png'),
+  },
+  tausta_kirjoitus: {
+    normal: require('../../assets/graphics/backgrounds/tausta_kirjoitus.png'),
     ratio: 1.9621,
-  }),
-  kirjoituskentta: Map({
-    image: require('../../assets/graphics/backgrounds/kirjoituskentta.png'),
+  },
+  kirjoituskentta: {
+    normal: require('../../assets/graphics/backgrounds/kirjoituskentta.png'),
     ratio: 1.9638,
-  }),
-  kehys_iso: Map({
-    image: require('../../assets/graphics/backgrounds/kehys_iso.png'),
+  },
+  kehys_iso: {
+    normal: require('../../assets/graphics/backgrounds/kehys_iso.png'),
     ratio: 0.798,
-  }),
-  kehys_keski: Map({
-    image: require('../../assets/graphics/backgrounds/kehys_keski.png'),
+  },
+  kehys_keski: {
+    normal: require('../../assets/graphics/backgrounds/kehys_keski.png'),
     ratio: 0.7983,
-  }),
-  kehys_pieni: Map({
-    image: require('../../assets/graphics/backgrounds/kehys_pieni.png'),
+  },
+  kehys_pieni: {
+    normal: require('../../assets/graphics/backgrounds/kehys_pieni.png'),
     ratio: 0.797,
-  }),
-  kehys_palkki: Map({
-    image: require('../../assets/graphics/backgrounds/kehys_palkki.png'),
+  },
+  kehys_palkki: {
+    normal: require('../../assets/graphics/backgrounds/kehys_palkki.png'),
     ratio: 4.207,
-  }),
-  nelio: Map({
-    image: require('../../assets/graphics/backgrounds/nelio.png'),
+  },
+  nelio: {
+    normal: require('../../assets/graphics/backgrounds/nelio.png'),
     ratio: 1.2484,
-  }),
-  tausta_asetukset: Map({
-    image: require('../../assets/graphics/backgrounds/tausta_asetukset.png'),
+  },
+  tausta_asetukset: {
+    normal: require('../../assets/graphics/backgrounds/tausta_asetukset.png'),
     ratio: 2.409,
-  }),
-  tausta_hemmolla: Map({
-    image: require('../../assets/graphics/backgrounds/tausta_hemmolla.png'),
+  },
+  tausta_hemmolla: {
+    normal: require('../../assets/graphics/backgrounds/tausta_hemmolla.png'),
     ratio: 1.7777,
-  }),
-  tausta_kapea: Map({
-    image: require('../../assets/graphics/backgrounds/tausta_kapea.png'),
+  },
+  tausta_kapea: {
+    normal: require('../../assets/graphics/backgrounds/tausta_kapea.png'),
     ratio: 1.1415,
-  }),
-  tausta_levea: Map({
-    image: require('../../assets/graphics/backgrounds/tausta_levea.png'),
+  },
+  tausta_levea: {
+    normal: require('../../assets/graphics/backgrounds/tausta_levea.png'),
     ratio: 1.7872,
-  }),
-  ympyra_iso: Map({
-    image: require('../../assets/graphics/backgrounds/ympyra_iso.png'),
-    ratio: 1,
-  }),
-  ympyra_keski: Map({
-    image: require('../../assets/graphics/backgrounds/ympyra_keski.png'),
-    ratio: 1,
-  }),
-  ympyra_pieni: Map({
-    image: require('../../assets/graphics/backgrounds/ympyra_pieni.png'),
-    ratio: 1,
-  }),
+  },
+  modal: {
+    normal: require('../../assets/graphics/buttons/modal.png'),
+    shadow: require('../../assets/graphics/buttons/modal_s4dp.png'),
+    ratio: 1.083,
+  },
 
   /* speech bubbles */
-  puhekupla: Map({
-    image: require('../../assets/graphics/bubbles/up_small.png'),
-    ratio: 1.6386,
-  }),
+  puhekupla: {
+    normal: require('../../assets/graphics/bubbles/up_small.png'),
+    shadow: require('../../assets/graphics/bubbles/up_small_s2dp.png'),
+    ratio: 1.56,
+  },
 
   /* buttons */
-  nappula_aset: Map({
-    image: require('../../assets/graphics/buttons/nappula_aset.png'),
+  button_small: {
+    normal: require('../../assets/graphics/buttons/button_small.png'),
+    shadow: require('../../assets/graphics/buttons/button_small_s2dp.png'),
+  },
+  volume_is_off: {
+    normal: require('../../assets/graphics/buttons/volume_is_off.png'),
+    shadow: require('../../assets/graphics/buttons/volume_is_off_s2dp.png'),
+  },
+  volume_is_on: {
+    normal: require('../../assets/graphics/buttons/volume_is_on.png'),
+    shadow: require('../../assets/graphics/buttons/volume_is_on_s2dp.png'),
+  },
+  whatdoned: {
+    normal: require('../../assets/graphics/buttons/whatdoned.png'),
+    shadow: require('../../assets/graphics/buttons/whatdoned_s2dp.png'),
+  },
+  howfelt: {
+    normal: require('../../assets/graphics/buttons/howfelt.png'),
+    shadow: require('../../assets/graphics/buttons/howfelt_s2dp.png'),
+  },
+  tellfreely: {
+    normal: require('../../assets/graphics/buttons/tellfreely.png'),
+    shadow: require('../../assets/graphics/buttons/tellfreely_s2dp.png'),
+  },
+  envelope_closed: {
+    normal: require('../../assets/graphics/others/envelope_closed.png'),
+    shadow: require('../../assets/graphics/others/envelope_closed_s2dp.png'),
+  },
+
+  nappula_aset: {
+    normal: require('../../assets/graphics/buttons/nappula_aset.png'),
     ratio: 1,
-  }),
-  nappula_kirjoita: Map({
-    image: require('../../assets/graphics/buttons/nappula_kirjoita.png'),
+  },
+  nappula_kirjoita: {
+    normal: require('../../assets/graphics/buttons/nappula_kirjoita.png'),
     ratio: 4.2068,
-  }),
-  nappula_ohita: Map({
-    image: require('../../assets/graphics/buttons/nappula_ohita.png'),
+  },
+  nappula_ohita: {
+    normal: require('../../assets/graphics/buttons/nappula_ohita.png'),
     ratio: 1.9433,
-  }),
-  nappula_rasti: Map({
-    image: require('../../assets/graphics/buttons/nappula_rasti.png'),
+  },
+  close_small: {
+    normal: require('../../assets/graphics/buttons/close_small.png'),
     ratio: 1,
-  }),
-  nappula_rec: Map({
-    image: require('../../assets/graphics/buttons/nappula_rec.png'),
+  },
+  nappula_rec: {
+    normal: require('../../assets/graphics/buttons/nappula_rec.png'),
     ratio: 1,
-  }),
-  nappula_seuraava: Map({
-    image: require('../../assets/graphics/buttons/nappula_seuraava.png'),
+  },
+  nappula_seuraava: {
+    normal: require('../../assets/graphics/buttons/nappula_seuraava.png'),
     ratio: 3.6896,
-  }),
-  nappula_seuraava2: Map({
-    image: require('../../assets/graphics/buttons/nappula_seuraava2.png'),
+  },
+  nappula_seuraava2: {
+    normal: require('../../assets/graphics/buttons/nappula_seuraava2.png'),
     ratio: 1,
-  }),
-  nappula_stop: Map({
-    image: require('../../assets/graphics/buttons/nappula_stop.png'),
+  },
+  nappula_stop: {
+    normal: require('../../assets/graphics/buttons/nappula_stop.png'),
     ratio: 1,
-  }),
-  nappula_takaisin: Map({
-    image: require('../../assets/graphics/buttons/nappula_takaisin.png'),
+  },
+  nappula_takaisin: {
+    normal: require('../../assets/graphics/buttons/nappula_takaisin.png'),
     ratio: 0.6301,
-  }),
-  nappula_tallenna: Map({
-    image: require('../../assets/graphics/buttons/nappula_tallenna.png'),
+  },
+  nappula_tallenna: {
+    normal: require('../../assets/graphics/buttons/nappula_tallenna.png'),
     ratio: 4.2068,
-  }),
-  nappula_uudestaan: Map({
-    image: require('../../assets/graphics/buttons/nappula_uudestaan.png'),
+  },
+  nappula_uudestaan: {
+    normal: require('../../assets/graphics/buttons/nappula_uudestaan.png'),
     ratio: 1,
-  }),
-  nappula_uusikuva: Map({
-    image: require('../../assets/graphics/buttons/nappula_uusikuva.png'),
+  },
+  nappula_uusikuva: {
+    normal: require('../../assets/graphics/buttons/nappula_uusikuva.png'),
     ratio: 2.6111,
-  }),
-  peukku_alas_0: Map({
-    image: require('../../assets/graphics/buttons/peukku_alas_0.png'),
+  },
+  thumb_up: {
+    normal: require('../../assets/graphics/buttons/thumb_up.png'),
+    shadow: require('../../assets/graphics/buttons/thumb_up_s2dp.png'),
     ratio: 1,
-  }),
-  peukku_alas_1: Map({
-    image: require('../../assets/graphics/buttons/peukku_alas_1.png'),
+  },
+  thumb_middle: {
+    normal: require('../../assets/graphics/buttons/thumb_middle.png'),
+    shadow: require('../../assets/graphics/buttons/thumb_middle_s2dp.png'),
     ratio: 1,
-  }),
-  peukku_keski_0: Map({
-    image: require('../../assets/graphics/buttons/peukku_keski_0.png'),
+  },
+  thumb_down: {
+    normal: require('../../assets/graphics/buttons/thumb_down.png'),
+    shadow: require('../../assets/graphics/buttons/thumb_down_s2dp.png'),
     ratio: 1,
-  }),
-  peukku_keski_1: Map({
-    image: require('../../assets/graphics/buttons/peukku_keski_1.png'),
-    ratio: 1,
-  }),
-  peukku_ylos_0: Map({
-    image: require('../../assets/graphics/buttons/peukku_ylos_0.png'),
-    ratio: 1,
-  }),
-  peukku_ylos_1: Map({
-    image: require('../../assets/graphics/buttons/peukku_ylos_1.png'),
-    ratio: 1,
-  }),
+  },
 
   /* moods */
-  iloinen: Map({
-    image: require('../../assets/graphics/moods/iloinen.png'),
+  iloinen: {
+    normal: require('../../assets/graphics/moods/iloinen.png'),
     ratio: 1,
-  }),
-  innostunut: Map({
-    image: require('../../assets/graphics/moods/innostunut.png'),
+  },
+  innostunut: {
+    normal: require('../../assets/graphics/moods/innostunut.png'),
     ratio: 1,
-  }),
-  jannittynyt: Map({
-    image: require('../../assets/graphics/moods/jannittynyt.png'),
+  },
+  jannittynyt: {
+    normal: require('../../assets/graphics/moods/jannittynyt.png'),
     ratio: 1,
-  }),
-  pelokas: Map({
-    image: require('../../assets/graphics/moods/pelokas.png'),
+  },
+  surullinen: {
+    normal: require('../../assets/graphics/moods/surullinen.png'),
     ratio: 1,
-  }),
-  rauhallinen: Map({
-    image: require('../../assets/graphics/moods/rauhallinen.png'),
+  },
+  vihainen: {
+    normal: require('../../assets/graphics/moods/vihainen.png'),
     ratio: 1,
-  }),
-  surullinen: Map({
-    image: require('../../assets/graphics/moods/surullinen.png'),
+  },
+  yksinainen: {
+    normal: require('../../assets/graphics/moods/yksinainen.png'),
     ratio: 1,
-  }),
-  vihainen: Map({
-    image: require('../../assets/graphics/moods/vihainen.png'),
-    ratio: 1,
-  }),
-  yksinainen: Map({
-    image: require('../../assets/graphics/moods/yksinainen.png'),
-    ratio: 1,
-  }),
-  'muu tunne': Map({
-    image: require('../../assets/graphics/moods/muuta.png'),
-    ratio: 1,
-  }),
+  },
 
   /* Activities */
-  leikimme: Map({
-    image: require('../../assets/graphics/activities/leikimme/leikimme.png'),
-    ratio: 1.2485,
-  }),
-  leikkiminen: Map({
-    image: require('../../assets/graphics/activities/leikimme/leikkiminen.png'),
+  leikimme: {
+    normal: require('../../assets/graphics/activities/leikimme/leikimme.png'),
+    shadow: require('../../assets/graphics/activities/leikimme/leikimme_s2dp.png'),
+  },
+  leikkiminen: {
+    normal: require('../../assets/graphics/activities/leikimme/leikkiminen.png'),
+    shadow: require('../../assets/graphics/activities/leikimme/leikkiminen_s2dp.png'),
     ratio: 1,
-  }),
-  lautapelit: Map({
-    image: require('../../assets/graphics/activities/leikimme/lautapelit.png'),
-    ratio: 1,
-  }),
-  videopelit: Map({
-    image: require('../../assets/graphics/activities/leikimme/videopelit.png'),
-    ratio: 1,
-  }),
-  liikunta: Map({
-    image: require('../../assets/graphics/activities/leikimme/liikunta.png'),
-    ratio: 1,
-  }),
-  uiminen: Map({
-    image: require('../../assets/graphics/activities/leikimme/uiminen.png'),
-    ratio: 1,
-  }),
-  leikimme_muuta: Map({
-    image: require('../../assets/graphics/activities/leikimme/leikimme_muuta.png'),
-    ratio: 1,
-  }),
+  },
+  lautapelit: {
+    normal: require('../../assets/graphics/activities/leikimme/lautapelit.png'),
+    shadow: require('../../assets/graphics/activities/leikimme/lautapelit_s2dp.png'),
+  },
+  videopelit: {
+    normal: require('../../assets/graphics/activities/leikimme/videopelit.png'),
+    shadow: require('../../assets/graphics/activities/leikimme/videopelit_s2dp.png'),
+  },
+  liikunta: {
+    normal: require('../../assets/graphics/activities/leikimme/liikunta.png'),
+    shadow: require('../../assets/graphics/activities/leikimme/liikunta_s2dp.png'),
+  },
+  uiminen: {
+    normal: require('../../assets/graphics/activities/leikimme/uiminen.png'),
+    shadow: require('../../assets/graphics/activities/leikimme/uiminen_s2dp.png'),
+  },
 
-  vietimme: Map({
-    image: require('../../assets/graphics/activities/vietimme/vietimme.png'),
-    ratio: 1.2485,
-  }),
-  saunominen: Map({
-    image: require('../../assets/graphics/activities/vietimme/saunominen.png'),
-    ratio: 1,
-  }),
-  juttelu: Map({
-    image: require('../../assets/graphics/activities/vietimme/juttelu.png'),
-    ratio: 1,
-  }),
-  kylaily: Map({
-    image: require('../../assets/graphics/activities/vietimme/kylaily.png'),
-    ratio: 1,
-  }),
-  elokuva: Map({
-    image: require('../../assets/graphics/activities/vietimme/elokuva.png'),
-    ratio: 1,
-  }),
-  kirjat: Map({
-    image: require('../../assets/graphics/activities/vietimme/kirjat.png'),
-    ratio: 1,
-  }),
-  vietimme_muuta: Map({
-    image: require('../../assets/graphics/activities/vietimme/vietimme_muuta.png'),
-    ratio: 1,
-  }),
+  vietimme: {
+    normal: require('../../assets/graphics/activities/vietimme/vietimme.png'),
+    shadow: require('../../assets/graphics/activities/vietimme/vietimme_s2dp.png'),
+  },
+  saunominen: {
+    normal: require('../../assets/graphics/activities/vietimme/saunominen.png'),
+    shadow: require('../../assets/graphics/activities/vietimme/saunominen_s2dp.png'),
+  },
+  juttelu: {
+    normal: require('../../assets/graphics/activities/vietimme/juttelu.png'),
+    shadow: require('../../assets/graphics/activities/vietimme/juttelu_s2dp.png'),
+  },
+  kylaily: {
+    normal: require('../../assets/graphics/activities/vietimme/kylaily.png'),
+    shadow: require('../../assets/graphics/activities/vietimme/kylaily_s2dp.png'),
+  },
+  elokuva: {
+    normal: require('../../assets/graphics/activities/vietimme/elokuva.png'),
+    shadow: require('../../assets/graphics/activities/vietimme/elokuva_s2dp.png'),
+  },
+  kirjat: {
+    normal: require('../../assets/graphics/activities/vietimme/kirjat.png'),
+    shadow: require('../../assets/graphics/activities/vietimme/kirjat_s2dp.png'),
+  },
 
-  lemmikit: Map({
-    image: require('../../assets/graphics/activities/lemmikit/lemmikit.png'),
-    ratio: 1.2485,
-  }),
-  kissa: Map({
-    image: require('../../assets/graphics/activities/lemmikit/kissa.png'),
-    ratio: 1,
-  }),
-  koira: Map({
-    image: require('../../assets/graphics/activities/lemmikit/koira.png'),
-    ratio: 1,
-  }),
-  hevonen: Map({
-    image: require('../../assets/graphics/activities/lemmikit/hevonen.png'),
-    ratio: 1,
-  }),
-  elaimet_muuta: Map({
-    image: require('../../assets/graphics/activities/lemmikit/elaimet_muuta.png'),
-    ratio: 1,
-  }),
+  lemmikit: {
+    normal: require('../../assets/graphics/activities/lemmikit/lemmikit.png'),
+    shadow: require('../../assets/graphics/activities/lemmikit/lemmikit_s2dp.png'),
+  },
+  kissa: {
+    normal: require('../../assets/graphics/activities/lemmikit/kissa.png'),
+    shadow: require('../../assets/graphics/activities/lemmikit/kissa_s2dp.png'),
+  },
+  koira: {
+    normal: require('../../assets/graphics/activities/lemmikit/koira.png'),
+    shadow: require('../../assets/graphics/activities/lemmikit/koira_s2dp.png'),
+  },
+  hevonen: {
+    normal: require('../../assets/graphics/activities/lemmikit/hevonen.png'),
+    shadow: require('../../assets/graphics/activities/lemmikit/hevonen_s2dp.png'),
+  },
 
-  puuhasimme: Map({
-    image: require('../../assets/graphics/activities/puuhasimme/puuhasimme.png'),
-    ratio: 1.2485,
-  }),
+  puuhasimme: {
+    normal: require('../../assets/graphics/activities/puuhasimme/puuhasimme.png'),
+    shadow: require('../../assets/graphics/activities/puuhasimme/puuhasimme_s2dp.png'),
+  },
 
-  leipominen: Map({
-    image: require('../../assets/graphics/activities/puuhasimme/leipominen.png'),
-    ratio: 1,
-  }),
-  piirtaminen: Map({
-    image: require('../../assets/graphics/activities/puuhasimme/piirtaminen.png'),
-    ratio: 1,
-  }),
-  kotihommia: Map({
-    image: require('../../assets/graphics/activities/puuhasimme/kotihommia.png'),
-    ratio: 1,
-  }),
-  lukeminen: Map({
-    image: require('../../assets/graphics/activities/puuhasimme/lukeminen.png'),
-    ratio: 1,
-  }),
-  rakentaminen: Map({
-    image: require('../../assets/graphics/activities/puuhasimme/rakentaminen.png'),
-    ratio: 1,
-  }),
-  puuhasimme_muuta: Map({
-    image: require('../../assets/graphics/activities/puuhasimme/puuhasimme_muuta.png'),
-    ratio: 1,
-  }),
+  leipominen: {
+    normal: require('../../assets/graphics/activities/puuhasimme/leipominen.png'),
+    shadow: require('../../assets/graphics/activities/puuhasimme/leipominen_s2dp.png'),
+  },
+  piirtaminen: {
+    normal: require('../../assets/graphics/activities/puuhasimme/piirtaminen.png'),
+    shadow: require('../../assets/graphics/activities/puuhasimme/piirtaminen_s2dp.png'),
+  },
+  kotihommia: {
+    normal: require('../../assets/graphics/activities/puuhasimme/kotihommia.png'),
+    shadow: require('../../assets/graphics/activities/puuhasimme/kotihommia_s2dp.png'),
+  },
+  lukeminen: {
+    normal: require('../../assets/graphics/activities/puuhasimme/lukeminen.png'),
+    shadow: require('../../assets/graphics/activities/puuhasimme/lukeminen_s2dp.png'),
+  },
+  rakentaminen: {
+    normal: require('../../assets/graphics/activities/puuhasimme/rakentaminen.png'),
+    shadow: require('../../assets/graphics/activities/puuhasimme/rakentaminen_s2dp.png'),
+  },
 
-  ulkoilimme: Map({
-    image: require('../../assets/graphics/activities/ulkoilimme/ulkoilimme.png'),
-    ratio: 1.2485,
-  }),
+  ulkoilimme: {
+    normal: require('../../assets/graphics/activities/ulkoilimme/ulkoilimme.png'),
+    shadow: require('../../assets/graphics/activities/ulkoilimme/ulkoilimme_s2dp.png'),
+  },
 
-  ulkoilu: Map({
-    image: require('../../assets/graphics/activities/ulkoilimme/ulkoilu.png'),
-    ratio: 1,
-  }),
-  makkaranpaisto: Map({
-    image: require('../../assets/graphics/activities/ulkoilimme/makkaranpaisto.png'),
-    ratio: 1,
-  }),
-  retkeily: Map({
-    image: require('../../assets/graphics/activities/ulkoilimme/retkeily.png'),
-    ratio: 1,
-  }),
-  pihahommat: Map({
-    image: require('../../assets/graphics/activities/ulkoilimme/pihahommat.png'),
-    ratio: 1,
-  }),
-  leikkipuisto: Map({
-    image: require('../../assets/graphics/activities/ulkoilimme/leikkipuisto.png'),
-    ratio: 1,
-  }),
-  kalastaminen: Map({
-    image: require('../../assets/graphics/activities/ulkoilimme/kalastaminen.png'),
-    ratio: 1,
-  }),
-  mokkeily: Map({
-    image: require('../../assets/graphics/activities/ulkoilimme/mokkeily.png'),
-    ratio: 1,
-  }),
-  ulkoilimme_muuta: Map({
-    image: require('../../assets/graphics/activities/ulkoilimme/ulkoilimme_muuta.png'),
-    ratio: 1,
-  }),
-
-  muuta: Map({
-    image: require('../../assets/graphics/activities/muuta.png'),
-    ratio: 1,
-  }),
+  ulkoilu: {
+    normal: require('../../assets/graphics/activities/ulkoilimme/ulkoilu.png'),
+    shadow: require('../../assets/graphics/activities/ulkoilimme/ulkoilu_s2dp.png'),
+  },
+  makkaranpaisto: {
+    normal: require('../../assets/graphics/activities/ulkoilimme/makkaranpaisto.png'),
+    shadow: require('../../assets/graphics/activities/ulkoilimme/makkaranpaisto_s2dp.png'),
+  },
+  retkeily: {
+    normal: require('../../assets/graphics/activities/ulkoilimme/retkeily.png'),
+    shadow: require('../../assets/graphics/activities/ulkoilimme/retkeily_s2dp.png'),
+  },
+  pihahommat: {
+    normal: require('../../assets/graphics/activities/ulkoilimme/pihahommat.png'),
+    shadow: require('../../assets/graphics/activities/ulkoilimme/pihahommat_s2dp.png'),
+  },
+  leikkipuisto: {
+    normal: require('../../assets/graphics/activities/ulkoilimme/leikkipuisto.png'),
+    shadow: require('../../assets/graphics/activities/ulkoilimme/leikkipuisto_s2dp.png'),
+  },
+  kalastaminen: {
+    normal: require('../../assets/graphics/activities/ulkoilimme/kalastaminen.png'),
+    shadow: require('../../assets/graphics/activities/ulkoilimme/kalastaminen_s2dp.png'),
+  },
+  mokkeily: {
+    normal: require('../../assets/graphics/activities/ulkoilimme/mokkeily.png'),
+    shadow: require('../../assets/graphics/activities/ulkoilimme/mokkeily_s2dp.png'),
+  },
 
   /* Muuta */
-  hemmo: Map({
-    image: require('../../assets/graphics/buttons/hemmo.png'),
-    ratio: 0.9328,
-  }),
-  asetukset: Map({
-    image: require('../../assets/graphics/others/asetukset.png'),
+  hemmo: {
+    normal: require('../../assets/graphics/buttons/hemmo.png'),
+    shadow: require('../../assets/graphics/buttons/hemmo_s2dp.png'),
+  },
+  asetukset: {
+    normal: require('../../assets/graphics/others/asetukset.png'),
     ratio: 6.7903,
-  }),
-  lopetusteksti: Map({
-    image: require('../../assets/graphics/others/lopetusteksti.png'),
+  },
+  lopetusteksti: {
+    normal: require('../../assets/graphics/others/lopetusteksti.png'),
     ratio: 1.0958,
-  }),
-  otsake_aset: Map({
-    image: require('../../assets/graphics/others/otsake_aset.png'),
+  },
+  otsake_aset: {
+    normal: require('../../assets/graphics/others/otsake_aset.png'),
     ratio: 5.1164,
-  }),
-  valilehti_tyhja: Map({
-    image: require('../../assets/graphics/others/valilehti_tyhja.png'),
-    ratio: 2.185,
-  }),
-  valittu: Map({
-    image: require('../../assets/graphics/others/valittu.png'),
+  },
+  valittu: {
+    normal: require('../../assets/graphics/others/valittu.png'),
     ratio: 1.0377,
-  }),
-  ratas: Map({
-    image: require('../../assets/graphics/others/ratas.png'),
+  },
+  ratas: {
+    normal: require('../../assets/graphics/others/ratas.png'),
     ratio: 1,
-  }),
-  ikoni_kyna: Map({
-    image: require('../../assets/graphics/others/ikoni_kyna.png'),
+  },
+  ikoni_kyna: {
+    normal: require('../../assets/graphics/others/ikoni_kyna.png'),
     ratio: 1,
-  }),
-  ikoni_tallenna: Map({
-    image: require('../../assets/graphics/others/ikoni_tallenna.png'),
+  },
+  ikoni_tallenna: {
+    normal: require('../../assets/graphics/others/ikoni_tallenna.png'),
     ratio: 1,
-  }),
-});
+  },
+};
 
 module.exports = graphics;

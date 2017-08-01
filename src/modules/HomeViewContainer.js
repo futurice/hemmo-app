@@ -112,7 +112,7 @@ export default class HomeViewContainer extends Component {
     <View style={styles.settingsButton}>
       <TouchableOpacity onPress={() => this.props.pushRoute('Login')}>
         <Image
-          source={getImage('nappula_aset')}
+          source={getImage('nappula_aset').normal}
           style={getSizeByHeight('nappula_aset', 0.1)}
         />
       </TouchableOpacity>

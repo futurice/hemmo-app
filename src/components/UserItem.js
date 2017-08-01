@@ -62,7 +62,7 @@ export default class UserItem extends Component {
   };
 
   renderDefaultIconImage = () =>
-    <Image style={styles.icon} source={getImage('default_image')} />;
+    <Image style={styles.icon} source={getImage('default_image').normal} />;
 
   renderIconImage = () =>
     <TouchableOpacity onPress={() => this.startJourney(this.props.index)}>
@@ -71,7 +71,7 @@ export default class UserItem extends Component {
         source={
           this.props.image
             ? { uri: this.props.image }
-            : getImage('default_image')
+            : getImage('default_image').normal
         }
       />
     </TouchableOpacity>;
@@ -85,7 +85,7 @@ export default class UserItem extends Component {
           onPress={() => this.startJourney(this.props.index)}
         >
           <Image
-            source={getImage('kehys_palkki')}
+            source={getImage('kehys_palkki').normal}
             style={[
               styles.rowWithSmallImage,
               getSizeByHeight('kehys_palkki', this.props.rowHeight),
@@ -102,7 +102,7 @@ export default class UserItem extends Component {
               source={
                 this.props.image
                   ? { uri: this.props.image }
-                  : getImage('default_image')
+                  : getImage('default_image').normal
               }
             />
             {this.props.name}
@@ -113,7 +113,7 @@ export default class UserItem extends Component {
 
     return (
       <Image
-        source={getImage('kehys_iso')}
+        source={getImage('kehys_iso').normal}
         key={this.props.index}
         style={styles.userRow}
       >

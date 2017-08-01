@@ -202,7 +202,7 @@ export default class AudioRecorder extends Component {
       style={{ flexDirection: 'row', alignItems: 'center' }}
     >
       <Image
-        source={getImage('nappula_rec')}
+        source={getImage('nappula_rec').normal}
         style={getSizeByHeight('nappula_rec', 0.35)}
       />
       <Text style={{ textAlign: 'center', fontSize: 30, padding: 20 }}>

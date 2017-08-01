@@ -63,7 +63,7 @@ export default class SaveConfirmationWindow extends Component {
       <View style={styles.container}>
         <TouchableOpacity style={styles.content}>
           <Image
-            source={getImage('valittu')}
+            source={getImage('valittu').normal}
             style={getSizeByWidth('valittu', 0.05)}
           />
           <Text style={styles.text}>Tallennettu!</Text>

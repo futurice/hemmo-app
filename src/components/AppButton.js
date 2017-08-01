@@ -31,44 +31,7 @@ Animatable.initializeRegistryWithDefinitions({
   },
 });
 
-const assets = {
-  button_small: {
-    normal: require('../../assets/graphics/buttons/button_small.png'),
-    shadow: require('../../assets/graphics/buttons/button_small_s2dp.png'),
-  },
-  up_small: {
-    normal: require('../../assets/graphics/bubbles/up_small.png'),
-    shadow: require('../../assets/graphics/bubbles/up_small_s2dp.png'),
-  },
-  hemmo: {
-    normal: require('../../assets/graphics/buttons/hemmo.png'),
-    shadow: require('../../assets/graphics/buttons/hemmo_s2dp.png'),
-  },
-  volume_is_off: {
-    normal: require('../../assets/graphics/buttons/volume_is_off.png'),
-    shadow: require('../../assets/graphics/buttons/volume_is_off_s2dp.png'),
-  },
-  volume_is_on: {
-    normal: require('../../assets/graphics/buttons/volume_is_on.png'),
-    shadow: require('../../assets/graphics/buttons/volume_is_on_s2dp.png'),
-  },
-  whatdoned: {
-    normal: require('../../assets/graphics/buttons/whatdoned.png'),
-    shadow: require('../../assets/graphics/buttons/whatdoned_s2dp.png'),
-  },
-  howfelt: {
-    normal: require('../../assets/graphics/buttons/howfelt.png'),
-    shadow: require('../../assets/graphics/buttons/howfelt_s2dp.png'),
-  },
-  tellfreely: {
-    normal: require('../../assets/graphics/buttons/tellfreely.png'),
-    shadow: require('../../assets/graphics/buttons/tellfreely_s2dp.png'),
-  },
-  envelope_closed: {
-    normal: require('../../assets/graphics/others/envelope_closed.png'),
-    shadow: require('../../assets/graphics/others/envelope_closed_s2dp.png'),
-  },
-};
+const assets = require('../data/graphics');
 
 export default class AppButton extends React.Component {
   state = {
