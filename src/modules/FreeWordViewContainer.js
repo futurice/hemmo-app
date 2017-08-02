@@ -45,9 +45,6 @@ const mapDispatchToProps = dispatch => ({
   back: () => dispatch(NavigationActions.back()),
   pushRoute: key => dispatch(NavigationActions.navigate({ routeName: key })),
   popRoute: () => dispatch(NavigationActions.back()),
-  saveFreeWord: freeWord => dispatch(addFreeWord(freeWord)),
-  setText: text => dispatch(setText(text)),
-  setAudio: audio => dispatch(setAudio(audio)),
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -60,20 +57,12 @@ export default class FreeWordViewContainer extends Component {
     back: PropTypes.func.isRequired,
     popRoute: PropTypes.func.isRequired,
     pushRoute: PropTypes.func.isRequired,
-    setText: PropTypes.func.isRequired,
-    setAudio: PropTypes.func.isRequired,
-    saveFreeWord: PropTypes.func.isRequired,
     answers: PropTypes.instanceOf(Map).isRequired,
   };
 
   state = {
     showSucceedingMessage: false,
   };
-
-  componentWillMount() {
-    this.props.setText(phrases.FreeWord.text);
-    this.props.setAudio(phrases.FreeWord.audio);
-  }
 
   renderSaveConfirmationWindow = () =>
     this.state.showSucceedingMessage
