@@ -88,10 +88,12 @@ const graphics = {
   volume_is_off: {
     normal: require('../../assets/graphics/buttons/volume_is_off.png'),
     shadow: require('../../assets/graphics/buttons/volume_is_off_s2dp.png'),
+    ratio: 1,
   },
   volume_is_on: {
     normal: require('../../assets/graphics/buttons/volume_is_on.png'),
     shadow: require('../../assets/graphics/buttons/volume_is_on_s2dp.png'),
+    ratio: 1,
   },
   whatdoned: {
     normal: require('../../assets/graphics/buttons/whatdoned.png'),
@@ -358,6 +360,7 @@ const graphics = {
   hemmo: {
     normal: require('../../assets/graphics/buttons/hemmo.png'),
     shadow: require('../../assets/graphics/buttons/hemmo_s2dp.png'),
+    ratio: 1.1538,
   },
   asetukset: {
     normal: require('../../assets/graphics/others/asetukset.png'),

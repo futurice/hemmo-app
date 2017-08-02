@@ -308,8 +308,8 @@ export default class ActivityViewContainer extends Component {
         >
           <View style={styles.thumbModal}>
             <Image
-              source={getImage('modal').shadow}
-              style={getSizeByWidth('modal', 0.5)}
+              source={getImage('modal').normal}
+              style={getSizeByWidth('modal', 0.53)}
             >
               <View style={styles.titleRow}>
                 {this.renderCloseButton()}

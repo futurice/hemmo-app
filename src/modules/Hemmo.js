@@ -3,55 +3,52 @@ import TimerMixin from 'react-timer-mixin';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
-  TouchableOpacity,
   StyleSheet,
   Modal,
   AppState,
   Text,
   View,
-  Dimensions,
+  Platform,
+  TouchableOpacity,
 } from 'react-native';
-import {
-  getImage,
-  getSizeByHeight,
-  getSizeByWidth,
-} from '../services/graphics';
+import { getSizeByHeight, getSizeByWidth } from '../services/graphics';
 import AudioPlayerViewContainer from './AudioPlayerViewContainer';
 import { toggleMute, setText, setAudio } from '../state/HemmoState';
 import AppButton from '../components/AppButton';
+import TouchableItem from '../../node_modules/react-navigation/lib-rn/views/TouchableItem';
 
 const styles = StyleSheet.create({
-  background: {
-    backgroundColor: 'rgba(255,255,255,0.8)',
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0,
-  },
   container: {
     position: 'absolute',
     right: 0,
   },
   hemmo: {
-    position: 'absolute',
-    right: 0,
-    top: 20,
+    alignSelf: 'flex-end',
+    top: 2,
+    ...Platform.select({
+      ios: {
+        top: 20,
+      },
+    }),
   },
   bubbleContainer: {
     flex: 1,
-    marginTop: 70,
-    alignSelf: 'center',
+    backgroundColor: 'rgba(255,255,255,0.8)',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
     alignItems: 'center',
   },
   bubble: {
     alignSelf: 'center',
+    marginTop: 20,
   },
   toggleVolumeButton: {},
   text: {
     padding: 50,
     textAlign: 'center',
     alignSelf: 'center',
-    fontFamily: 'Gill Sans',
     fontSize: 15,
   },
 });
@@ -101,7 +98,11 @@ export default class Hemmo extends Component {
   }
 
   async componentDidUpdate(prevProps) {
-    if (prevProps.activeRoute !== this.props.activeRoute) {
+    if (
+      prevProps.activeRoute !== this.props.activeRoute &&
+      (this.props.activeRoute !== 'FeedbackMenu' ||
+        prevProps.activeRoute === 'Home')
+    ) {
       await this.showBubble();
     }
   }
@@ -161,22 +162,25 @@ export default class Hemmo extends Component {
     this.setState({ currentAppState });
   };
 
-  renderBubble = () => {
-    return (
-      <Modal
-        animationType={'fade'}
-        transparent
-        visible={this.state.showBubble}
-        onRequestClose={() => console.log(' ')}
-        supportedOrientations={['portrait', 'landscape']}
-      >
-        <View style={styles.bubbleContainer}>
-          {this.renderBubbleButton()}
-          {this.renderMuteButton()}
-        </View>
-      </Modal>
-    );
-  };
+  renderBubble = () =>
+    this.state.showBubble
+      ? <Modal
+          animationType={'fade'}
+          transparent
+          visible={this.state.showBubble}
+          onRequestClose={() => console.log(' ')}
+          supportedOrientations={['portrait', 'landscape']}
+        >
+          <TouchableOpacity
+            style={styles.bubbleContainer}
+            onPress={this.hideBubble}
+          >
+            {this.renderHemmoButton()}
+            {this.renderBubbleButton()}
+            {this.renderMuteButton()}
+          </TouchableOpacity>
+        </Modal>
+      : null;
 
   renderAudio = () => {
     if (
@@ -210,7 +214,7 @@ export default class Hemmo extends Component {
       <AppButton
         background="puhekupla"
         onPress={this.hideBubble}
-        width={getSizeByWidth('puhekupla', 0.5).width}
+        width={getSizeByWidth('puhekupla', 0.55).width}
         shadow
       >
         <Text style={styles.text}>
@@ -223,8 +227,8 @@ export default class Hemmo extends Component {
     <View style={styles.hemmo}>
       <AppButton
         background="hemmo"
-        onPress={this.showBubble}
-        width={getSizeByWidth('hemmo', 0.1).width}
+        onPress={this.state.showBubble ? this.hideBubble : this.showBubble}
+        width={getSizeByHeight('hemmo', 0.15).width}
         shadow
       />
     </View>;
@@ -236,12 +240,7 @@ export default class Hemmo extends Component {
     if (!phrases[routeName]) return null;
 
     return (
-      <View
-        style={[
-          styles.container,
-          this.state.showBubble ? styles.background : null,
-        ]}
-      >
+      <View style={styles.container}>
         {this.renderBubble()}
         {this.renderAudio()}
         {this.renderHemmoButton()}
