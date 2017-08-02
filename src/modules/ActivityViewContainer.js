@@ -151,9 +151,11 @@ export default class ActivityViewContainer extends Component {
     chosenSubActivity: Map(),
   };
 
-  getSubActivityHeight = () => getSizeByWidth('nelio', 0.2).height + 2 * 5;
+  getSubActivityHeight = () =>
+    getSizeByWidth('leikkiminen', 0.22).height + 2 * 5;
 
-  getMainActivityHeight = () => getSizeByWidth('nelio', 0.3).height + 2 * 5;
+  getMainActivityHeight = () =>
+    getSizeByWidth('puuhasimme', 0.5).height + 2 * 5;
 
   getRequestBody = () => {
     const namedActivities = [];
@@ -192,7 +194,7 @@ export default class ActivityViewContainer extends Component {
         this.scrollView.scrollTo({
           y:
             activity.get('id') *
-            (getSizeByWidth('nelio', 0.3).height + 2 * margin),
+            (getSizeByWidth('puuhasimme', 0.5).height + 2 * margin),
         }),
       0,
     );
