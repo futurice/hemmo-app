@@ -125,10 +125,16 @@ export default class MoodViewContainer extends Component {
 
   isSelected = mood => this.props.selectedMoods.includes(mood.get('name'));
 
+  hideSucceedingMessage = () => {
+    this.setState({ showSucceedingMessage: false });
+    this.props.back();
+  };
+
   renderSaveConfirmationWindow = () =>
-    this.state.showSucceedingMessage
-      ? <SaveConfirmationWindow closeWindow={this.props.back} />
-      : null;
+    <SaveConfirmationWindow
+      closeWindow={this.hideSucceedingMessage}
+      visible={this.state.showSucceedingMessage}
+    />;
 
   renderMood = (mood, key) =>
     <View

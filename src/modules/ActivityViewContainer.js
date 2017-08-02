@@ -33,7 +33,6 @@ const styles = StyleSheet.create({
     flex: 1,
     height: null,
     width: null,
-    backgroundColor: '#fff',
     flexDirection: 'column',
     alignItems: 'center',
   },
@@ -44,6 +43,7 @@ const styles = StyleSheet.create({
   thumbModal: {
     flex: 1,
     flexDirection: 'column',
+    backgroundColor: 'rgba(255,255,255,0.8)',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -252,10 +252,16 @@ export default class ActivityViewContainer extends Component {
       this.state.chosenSubActivity.get('name'),
     ]);
 
+  hideSucceedingMessage = () => {
+    this.setState({ showSucceedingMessage: false });
+    this.props.back();
+  };
+
   renderSaveConfirmationWindow = () =>
-    this.state.showSucceedingMessage
-      ? <SaveConfirmationWindow closeWindow={this.props.back} />
-      : null;
+    <SaveConfirmationWindow
+      closeWindow={this.hideSucceedingMessage}
+      visible={this.state.showSucceedingMessage}
+    />;
 
   renderThumbButton = (thumb, i) =>
     <View

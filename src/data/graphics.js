@@ -377,6 +377,11 @@ const graphics = {
     shadow: require('../../assets/graphics/others/checkmark_small_grey_s2dp.png'),
     ratio: 1.0377,
   },
+  valittu_iso: {
+    normal: require('../../assets/graphics/others/checkmark_big.png'),
+    shadow: require('../../assets/graphics/others/checkmark_big_s2dp.png'),
+    ratio: 1.0377,
+  },
   ratas: {
     normal: require('../../assets/graphics/others/ratas.png'),
     ratio: 1,

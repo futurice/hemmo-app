@@ -7,30 +7,38 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import TimerMixin from 'react-timer-mixin';
 import { connect } from 'react-redux';
-import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  Modal,
+} from 'react-native';
 import { getSizeByWidth, getImage } from '../services/graphics';
 import { setAudio } from '../state/HemmoState';
 
 const styles = StyleSheet.create({
   container: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0,
+    flex: 1,
+    flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  content: {
-    backgroundColor: '#fff',
-    alignItems: 'center',
+  modal: {
+    flex: 1,
+    backgroundColor: 'rgba(255,255,255,0.8)',
     justifyContent: 'center',
-    padding: 50,
-    borderWidth: 2,
-    borderRadius: 10,
+    alignItems: 'center',
   },
   text: {
     fontSize: 20,
+  },
+  textAndCheckmark: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 
@@ -45,29 +53,51 @@ const mapDispatchToProps = dispatch => ({
 export default class SaveConfirmationWindow extends Component {
   static propTypes = {
     closeWindow: PropTypes.func.isRequired,
+    visible: PropTypes.bool.isRequired,
     setAudio: PropTypes.func.isRequired,
   };
 
-  componentWillMount() {
-    this.props.setAudio('hemmo_43');
-    this.setTimeout(this.closeWindow, 1000);
+  async componentDidUpdate(prevProps) {
+    if (this.props.visible) {
+      await this.props.setAudio('hemmo_43');
+    }
   }
 
-  closeWindow = () => {
+  closeWindow = async () => {
+    await this.props.setAudio('');
     this.props.closeWindow();
-    this.props.setAudio('');
   };
 
   render() {
     return (
       <View style={styles.container}>
-        <TouchableOpacity style={styles.content}>
-          <Image
-            source={getImage('valittu').normal}
-            style={getSizeByWidth('valittu', 0.05)}
-          />
-          <Text style={styles.text}>Tallennettu!</Text>
-        </TouchableOpacity>
+        <Modal
+          animationType={'fade'}
+          transparent
+          visible={this.props.visible}
+          onRequestClose={() => {}}
+          supportedOrientations={['portrait', 'landscape']}
+        >
+          <View style={styles.modal}>
+            <TouchableOpacity onPress={this.closeWindow}>
+              <Image
+                source={getImage('modal').shadow}
+                style={getSizeByWidth('modal', 0.3)}
+              >
+                <View style={styles.textAndCheckmark}>
+                  <Image
+                    source={getImage('valittu_iso').normal}
+                    style={[
+                      styles.checkmark,
+                      getSizeByWidth('valittu_iso', 0.13),
+                    ]}
+                  />
+                  <Text style={styles.text}>Tallennettu!</Text>
+                </View>
+              </Image>
+            </TouchableOpacity>
+          </View>
+        </Modal>
       </View>
     );
   }

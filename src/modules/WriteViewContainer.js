@@ -129,10 +129,16 @@ export default class FreeWordViewContainer extends Component {
       />
     </Image>;
 
+  hideSucceedingMessage = () => {
+    this.setState({ showSucceedingMessage: false });
+    this.props.back();
+  };
+
   renderSaveConfirmationWindow = () =>
-    this.state.showSucceedingMessage
-      ? <SaveConfirmationWindow closeWindow={this.props.back} />
-      : null;
+    <SaveConfirmationWindow
+      closeWindow={this.hideSucceedingMessage}
+      visible={this.state.showSucceedingMessage}
+    />;
 
   renderDoneButton = () =>
     <TouchableOpacity onPress={this.sendText}>

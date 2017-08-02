@@ -515,9 +515,10 @@ export default class SettingsViewContainer extends Component {
     </ScrollView>;
 
   renderSaveConfirmationWindow = () =>
-    this.state.showSucceedingMessage
-      ? <SaveConfirmationWindow closeWindow={this.closeSucceedingMessage} />
-      : null;
+    <SaveConfirmationWindow
+      closeWindow={this.closeSucceedingMessage}
+      visible={this.state.showSucceedingMessage}
+    />;
 
   render() {
     if (this.state.loading) {

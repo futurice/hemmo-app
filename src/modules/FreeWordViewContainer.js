@@ -6,20 +6,10 @@ import { NavigationActions } from 'react-navigation';
 import {
   TouchableOpacity,
   Image,
-  Text,
   Dimensions,
-  Alert,
   View,
   StyleSheet,
 } from 'react-native';
-import AudioRecorder from '../components/AudioRecorder';
-import LoadingSpinner from '../components/LoadingSpinner';
-import SaveConfirmationWindow from '../components/SaveConfirmationWindow';
-import { addFreeWord } from '../state/UserState';
-import { setText, setAudio } from '../state/HemmoState';
-import { getSessionId } from '../utils/session';
-import { xhr } from '../utils/api';
-import { getSizeByHeight, getImage } from '../services/graphics';
 
 import AppButton from '../components/AppButton';
 
@@ -63,11 +53,6 @@ export default class FreeWordViewContainer extends Component {
   state = {
     showSucceedingMessage: false,
   };
-
-  renderSaveConfirmationWindow = () =>
-    this.state.showSucceedingMessage
-      ? <SaveConfirmationWindow closeWindow={this.props.back} />
-      : null;
 
   renderRecordButton = () =>
     <View style={{ paddingVertical: 16 }}>
