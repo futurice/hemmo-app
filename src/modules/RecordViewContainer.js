@@ -102,10 +102,6 @@ export default class FreeWordViewContainer extends Component {
     return attachmentBody;
   };
 
-  toggleWritingButton = value => {
-    this.setState({ disableWriting: value });
-  };
-
   sendFreeWord = async (type, content) => {
     this.setState({ showSpinner: true });
 
@@ -133,22 +129,13 @@ export default class FreeWordViewContainer extends Component {
     this.setState({ showSpinner: false });
   };
 
-  hideSucceedingMessage = () => {
-    this.setState({ showSucceedingMessage: false });
-    this.props.back();
-  };
-
   renderSaveConfirmationWindow = () =>
     <SaveConfirmationWindow
-      closeWindow={this.hideSucceedingMessage}
+      closeWindow={this.props.back}
       visible={this.state.showSucceedingMessage}
     />;
 
-  renderAudioRecorder = () =>
-    <AudioRecorder
-      save={this.sendFreeWord}
-      toggleWritingButton={this.toggleWritingButton}
-    />;
+  renderAudioRecorder = () => <AudioRecorder save={this.sendFreeWord} />;
 
   render() {
     if (this.state.showSpinner) {
@@ -156,8 +143,10 @@ export default class FreeWordViewContainer extends Component {
     }
 
     return (
-      <View style={styles.container}>
-        {this.renderAudioRecorder()}
+      <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, justifyContent: 'center' }}>
+          {this.renderAudioRecorder()}
+        </View>
         {this.renderSaveConfirmationWindow()}
       </View>
     );

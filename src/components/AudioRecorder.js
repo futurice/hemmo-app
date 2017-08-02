@@ -30,6 +30,8 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   progressBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
     marginTop: 20,
   },
   highlightCircle: {
@@ -55,7 +57,6 @@ const filename = 'test.mp4';
 export default class AudioRecorder extends Component {
   static propTypes = {
     save: PropTypes.func.isRequired,
-    toggleWritingButton: PropTypes.func,
   };
 
   state = {
@@ -120,8 +121,6 @@ export default class AudioRecorder extends Component {
       recording: !!(this.recorder && this.recorder.isRecording),
       recordButtonDisabled: !this.recorder,
     });
-
-    this.props.toggleWritingButton(this.state.recording);
   };
 
   _reloadRecorder = () => {
@@ -201,7 +200,12 @@ export default class AudioRecorder extends Component {
 
   renderProgressBar = () =>
     <View style={styles.progressBar}>
-      <ProgressBar progress={this.state.progress} height={50} width={200} />
+      <ProgressBar
+        style={{ margin: 32, flex: 1 }}
+        progress={this.state.progress}
+        width={null}
+        height={50}
+      />
     </View>;
 
   renderStartRecordButton = () =>
@@ -218,7 +222,7 @@ export default class AudioRecorder extends Component {
     <AppButton
       width={Dimensions.get('window').width * 0.9}
       onPress={this._toggleRecord}
-      background="record_expanded"
+      background="stop_expanded"
       shadow
     >
       {this.renderProgressBar()}

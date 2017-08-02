@@ -346,6 +346,10 @@ const graphics = {
     normal: require('../../assets/graphics/buttons/record_expanded.png'),
     shadow: require('../../assets/graphics/buttons/record_expanded_s2dp.png'),
   },
+  stop_expanded: {
+    normal: require('../../assets/graphics/buttons/stop_expanded.png'),
+    shadow: require('../../assets/graphics/buttons/stop_expanded_s2dp.png'),
+  },
   textbox: {
     normal: require('../../assets/graphics/others/textbox.png'),
   },
