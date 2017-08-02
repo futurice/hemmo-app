@@ -56,7 +56,7 @@ export default class SaveConfirmationWindow extends Component {
     setAudio: PropTypes.func.isRequired,
   };
 
-  async componentDidUpdate(prevProps) {
+  async componentDidUpdate() {
     if (this.props.visible) {
       await this.props.setAudio('hemmo_43');
     }

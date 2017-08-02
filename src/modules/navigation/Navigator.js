@@ -10,9 +10,6 @@ import RecordViewContainer from '../RecordViewContainer';
 import WriteViewContainer from '../WriteViewContainer';
 import MoodViewContainer from '../MoodViewContainer';
 import EndingViewContainer from '../EndingViewContainer';
-import NavigationModal from './NavigationModal';
-import BackButton from './BackButton';
-import Hemmo from '../Hemmo';
 
 const AppNavigator = StackNavigator(
   {
@@ -30,10 +27,6 @@ const AppNavigator = StackNavigator(
   {
     navigationOptions: ({ navigation }) => ({
       // Only show navigation modal button in feedback menu screen
-      headerLeft:
-        navigation.state.routeName === 'FeedbackMenu'
-          ? <NavigationModal />
-          : undefined,
       headerStyle: { backgroundColor: '#FFFFFF' },
     }),
   },

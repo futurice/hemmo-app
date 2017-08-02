@@ -15,7 +15,6 @@ import { getSizeByHeight, getSizeByWidth } from '../services/graphics';
 import AudioPlayerViewContainer from './AudioPlayerViewContainer';
 import { toggleMute, setText, setAudio } from '../state/HemmoState';
 import AppButton from '../components/AppButton';
-import TouchableItem from '../../node_modules/react-navigation/lib-rn/views/TouchableItem';
 
 const styles = StyleSheet.create({
   container: {
