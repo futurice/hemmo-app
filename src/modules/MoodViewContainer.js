@@ -2,7 +2,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Set } from 'immutable';
-import { TouchableOpacity, Image, View, StyleSheet, Alert } from 'react-native';
+import {
+  TouchableOpacity,
+  Image,
+  View,
+  StyleSheet,
+  Alert,
+  ScrollView,
+} from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { addMood, deleteMood } from '../state/UserState';
 import { setText, setAudio } from '../state/HemmoState';
@@ -14,6 +21,7 @@ import {
 } from '../services/graphics';
 import { getSessionId } from '../utils/session';
 import { patch } from '../utils/api';
+import AppButton from '../components/AppButton';
 
 const moods = require('../data/moods.js');
 const phrases = require('../data/phrases.json');
@@ -21,13 +29,16 @@ const phrases = require('../data/phrases.json');
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: 'column',
+    height: null,
+    width: null,
     flexWrap: 'wrap',
     alignItems: 'center',
     justifyContent: 'center',
   },
+  scrollContainer: {},
   font: {
-    fontSize: 20,
+    fontSize: 17,
     fontFamily: 'Gill Sans',
   },
   check: {
@@ -35,8 +46,18 @@ const styles = StyleSheet.create({
     top: 0,
     right: 0,
   },
+  moodContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    marginTop: 20,
+  },
   mood: {
-    margin: 5,
+    margin: 7,
+    opacity: 0.8,
+  },
+  selectedMood: {
+    opacity: 1,
   },
 });
 
@@ -102,39 +123,49 @@ export default class MoodViewContainer extends Component {
       : this.props.addMood(mood);
   };
 
+  isSelected = mood => this.props.selectedMoods.includes(mood.get('name'));
+
   renderSaveConfirmationWindow = () =>
     this.state.showSucceedingMessage
       ? <SaveConfirmationWindow closeWindow={this.props.back} />
       : null;
 
   renderMood = (mood, key) =>
-    <TouchableOpacity
+    <View
+      style={[styles.mood, this.isSelected(mood) ? styles.selectedMood : null]}
       key={key}
-      style={styles.mood}
-      onPress={() => this.addMood(mood.get('name'))}
     >
-      <Image
-        source={getImage(mood.get('key')).normal}
-        style={getSizeByWidth(mood.get('key'), 0.2)}
+      <AppButton
+        background={mood.get('key')}
+        onPress={() => this.addMood(mood.get('name'))}
+        width={getSizeByWidth(mood.get('key'), 0.23).width}
+        shadow={this.isSelected(mood)}
       >
-        {this.props.selectedMoods.includes(mood.get('name'))
-          ? this.renderCheckmark()
-          : null}
-      </Image>
-    </TouchableOpacity>;
-
-  renderCheckmark = () =>
-    <Image
-      source={getImage('valittu').normal}
-      style={[styles.check, getSizeByHeight('valittu', 0.1)]}
-    />;
+        <Image
+          source={
+            this.isSelected(mood)
+              ? getImage('valittu').shadow
+              : getImage('valittu_harmaa').shadow
+          }
+          style={[styles.check, getSizeByHeight('valittu', 0.14)]}
+        />
+      </AppButton>
+    </View>;
 
   renderMoods = () => moods.map((mood, key) => this.renderMood(mood, key));
 
   render() {
     return (
-      <View style={styles.container}>
-        {this.renderMoods()}
+      <Image source={getImage('tausta_perus3').normal} style={styles.container}>
+        <ScrollView
+          keyboardShouldPersistTaps={'always'}
+          overScrollMode={'always'}
+          contentContainerStyle={styles.scrollContainer}
+        >
+          <View style={styles.moodContainer}>
+            {this.renderMoods()}
+          </View>
+        </ScrollView>
         <TouchableOpacity onPress={this.sendMoods}>
           <Image
             source={require('./done.png')}
@@ -142,7 +173,7 @@ export default class MoodViewContainer extends Component {
           />
         </TouchableOpacity>
         {this.renderSaveConfirmationWindow()}
-      </View>
+      </Image>
     );
   }
 }
