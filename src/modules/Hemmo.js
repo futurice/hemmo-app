@@ -11,25 +11,37 @@ import {
   View,
   Dimensions,
 } from 'react-native';
-import { getImage, getSizeByHeight } from '../services/graphics';
+import {
+  getImage,
+  getSizeByHeight,
+  getSizeByWidth,
+} from '../services/graphics';
 import AudioPlayerViewContainer from './AudioPlayerViewContainer';
 import { toggleMute, setText, setAudio } from '../state/HemmoState';
 import AppButton from '../components/AppButton';
 
 const styles = StyleSheet.create({
+  background: {
+    backgroundColor: 'rgba(255,255,255,0.8)',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+  },
   container: {
     position: 'absolute',
     right: 0,
-    margin: 5,
   },
   hemmo: {
     position: 'absolute',
     right: 0,
+    top: 20,
   },
   bubbleContainer: {
     flex: 1,
     marginTop: 70,
     alignSelf: 'center',
+    alignItems: 'center',
   },
   bubble: {
     alignSelf: 'center',
@@ -115,11 +127,17 @@ export default class Hemmo extends Component {
   };
 
   showBubble = async () => {
-    if (!this.props.text && !this.props.audio) {
+    if (!this.props.text || !this.props.audio) {
       await this.setDefaultText();
     }
 
-    this.setState({ showBubble: true });
+    if (
+      this.state.currentAppState === 'active' &&
+      this.props.text &&
+      this.props.audio
+    ) {
+      this.setState({ showBubble: true });
+    }
   };
 
   hideBubble = async () => {
@@ -143,28 +161,22 @@ export default class Hemmo extends Component {
     this.setState({ currentAppState });
   };
 
-  renderBubble = () =>
-    this.state.currentAppState === 'active' &&
-    this.state.showBubble &&
-    this.props.text
-      ? <Modal
-          animationType={'fade'}
-          transparent
-          visible={
-            this.props.text.length !== 0 &&
-            this.state.currentAppState === 'active'
-          }
-          onRequestClose={() => console.log(' ')}
-          supportedOrientations={['portrait', 'landscape']}
-        >
-          <View
-            style={[styles.bubbleContainer, getSizeByHeight('puhekupla', 0.1)]}
-          >
-            {this.renderBubbleButton()}
-            {this.renderMuteButton()}
-          </View>
-        </Modal>
-      : null;
+  renderBubble = () => {
+    return (
+      <Modal
+        animationType={'fade'}
+        transparent
+        visible={this.state.showBubble}
+        onRequestClose={() => console.log(' ')}
+        supportedOrientations={['portrait', 'landscape']}
+      >
+        <View style={styles.bubbleContainer}>
+          {this.renderBubbleButton()}
+          {this.renderMuteButton()}
+        </View>
+      </Modal>
+    );
+  };
 
   renderAudio = () => {
     if (
@@ -188,7 +200,7 @@ export default class Hemmo extends Component {
       <AppButton
         background={this.props.muted ? 'volume_is_off' : 'volume_is_on'}
         onPress={this.toggleMute}
-        width={Dimensions.get('window').width * 0.15}
+        width={getSizeByWidth('volume_is_off', 0.07).width}
         shadow
       />
     </View>;
@@ -196,9 +208,9 @@ export default class Hemmo extends Component {
   renderBubbleButton = () =>
     <View style={styles.bubble}>
       <AppButton
-        background="up_small"
+        background="puhekupla"
         onPress={this.hideBubble}
-        width={Dimensions.get('window').width * 0.9}
+        width={getSizeByWidth('puhekupla', 0.5).width}
         shadow
       >
         <Text style={styles.text}>
@@ -212,7 +224,7 @@ export default class Hemmo extends Component {
       <AppButton
         background="hemmo"
         onPress={this.showBubble}
-        width={70}
+        width={getSizeByWidth('hemmo', 0.1).width}
         shadow
       />
     </View>;
@@ -224,7 +236,12 @@ export default class Hemmo extends Component {
     if (!phrases[routeName]) return null;
 
     return (
-      <View style={styles.container}>
+      <View
+        style={[
+          styles.container,
+          this.state.showBubble ? styles.background : null,
+        ]}
+      >
         {this.renderBubble()}
         {this.renderAudio()}
         {this.renderHemmoButton()}

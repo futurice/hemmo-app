@@ -80,11 +80,11 @@ export default class TextForm extends Component {
     return (
       <View style={styles.container}>
         <Image
-          source={getImage('tausta_kirjoitus')}
+          source={getImage('tausta_kirjoitus').normal}
           style={getSizeByWidth('tausta_kirjoitus', 0.5)}
         >
           <Image
-            source={getImage('kirjoituskentta')}
+            source={getImage('kirjoituskentta').normal}
             style={[styles.textInput, getSizeByWidth('kirjoituskentta', 0.35)]}
           >
             <TextInput
@@ -101,7 +101,7 @@ export default class TextForm extends Component {
             style={styles.closeButton}
           >
             <Image
-              source={getImage('nappula_rasti')}
+              source={getImage('nappula_rasti').normal}
               style={getSizeByHeight('nappula_rasti', 0.1)}
             />
           </TouchableOpacity>
@@ -112,7 +112,7 @@ export default class TextForm extends Component {
           style={styles.saveButton}
         >
           <Image
-            source={getImage('nappula_tallenna')}
+            source={getImage('nappula_tallenna').normal}
             style={[
               getSizeByHeight('nappula_tallenna', 0.1),
               {

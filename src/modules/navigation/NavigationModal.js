@@ -105,11 +105,11 @@ export default class NavigationModal extends Component {
   renderCloseButton = () =>
     <TouchableOpacity
       onPress={this.toggleModal}
-      style={[styles.closeButton, getSizeByHeight('nappula_rasti', 0.1)]}
+      style={[styles.closeButton, getSizeByHeight('close_small', 0.1)]}
     >
       <Image
-        source={getImage('nappula_rasti')}
-        style={[getSizeByHeight('nappula_rasti', 0.1)]}
+        source={getImage('close_small').normal}
+        style={getSizeByHeight('close_small', 0.1)}
       />
     </TouchableOpacity>;
 
@@ -124,7 +124,7 @@ export default class NavigationModal extends Component {
         >
           <View style={styles.navigationModal}>
             <Image
-              source={getImage('tausta_kapea')}
+              source={getImage('tausta_kapea').normal}
               style={getSizeByWidth('tausta_kapea', 0.5)}
             >
               {this.renderCloseButton()}
@@ -144,7 +144,7 @@ export default class NavigationModal extends Component {
             source={
               this.props.currentUser.get('image')
                 ? { uri: this.props.currentUser.get('image') }
-                : getImage('default_image')
+                : getImage('default_image').normal
             }
           />
         </TouchableOpacity>

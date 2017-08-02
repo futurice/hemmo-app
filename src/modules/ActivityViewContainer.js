@@ -9,6 +9,7 @@ import {
   StyleSheet,
   Modal,
   TouchableOpacity,
+  Dimensions,
   Text,
   Alert,
 } from 'react-native';
@@ -25,10 +26,14 @@ import {
   getSizeByWidth,
   getSizeByHeight,
 } from '../services/graphics';
+import AppButton from '../components/AppButton';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    height: null,
+    width: null,
+    backgroundColor: '#fff',
     flexDirection: 'column',
     alignItems: 'center',
   },
@@ -42,50 +47,61 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  mainActivity: {
+    alignSelf: 'center',
+    marginTop: 7,
+  },
   subActivityContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
   },
-  actionRow: {
+  chosenThumb: {
+    position: 'absolute',
+    alignSelf: 'flex-start',
+    right: 0,
+  },
+  titleRow: {
+    flexDirection: 'row',
+  },
+  closeButton: {
+    margin: 15,
+  },
+  subActivityThumbImage: {
+    margin: 14,
+    alignSelf: 'center',
+    width: 150,
+    height: 150,
+  },
+  thumbRow: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  thumbSubActivityContainer: {
+  thumbModalQuestion: {
     alignSelf: 'center',
-  },
-  closeButton: {
-    alignSelf: 'flex-start',
-    marginLeft: 15,
-    marginTop: 15,
-  },
-  subActivityThumbImage: {
-    alignSelf: 'center',
-    margin: 5,
   },
   voteButton: {
     margin: 5,
   },
   selectedThumbButton: {
     margin: 5,
-    opacity: 0.4,
   },
   unselectedThumbButton: {
     margin: 5,
+    opacity: 0.5,
   },
 });
 
 const activities = require('../data/activities.js');
-const phrases = require('../data/phrases.json');
 
 const animationDuration = 300;
 
 const thumbs = [
-  { value: 1, imageName: 'peukku_ylos_0' },
-  { value: 0, imageName: 'peukku_keski_0' },
-  { value: -1, imageName: 'peukku_alas_0' },
+  { value: 1, imageName: 'thumb_up' },
+  { value: 0, imageName: 'thumb_middle' },
+  { value: -1, imageName: 'thumb_down' },
 ];
 
 const mapStateToProps = state => ({
@@ -135,8 +151,7 @@ export default class ActivityViewContainer extends Component {
     chosenSubActivity: Map(),
   };
 
-  getSubActivityHeight = () =>
-    getSizeByWidth('leikkiminen', 0.2).height + 2 * 5;
+  getSubActivityHeight = () => getSizeByWidth('nelio', 0.2).height + 2 * 5;
 
   getMainActivityHeight = () => getSizeByWidth('nelio', 0.3).height + 2 * 5;
 
@@ -169,7 +184,7 @@ export default class ActivityViewContainer extends Component {
     }
   };
 
-  chooseMainActivity = activity => {
+  chooseMainActivity = async activity => {
     const margin = 5;
 
     setTimeout(
@@ -182,18 +197,18 @@ export default class ActivityViewContainer extends Component {
       0,
     );
 
+    await this.props.setAudio('');
+
     if (this.state.chosenMainActivity.get('id') === activity.get('id')) {
       this.setState({
         chosenMainActivity: Map(),
       });
-
-      this.props.setAudio('');
     } else {
       this.setState({
         chosenMainActivity: activity,
       });
 
-      this.props.setAudio(activity.get('audio'));
+      await this.props.setAudio(activity.get('audio'));
     }
   };
 
@@ -243,39 +258,36 @@ export default class ActivityViewContainer extends Component {
       : null;
 
   renderThumbButton = (thumb, i) =>
-    <View key={i}>
-      <TouchableOpacity onPress={() => this.chooseThumb(thumb.value)}>
-        <Image
-          source={getImage(thumb.imageName)}
-          style={[
-            this.isSelected(thumb.value)
-              ? styles.selectedThumbButton
-              : styles.unselectedThumbButton,
-            getSizeByHeight(thumb.imageName, 0.2),
-          ]}
-        />
-      </TouchableOpacity>
+    <View
+      key={i}
+      style={
+        this.isSelected(thumb.value)
+          ? styles.selectedThumbButton
+          : styles.unselectedThumbButton
+      }
+    >
+      <AppButton
+        background={thumb.imageName}
+        onPress={() => this.chooseThumb(thumb.value)}
+        width={getSizeByWidth('thumb_up', 0.11).width}
+        shadow={this.isSelected(thumb.value)}
+      />
     </View>;
 
   renderThumbButtons = () =>
     thumbs.map((thumb, i) => this.renderThumbButton(thumb, i));
 
-  renderTitlePanel = () =>
-    <View>
-      <TouchableOpacity onPress={this.closeModal}>
-        <Image
-          source={getImage('nappula_rasti')}
-          style={[styles.closeButton, getSizeByHeight('nappula_rasti', 0.1)]}
-        />
-      </TouchableOpacity>
-      <Image
-        source={this.state.chosenSubActivity.get('imageRoute')}
-        style={[styles.subActivityThumbImage, getSizeByWidth('kirjat', 0.2)]}
+  renderCloseButton = () =>
+    <View style={styles.closeButton}>
+      <AppButton
+        background="close_small"
+        onPress={this.closeModal}
+        width={getSizeByHeight('close_small', 0.12).height}
       />
     </View>;
 
-  renderActionPanel = () =>
-    <View style={styles.actionRow}>
+  renderThumbButtonRow = () =>
+    <View style={styles.thumbRow}>
       {this.renderThumbButtons()}
     </View>;
 
@@ -290,11 +302,22 @@ export default class ActivityViewContainer extends Component {
         >
           <View style={styles.thumbModal}>
             <Image
-              source={getImage('tausta_kapea')}
-              style={[styles.leftColumn, getSizeByWidth('tausta_kapea', 0.5)]}
+              source={getImage('modal').shadow}
+              style={getSizeByWidth('modal', 0.5)}
             >
-              {this.renderTitlePanel()}
-              {this.renderActionPanel()}
+              <View style={styles.titleRow}>
+                {this.renderCloseButton()}
+                <Image
+                  source={
+                    getImage(this.state.chosenSubActivity.get('key')).normal
+                  }
+                  style={styles.subActivityThumbImage}
+                />
+              </View>
+              <Text style={styles.thumbModalQuestion}>
+                {this.state.chosenSubActivity.get('text')}
+              </Text>
+              {this.renderThumbButtonRow()}
             </Image>
           </View>
         </Modal>
@@ -303,8 +326,8 @@ export default class ActivityViewContainer extends Component {
   renderChosenThumb = thumb =>
     thumb !== undefined
       ? <Image
-          source={getImage(thumb.imageName)}
-          style={getSizeByHeight(thumb.imageName, 0.1)}
+          source={getImage(thumb.imageName).shadow}
+          style={[styles.chosenThumb, getSizeByHeight(thumb.imageName, 0.15)]}
         />
       : null;
 
@@ -317,23 +340,16 @@ export default class ActivityViewContainer extends Component {
     const thumb = thumbs.find(t => t.value === existingThumbValue);
 
     return (
-      <TouchableOpacity
-        key={index}
-        style={{
-          margin: 5,
-          borderRadius: getSizeByWidth('kirjat', 0.15).height / 2,
-        }}
-        onPress={() => this.chooseSubActivity(subActivity)}
-      >
-        <View>
-          <Image
-            source={subActivity.get('imageRoute')}
-            style={getSizeByWidth('kirjat', 0.2)}
-          >
-            {this.renderChosenThumb(thumb)}
-          </Image>
-        </View>
-      </TouchableOpacity>
+      <View style={styles.subActivity} key={index}>
+        <AppButton
+          background={subActivity.get('key')}
+          onPress={() => this.chooseSubActivity(subActivity)}
+          width={getSizeByWidth('leipominen', 0.22).width}
+          shadow
+        >
+          {this.renderChosenThumb(thumb)}
+        </AppButton>
+      </View>
     );
   };
 
@@ -347,16 +363,14 @@ export default class ActivityViewContainer extends Component {
     </View>;
 
   renderMainActivity = (mainActivity, index) =>
-    <TouchableOpacity
-      key={index}
-      style={[{ margin: 5, alignSelf: 'center' }, getSizeByWidth('nelio', 0.3)]}
-      onPress={() => this.chooseMainActivity(mainActivity)}
-    >
-      <Image
-        style={getSizeByWidth('nelio', 0.3)}
-        source={mainActivity.get('imageRoute')}
+    <View style={styles.mainActivity} key={index}>
+      <AppButton
+        background={mainActivity.get('key')}
+        onPress={() => this.chooseMainActivity(mainActivity)}
+        width={getSizeByWidth('puuhasimme', 0.5).width}
+        shadow
       />
-    </TouchableOpacity>;
+    </View>;
 
   renderMainActivities = () =>
     <ScrollView
@@ -383,7 +397,6 @@ export default class ActivityViewContainer extends Component {
       <Accordion
         align="bottom"
         duration={animationDuration}
-        onChange={index => console.log('active index', index)}
         sections={activities}
         activeSection={
           !this.state.chosenMainActivity.isEmpty()
@@ -392,7 +405,7 @@ export default class ActivityViewContainer extends Component {
         }
         renderHeader={this.renderMainActivity}
         renderContent={this.renderSubActivities}
-        underlayColor={'#FFFFFF'}
+        underlayColor={'#fff'}
       />
     </ScrollView>;
 
@@ -402,7 +415,7 @@ export default class ActivityViewContainer extends Component {
     }
 
     return (
-      <View style={styles.container}>
+      <Image source={getImage('tausta_perus3').normal} style={styles.container}>
         {this.renderMainActivities()}
         {this.renderThumbModal()}
         <TouchableOpacity onPress={this.sendActivities}>
@@ -412,7 +425,7 @@ export default class ActivityViewContainer extends Component {
           />
         </TouchableOpacity>
         {this.renderSaveConfirmationWindow()}
-      </View>
+      </Image>
     );
   }
 }

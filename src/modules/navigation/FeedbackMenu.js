@@ -103,7 +103,7 @@ export default class HomeViewContainer extends Component {
 
   render() {
     return (
-      <Image source={getImage('tausta_perus3')} style={styles.container}>
+      <Image source={getImage('tausta_perus3').normal} style={styles.container}>
         <ScrollView
           contentContainerStyle={{ paddingVertical: 32, alignItems: 'center' }}
         >

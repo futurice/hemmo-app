@@ -114,7 +114,7 @@ export default class MoodViewContainer extends Component {
       onPress={() => this.addMood(mood.get('name'))}
     >
       <Image
-        source={mood.get('imageRoute')}
+        source={getImage(mood.get('key')).normal}
         style={getSizeByWidth(mood.get('key'), 0.2)}
       >
         {this.props.selectedMoods.includes(mood.get('name'))
@@ -125,7 +125,7 @@ export default class MoodViewContainer extends Component {
 
   renderCheckmark = () =>
     <Image
-      source={getImage('valittu')}
+      source={getImage('valittu').normal}
       style={[styles.check, getSizeByHeight('valittu', 0.1)]}
     />;
 

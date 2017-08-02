@@ -454,13 +454,16 @@ export default class SettingsViewContainer extends Component {
       onPress={this.handleSelectImageClick}
       style={styles.image}
     >
-      <Image source={getImage('nelio')} style={getSizeByWidth('nelio', 0.25)}>
+      <Image
+        source={getImage('nelio').normal}
+        style={getSizeByWidth('nelio', 0.25)}
+      >
         <Image
           style={styles.icon}
           source={
             this.state.image
               ? { uri: this.state.image }
-              : getImage('default_image')
+              : getImage('default_image').normal
           }
         />
       </Image>
