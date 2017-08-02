@@ -177,26 +177,32 @@ const graphics = {
   /* moods */
   iloinen: {
     normal: require('../../assets/graphics/moods/iloinen.png'),
+    shadow: require('../../assets/graphics/moods/iloinen_s2dp.png'),
     ratio: 1,
   },
   innostunut: {
     normal: require('../../assets/graphics/moods/innostunut.png'),
+    shadow: require('../../assets/graphics/moods/innostunut_s2dp.png'),
     ratio: 1,
   },
   jannittynyt: {
     normal: require('../../assets/graphics/moods/jannittynyt.png'),
+    shadow: require('../../assets/graphics/moods/jannittynyt_s2dp.png'),
     ratio: 1,
   },
   surullinen: {
     normal: require('../../assets/graphics/moods/surullinen.png'),
+    shadow: require('../../assets/graphics/moods/surullinen_s2dp.png'),
     ratio: 1,
   },
   vihainen: {
     normal: require('../../assets/graphics/moods/vihainen.png'),
+    shadow: require('../../assets/graphics/moods/vihainen_s2dp.png'),
     ratio: 1,
   },
   yksinainen: {
     normal: require('../../assets/graphics/moods/yksinainen.png'),
+    shadow: require('../../assets/graphics/moods/yksinainen_s2dp.png'),
     ratio: 1,
   },
 
@@ -347,7 +353,13 @@ const graphics = {
     ratio: 5.1164,
   },
   valittu: {
-    normal: require('../../assets/graphics/others/valittu.png'),
+    normal: require('../../assets/graphics/others/checkmark_small.png'),
+    shadow: require('../../assets/graphics/others/checkmark_small_s2dp.png'),
+    ratio: 1.0377,
+  },
+  valittu_harmaa: {
+    normal: require('../../assets/graphics/others/checkmark_small_grey.png'),
+    shadow: require('../../assets/graphics/others/checkmark_small_grey_s2dp.png'),
     ratio: 1.0377,
   },
   ratas: {
