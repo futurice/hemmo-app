@@ -6,6 +6,8 @@ import LoginViewContainer from '../LoginViewContainer';
 import SettingsViewContainer from '../settings/SettingsViewContainer';
 import ActivityViewContainer from '../ActivityViewContainer';
 import FreeWordViewContainer from '../FreeWordViewContainer';
+import RecordViewContainer from '../RecordViewContainer';
+import WriteViewContainer from '../WriteViewContainer';
 import MoodViewContainer from '../MoodViewContainer';
 import EndingViewContainer from '../EndingViewContainer';
 import NavigationModal from './NavigationModal';
@@ -21,6 +23,8 @@ const AppNavigator = StackNavigator(
     Activity: { screen: ActivityViewContainer },
     Mood: { screen: MoodViewContainer },
     FreeWord: { screen: FreeWordViewContainer },
+    Record: { screen: RecordViewContainer },
+    Write: { screen: WriteViewContainer },
     Ending: { screen: EndingViewContainer },
   },
   {

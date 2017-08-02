@@ -334,6 +334,21 @@ const graphics = {
     normal: require('../../assets/graphics/activities/ulkoilimme/mokkeily.png'),
     shadow: require('../../assets/graphics/activities/ulkoilimme/mokkeily_s2dp.png'),
   },
+  write: {
+    normal: require('../../assets/graphics/buttons/write.png'),
+    shadow: require('../../assets/graphics/buttons/write_s2dp.png'),
+  },
+  record: {
+    normal: require('../../assets/graphics/buttons/record.png'),
+    shadow: require('../../assets/graphics/buttons/record_s2dp.png'),
+  },
+  record_expanded: {
+    normal: require('../../assets/graphics/buttons/record_expanded.png'),
+    shadow: require('../../assets/graphics/buttons/record_expanded_s2dp.png'),
+  },
+  textbox: {
+    normal: require('../../assets/graphics/others/textbox.png'),
+  },
 
   /* Muuta */
   hemmo: {

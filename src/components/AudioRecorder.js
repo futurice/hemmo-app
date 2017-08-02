@@ -8,6 +8,7 @@ import {
   View,
   Image,
   Alert,
+  Dimensions,
   Text,
   TouchableOpacity,
   StyleSheet,
@@ -19,6 +20,8 @@ import { Recorder } from 'react-native-audio-toolkit';
 import { getSizeByHeight, getImage } from '../services/graphics';
 
 const Permissions = require('react-native-permissions');
+
+import AppButton from '../components/AppButton';
 
 const styles = StyleSheet.create({
   recordRow: {
@@ -196,33 +199,30 @@ export default class AudioRecorder extends Component {
     this._toggleRecord();
   };
 
+  renderProgressBar = () =>
+    <View style={styles.progressBar}>
+      <ProgressBar progress={this.state.progress} height={50} width={200} />
+    </View>;
+
   renderStartRecordButton = () =>
-    <TouchableOpacity
+    <AppButton
+      width={Dimensions.get('window').width * 0.9}
       onPress={this.handleStartRecordClick}
-      style={{ flexDirection: 'row', alignItems: 'center' }}
+      background="record_expanded"
+      shadow
     >
-      <Image
-        source={getImage('nappula_rec').normal}
-        style={getSizeByHeight('nappula_rec', 0.35)}
-      />
-      <Text style={{ textAlign: 'center', fontSize: 30, padding: 20 }}>
-        Nauhoita
-      </Text>
-    </TouchableOpacity>;
+      {this.renderProgressBar()}
+    </AppButton>;
 
   renderStopRecordButton = () =>
-    <TouchableOpacity
+    <AppButton
+      width={Dimensions.get('window').width * 0.9}
       onPress={this._toggleRecord}
-      style={{ flexDirection: 'row', alignItems: 'center' }}
+      background="record_expanded"
+      shadow
     >
-      <Image
-        source={getImage('nappula_stop')}
-        style={getSizeByHeight('nappula_stop', 0.35)}
-      />
-      <Text style={{ textAlign: 'center', fontSize: 30, padding: 20 }}>
-        Pysäytä
-      </Text>
-    </TouchableOpacity>;
+      {this.renderProgressBar()}
+    </AppButton>;
 
   renderRecordButton = () => {
     if (this.state.recordButton === 'Record') {
@@ -238,9 +238,6 @@ export default class AudioRecorder extends Component {
     return (
       <View style={styles.recordRow}>
         {this.renderRecordButton()}
-        <View style={styles.progressBar}>
-          <ProgressBar progress={this.state.progress} height={50} width={200} />
-        </View>
       </View>
     );
   }

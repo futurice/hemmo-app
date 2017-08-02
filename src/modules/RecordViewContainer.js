@@ -45,23 +45,92 @@ const mapDispatchToProps = dispatch => ({
   back: () => dispatch(NavigationActions.back()),
   pushRoute: key => dispatch(NavigationActions.navigate({ routeName: key })),
   popRoute: () => dispatch(NavigationActions.back()),
+  saveFreeWord: freeWord => dispatch(addFreeWord(freeWord)),
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
 export default class FreeWordViewContainer extends Component {
   static navigationOptions = {
-    title: 'Kerro vapaasti',
+    title: 'Nauhoita',
   };
 
   static propTypes = {
     back: PropTypes.func.isRequired,
     popRoute: PropTypes.func.isRequired,
     pushRoute: PropTypes.func.isRequired,
+    saveFreeWord: PropTypes.func.isRequired,
     answers: PropTypes.instanceOf(Map).isRequired,
   };
 
   state = {
+    text: '',
+    activeWidget: null,
+    showTextForm: false,
+    progress: 0,
     showSucceedingMessage: false,
+    showSpinner: false,
+  };
+
+  setText = text => {
+    this.setState({ text });
+  };
+
+  error = () => {
+    this.setState({ showSpinner: false });
+    Alert.alert(
+      'Ohops!',
+      'Jokin meni pieleen! Tarkista nettiyhteys tai yritä myöhemmin uudelleen!',
+      [{ text: 'Ok' }],
+    );
+  };
+
+  getRequestBody = (type, content) => {
+    const attachmentBody = new FormData();
+
+    if (type === 'audio') {
+      const file = {
+        uri: `file://${content}`,
+        type: 'audio/mp4',
+        name: 'file',
+      };
+
+      attachmentBody.append('data', file);
+    } else {
+      attachmentBody.append('data', content);
+    }
+
+    return attachmentBody;
+  };
+
+  toggleWritingButton = value => {
+    this.setState({ disableWriting: value });
+  };
+
+  sendFreeWord = async (type, content) => {
+    this.setState({ showSpinner: true });
+
+    this.props.saveFreeWord({ type, content });
+
+    if (type === 'text') {
+      this.toggleWriting();
+    }
+
+    const feedbackId = await getSessionId();
+
+    try {
+      await xhr(
+        'POST',
+        `/app/feedback/${feedbackId}/attachments`,
+        this.getRequestBody(type, content),
+      );
+
+      this.setState({ showSucceedingMessage: true });
+    } catch (error) {
+      console.log(error);
+      Alert.alert('Oops! Jokin meni pieleen!', 'Yritä myöhemmin uudelleen!');
+    }
+
+    this.setState({ showSpinner: false });
   };
 
   renderSaveConfirmationWindow = () =>
@@ -69,42 +138,21 @@ export default class FreeWordViewContainer extends Component {
       ? <SaveConfirmationWindow closeWindow={this.props.back} />
       : null;
 
-  renderRecordButton = () =>
-    <View style={{ paddingVertical: 16 }}>
-      <AppButton
-        width={Dimensions.get('window').width * 0.9}
-        onPress={() => this.props.pushRoute('Record')}
-        background="record"
-        shadow
-      />
-    </View>;
-
-  renderWriteButton = () =>
-    <View style={{ paddingVertical: 16 }}>
-      <AppButton
-        width={Dimensions.get('window').width * 0.9}
-        onPress={() => this.props.pushRoute('Write')}
-        background="write"
-        shadow
-      />
-    </View>;
-
-  renderDoneButton = () =>
-    <TouchableOpacity onPress={this.props.back}>
-      <Image
-        source={require('./done.png')}
-        style={{ width: 120, height: 60 }}
-      />
-    </TouchableOpacity>;
+  renderAudioRecorder = () =>
+    <AudioRecorder
+      save={this.sendFreeWord}
+      toggleWritingButton={this.toggleWritingButton}
+    />;
 
   render() {
+    if (this.state.showSpinner) {
+      return <LoadingSpinner />;
+    }
+
     return (
       <View style={styles.container}>
-        <View style={styles.container}>
-          {this.renderRecordButton()}
-          {this.renderWriteButton()}
-        </View>
-        {this.renderDoneButton()}
+        {this.renderAudioRecorder()}
+        {this.renderSaveConfirmationWindow()}
       </View>
     );
   }
