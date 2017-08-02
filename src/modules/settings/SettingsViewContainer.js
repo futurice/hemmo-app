@@ -105,6 +105,12 @@ const options = require('./image-picker-options');
 const ImagePicker = require('react-native-image-picker');
 const Permissions = require('react-native-permissions');
 
+const defaultUser = {
+  nickName: __DEV__ ? 'Testikäyttäjä' : '',
+  fullName: __DEV__ ? 'Matti Meikäläinen' : '',
+  birthYear: __DEV__ ? '2010' : null,
+};
+
 const mapStateToProps = state => ({
   loading: state.getIn(['home', 'loading']),
   users: state.getIn(['user', 'users']),
@@ -138,13 +144,11 @@ export default class SettingsViewContainer extends Component {
 
   state = {
     loading: false,
-    disabled: true,
+    disabled: !__DEV__,
     showSucceedingMessage: false,
     id: null,
-    nickName: '',
-    fullName: '',
-    birthYear: null,
     image: null,
+    ...defaultUser,
   };
 
   infoIsMissing = () => this.state.nickName.length === 0;
@@ -317,10 +321,13 @@ export default class SettingsViewContainer extends Component {
     this.setState({
       disabled: true,
       id: user.get('id'),
-      nickName: user.get('name') === '+ Lisää' ? '' : user.get('name'),
+      nickName:
+        user.get('name') === '+ Lisää'
+          ? defaultUser.nickName
+          : user.get('name'),
       image: user.get('image'),
-      fullName: isEmptyTab ? '' : '*********',
-      birthYear: isEmptyTab ? '' : '*********',
+      fullName: isEmptyTab ? defaultUser.fullName : '*********',
+      birthYear: isEmptyTab ? defaultUser.birthYear : '*********',
     });
   };
 
