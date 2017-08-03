@@ -28,26 +28,6 @@ const styles = StyleSheet.create({
     height: null,
     width: null,
   },
-  leftColumn: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  rightColumn: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  font: {
-    fontSize: 20,
-    fontFamily: 'Gill Sans',
-  },
-  settingsButton: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'absolute',
-    bottom: 10,
-    left: 10,
-  },
 });
 
 const mapStateToProps = state => ({
@@ -66,13 +46,9 @@ const mapDispatchToProps = dispatch => ({
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
-export default class HomeViewContainer extends Component {
-  static navigationOptions = {
-    title: 'Valikko',
-  };
-
+export default class FeedbackMenu extends Component {
   renderBigButton = (background, onPress, done) =>
-    <View style={{ paddingVertical: 16 }}>
+    <View style={{ paddingVertical: 10 }}>
       <AppButton
         width={Dimensions.get('window').width * 0.8}
         onPress={onPress}
@@ -105,7 +81,11 @@ export default class HomeViewContainer extends Component {
     return (
       <Image source={getImage('tausta_perus3').normal} style={styles.container}>
         <ScrollView
-          contentContainerStyle={{ paddingVertical: 32, alignItems: 'center' }}
+          contentContainerStyle={{
+            paddingVertical: 5,
+            alignItems: 'center',
+            marginTop: 25,
+          }}
         >
           {this.renderBigButton(
             'whatdoned',

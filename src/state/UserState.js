@@ -70,10 +70,11 @@ export function resetCurrentUser() {
   };
 }
 
-export function setCurrentUser(id) {
+export function setCurrentUser(user) {
+  console.log(user.get('image'));
   return {
     type: SET_CURRENT_USER,
-    payload: id,
+    payload: user,
   };
 }
 
@@ -135,10 +136,10 @@ function currentUserReducer(state = Map(), action, wholeState) {
 
     case SET_CURRENT_USER:
       return state
-        .set('name', wholeState.getIn(['users', action.payload, 'name']))
-        .set('image', wholeState.getIn(['users', action.payload, 'image']))
-        .set('token', wholeState.getIn(['users', action.payload, 'token']))
-        .set('id', action.payload);
+        .set('name', action.payload.get('name'))
+        .set('image', action.payload.get('image'))
+        .set('token', action.payload.get('token'))
+        .set('id', action.payload.get('id'));
 
     case ADD_ACTIVITY:
       return state.setIn(

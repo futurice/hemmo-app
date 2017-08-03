@@ -4,19 +4,21 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Image, TouchableOpacity, StyleSheet, Text } from 'react-native';
 import {
   getSizeByWidth,
   getSizeByHeight,
   getImage,
 } from '../services/graphics';
 
-const frameSize = getSizeByWidth('kehys_iso', 0.2);
-const iconSize = getSizeByWidth('kehys_iso', 0.17).width;
+const frameSize = getSizeByWidth('kehys_iso', 0.28);
+const iconSize = getSizeByWidth('kehys_iso', 0.22).width;
 
 const styles = StyleSheet.create({
   userRow: {
     margin: 10,
+    backgroundColor: '#fff',
+    borderWidth: 2,
     alignItems: 'center',
     justifyContent: 'center',
     height: frameSize.height,
@@ -41,7 +43,9 @@ const styles = StyleSheet.create({
   },
   name: {
     width: iconSize,
-    alignItems: 'center',
+    textAlign: 'center',
+    fontSize: 17,
+    padding: 10,
   },
 });
 
@@ -62,7 +66,7 @@ export default class UserItem extends Component {
   };
 
   renderDefaultIconImage = () =>
-    <Image style={styles.icon} source={getImage('default_image').normal} />;
+    <Image style={styles.icon} source={getImage('profilephoto').normal} />;
 
   renderIconImage = () =>
     <TouchableOpacity onPress={() => this.startJourney(this.props.index)}>
@@ -71,59 +75,21 @@ export default class UserItem extends Component {
         source={
           this.props.image
             ? { uri: this.props.image }
-            : getImage('default_image').normal
+            : getImage('profilephoto').normal
         }
       />
     </TouchableOpacity>;
 
   render() {
-    if (this.props.isColumn) {
-      return (
-        <TouchableOpacity
-          style={styles.rowWithSmallImageContainer}
-          key={this.props.index}
-          onPress={() => this.startJourney(this.props.index)}
-        >
-          <Image
-            source={getImage('kehys_palkki').normal}
-            style={[
-              styles.rowWithSmallImage,
-              getSizeByHeight('kehys_palkki', this.props.rowHeight),
-            ]}
-          >
-            <Image
-              style={[
-                styles.smallIcon,
-                {
-                  height: this.props.iconHeight - 20,
-                  width: this.props.iconHeight - 20,
-                },
-              ]}
-              source={
-                this.props.image
-                  ? { uri: this.props.image }
-                  : getImage('default_image').normal
-              }
-            />
-            {this.props.name}
-          </Image>
-        </TouchableOpacity>
-      );
-    }
-
     return (
-      <Image
-        source={getImage('kehys_iso').normal}
-        key={this.props.index}
-        style={styles.userRow}
-      >
+      <View key={this.props.index} style={styles.userRow}>
         {this.props.empty
           ? this.renderDefaultIconImage()
           : this.renderIconImage()}
-        <View style={styles.name}>
+        <Text style={styles.name}>
           {this.props.name}
-        </View>
-      </Image>
+        </Text>
+      </View>
     );
   }
 }

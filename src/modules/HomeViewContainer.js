@@ -28,7 +28,13 @@ import { getSizeByHeight, getImage } from '../services/graphics';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    height: null,
+    width: null,
     backgroundColor: '#FFFFFF',
+  },
+  userContainer: {
+    flexDirection: 'column',
+    marginTop: 20,
   },
   scrollContainer: {
     alignItems: 'center',
@@ -47,7 +53,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   resetCurrentUser: () => dispatch(resetCurrentUser()),
-  setCurrentUser: id => dispatch(setCurrentUser(id)),
+  setCurrentUser: user => dispatch(setCurrentUser(user)),
   addActivity: () => dispatch(addActivity()),
   startPreparing: () => dispatch(startPreparing()),
   finishPreparing: () => dispatch(finishPreparing()),
@@ -64,10 +70,6 @@ const mapDispatchToProps = dispatch => ({
 
 @connect(mapStateToProps, mapDispatchToProps)
 export default class HomeViewContainer extends Component {
-  static navigationOptions = {
-    headerStyle: { backgroundColor: '#FFFFFF' },
-  };
-
   static propTypes = {
     resetCurrentUser: PropTypes.func.isRequired,
     setCurrentUser: PropTypes.func.isRequired,
@@ -98,7 +100,7 @@ export default class HomeViewContainer extends Component {
       .then(result => {
         setSessionId(result.id);
         this.props.finishPreparing();
-        this.props.setCurrentUser(user.get('id'));
+        this.props.setCurrentUser(user);
         this.props.pushRoute('FeedbackMenu');
       })
       .catch(error => {
@@ -130,11 +132,6 @@ export default class HomeViewContainer extends Component {
         empty={false}
         startJourney={() => this.startSession(user)}
         image={user.get('image')}
-        iconHeight={Dimensions.get('window').height / users.size}
-        rowHeight={
-          (Dimensions.get('window').height / users.size - 10) /
-          Dimensions.get('window').height
-        }
       />,
     );
 
@@ -150,16 +147,18 @@ export default class HomeViewContainer extends Component {
     const users = this.props.users;
 
     return (
-      <View style={styles.container}>
+      <Image source={getImage('tausta_perus3').normal} style={styles.container}>
         <ScrollView
           keyboardShouldPersistTaps={'always'}
           overScrollMode={'always'}
           contentContainerStyle={styles.scrollContainer}
         >
-          {this.renderUsers(users)}
+          <View style={styles.userContainer}>
+            {this.renderUsers(users)}
+          </View>
         </ScrollView>
         {this.renderSettingsRow()}
-      </View>
+      </Image>
     );
   }
 }

@@ -11,25 +11,17 @@ import WriteViewContainer from '../WriteViewContainer';
 import MoodViewContainer from '../MoodViewContainer';
 import EndingViewContainer from '../EndingViewContainer';
 
-const AppNavigator = StackNavigator(
-  {
-    Home: { screen: HomeViewContainer },
-    Login: { screen: LoginViewContainer },
-    Settings: { screen: SettingsViewContainer },
-    FeedbackMenu: { screen: FeedbackMenu },
-    Activity: { screen: ActivityViewContainer },
-    Mood: { screen: MoodViewContainer },
-    FreeWord: { screen: FreeWordViewContainer },
-    Record: { screen: RecordViewContainer },
-    Write: { screen: WriteViewContainer },
-    Ending: { screen: EndingViewContainer },
-  },
-  {
-    navigationOptions: ({ navigation }) => ({
-      // Only show navigation modal button in feedback menu screen
-      headerStyle: { backgroundColor: '#FFFFFF' },
-    }),
-  },
-);
+const AppNavigator = StackNavigator({
+  Home: { screen: HomeViewContainer, navigationOptions: { header: null } },
+  Login: { screen: LoginViewContainer },
+  Settings: { screen: SettingsViewContainer },
+  FeedbackMenu: { screen: FeedbackMenu, navigationOptions: { header: null } },
+  Activity: { screen: ActivityViewContainer },
+  Mood: { screen: MoodViewContainer },
+  FreeWord: { screen: FreeWordViewContainer },
+  Record: { screen: RecordViewContainer },
+  Write: { screen: WriteViewContainer },
+  Ending: { screen: EndingViewContainer },
+});
 
 export default AppNavigator;

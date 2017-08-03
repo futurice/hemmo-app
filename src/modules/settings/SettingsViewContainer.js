@@ -31,7 +31,7 @@ import {
   getImage,
 } from '../../services/graphics';
 
-const iconSize = getSizeByWidth('nelio', 0.22).width;
+const iconSize = getSizeByWidth('profilephoto', 0.2).width;
 
 const styles = StyleSheet.create({
   container: {
@@ -76,11 +76,15 @@ const styles = StyleSheet.create({
   },
   tabBody: {},
   image: {
-    margin: 10,
+    marginLeft: 5,
+  },
+  defaultIcon: {
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   icon: {
     flex: 1,
-    margin: 10,
+    margin: 5,
     width: iconSize,
     height: iconSize,
   },
@@ -293,7 +297,7 @@ export default class SettingsViewContainer extends Component {
   };
 
   openImageGallery = () => {
-    ImagePicker.launchCamera(options, response => {
+    ImagePicker.showImagePicker(options, response => {
       if (!response.didCancel) {
         const source = { uri: response.uri, isStatic: true };
 
@@ -456,24 +460,28 @@ export default class SettingsViewContainer extends Component {
     this.openImageGallery();
   };
 
+  renderDefaultImage = () =>
+    <Image
+      style={[styles.icon, styles.defaultIcon]}
+      source={getImage('profilephoto').normal}
+    >
+      <Image
+        source={getImage('take_photo').normal}
+        style={getSizeByWidth('take_photo', 0.12)}
+      />
+    </Image>;
+
+  renderUserImage = imageUri =>
+    <Image style={styles.icon} source={{ uri: imageUri }} />;
+
   renderImage = () =>
     <TouchableOpacity
       onPress={this.handleSelectImageClick}
       style={styles.image}
     >
-      <Image
-        source={getImage('nelio').normal}
-        style={getSizeByWidth('nelio', 0.25)}
-      >
-        <Image
-          style={styles.icon}
-          source={
-            this.state.image
-              ? { uri: this.state.image }
-              : getImage('default_image').normal
-          }
-        />
-      </Image>
+      {this.state.image
+        ? this.renderUserImage(this.state.image)
+        : this.renderDefaultImage()}
     </TouchableOpacity>;
 
   renderSaveButton = () =>

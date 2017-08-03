@@ -30,6 +30,9 @@ import store from '../redux/store';
 import Hemmo from './Hemmo';
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   centered: {
     flex: 1,
     alignItems: 'center',
@@ -76,8 +79,7 @@ const styles = StyleSheet.create({
   },
   circle: {
     position: 'absolute',
-    left: 5,
-    top: 5,
+    margin: 5,
     ...Platform.select({
       ios: {
         top: 20,
@@ -262,7 +264,7 @@ export default class AppViewContainer extends Component {
             source={
               this.props.currentUser.get('image')
                 ? { uri: this.props.currentUser.get('image') }
-                : getImage('default_image').normal
+                : getImage('profilephoto').normal
             }
           />
         </TouchableOpacity>
@@ -278,10 +280,10 @@ export default class AppViewContainer extends Component {
     }
 
     return (
-      <View style={{ flex: 1 }}>
+      <View style={styles.container}>
         <NavigationViewContainer />
-        <Hemmo />
         {this.renderUserImage()}
+        <Hemmo />
         {this.renderExitModal()}
       </View>
     );

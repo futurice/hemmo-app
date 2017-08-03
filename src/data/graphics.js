@@ -35,6 +35,15 @@ const graphics = {
     normal: require('../../assets/graphics/backgrounds/kehys_iso.png'),
     ratio: 0.798,
   },
+  profilephoto: {
+    normal: require('../../assets/graphics/others/profilephoto.png'),
+    shadow: require('../../assets/graphics/others/profilephoto.png'),
+    ratio: 1,
+  },
+  take_photo: {
+    normal: require('../../assets/graphics/buttons/take_photo.png'),
+    ratio: 1.397,
+  },
   kehys_keski: {
     normal: require('../../assets/graphics/backgrounds/kehys_keski.png'),
     ratio: 0.7983,
