@@ -129,9 +129,16 @@ export default class FreeWordViewContainer extends Component {
     this.setState({ showSpinner: false });
   };
 
+  hideSucceedingMessage = () => {
+    if (this.state.showSucceedingMessage) {
+      this.setState({ showSucceedingMessage: false });
+      this.props.back();
+    }
+  };
+
   renderSaveConfirmationWindow = () =>
     <SaveConfirmationWindow
-      closeWindow={this.props.back}
+      closeWindow={this.hideSucceedingMessage}
       visible={this.state.showSucceedingMessage}
     />;
 

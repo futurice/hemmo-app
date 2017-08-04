@@ -255,8 +255,10 @@ export default class ActivityViewContainer extends Component {
     ]);
 
   hideSucceedingMessage = () => {
-    this.setState({ showSucceedingMessage: false });
-    this.props.back();
+    if (this.state.showSucceedingMessage) {
+      this.setState({ showSucceedingMessage: false });
+      this.props.back();
+    }
   };
 
   renderSaveConfirmationWindow = () =>
