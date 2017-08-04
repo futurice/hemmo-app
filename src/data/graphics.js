@@ -303,6 +303,11 @@ const graphics = {
     shadow: require('../../assets/graphics/activities/lemmikit/hevonen_s2dp.png'),
     ratio: 1,
   },
+  muuta: {
+    normal: require('../../assets/graphics/activities/lemmikit/muuta.png'),
+    shadow: require('../../assets/graphics/activities/lemmikit/muuta_s2dp.png'),
+    ratio: 1,
+  },
 
   puuhasimme: {
     normal: require('../../assets/graphics/activities/puuhasimme/puuhasimme.png'),

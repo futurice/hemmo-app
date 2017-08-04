@@ -229,6 +229,13 @@ const activities = [
         text: 'Millaista oli hoitaa hevosta?',
         audio: 'hemmo_33',
       }),
+      Map({
+        id: 3,
+        name: 'Muuta',
+        key: 'muuta',
+        text: 'Millaista oli hoitaa muita eläimiä?',
+        audio: 'hemmo_34',
+      }),
     ]),
   }),
 ];
