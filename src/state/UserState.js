@@ -148,6 +148,12 @@ function currentUserReducer(state = Map(), action, wholeState) {
       );
 
     case DELETE_ACTIVITY:
+      const subs = state.getIn(['answers', 'activities', action.payload.main]);
+
+      if (subs.size === 1) {
+        return state.deleteIn(['answers', 'activities', action.payload.main]);
+      }
+
       return state.deleteIn([
         'answers',
         'activities',
