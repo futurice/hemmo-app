@@ -234,7 +234,7 @@ export default class ActivityViewContainer extends Component {
       });
     }
 
-    this.closeModal();
+    setTimeout(this.closeModal, 1000);
   };
 
   closeModal = () => {
