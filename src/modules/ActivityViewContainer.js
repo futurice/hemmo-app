@@ -27,6 +27,7 @@ import {
   getSizeByHeight,
 } from '../services/graphics';
 import AppButton from '../components/AppButton';
+import DoneButton from '../components/DoneButton';
 
 const styles = StyleSheet.create({
   container: {
@@ -428,12 +429,10 @@ export default class ActivityViewContainer extends Component {
       <Image source={getImage('tausta_perus3').normal} style={styles.container}>
         {this.renderMainActivities()}
         {this.renderThumbModal()}
-        <TouchableOpacity onPress={this.sendActivities}>
-          <Image
-            source={require('./done.png')}
-            style={{ width: 120, height: 60 }}
-          />
-        </TouchableOpacity>
+        <DoneButton
+          onPress={this.sendActivities.bind(this)}
+          disabled={this.props.chosenActivities.size === 0}
+        />
         {this.renderSaveConfirmationWindow()}
       </Image>
     );

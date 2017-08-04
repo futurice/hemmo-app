@@ -104,12 +104,12 @@ android {
         }
     }
     signingConfigs {
-        debug {
+        /*debug {
             storeFile file(HEMMO_DEBUG_STORE_FILE)
             storePassword HEMMO_DEBUG_STORE_PASSWORD
             keyAlias HEMMO_DEBUG_KEY_ALIAS
             keyPassword HEMMO_DEBUG_KEY_PASSWORD
-        }
+        }*/
 
         release {
             storeFile file(HEMMO_RELEASE_STORE_FILE)
@@ -127,9 +127,9 @@ android {
         }
     }
     buildTypes {
-        debug {
+        /*debug {
             signingConfig signingConfigs.debug
-        }
+        }*/
 
         release {
             minifyEnabled enableProguardInReleaseBuilds

@@ -9,6 +9,10 @@ const graphics = {
   default_image: {
     normal: require('../../assets/graphics/others/default-icon.png'),
   },
+  done_button: {
+    normal: require('../../assets/graphics/buttons/bottomnav.png'),
+    ratio: 1.0,
+  },
 
   /* backgrounds */
   tausta_perus: {
