@@ -1,5 +1,6 @@
 import React from 'react';
 import { StackNavigator } from 'react-navigation';
+import BackButton from './BackButton';
 import FeedbackMenu from './FeedbackMenu';
 import HomeViewContainer from '../HomeViewContainer';
 import LoginViewContainer from '../LoginViewContainer';
@@ -12,15 +13,60 @@ import MoodViewContainer from '../MoodViewContainer';
 import EndingViewContainer from '../EndingViewContainer';
 
 const AppNavigator = StackNavigator({
-  Home: { screen: HomeViewContainer, navigationOptions: { header: null } },
-  Login: { screen: LoginViewContainer },
-  Settings: { screen: SettingsViewContainer },
-  FeedbackMenu: { screen: FeedbackMenu, navigationOptions: { header: null } },
-  Activity: { screen: ActivityViewContainer },
-  Mood: { screen: MoodViewContainer },
-  FreeWord: { screen: FreeWordViewContainer },
-  Record: { screen: RecordViewContainer },
-  Write: { screen: WriteViewContainer },
+  Home: {
+    screen: HomeViewContainer,
+    navigationOptions: {
+      header: null,
+    },
+  },
+  Login: {
+    screen: LoginViewContainer,
+    navigationOptions: {
+      headerLeft: <BackButton />,
+    },
+  },
+  Settings: {
+    screen: SettingsViewContainer,
+    navigationOptions: {
+      headerLeft: <BackButton />,
+    },
+  },
+  FeedbackMenu: {
+    screen: FeedbackMenu,
+    navigationOptions: {
+      header: null,
+    },
+  },
+  Activity: {
+    screen: ActivityViewContainer,
+    navigationOptions: {
+      headerLeft: <BackButton />,
+    },
+  },
+  Mood: {
+    screen: MoodViewContainer,
+    navigationOptions: {
+      headerLeft: <BackButton />,
+    },
+  },
+  FreeWord: {
+    screen: FreeWordViewContainer,
+    navigationOptions: {
+      headerLeft: <BackButton />,
+    },
+  },
+  Record: {
+    screen: RecordViewContainer,
+    navigationOptions: {
+      headerLeft: <BackButton />,
+    },
+  },
+  Write: {
+    screen: WriteViewContainer,
+    navigationOptions: {
+      headerLeft: <BackButton />,
+    },
+  },
   Ending: { screen: EndingViewContainer },
 });
 

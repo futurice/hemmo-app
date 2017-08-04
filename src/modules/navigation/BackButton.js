@@ -11,9 +11,9 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const styles = StyleSheet.create({
-  userImage: {
-    height: 40,
-    width: 30,
+  backButtonImage: {
+    height: 30,
+    width: 20,
     marginLeft: 10,
   },
   navigationModal: {
@@ -44,7 +44,7 @@ export default class BackButton extends Component {
       <View>
         <TouchableOpacity onPress={this.props.back} style={styles.circle}>
           <Image
-            style={styles.userImage}
+            style={styles.backButtonImage}
             source={getImage('nappula_takaisin').normal}
           />
         </TouchableOpacity>
