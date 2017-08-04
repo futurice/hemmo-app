@@ -3,15 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Map } from 'immutable';
 import { NavigationActions } from 'react-navigation';
-import {
-  TouchableOpacity,
-  Image,
-  Text,
-  Dimensions,
-  Alert,
-  View,
-  StyleSheet,
-} from 'react-native';
+import { Image, ScrollView, Alert, View, StyleSheet } from 'react-native';
 import AudioRecorder from '../components/AudioRecorder';
 import LoadingSpinner from '../components/LoadingSpinner';
 import SaveConfirmationWindow from '../components/SaveConfirmationWindow';
@@ -26,12 +18,14 @@ import AppButton from '../components/AppButton';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    width: null,
+    height: null,
+  },
+  audioRecorder: {
+    paddingVertical: 16,
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  audioRecorder: {
-    marginBottom: 70,
   },
 });
 
@@ -150,12 +144,18 @@ export default class FreeWordViewContainer extends Component {
     }
 
     return (
-      <View style={{ flex: 1 }}>
-        <View style={{ flex: 1, justifyContent: 'center' }}>
-          {this.renderAudioRecorder()}
-        </View>
+      <Image source={getImage('tausta_perus3').normal} style={styles.container}>
+        <ScrollView
+          keyboardShouldPersistTaps={'always'}
+          overScrollMode={'always'}
+          contentContainerStyle={styles.scrollContainer}
+        >
+          <View style={styles.audioRecorder}>
+            {this.renderAudioRecorder()}
+          </View>
+        </ScrollView>
         {this.renderSaveConfirmationWindow()}
-      </View>
+      </Image>
     );
   }
 }

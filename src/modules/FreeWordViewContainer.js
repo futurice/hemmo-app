@@ -9,19 +9,28 @@ import {
   Dimensions,
   View,
   StyleSheet,
+  ScrollView,
 } from 'react-native';
 
 import AppButton from '../components/AppButton';
+import { getImage } from '../services/graphics';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    width: null,
+    height: null,
+  },
+  buttonContainer: {
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
   },
   audioRecorder: {
     marginBottom: 70,
+  },
+  doneButton: {
+    alignSelf: 'center',
   },
 });
 
@@ -84,13 +93,21 @@ export default class FreeWordViewContainer extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <View style={styles.container}>
-          {this.renderRecordButton()}
-          {this.renderWriteButton()}
+      <Image source={getImage('tausta_perus3').normal} style={styles.container}>
+        <ScrollView
+          keyboardShouldPersistTaps={'always'}
+          overScrollMode={'always'}
+          contentContainerStyle={styles.scrollContainer}
+        >
+          <View style={styles.buttonContainer}>
+            {this.renderRecordButton()}
+            {this.renderWriteButton()}
+          </View>
+        </ScrollView>
+        <View style={styles.doneButton}>
+          {this.renderDoneButton()}
         </View>
-        {this.renderDoneButton()}
-      </View>
+      </Image>
     );
   }
 }

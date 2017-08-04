@@ -11,6 +11,7 @@ import {
   Dimensions,
   Alert,
   View,
+  ScrollView,
   StyleSheet,
 } from 'react-native';
 import AudioRecorder from '../components/AudioRecorder';
@@ -27,11 +28,19 @@ import AppButton from '../components/AppButton';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    width: null,
+    height: null,
+  },
+  scrollContainer: {},
+  textBoxContainer: {
+    paddingVertical: 32,
+    flex: 1,
+    flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  audioRecorder: {
-    marginBottom: 70,
+  doneButton: {
+    alignSelf: 'center',
   },
 });
 
@@ -156,13 +165,21 @@ export default class FreeWordViewContainer extends Component {
     }
 
     return (
-      <View style={styles.container}>
-        <View style={{ paddingVertical: 32, flex: 1 }}>
-          {this.renderTextForm()}
+      <Image source={getImage('tausta_perus3').normal} style={styles.container}>
+        <ScrollView
+          keyboardShouldPersistTaps={'always'}
+          overScrollMode={'always'}
+          contentContainerStyle={styles.scrollContainer}
+        >
+          <View style={styles.textBoxContainer}>
+            {this.renderTextForm()}
+          </View>
+        </ScrollView>
+        <View style={styles.doneButton}>
+          {this.renderDoneButton()}
         </View>
-        {this.renderDoneButton()}
         {this.renderSaveConfirmationWindow()}
-      </View>
+      </Image>
     );
   }
 }
