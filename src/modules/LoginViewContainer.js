@@ -6,7 +6,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { NavigationActions } from 'react-navigation';
 import {
-  Button,
   View,
   ScrollView,
   Text,
@@ -14,11 +13,13 @@ import {
   Platform,
   StyleSheet,
   Linking,
+  Image,
 } from 'react-native';
 import { connect } from 'react-redux';
-
+import { getImage, getSizeByWidth } from '../services/graphics';
 import { post } from '../utils/api';
 import { setAuthenticationToken } from '../utils/authentication';
+import AppButton from '../components/AppButton';
 
 const privacyPolicyURL =
   'https://spiceprogram.org/assets/docs/privacy-policy-hemmo.txt';
@@ -26,23 +27,42 @@ const privacyPolicyURL =
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    height: null,
+    width: null,
+    flexDirection: 'column',
+    backgroundColor: '#fff',
+  },
+  loginContainer: {
+    backgroundColor: '#fff',
+    paddingTop: 40,
+    paddingBottom: 40,
+    borderBottomWidth: 3,
+    borderLeftWidth: 3,
+    borderRightWidth: 3,
   },
   scrollContainer: {},
   formField: {
-    marginTop: 10,
+    marginBottom: 7,
+    marginLeft: 60,
+    marginRight: 60,
+    ...Platform.select({
+      ios: {
+        paddingBottom: 10,
+      },
+    }),
+  },
+  inputView: {
+    ...Platform.select({
+      ios: {
+        borderBottomWidth: 2,
+      },
+    }),
   },
   input: {
-    marginLeft: 10,
-    marginRight: 10,
     textAlign: 'center',
     ...Platform.select({
       ios: {
         height: 40,
-        borderWidth: 1,
-        borderRadius: 10,
-        borderColor: 'rgba(65,65,65,1)',
-        backgroundColor: 'rgba(209, 209, 209, 0.29)',
       },
     }),
   },
@@ -53,6 +73,8 @@ const styles = StyleSheet.create({
   },
   label: {
     textAlign: 'center',
+    color: '#000',
+    fontWeight: 'bold',
     margin: 5,
     fontSize: 17,
   },
@@ -63,6 +85,29 @@ const styles = StyleSheet.create({
   },
   loginButton: {
     alignSelf: 'center',
+  },
+  loginText: {
+    flex: 1,
+    fontSize: 16,
+    textAlign: 'center',
+    fontWeight: 'bold',
+    color: '#000',
+  },
+  header: {
+    backgroundColor: '#fff',
+    borderLeftWidth: 3,
+    borderRightWidth: 3,
+    borderBottomWidth: 0,
+    elevation: 0,
+    shadowOpacity: 0,
+    shadowRadius: 0,
+    shadowOffset: {
+      height: 0,
+    },
+  },
+  headerTitle: {
+    alignSelf: 'center',
+    fontSize: 22,
   },
 });
 
@@ -81,10 +126,12 @@ const mapDispatchToProps = dispatch => ({
 });
 
 @connect(undefined, mapDispatchToProps)
-export default class LoginModal extends Component {
+export default class LoginViewContainer extends Component {
   static navigationOptions = {
     title: 'Kirjaudu sisään',
-    headerStyle: { backgroundColor: '#FFFFFF' },
+    headerRight: <View />, // Needed for a centered title
+    headerStyle: styles.header,
+    headerTitleStyle: styles.headerTitle,
   };
 
   static propTypes = {
@@ -142,35 +189,43 @@ export default class LoginModal extends Component {
   renderEmailField = () =>
     <View style={styles.formField}>
       <Text style={styles.label}>Sähköpostiosoite</Text>
-      <TextInput
-        style={styles.input}
-        keyboardType={'email-address'}
-        onChangeText={email => this.setState({ email: email.toLowerCase() })}
-        value={this.state.email}
-        secureTextEntry={false}
-      />
+      <View style={styles.inputView}>
+        <TextInput
+          style={styles.input}
+          keyboardType={'email-address'}
+          onChangeText={email => this.setState({ email: email.toLowerCase() })}
+          value={this.state.email}
+          secureTextEntry={false}
+        />
+      </View>
     </View>;
 
   renderPasswordField = () =>
     <View style={styles.formField}>
       <Text style={styles.label}>Salasana</Text>
-      <TextInput
-        style={styles.input}
-        keyboardType={'default'}
-        onChangeText={password => this.setState({ password })}
-        value={this.state.password}
-        secureTextEntry
-      />
+      <View style={styles.inputView}>
+        <TextInput
+          style={styles.input}
+          keyboardType={'default'}
+          onChangeText={password => this.setState({ password })}
+          value={this.state.password}
+          secureTextEntry
+        />
+      </View>
     </View>;
 
   renderLoginButton = () =>
     <View style={styles.loginButton}>
-      <Button
-        color={'#1E90FF'}
-        title={'Kirjaudu'}
+      <AppButton
         onPress={this.verifyPassword}
+        contentContainerStyle={{ padding: 10 }}
+        background="button_small"
         disabled={this.state.loading}
-      />
+        width={getSizeByWidth('button_small', 0.25).width}
+        shadow
+      >
+        <Text style={styles.loginText}>Kirjaudu</Text>
+      </AppButton>
     </View>;
 
   renderMessage = () =>
@@ -185,19 +240,21 @@ export default class LoginModal extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <Image source={getImage('forest').normal} style={styles.container}>
         <ScrollView
           keyboardShouldPersistTaps={'always'}
           contentContainerStyle={styles.scrollContainer}
           overScrollMode={'always'}
         >
-          {this.renderEmailField()}
-          {this.renderPasswordField()}
-          {this.renderMessage()}
-          {this.renderLoginButton()}
-          {this.renderPrivacyPolicyLink()}
+          <View style={styles.loginContainer}>
+            {this.renderEmailField()}
+            {this.renderPasswordField()}
+            {this.renderMessage()}
+            {this.renderLoginButton()}
+            {this.renderPrivacyPolicyLink()}
+          </View>
         </ScrollView>
-      </View>
+      </Image>
     );
   }
 }

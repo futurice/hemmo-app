@@ -80,6 +80,10 @@ const graphics = {
     normal: require('../../assets/graphics/backgrounds/tausta_levea.png'),
     ratio: 1.7872,
   },
+  forest: {
+    normal: require('../../assets/graphics/backgrounds/forest.png'),
+    ratio: 0.5625,
+  },
   modal: {
     normal: require('../../assets/graphics/buttons/modal.png'),
     shadow: require('../../assets/graphics/buttons/modal_s4dp.png'),

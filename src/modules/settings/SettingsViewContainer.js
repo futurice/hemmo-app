@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { List, Map } from 'immutable';
 import {
   Image,
-  Button,
   ScrollView,
   TouchableOpacity,
   Alert,
@@ -17,6 +16,7 @@ import {
 import { NavigationActions } from 'react-navigation';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import SaveConfirmationWindow from '../../components/SaveConfirmationWindow';
+import AppButton from '../../components/AppButton';
 import {
   createUser,
   editUser,
@@ -24,59 +24,76 @@ import {
   resetCurrentUser,
   setCurrentUser,
 } from '../../state/UserState';
-import { post, patch } from '../../utils/api';
-import {
-  getSizeByHeight,
-  getSizeByWidth,
-  getImage,
-} from '../../services/graphics';
+import { post } from '../../utils/api';
+import { getSizeByWidth, getImage } from '../../services/graphics';
 
 const iconSize = getSizeByWidth('profilephoto', 0.2).width;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    width: null,
+    height: null,
     flexDirection: 'column',
-    backgroundColor: '#FFFFFF',
+  },
+  settingsContainer: {
+    backgroundColor: '#fff',
+    paddingBottom: 10,
+    paddingLeft: 5,
+    borderBottomWidth: 3,
+    borderLeftWidth: 3,
+    borderRightWidth: 3,
   },
   scrollContainer: {},
+  tabBarContainer: {
+    flexDirection: 'row',
+  },
   tabBar: {
     flexDirection: 'row',
+    backgroundColor: '#fff',
+    borderRightWidth: 3,
+    borderLeftWidth: 3,
     flexGrow: 0,
+    paddingTop: 0,
     padding: 15,
   },
   tab: {
-    borderBottomWidth: 3,
-    padding: 10,
-    marginRight: 15,
+    borderBottomWidth: 4,
+    padding: 15,
   },
   tabText: {
     fontSize: 15,
+    color: '#000',
   },
   formField: {
-    marginTop: 10,
-  },
-  label: {
-    marginLeft: 10,
-    fontSize: 17,
-  },
-  input: {
-    marginLeft: 10,
-    marginRight: 10,
+    paddingLeft: 15,
+    paddingBottom: 10,
+    marginRight: 100,
     ...Platform.select({
       ios: {
-        height: 40,
-        borderWidth: 1,
-        padding: 10,
-        borderRadius: 10,
-        borderColor: 'rgba(65,65,65,1)',
-        backgroundColor: 'rgba(209, 209, 209, 0.29)',
+        paddingBottom: 15,
+      },
+    }),
+  },
+  label: {
+    fontSize: 17,
+    color: '#000',
+    fontWeight: 'bold',
+  },
+  input: {
+    height: 40,
+  },
+  inputView: {
+    ...Platform.select({
+      ios: {
+        borderBottomWidth: 2,
       },
     }),
   },
   tabBody: {},
   image: {
-    marginLeft: 5,
+    marginLeft: 15,
+    marginBottom: 15,
   },
   defaultIcon: {
     alignItems: 'center',
@@ -84,15 +101,22 @@ const styles = StyleSheet.create({
   },
   icon: {
     flex: 1,
-    margin: 5,
     width: iconSize,
     height: iconSize,
   },
   saveButton: {
-    margin: 15,
+    marginLeft: 10,
+    margin: 5,
+  },
+  saveButtonText: {
+    flex: 1,
+    fontSize: 16,
+    textAlign: 'center',
+    fontWeight: 'bold',
+    color: '#000',
   },
   removeButton: {
-    margin: 15,
+    paddingRight: 15,
   },
   removeButtonText: {
     color: '#E64C4C',
@@ -101,6 +125,20 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  header: {
+    backgroundColor: '#fff',
+    elevation: 0,
+    borderLeftWidth: 3,
+    borderRightWidth: 3,
+    shadowRadius: 0,
+    shadowOffset: {
+      height: 0,
+    },
+  },
+  headerTitle: {
+    alignSelf: 'center',
+    fontSize: 22,
   },
 });
 
@@ -132,8 +170,10 @@ const mapDispatchToProps = dispatch => ({
 @connect(mapStateToProps, mapDispatchToProps)
 export default class SettingsViewContainer extends Component {
   static navigationOptions = {
-    title: 'Asetukset',
-    headerStyle: { backgroundColor: '#FFFFFF' },
+    title: 'Lapset',
+    headerRight: <View />, // Needed for a centered title
+    headerStyle: styles.header,
+    headerTitleStyle: styles.headerTitle,
   };
 
   static propTypes = {
@@ -170,32 +210,33 @@ export default class SettingsViewContainer extends Component {
     }
   };
 
-  createChild = () => {
+  createChild = async () => {
     this.setState({ loading: true });
 
-    post('/app/children', {
-      name: this.state.fullName,
-      birthYear: this.state.birthYear,
-    })
-      .then(result => {
-        this.props.createUser(
-          Map({
-            id: result.id,
-            token: `Bearer ${result.token}`,
-            name: this.state.nickName,
-            image: this.state.image,
-          }),
-        );
-
-        this.setState({ disabled: true, loading: false });
-        this.resetForm();
-        this.showSucceedingMessage();
-      })
-      .catch(error => {
-        console.log(error);
-        this.setState({ loading: false });
-        Alert.alert('Virhe käyttäjän luonnissa!', 'Yritä myöhemmin uudelleen.');
+    try {
+      const result = await post('/app/children', {
+        name: this.state.fullName,
+        birthYear: this.state.birthYear,
       });
+
+      await this.props.createUser(
+        Map({
+          id: result.id,
+          token: `Bearer ${result.token}`,
+          name: this.state.nickName,
+          image: this.state.image,
+        }),
+      );
+
+      this.setState({ disabled: true, loading: false });
+      this.resetForm();
+      this.showSucceedingMessage();
+      this.handleTabClick(this.props.users.last());
+    } catch (error) {
+      console.log(error);
+      this.setState({ loading: false });
+      Alert.alert('Virhe käyttäjän luonnissa!', 'Yritä myöhemmin uudelleen.');
+    }
   };
 
   editChild = () => {
@@ -336,13 +377,13 @@ export default class SettingsViewContainer extends Component {
   };
 
   renderTabBar = () =>
-    <ScrollView
-      horizontal
-      showsHorizontalScrollIndicator={false}
-      style={styles.tabBar}
-    >
-      {this.renderTabs()}
-    </ScrollView>;
+    <View style={styles.tabBar}>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        <View style={styles.tabBarContainer}>
+          {this.renderTabs()}
+        </View>
+      </ScrollView>
+    </View>;
 
   renderTabs = () =>
     this.props.users
@@ -382,43 +423,49 @@ export default class SettingsViewContainer extends Component {
   renderNickNameField = () =>
     <View style={styles.formField}>
       <Text style={[styles.label, styles.font]}>Lempinimi</Text>
-      <TextInput
-        style={styles.input}
-        ref="nickName"
-        onChange={this.getChangedNickName}
-        value={this.state.nickName}
-      />
+      <View style={styles.inputView}>
+        <TextInput
+          style={styles.input}
+          ref="nickName"
+          onChange={this.getChangedNickName}
+          value={this.state.nickName}
+        />
+      </View>
     </View>;
 
   renderFullNameField = () =>
     <View style={styles.formField}>
       <Text style={[styles.label, styles.font]}>Koko nimi</Text>
-      <TextInput
-        style={[
-          styles.input,
-          { color: this.state.id === null ? '#000' : '#D3D3D3' },
-        ]}
-        ref="fullName"
-        editable={this.state.id === null}
-        onChange={this.getChangedFullName}
-        value={this.state.fullName}
-      />
+      <View style={styles.inputView}>
+        <TextInput
+          style={[
+            styles.input,
+            { color: this.state.id === null ? '#000' : '#D3D3D3' },
+          ]}
+          ref="fullName"
+          editable={this.state.id === null}
+          onChange={this.getChangedFullName}
+          value={this.state.fullName}
+        />
+      </View>
     </View>;
 
   renderBirthYearField = () =>
     <View style={styles.formField}>
       <Text style={[styles.label, styles.font]}>Syntymävuosi</Text>
-      <TextInput
-        style={[
-          styles.input,
-          { color: this.state.id === null ? '#000' : '#D3D3D3' },
-        ]}
-        ref="birthYear"
-        editable={this.state.id === null}
-        onChange={this.getChangedBirthYear}
-        value={this.state.birthYear}
-        keyboardType={'numeric'}
-      />
+      <View style={styles.inputView}>
+        <TextInput
+          style={[
+            styles.input,
+            { color: this.state.id === null ? '#000' : '#D3D3D3' },
+          ]}
+          ref="birthYear"
+          editable={this.state.id === null}
+          onChange={this.getChangedBirthYear}
+          value={this.state.birthYear}
+          keyboardType={'numeric'}
+        />
+      </View>
     </View>;
 
   showRequestDialog = async () => {
@@ -486,12 +533,18 @@ export default class SettingsViewContainer extends Component {
 
   renderSaveButton = () =>
     <View style={styles.saveButton}>
-      <Button
+      <AppButton
         onPress={this.saveChild}
-        title={this.state.id === null ? 'Lisää lapsi' : 'Tallenna muutokset'}
-        color={'#41A62A'}
+        background="button_small"
         disabled={this.state.disabled}
-      />
+        contentContainerStyle={{ padding: 10 }}
+        width={getSizeByWidth('button_small', 0.25).width}
+        shadow
+      >
+        <Text style={styles.saveButtonText}>
+          {this.state.id === null ? 'Lisää' : 'Tallenna'}
+        </Text>
+      </AppButton>
     </View>;
 
   renderRemoveUserButton = () =>
@@ -505,22 +558,24 @@ export default class SettingsViewContainer extends Component {
       : null;
 
   renderTabBody = () =>
-    <ScrollView
-      keyboardShouldPersistTaps={'always'}
-      overScrollMode={'always'}
-      contentContainerStyle={styles.scrollContainer}
-    >
-      <View style={styles.tabBody}>
-        {this.renderImage()}
-        {this.renderNickNameField()}
-        {this.renderFullNameField()}
-        {this.renderBirthYearField()}
-        <View style={styles.buttonColumn}>
-          {this.renderSaveButton()}
-          {this.renderRemoveUserButton()}
+    <Image source={getImage('forest').normal} style={styles.container}>
+      <ScrollView
+        keyboardShouldPersistTaps={'always'}
+        overScrollMode={'always'}
+        contentContainerStyle={styles.scrollContainer}
+      >
+        <View style={styles.settingsContainer}>
+          {this.renderImage()}
+          {this.renderNickNameField()}
+          {this.renderFullNameField()}
+          {this.renderBirthYearField()}
+          <View style={styles.buttonColumn}>
+            {this.renderSaveButton()}
+            {this.renderRemoveUserButton()}
+          </View>
         </View>
-      </View>
-    </ScrollView>;
+      </ScrollView>
+    </Image>;
 
   renderSaveConfirmationWindow = () =>
     <SaveConfirmationWindow
