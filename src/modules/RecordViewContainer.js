@@ -14,6 +14,7 @@ import { xhr } from '../utils/api';
 import { getSizeByHeight, getImage } from '../services/graphics';
 
 import AppButton from '../components/AppButton';
+import DoneButton from '../components/DoneButton';
 
 const styles = StyleSheet.create({
   container: {
@@ -63,6 +64,8 @@ export default class FreeWordViewContainer extends Component {
     progress: 0,
     showSucceedingMessage: false,
     showSpinner: false,
+    recordType: null,
+    recordContent: null,
   };
 
   setText = text => {
@@ -130,13 +133,21 @@ export default class FreeWordViewContainer extends Component {
     }
   };
 
+  storeRecording = (type, content) => {
+    this.setState({
+      recordType: type,
+      recordContent: content,
+    });
+  };
+
   renderSaveConfirmationWindow = () =>
     <SaveConfirmationWindow
       closeWindow={this.hideSucceedingMessage}
       visible={this.state.showSucceedingMessage}
     />;
 
-  renderAudioRecorder = () => <AudioRecorder save={this.sendFreeWord} />;
+  renderAudioRecorder = () =>
+    <AudioRecorder save={this.storeRecording.bind(this)} />;
 
   render() {
     if (this.state.showSpinner) {
@@ -154,6 +165,16 @@ export default class FreeWordViewContainer extends Component {
             {this.renderAudioRecorder()}
           </View>
         </ScrollView>
+        <View style={styles.doneButton}>
+          <DoneButton
+            onPress={() =>
+              this.sendFreeWord(
+                this.state.recordType,
+                this.state.recordContent,
+              )}
+            disabled={this.state.recordType === null}
+          />
+        </View>
         {this.renderSaveConfirmationWindow()}
       </Image>
     );

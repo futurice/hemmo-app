@@ -22,6 +22,7 @@ import {
 import { getSessionId } from '../utils/session';
 import { patch } from '../utils/api';
 import AppButton from '../components/AppButton';
+import DoneButton from '../components/DoneButton';
 
 const moods = require('../data/moods.js');
 const phrases = require('../data/phrases.json');
@@ -174,12 +175,10 @@ export default class MoodViewContainer extends Component {
             {this.renderMoods()}
           </View>
         </ScrollView>
-        <TouchableOpacity onPress={this.sendMoods}>
-          <Image
-            source={require('./done.png')}
-            style={{ width: 120, height: 60 }}
-          />
-        </TouchableOpacity>
+        <DoneButton
+          onPress={this.sendMoods.bind(this)}
+          disabled={this.props.selectedMoods.size === 0}
+        />
         {this.renderSaveConfirmationWindow()}
       </Image>
     );

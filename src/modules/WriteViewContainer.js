@@ -24,6 +24,7 @@ import { xhr } from '../utils/api';
 import { getSizeByHeight, getImage } from '../services/graphics';
 
 import AppButton from '../components/AppButton';
+import DoneButton from '../components/DoneButton';
 
 const styles = StyleSheet.create({
   container: {
@@ -152,12 +153,10 @@ export default class FreeWordViewContainer extends Component {
     />;
 
   renderDoneButton = () =>
-    <TouchableOpacity onPress={this.sendText}>
-      <Image
-        source={require('./done.png')}
-        style={{ width: 120, height: 60 }}
-      />
-    </TouchableOpacity>;
+    <DoneButton
+      onPress={this.sendText.bind(this)}
+      disabled={this.state.text.length === 0}
+    />;
 
   render() {
     if (this.state.showSpinner) {

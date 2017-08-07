@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 
 import AppButton from '../components/AppButton';
+import DoneButton from '../components/DoneButton';
 import { getImage } from '../services/graphics';
 
 const styles = StyleSheet.create({
@@ -25,12 +26,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  audioRecorder: {
-    marginBottom: 70,
-  },
-  doneButton: {
-    alignSelf: 'center',
   },
 });
 
@@ -84,12 +79,10 @@ export default class FreeWordViewContainer extends Component {
     </View>;
 
   renderDoneButton = () =>
-    <TouchableOpacity onPress={this.props.back}>
-      <Image
-        source={require('./done.png')}
-        style={{ width: 120, height: 60 }}
-      />
-    </TouchableOpacity>;
+    <DoneButton
+      onPress={this.props.back}
+      disabled={this.props.answers.get('freeWord').size === 0}
+    />;
 
   render() {
     return (
