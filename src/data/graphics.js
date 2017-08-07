@@ -96,6 +96,10 @@ const graphics = {
     shadow: require('../../assets/graphics/bubbles/up_small_s2dp.png'),
     ratio: 1.56,
   },
+  bubble_down: {
+    normal: require('../../assets/graphics/bubbles/bubble_down.png'),
+    ratio: 1.1815,
+  },
 
   /* buttons */
   button_small: {
@@ -129,10 +133,6 @@ const graphics = {
     shadow: require('../../assets/graphics/others/envelope_closed_s2dp.png'),
   },
 
-  nappula_aset: {
-    normal: require('../../assets/graphics/buttons/nappula_aset.png'),
-    ratio: 1,
-  },
   nappula_kirjoita: {
     normal: require('../../assets/graphics/buttons/nappula_kirjoita.png'),
     ratio: 4.2068,
@@ -422,9 +422,17 @@ const graphics = {
     shadow: require('../../assets/graphics/buttons/hemmo_s2dp.png'),
     ratio: 1.1538,
   },
-  asetukset: {
-    normal: require('../../assets/graphics/others/asetukset.png'),
-    ratio: 6.7903,
+  hemmo_down: {
+    normal: require('../../assets/graphics/buttons/hemmo_down.png'),
+    ratio: 0.7118,
+  },
+  hemmo_big: {
+    normal: require('../../assets/graphics/buttons/hemmo_big.png'),
+    ratio: 0.7753,
+  },
+  settings: {
+    normal: require('../../assets/graphics/buttons/settings.png'),
+    ratio: 1,
   },
   lopetusteksti: {
     normal: require('../../assets/graphics/others/lopetusteksti.png'),

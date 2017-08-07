@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import {
   TouchableOpacity,
   Image,
-  Dimensions,
   Alert,
   Text,
   View,
@@ -14,6 +13,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { List, Map } from 'immutable';
 import UserItem from '../components/UserItem';
+import AppButton from '../components/AppButton';
 import {
   resetCurrentUser,
   setCurrentUser,
@@ -23,7 +23,11 @@ import { startPreparing, finishPreparing } from '../state/SessionState';
 import { setAuthenticationToken } from '../utils/authentication';
 import { setSessionId } from '../utils/session';
 import { post } from '../utils/api';
-import { getSizeByHeight, getImage } from '../services/graphics';
+import {
+  getSizeByHeight,
+  getSizeByWidth,
+  getImage,
+} from '../services/graphics';
 
 const styles = StyleSheet.create({
   container: {
@@ -36,13 +40,33 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     marginTop: 20,
   },
+  firstUseContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+  },
   scrollContainer: {
     alignItems: 'center',
   },
   settingsButton: {
     alignSelf: 'flex-start',
     justifyContent: 'flex-end',
-    margin: 15,
+    left: 20,
+    bottom: 20,
+  },
+  bubbleText: {
+    alignSelf: 'center',
+    textAlign: 'center',
+    fontSize: 14,
+    margin: 16,
+  },
+  hemmo: {
+    alignSelf: 'center',
+  },
+  bubbleTextTitle: {
+    fontSize: 16,
+    margin: 5,
   },
 });
 
@@ -85,6 +109,7 @@ export default class HomeViewContainer extends Component {
   state = {
     isLoginModalOpen: false,
     showBubble: true,
+    firstUseScreenIndex: 0,
   };
 
   openSettings = () => {
@@ -94,30 +119,30 @@ export default class HomeViewContainer extends Component {
   startSession = async user => {
     this.props.startPreparing();
 
-    await setAuthenticationToken(user.get('token'));
+    try {
+      await setAuthenticationToken(user.get('token'));
 
-    post('/app/feedback', { activities: [], moods: [] })
-      .then(result => {
-        setSessionId(result.id);
-        this.props.finishPreparing();
-        this.props.setCurrentUser(user);
-        this.props.pushRoute('FeedbackMenu');
-      })
-      .catch(error => {
-        console.log(error);
-        this.props.finishPreparing();
-        Alert.alert('Oops! Jokin meni pieleen!', 'Yritä myöhemmin uudelleen!');
-      });
+      const result = await post('/app/feedback', { activities: [], moods: [] });
+
+      setSessionId(result.id);
+
+      this.props.finishPreparing();
+      this.props.setCurrentUser(user);
+      this.props.pushRoute('FeedbackMenu');
+    } catch (error) {
+      console.log(error);
+      this.props.finishPreparing();
+      Alert.alert('Oops! Jokin meni pieleen!', 'Yritä myöhemmin uudelleen!');
+    }
   };
 
-  renderSettingsRow = () =>
+  renderSettingsButton = () =>
     <View style={styles.settingsButton}>
-      <TouchableOpacity onPress={() => this.props.pushRoute('Login')}>
-        <Image
-          source={getImage('nappula_aset').normal}
-          style={getSizeByHeight('nappula_aset', 0.1)}
-        />
-      </TouchableOpacity>
+      <AppButton
+        background="settings"
+        onPress={() => this.props.pushRoute('Login')}
+        width={getSizeByWidth('settings', 0.08).width}
+      />
     </View>;
 
   renderUsers = users =>
@@ -143,21 +168,85 @@ export default class HomeViewContainer extends Component {
       {name}
     </Text>;
 
-  render() {
-    const users = this.props.users;
+  // Texts should be put into separate file at some point
+  renderBubbleText = () => {
+    if (this.state.firstUseScreenIndex === 0) {
+      return (
+        <View style={{ margin: 15 }}>
+          <Text style={[styles.bubbleText, styles.bubbleTextTitle]}>
+            Tervetuloa Hemmoon!
+          </Text>
+          <Text style={styles.bubbleText}>
+            Ensimmäinen askel on käyttäjätilin luominen lapselle. Tämä vaatii
+            PeLa:n työntekijän tunnukset.
+          </Text>
+        </View>
+      );
+    }
 
     return (
-      <Image source={getImage('tausta_perus3').normal} style={styles.container}>
+      <Text style={styles.bubbleText}>
+        Luodaksesi tilin lapselle, paina alla olevaa nappia ja kirjaudu sisään.
+      </Text>
+    );
+  };
+
+  renderFirstUseScreens = () => {
+    const firstScreen = this.state.firstUseScreenIndex === 0;
+
+    return (
+      <View>
+        <View style={styles.bubble}>
+          <AppButton
+            background="bubble_down"
+            onPress={() =>
+              this.setState({
+                firstUseScreenIndex: 1 - this.state.firstUseScreenIndex,
+              })}
+            contentContainerStyle={{ padding: 30 }}
+            width={getSizeByWidth('bubble_down', 0.5).width}
+          >
+            {this.renderBubbleText()}
+          </AppButton>
+        </View>
+        <Image
+          source={getImage(firstScreen ? 'hemmo_big' : 'hemmo_down').normal}
+          style={[
+            styles.hemmo,
+            getSizeByWidth(
+              firstScreen ? 'hemmo_big' : 'hemmo_down',
+              firstScreen ? 0.25 : 0.23,
+            ),
+          ]}
+        />
+      </View>
+    );
+  };
+
+  render() {
+    if (this.props.users.size === 0) {
+      return (
+        <Image source={getImage('forest').normal} style={styles.container}>
+          <View style={styles.firstUseContainer}>
+            {this.renderFirstUseScreens()}
+          </View>
+          {this.renderSettingsButton()}
+        </Image>
+      );
+    }
+
+    return (
+      <Image source={getImage('forest').normal} style={styles.container}>
         <ScrollView
           keyboardShouldPersistTaps={'always'}
           overScrollMode={'always'}
           contentContainerStyle={styles.scrollContainer}
         >
           <View style={styles.userContainer}>
-            {this.renderUsers(users)}
+            {this.renderUsers(this.props.users)}
           </View>
         </ScrollView>
-        {this.renderSettingsRow()}
+        {this.renderSettingsButton()}
       </Image>
     );
   }
