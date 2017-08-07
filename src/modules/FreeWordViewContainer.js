@@ -27,12 +27,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  audioRecorder: {
-    marginBottom: 70,
-  },
-  doneButton: {
-    alignSelf: 'center',
-  },
 });
 
 const phrases = require('../data/phrases.json');
