@@ -136,8 +136,11 @@ export default class AppViewContainer extends Component {
   };
 
   componentWillMount() {
-    AppState.addEventListener('change', this.handleAppStateChange);
     BackHandler.addEventListener('hardwareBackPress', this.navigateBack);
+  }
+
+  componentDidMount() {
+    AppState.addEventListener('change', this.handleAppStateChange);
 
     persistStore(store, () => this.setState({ rehydrated: true }));
   }
