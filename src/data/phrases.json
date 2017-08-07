@@ -15,7 +15,7 @@
     "text": "Millainen olo sinulle jäi koko viime kerrastasi tukiperheessä? Valitse näistä omaa oloasi vastaavia kuvia, tai kerro minulle puhumalla tai kirjoittamalla.",
     "audio": "hemmo_38"
   },
-  "Ending": {
+  "Ending_disable": {
     "text": "Kiitos että kerroit minulle. Minusta on kiva kuulla mitä sanottavaa sinulla on, kerrothan kuulumisesi taas seuraavan kerran jälkeen.",
     "audio": "hemmo_42"
   },

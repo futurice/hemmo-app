@@ -390,9 +390,15 @@ const graphics = {
     normal: require('../../assets/graphics/buttons/write.png'),
     shadow: require('../../assets/graphics/buttons/write_s2dp.png'),
   },
+  write_round: {
+    normal: require('../../assets/graphics/buttons/roundbuttons/write.png'),
+  },
   record: {
     normal: require('../../assets/graphics/buttons/record.png'),
     shadow: require('../../assets/graphics/buttons/record_s2dp.png'),
+  },
+  record_round: {
+    normal: require('../../assets/graphics/buttons/roundbuttons/record.png'),
   },
   record_expanded: {
     normal: require('../../assets/graphics/buttons/record_expanded.png'),
