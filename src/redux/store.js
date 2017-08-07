@@ -1,8 +1,9 @@
 import { applyMiddleware, createStore, compose } from 'redux';
+import { autoRehydrate } from 'redux-persist-immutable';
 import middleware from './middleware';
 import reducer from './reducer';
 
-const enhancers = [applyMiddleware(...middleware)];
+const enhancers = [applyMiddleware(...middleware), autoRehydrate()];
 
 /* Enable redux dev tools only in development.
  * We suggest using the standalone React Native Debugger extension:

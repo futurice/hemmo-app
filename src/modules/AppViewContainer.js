@@ -16,17 +16,16 @@ import {
   Platform,
 } from 'react-native';
 import NavigationViewContainer from './navigation/NavigationViewContainer';
-import * as snapshotUtil from '../utils/snapshot';
 import { getImage, getSizeByWidth } from '../services/graphics';
 import { resetCurrentUser } from '../state/UserState';
 import {
   initializeSessionState,
   activate,
   deactivate,
-  resetSessionStateFromSnapshot,
 } from '../state/SessionState';
 import AppButton from '../components/AppButton';
 import store from '../redux/store';
+import persistStore from '../utils/persist';
 import Hemmo from './Hemmo';
 
 const styles = StyleSheet.create({
@@ -105,8 +104,6 @@ const mapDispatchToProps = dispatch => ({
   initializeSessionState: () => dispatch(initializeSessionState()),
   activate: () => dispatch(activate()),
   deactivate: () => dispatch(deactivate()),
-  resetSessionStateFromSnapshot: snapshot =>
-    dispatch(resetSessionStateFromSnapshot(snapshot)),
   resetCurrentUser: () => dispatch(resetCurrentUser()),
   resetRoute: () =>
     dispatch(
@@ -126,7 +123,6 @@ export default class AppViewContainer extends Component {
     deactivate: PropTypes.func.isRequired,
     resetCurrentUser: PropTypes.func.isRequired,
     currentUser: PropTypes.instanceOf(Map).isRequired,
-    resetSessionStateFromSnapshot: PropTypes.func.isRequired,
     activeRouteIndex: PropTypes.number.isRequired,
     activeRoute: PropTypes.string.isRequired,
     back: PropTypes.func.isRequired,
@@ -136,31 +132,14 @@ export default class AppViewContainer extends Component {
     currentState: AppState.currentState,
     previousState: null,
     modalVisible: false,
+    rehydrated: false,
   };
 
   componentWillMount() {
-    BackHandler.addEventListener('hardwareBackPress', this.navigateBack);
-  }
-
-  componentDidMount() {
     AppState.addEventListener('change', this.handleAppStateChange);
+    BackHandler.addEventListener('hardwareBackPress', this.navigateBack);
 
-    /* Haetaan viimeisin tila */
-    snapshotUtil.resetSnapshot().then(snapshot => {
-      /* Jos viimeisin tila löytyi */
-      if (false && snapshot) {
-        this.props.resetSessionStateFromSnapshot(snapshot);
-        this.props.activate();
-      } else {
-        /* Ei löytynyt. Aloitetaan alusta */
-        this.props.initializeSessionState();
-      }
-
-      /* Tallennetaan uusin tila aina kun statea päivitetään */
-      store.subscribe(() => {
-        snapshotUtil.saveSnapshot(store.getState());
-      });
-    });
+    persistStore(store, () => this.setState({ rehydrated: true }));
   }
 
   navigateBack = () => {
@@ -271,7 +250,9 @@ export default class AppViewContainer extends Component {
       : null;
 
   render() {
-    if (!this.props.isReady) {
+    const { rehydrated } = this.state;
+
+    if (!rehydrated) {
       return (
         <View style={styles.centered}>
           <ActivityIndicator />
