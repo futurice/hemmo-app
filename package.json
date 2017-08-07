@@ -39,6 +39,7 @@
     "redux": "^3.7.1",
     "redux-immutable": "^4.0.0",
     "redux-logger": "^3.0.6",
+    "redux-persist-immutable": "^4.3.0",
     "redux-promise": "^0.5.3",
     "redux-thunk": "^2.2.0",
     "standard-http-error": "^2.0.0"
