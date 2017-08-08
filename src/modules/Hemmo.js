@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     alignSelf: 'center',
     fontSize: 15,
+    fontFamily: 'ComicNeue-Bold',
   },
 });
 

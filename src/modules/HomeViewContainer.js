@@ -58,6 +58,7 @@ const styles = StyleSheet.create({
   bubbleText: {
     alignSelf: 'center',
     textAlign: 'center',
+    fontFamily: 'ComicNeue-Bold',
     fontSize: 14,
     margin: 16,
   },
@@ -67,6 +68,9 @@ const styles = StyleSheet.create({
   bubbleTextTitle: {
     fontSize: 16,
     margin: 5,
+  },
+  userName: {
+    fontFamily: 'Roboto-Regular',
   },
 });
 
@@ -164,7 +168,7 @@ export default class HomeViewContainer extends Component {
     <UserItem name={this.renderUserName('Nimi')} key={0} index={0} empty />;
 
   renderUserName = name =>
-    <Text ellipsizeMode="tail" numberOfLines={1} style={styles.font}>
+    <Text ellipsizeMode="tail" numberOfLines={1} style={styles.userName}>
       {name}
     </Text>;
 

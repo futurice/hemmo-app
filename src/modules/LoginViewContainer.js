@@ -60,6 +60,7 @@ const styles = StyleSheet.create({
   },
   input: {
     textAlign: 'center',
+    fontFamily: 'Roboto-Regular',
     ...Platform.select({
       ios: {
         height: 40,
@@ -69,12 +70,13 @@ const styles = StyleSheet.create({
   message: {
     color: 'red',
     textAlign: 'center',
+    fontFamily: 'Roboto-Regular',
     minHeight: 40,
   },
   label: {
     textAlign: 'center',
     color: '#000',
-    fontWeight: 'bold',
+    fontFamily: 'Roboto-Medium',
     margin: 5,
     fontSize: 17,
   },
@@ -82,6 +84,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     fontSize: 14,
     textAlign: 'center',
+    fontFamily: 'Roboto-Regular',
   },
   loginButton: {
     alignSelf: 'center',
@@ -90,7 +93,7 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 16,
     textAlign: 'center',
-    fontWeight: 'bold',
+    fontFamily: 'Roboto-Medium',
     color: '#000',
   },
   header: {

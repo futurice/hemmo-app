@@ -64,6 +64,7 @@ const styles = StyleSheet.create({
   tabText: {
     fontSize: 15,
     color: '#000',
+    fontFamily: 'Roboto-Medium',
   },
   formField: {
     paddingLeft: 15,
@@ -78,10 +79,11 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 17,
     color: '#000',
-    fontWeight: 'bold',
+    fontFamily: 'Roboto-Medium',
   },
   input: {
     height: 40,
+    fontFamily: 'Roboto-Regular',
   },
   inputView: {
     ...Platform.select({
@@ -113,13 +115,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: 'center',
     fontWeight: 'bold',
-    color: '#000',
+    fontFamily: 'Roboto-Medium',
   },
   removeButton: {
     paddingRight: 15,
   },
   removeButtonText: {
     color: '#E64C4C',
+    fontFamily: 'Roboto-Medium',
   },
   buttonColumn: {
     flexDirection: 'row',

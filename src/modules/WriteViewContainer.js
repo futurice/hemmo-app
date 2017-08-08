@@ -135,6 +135,7 @@ export default class FreeWordViewContainer extends Component {
           flex: 1,
           textAlignVertical: 'top',
           margin: 16,
+          fontFamily: 'Roboto-Regular',
         }}
       />
     </Image>;

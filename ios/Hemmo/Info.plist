@@ -59,6 +59,9 @@
 	</dict>
 	<key>UIAppFonts</key>
 	<array>
+		<string>ComicNeue-Bold.ttf</string>
+		<string>Roboto-Regular.ttf</string>
+		<string>Roboto-Medium.ttf</string>
 		<string>Entypo.ttf</string>
 		<string>EvilIcons.ttf</string>
 		<string>FontAwesome.ttf</string>
