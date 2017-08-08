@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import { View, Image, TouchableOpacity, StyleSheet } from 'react-native';
-
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
-
+import { setText, setAudio } from '../../state/HemmoState';
 import { getImage } from '../../services/graphics';
 
 const mapDispatchToProps = dispatch => ({
-  back: () => dispatch(NavigationActions.back()),
+  back: () => {
+    dispatch(setText(''));
+    dispatch(setAudio(''));
+    dispatch(NavigationActions.back());
+  },
 });
 
 const styles = StyleSheet.create({

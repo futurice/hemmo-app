@@ -18,6 +18,7 @@ import {
 import NavigationViewContainer from './navigation/NavigationViewContainer';
 import { getImage, getSizeByWidth } from '../services/graphics';
 import { resetCurrentUser } from '../state/UserState';
+import { setText, setAudio } from '../state/HemmoState';
 import {
   initializeSessionState,
   activate,
@@ -100,10 +101,18 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  back: () => dispatch(NavigationActions.back()),
+  back: () => {
+    dispatch(setText(''));
+    dispatch(setAudio(''));
+    dispatch(NavigationActions.back());
+  },
   initializeSessionState: () => dispatch(initializeSessionState()),
   activate: () => dispatch(activate()),
-  deactivate: () => dispatch(deactivate()),
+  deactivate: () => {
+    dispatch(setText(''));
+    dispatch(setAudio(''));
+    dispatch(deactivate());
+  },
   resetCurrentUser: () => dispatch(resetCurrentUser()),
   resetRoute: () =>
     dispatch(
