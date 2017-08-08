@@ -99,15 +99,15 @@ export default class MoodViewContainer extends Component {
     showSucceedingMessage: false,
   };
 
-  componentWillMount() {
-    this.props.setText(phrases.Mood.text);
-    this.props.setAudio(phrases.Mood.audio);
-  }
-
   addMood = async mood => {
-    (await this.props.selectedMoods.includes(mood))
-      ? this.props.deleteMood(mood)
-      : this.props.addMood(mood);
+    if (await this.props.selectedMoods.includes(mood.get('name'))) {
+      this.props.setAudio('');
+      this.props.deleteMood(mood.get('name'));
+    } else {
+      this.props.setAudio('');
+      this.props.setAudio(mood.get('key'));
+      this.props.addMood(mood.get('name'));
+    }
   };
 
   isSelected = mood => this.props.selectedMoods.includes(mood.get('name'));
@@ -119,7 +119,7 @@ export default class MoodViewContainer extends Component {
     >
       <AppButton
         background={mood.get('key')}
-        onPress={() => this.addMood(mood.get('name'))}
+        onPress={() => this.addMood(mood)}
         width={getSizeByWidth(mood.get('key'), 0.23).width}
         shadow={this.isSelected(mood)}
       >
