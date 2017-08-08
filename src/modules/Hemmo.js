@@ -92,6 +92,7 @@ export default class Hemmo extends Component {
   state = {
     currentAppState: AppState.currentState,
     showBubble: false,
+    mutePressed: false,
   };
 
   componentDidMount() {
@@ -147,20 +148,25 @@ export default class Hemmo extends Component {
   };
 
   hideBubble = async () => {
-    this.setState({ showBubble: false });
+    this.setState({ showBubble: false, mutePressed: false });
+
     await this.setEmptyText();
   };
 
   toggleMute = async () => {
-    await this.props.toggleMute();
+    await this.props.setAudio('');
+    await this.props.setText('');
 
     if (this.props.muted) {
-      await this.props.setText(
-        'Tästä lähtien olen hiljaa! Klikkaa nappia uudestaan, niin alan taas puhumaan.',
-      );
+      await this.props.setAudio(phrases.unmute.audio);
+      await this.props.setText(phrases.unmute.text);
     } else {
-      await this.setDefaultText();
+      this.setState({ mutePressed: true });
+      await this.props.setAudio(phrases.mute.audio);
+      await this.props.setText(phrases.mute.text);
     }
+
+    await this.props.toggleMute();
   };
 
   handleAppStateChange = currentAppState => {
@@ -191,7 +197,7 @@ export default class Hemmo extends Component {
     if (
       this.state.currentAppState === 'active' &&
       this.props.audio &&
-      !this.props.muted
+      (!this.props.muted || this.state.mutePressed)
     ) {
       return (
         <AudioPlayerViewContainer
