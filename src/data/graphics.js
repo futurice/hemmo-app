@@ -1,16 +1,10 @@
-/*
-  Includes all the needed graphics together with their width-height ratio.
-  Backgrounds, speech bubbles, buttons, moods, activities and others.
-*/
-
-import { Map } from 'immutable';
-
 const graphics = {
-  default_image: {
-    normal: require('../../assets/graphics/others/default-icon.png'),
-  },
   done_button: {
     normal: require('../../assets/graphics/buttons/bottomnav.png'),
+    ratio: 1.0,
+  },
+  back: {
+    normal: require('../../assets/graphics/buttons/back.png'),
     ratio: 1.0,
   },
 
@@ -27,54 +21,26 @@ const graphics = {
     normal: require('../../assets/graphics/backgrounds/tausta_perus3.png'),
     ratio: 1.7777,
   },
-  tausta_kirjoitus: {
-    normal: require('../../assets/graphics/backgrounds/tausta_kirjoitus.png'),
-    ratio: 1.9621,
-  },
   kirjoituskentta: {
     normal: require('../../assets/graphics/backgrounds/kirjoituskentta.png'),
     ratio: 1.9638,
   },
-  kehys_iso: {
-    normal: require('../../assets/graphics/backgrounds/kehys_iso.png'),
-    ratio: 0.798,
-  },
   profilephoto: {
     normal: require('../../assets/graphics/others/profilephoto.png'),
-    shadow: require('../../assets/graphics/others/profilephoto.png'),
     ratio: 1,
+  },
+  profile_card: {
+    normal: require('../../assets/graphics/others/profile_card.png'),
+    shadow: require('../../assets/graphics/others/profile_card_s2dp.png'),
+    ratio: 0.8145,
   },
   take_photo: {
     normal: require('../../assets/graphics/buttons/take_photo.png'),
     ratio: 1.397,
   },
-  kehys_keski: {
-    normal: require('../../assets/graphics/backgrounds/kehys_keski.png'),
-    ratio: 0.7983,
-  },
-  kehys_pieni: {
-    normal: require('../../assets/graphics/backgrounds/kehys_pieni.png'),
-    ratio: 0.797,
-  },
-  kehys_palkki: {
-    normal: require('../../assets/graphics/backgrounds/kehys_palkki.png'),
-    ratio: 4.207,
-  },
   nelio: {
     normal: require('../../assets/graphics/backgrounds/nelio.png'),
     ratio: 1.2484,
-  },
-  tausta_asetukset: {
-    normal: require('../../assets/graphics/backgrounds/tausta_asetukset.png'),
-    ratio: 2.409,
-  },
-  tausta_hemmolla: {
-    normal: require('../../assets/graphics/backgrounds/tausta_hemmolla.png'),
-    ratio: 1.7777,
-  },
-  tausta_kapea: {
-    normal: require('../../assets/graphics/backgrounds/tausta_kapea.png'),
-    ratio: 1.1415,
   },
   tausta_levea: {
     normal: require('../../assets/graphics/backgrounds/tausta_levea.png'),
@@ -133,14 +99,6 @@ const graphics = {
     shadow: require('../../assets/graphics/others/envelope_closed_s2dp.png'),
   },
 
-  nappula_kirjoita: {
-    normal: require('../../assets/graphics/buttons/nappula_kirjoita.png'),
-    ratio: 4.2068,
-  },
-  nappula_ohita: {
-    normal: require('../../assets/graphics/buttons/nappula_ohita.png'),
-    ratio: 1.9433,
-  },
   close_small: {
     normal: require('../../assets/graphics/buttons/close_small.png'),
     ratio: 1,
@@ -149,33 +107,9 @@ const graphics = {
     normal: require('../../assets/graphics/buttons/nappula_rec.png'),
     ratio: 1,
   },
-  nappula_seuraava: {
-    normal: require('../../assets/graphics/buttons/nappula_seuraava.png'),
-    ratio: 3.6896,
-  },
-  nappula_seuraava2: {
-    normal: require('../../assets/graphics/buttons/nappula_seuraava2.png'),
-    ratio: 1,
-  },
   nappula_stop: {
     normal: require('../../assets/graphics/buttons/nappula_stop.png'),
     ratio: 1,
-  },
-  nappula_takaisin: {
-    normal: require('../../assets/graphics/buttons/nappula_takaisin.png'),
-    ratio: 0.6301,
-  },
-  nappula_tallenna: {
-    normal: require('../../assets/graphics/buttons/nappula_tallenna.png'),
-    ratio: 4.2068,
-  },
-  nappula_uudestaan: {
-    normal: require('../../assets/graphics/buttons/nappula_uudestaan.png'),
-    ratio: 1,
-  },
-  nappula_uusikuva: {
-    normal: require('../../assets/graphics/buttons/nappula_uusikuva.png'),
-    ratio: 2.6111,
   },
   thumb_up: {
     normal: require('../../assets/graphics/buttons/thumb_up.png'),
@@ -434,14 +368,6 @@ const graphics = {
     normal: require('../../assets/graphics/buttons/settings.png'),
     ratio: 1,
   },
-  lopetusteksti: {
-    normal: require('../../assets/graphics/others/lopetusteksti.png'),
-    ratio: 1.0958,
-  },
-  otsake_aset: {
-    normal: require('../../assets/graphics/others/otsake_aset.png'),
-    ratio: 5.1164,
-  },
   valittu: {
     normal: require('../../assets/graphics/others/checkmark_small.png'),
     shadow: require('../../assets/graphics/others/checkmark_small_s2dp.png'),
@@ -456,18 +382,6 @@ const graphics = {
     normal: require('../../assets/graphics/others/checkmark_big.png'),
     shadow: require('../../assets/graphics/others/checkmark_big_s2dp.png'),
     ratio: 1.0377,
-  },
-  ratas: {
-    normal: require('../../assets/graphics/others/ratas.png'),
-    ratio: 1,
-  },
-  ikoni_kyna: {
-    normal: require('../../assets/graphics/others/ikoni_kyna.png'),
-    ratio: 1,
-  },
-  ikoni_tallenna: {
-    normal: require('../../assets/graphics/others/ikoni_tallenna.png'),
-    ratio: 1,
   },
 };
 

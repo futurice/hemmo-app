@@ -45,7 +45,7 @@ export default class BackButton extends Component {
         <TouchableOpacity onPress={this.props.back} style={styles.circle}>
           <Image
             style={styles.backButtonImage}
-            source={getImage('nappula_takaisin').normal}
+            source={getImage('back').normal}
           />
         </TouchableOpacity>
       </View>

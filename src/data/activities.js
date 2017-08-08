@@ -3,7 +3,6 @@
 */
 
 import { List, Map } from 'immutable';
-import { getImage } from '../services/graphics';
 
 const activities = [
   Map({

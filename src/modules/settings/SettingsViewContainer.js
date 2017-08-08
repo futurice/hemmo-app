@@ -113,6 +113,7 @@ const styles = StyleSheet.create({
   saveButtonText: {
     flex: 1,
     fontSize: 16,
+    color: '#000',
     textAlign: 'center',
     fontWeight: 'bold',
     fontFamily: 'Roboto-Medium',

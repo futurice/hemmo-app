@@ -1,5 +1,4 @@
 import { Map } from 'immutable';
-import { getImage } from '../services/graphics';
 
 const moods = [
   Map({

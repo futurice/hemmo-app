@@ -41,6 +41,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     margin: 17,
     fontFamily: 'Roboto-Medium',
+    color: '#000',
   },
   thumbModal: {
     flex: 1,

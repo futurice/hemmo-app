@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     textAlign: 'center',
     fontFamily: 'ComicNeue-Bold',
+    color: '#000',
     fontSize: 14,
     margin: 16,
   },
@@ -71,6 +72,7 @@ const styles = StyleSheet.create({
   },
   userName: {
     fontFamily: 'Roboto-Regular',
+    color: '#000',
   },
 });
 

@@ -11,8 +11,8 @@ import {
   getImage,
 } from '../services/graphics';
 
-const frameSize = getSizeByWidth('kehys_iso', 0.28);
-const iconSize = getSizeByWidth('kehys_iso', 0.22).width;
+const frameSize = getSizeByWidth('profile_card', 0.28);
+const iconSize = getSizeByWidth('profile_card', 0.22).width;
 
 const styles = StyleSheet.create({
   userRow: {
