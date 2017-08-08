@@ -169,7 +169,11 @@ export default class Hemmo extends Component {
     await this.props.toggleMute();
   };
 
-  handleAppStateChange = currentAppState => {
+  handleAppStateChange = async currentAppState => {
+    if (currentAppState !== 'active') {
+      await this.hideBubble();
+    }
+
     this.setState({ currentAppState });
   };
 
