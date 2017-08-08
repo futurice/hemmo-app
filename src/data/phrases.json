@@ -1,7 +1,7 @@
 {
   "FeedbackMenu": {
     "text": "Kertoisitko minulle, millaista sinulla oli viime kerralla tukiperheessä. Voit kertoa siitä, mitä teitte, siitä, miltä sinusta tuntui, tai ihan vapaasti mistä vaan asiasta tukiperheessä.",
-    "audio": "kertoisitko-main"
+    "audio": "kertoisitko_main"
   },
   "Activity": {
     "text": "Kertoisitko minulle mitä teitte viime kerralla tukiperheessä? Liittyikö se puuhailuun - leikkimiseen ja pelaamiseen - ulkoiluun ja retkeilyyn - yhdessä vietettyyn aikaan tai lemmikkeihin ja kotieläimiin?",
@@ -9,25 +9,25 @@
   },
   "FreeWord": {
     "text": "Nyt voit kertoa ihan vapaasti viime kerrastasi tukiperheessä. Voit kertoa nauhoittamalla puhettasi, tai kirjoittamalla viestin.",
-    "audio": "kerro-vapaasti"
+    "audio": "kerro_vapaasti"
   },
   "Mood": {
     "text": "Kertoisitko, miltä sinusta tuntui viime kerralla tukiperheessä?",
-    "audio": "milta-tuntui-viime"
+    "audio": "milta_tuntui_viime"
   },
   "Ending": {
     "text": "Kiitos että kerroit minulle. Minusta on kiva kuulla mitä sanottavaa sinulla on, kerrothan kuulumisesi taas seuraavan kerran jälkeen.",
     "audio": "hemmo_42"
   },
-  "Muted": {
+  "mute": {
     "text": "Painoit hiljennysnappulaa. Tästä lähin olen hiljaa. Jos haluat taas kuulla ääneni, paina nappia uudestaan.",
-    "audio": "olen-hiljaa"
+    "audio": "olen_hiljaa"
   },
-  "Unmuted": {
+  "unmute": {
     "text": "Nyt puhun taas!",
-    "audio": "puhun-taas"
+    "audio": "puhun_taas"
   },
-  "Saved": {
+  "save": {
     "text": "",
     "audio": "hemmo_43"
   },
