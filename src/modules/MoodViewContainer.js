@@ -3,24 +3,19 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Set } from 'immutable';
 import {
-  TouchableOpacity,
   Image,
   View,
   StyleSheet,
-  Alert,
   ScrollView,
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { addMood, deleteMood } from '../state/UserState';
 import { setText, setAudio } from '../state/HemmoState';
-import SaveConfirmationWindow from '../components/SaveConfirmationWindow';
 import {
   getSizeByHeight,
   getSizeByWidth,
   getImage,
 } from '../services/graphics';
-import { getSessionId } from '../utils/session';
-import { patch } from '../utils/api';
 import AppButton from '../components/AppButton';
 import DoneButton from '../components/DoneButton';
 
