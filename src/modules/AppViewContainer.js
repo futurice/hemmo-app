@@ -114,13 +114,6 @@ const mapDispatchToProps = dispatch => ({
     dispatch(deactivate());
   },
   resetCurrentUser: () => dispatch(resetCurrentUser()),
-  resetRoute: () =>
-    dispatch(
-      NavigationActions.reset({
-        index: 0,
-        actions: [NavigationActions.navigate({ routeName: 'Home' })],
-      }),
-    ),
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -171,6 +164,7 @@ export default class AppViewContainer extends Component {
 
   quit = () => {
     this.setState({ modalVisible: false });
+    this.props.resetCurrentUser();
     this.props.back();
   };
 

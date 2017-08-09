@@ -1,6 +1,7 @@
 import { Map, List, Set } from 'immutable';
 
 const initialAnswers = Map({
+  feedbackId: null,
   activities: Map(),
   moods: Set(),
   freeWord: Set(),
@@ -10,8 +11,8 @@ const initialState = Map({
   users: List(),
   currentUser: Map({
     id: null,
-    token: '',
-    name: '',
+    name: null,
+    token: null,
     image: null,
     answers: initialAnswers,
   }),
@@ -27,6 +28,14 @@ const DELETE_ACTIVITY = 'UserState/DELETE_ACTIVITY';
 const ADD_MOOD = 'UserState/ADD_MOOD';
 const DELETE_MOOD = 'UserState/DELETE_MOOD';
 const ADD_FREEWORD = 'UserState/ADD_FREEWORD';
+const SET_FEEDBACK_ID = 'UserState/SET_FEEDBACK_ID';
+
+export function setFeedbackId(feedbackId) {
+  return {
+    type: SET_FEEDBACK_ID,
+    payload: feedbackId,
+  };
+}
 
 export function createUser(newUser) {
   return {
@@ -71,7 +80,6 @@ export function resetCurrentUser() {
 }
 
 export function setCurrentUser(user) {
-  console.log(user.get('image'));
   return {
     type: SET_CURRENT_USER,
     payload: user,
@@ -129,7 +137,7 @@ function usersReducer(state = List(), action) {
   }
 }
 
-function currentUserReducer(state = Map(), action, wholeState) {
+function currentUserReducer(state = Map(), action) {
   switch (action.type) {
     case RESET_CURRENT_USER:
       return initialState.get('currentUser');
@@ -137,8 +145,8 @@ function currentUserReducer(state = Map(), action, wholeState) {
     case SET_CURRENT_USER:
       return state
         .set('name', action.payload.get('name'))
-        .set('image', action.payload.get('image'))
         .set('token', action.payload.get('token'))
+        .set('image', action.payload.get('image'))
         .set('id', action.payload.get('id'));
 
     case ADD_ACTIVITY:
@@ -175,6 +183,9 @@ function currentUserReducer(state = Map(), action, wholeState) {
       return state.updateIn(['answers', 'freeWord'], freeWord =>
         freeWord.add(action.payload),
       );
+
+    case SET_FEEDBACK_ID:
+      return state.setIn(['answers', 'feedbackId'], action.payload);
 
     default:
       return state;

@@ -6,14 +6,11 @@ import { connect } from 'react-redux';
 import { List, Map } from 'immutable';
 import UserItem from '../components/UserItem';
 import AppButton from '../components/AppButton';
-import { setCurrentUser } from '../state/UserState';
+import { setCurrentUser, setFeedbackId } from '../state/UserState';
 import { startPreparing, finishPreparing } from '../state/SessionState';
 import { setAuthenticationToken } from '../utils/authentication';
-import { setSessionId } from '../utils/session';
 import { post } from '../utils/api';
 import { getSizeByWidth, getImage } from '../services/graphics';
-
-const phrases = require('../data/phrases');
 
 const styles = StyleSheet.create({
   container: {
@@ -68,6 +65,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   setCurrentUser: user => dispatch(setCurrentUser(user)),
+  setFeedbackId: id => dispatch(setFeedbackId(id)),
   startPreparing: () => dispatch(startPreparing()),
   finishPreparing: () => dispatch(finishPreparing()),
   pushRoute: route =>
@@ -78,6 +76,7 @@ const mapDispatchToProps = dispatch => ({
 export default class HomeViewContainer extends Component {
   static propTypes = {
     setCurrentUser: PropTypes.func.isRequired,
+    setFeedbackId: PropTypes.func.isRequired,
     startPreparing: PropTypes.func.isRequired,
     finishPreparing: PropTypes.func.isRequired,
     pushRoute: PropTypes.func.isRequired,
@@ -102,10 +101,9 @@ export default class HomeViewContainer extends Component {
 
       const result = await post('/app/feedback', { activities: [], moods: [] });
 
-      setSessionId(result.id);
-
       this.props.finishPreparing();
       this.props.setCurrentUser(user);
+      this.props.setFeedbackId(result.id);
       this.props.pushRoute('FeedbackMenu');
     } catch (error) {
       console.log(error);

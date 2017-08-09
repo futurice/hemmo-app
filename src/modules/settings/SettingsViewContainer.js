@@ -25,6 +25,7 @@ import {
   setCurrentUser,
 } from '../../state/UserState';
 import { post } from '../../utils/api';
+import { setAuthenticationToken } from '../../utils/authentication';
 import { getSizeByWidth, getImage } from '../../services/graphics';
 
 const iconSize = getSizeByWidth('profilephoto', 0.2).width;
@@ -226,8 +227,8 @@ export default class SettingsViewContainer extends Component {
       await this.props.createUser(
         Map({
           id: result.id,
-          token: `Bearer ${result.token}`,
           name: this.state.nickName,
+          token: `Bearer ${result.token}`,
           image: this.state.image,
         }),
       );

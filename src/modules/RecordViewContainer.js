@@ -6,14 +6,8 @@ import { NavigationActions } from 'react-navigation';
 import { Image, ScrollView, Alert, View, StyleSheet } from 'react-native';
 import AudioRecorder from '../components/AudioRecorder';
 import LoadingSpinner from '../components/LoadingSpinner';
-import SaveConfirmationWindow from '../components/SaveConfirmationWindow';
 import { addFreeWord } from '../state/UserState';
-import { setAudio } from '../state/HemmoState';
-import { getSessionId } from '../utils/session';
-import { xhr } from '../utils/api';
-import { getSizeByHeight, getImage } from '../services/graphics';
-
-import AppButton from '../components/AppButton';
+import { getImage } from '../services/graphics';
 import DoneButton from '../components/DoneButton';
 
 const styles = StyleSheet.create({
@@ -29,8 +23,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
-
-const phrases = require('../data/phrases.json');
 
 const mapStateToProps = state => ({
   answers: state.getIn(['user', 'currentUser', 'answers']),

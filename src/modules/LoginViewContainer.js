@@ -18,8 +18,8 @@ import {
 import { connect } from 'react-redux';
 import { getImage, getSizeByWidth } from '../services/graphics';
 import { post } from '../utils/api';
-import { setAuthenticationToken } from '../utils/authentication';
 import AppButton from '../components/AppButton';
+import { setAuthenticationToken } from '../utils/authentication';
 
 const privacyPolicyURL =
   'https://spiceprogram.org/assets/docs/privacy-policy-hemmo.txt';
@@ -115,7 +115,6 @@ const styles = StyleSheet.create({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onClose: () => dispatch(NavigationActions.back()),
   onSuccess: () =>
     dispatch(
       NavigationActions.reset({
@@ -138,7 +137,6 @@ export default class LoginViewContainer extends Component {
   };
 
   static propTypes = {
-    onClose: PropTypes.func.isRequired,
     onSuccess: PropTypes.func.isRequired,
   };
 

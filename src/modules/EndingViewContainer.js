@@ -10,23 +10,18 @@ import {
   TouchableOpacity,
   Dimensions,
   View,
-  Text,
   Image,
   Alert,
   Animated,
 } from 'react-native';
 import { resetCurrentUser } from '../state/UserState';
 import { getImage, getSizeByHeight } from '../services/graphics';
-import { patch } from '../utils/api';
-import { getSessionId } from '../utils/session';
+import { patch, xhr } from '../utils/api';
 import AppButton from '../components/AppButton';
-import { setText, setAudio } from '../state/HemmoState';
-import { xhr } from '../utils/api';
 
 const activities = require('../data/activities');
 const moods = require('../data/moods');
 const assets = require('../data/graphics');
-const phrases = require('../data/phrases.json');
 
 const letterAspectRatio = 202 / 312;
 
@@ -48,6 +43,7 @@ const mapStateToProps = state => ({
   ]),
   selectedMoods: state.getIn(['user', 'currentUser', 'answers', 'moods']),
   freeWord: state.getIn(['user', 'currentUser', 'answers', 'freeWord']),
+  feedbackId: state.getIn(['user', 'currentUser', 'answers', 'feedbackId']),
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -62,8 +58,6 @@ const mapDispatchToProps = dispatch => ({
       }),
     );
   },
-  setText: text => dispatch(setText(text)),
-  setAudio: audio => dispatch(setAudio(audio)),
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -75,8 +69,7 @@ export default class EndingViewContainer extends Component {
   static propTypes = {
     reset: PropTypes.func.isRequired,
     startAgain: PropTypes.func.isRequired,
-    setText: PropTypes.func.isRequired,
-    setAudio: PropTypes.func.isRequired,
+    feedbackId: PropTypes.string.isRequired,
   };
 
   envelopePos = {
@@ -258,7 +251,7 @@ export default class EndingViewContainer extends Component {
   };
 
   sendFeedback = async () => {
-    const feedbackId = await getSessionId();
+    const feedbackId = this.props.feedbackId;
     const requestBody = this.getRequestBody();
 
     try {

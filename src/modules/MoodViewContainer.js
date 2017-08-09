@@ -20,7 +20,6 @@ import AppButton from '../components/AppButton';
 import DoneButton from '../components/DoneButton';
 
 const moods = require('../data/moods.js');
-const phrases = require('../data/phrases.json');
 
 const styles = StyleSheet.create({
   container: {

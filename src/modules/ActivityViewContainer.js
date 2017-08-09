@@ -16,7 +16,6 @@ import {
 import { NavigationActions } from 'react-navigation';
 import Accordion from 'react-native-collapsible/Accordion';
 import { addActivity, deleteActivity } from '../state/UserState';
-import { getSessionId } from '../utils/session';
 import { patch } from '../utils/api';
 import { setText, setAudio } from '../state/HemmoState';
 import LoadingSpinner from '../components/LoadingSpinner';
