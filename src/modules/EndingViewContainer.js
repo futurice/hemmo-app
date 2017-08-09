@@ -13,50 +13,29 @@ import {
   Text,
   Image,
   Alert,
+  Animated,
 } from 'react-native';
 import { resetCurrentUser } from '../state/UserState';
 import { getImage, getSizeByHeight } from '../services/graphics';
+import { patch } from '../utils/api';
+import { getSessionId } from '../utils/session';
+import AppButton from '../components/AppButton';
+import { setText, setAudio } from '../state/HemmoState';
+import { xhr } from '../utils/api';
 
 const activities = require('../data/activities');
 const moods = require('../data/moods');
 const assets = require('../data/graphics');
-
-Animatable.initializeRegistryWithDefinitions({
-  letterLidAnimation: {
-    0: {
-      scaleY: 1,
-    },
-    1: {
-      scaleY: -1,
-    },
-  },
-  moodAnimation: {
-    0: {
-      translateX: 0,
-      translateY: 0,
-    },
-    1: {
-      translateX: 0,
-      translateY: 0.75 * Dimensions.get('window').height,
-    },
-  },
-});
+const phrases = require('../data/phrases.json');
 
 const letterAspectRatio = 202 / 312;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-  },
-  sendButton: {
-    borderRadius: 10,
-    padding: 20,
-    backgroundColor: '#FFFFFF',
-  },
-  sendButtonText: {
-    fontSize: 30,
-    color: '#1E90FF',
+    height: null,
+    width: null,
+    flexDirection: 'column',
   },
 });
 
@@ -68,18 +47,23 @@ const mapStateToProps = state => ({
     'activities',
   ]),
   selectedMoods: state.getIn(['user', 'currentUser', 'answers', 'moods']),
+  freeWord: state.getIn(['user', 'currentUser', 'answers', 'freeWord']),
 });
 
 const mapDispatchToProps = dispatch => ({
   reset: () => {
-    dispatch(resetCurrentUser());
+    //    dispatch(resetCurrentUser());
+  },
+  startAgain: () => {
     dispatch(
       NavigationActions.reset({
         index: 0,
-        actions: [NavigationActions.navigate({ routeName: 'Home' })],
+        actions: [NavigationActions.navigate({ routeName: 'FeedbackMenu' })],
       }),
     );
   },
+  setText: text => dispatch(setText(text)),
+  setAudio: audio => dispatch(setAudio(audio)),
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -90,13 +74,78 @@ export default class EndingViewContainer extends Component {
 
   static propTypes = {
     reset: PropTypes.func.isRequired,
+    startAgain: PropTypes.func.isRequired,
+    setText: PropTypes.func.isRequired,
+    setAudio: PropTypes.func.isRequired,
   };
 
+  envelopePos = {
+    left: new Animated.Value(0),
+    bottom: new Animated.Value(0),
+  };
+  envelopeScale = new Animated.Value(1);
+  envelopeFillAnim = {
+    scaleY: new Animated.Value(0),
+    zIndex: new Animated.Value(0),
+    bottom: new Animated.Value(0),
+  };
   activityAnimatables = [];
   moodAnimatables = [];
   freeWordAnimatables = [];
+  envelopeSend = {
+    duration: 700,
+    delay: 2300,
+  };
+  showStartAgain = new Animated.Value(0);
 
   componentDidMount() {
+    // Send data to server
+    this.sendFeedback();
+
+    // Animation for closing lid
+    Animated.parallel([
+      Animated.timing(this.envelopeFillAnim.scaleY, {
+        toValue: 1,
+        duration: 500,
+        delay: 2000,
+      }),
+      Animated.timing(this.envelopeFillAnim.zIndex, {
+        toValue: 1,
+        duration: 0,
+        delay: 2000,
+      }),
+      Animated.timing(this.envelopeFillAnim.bottom, {
+        toValue: 1,
+        duration: 0,
+        delay: 2000,
+      }),
+    ]).start();
+
+    // Animation for "sending" the envelope
+    Animated.parallel([
+      Animated.timing(this.envelopePos.left, {
+        toValue: 1,
+        duration: this.envelopeSend.duration,
+        delay: this.envelopeSend.delay,
+      }),
+      Animated.timing(this.envelopePos.bottom, {
+        toValue: 1,
+        duration: this.envelopeSend.duration,
+        delay: this.envelopeSend.delay,
+      }),
+      Animated.timing(this.envelopeScale, {
+        toValue: 0.2,
+        duration: this.envelopeSend.duration,
+        delay: this.envelopeSend.delay,
+      }),
+    ]).start();
+
+    Animated.timing(this.showStartAgain, {
+      toValue: 1,
+      duration: 0,
+      delay: this.envelopeSend.delay + this.envelopeSend.duration,
+    }).start();
+
     // Animate activities
     this.activityAnimatables.forEach((animatable, index, array) =>
       animatable.transition(
@@ -116,7 +165,7 @@ export default class EndingViewContainer extends Component {
         // End positions
         {
           translateX: 0,
-          translateY: 0.75 * Dimensions.get('window').height,
+          translateY: 0.7 * Dimensions.get('window').height,
         },
       ),
     );
@@ -140,7 +189,7 @@ export default class EndingViewContainer extends Component {
         // End positions
         {
           translateX: 0,
-          translateY: 0.75 * Dimensions.get('window').height,
+          translateY: 0.7 * Dimensions.get('window').height,
         },
       ),
     );
@@ -164,38 +213,103 @@ export default class EndingViewContainer extends Component {
         // End positions
         {
           translateX: 0,
-          translateY: 0.75 * Dimensions.get('window').height,
+          translateY: 0.7 * Dimensions.get('window').height,
         },
       ),
     );
   }
 
-  end = () => {
-    Alert.alert(
-      'Kiitos palautteesta!',
-      'Kiitos että kerroit. :)',
-      [{ text: 'OK', onPress: this.props.reset }],
-      { cancelable: false },
-    );
+  getRequestBody = () => {
+    const namedActivities = [];
+    const moods = this.props.selectedMoods.toJS();
+    let data = {};
+
+    this.props.selectedActivities.entrySeq().forEach(mainActivity => {
+      const main = mainActivity[0];
+
+      mainActivity[1].entrySeq().forEach(subActivity => {
+        const sub = subActivity[0];
+        const like = subActivity[1];
+
+        namedActivities.push({ main, sub, like });
+      });
+    });
+
+    if (namedActivities.length) {
+      data.activities = namedActivities;
+    }
+
+    if (moods.length) {
+      data.moods = moods;
+    }
+
+    return data;
+  };
+
+  sendFeedback = async () => {
+    const feedbackId = await getSessionId();
+    const requestBody = this.getRequestBody();
+
+    try {
+      await patch(`/app/feedback/${feedbackId}`, this.getRequestBody());
+
+      this.props.freeWord.map(async item => {
+        const type = item.keys().next().value;
+        const content = item.values().next().value;
+        let attachmentBody = new FormData();
+
+        if (type === 'audio') {
+          let file = {
+            uri: `file://${content}`,
+            type: 'audio/mp4',
+            name: 'file',
+          };
+
+          attachmentBody.append('data', file);
+        } else {
+          attachmentBody.append('data', content);
+        }
+
+        await xhr(
+          'POST',
+          `/app/feedback/${feedbackId}/attachments`,
+          attachmentBody,
+        );
+      });
+
+      // Reset status once everything has been sent
+      this.props.reset();
+    } catch (error) {
+      console.log(error);
+      Alert.alert('Oops! Jokin meni pieleen!', 'Yritä myöhemmin uudelleen!');
+    }
   };
 
   drawActivities = () => {};
 
-  drawBlob = (asset, index, total, animatableArray, baseDelay) => {
+  drawBlob = (
+    asset,
+    index,
+    total,
+    animatableArray,
+    baseDelay,
+    customDelay = 300,
+  ) => {
     const size = Math.min(
       Dimensions.get('window').width * 0.2,
       Dimensions.get('window').width * 0.7 * (1 / total),
     );
+    const cumulativeDelay = customDelay ? index * customDelay : 0;
 
     return (
       <Animatable.View
         useNativeDriver
         easing="ease-in-out-cubic"
-        duration={2000}
-        delay={baseDelay + index * 300}
+        duration={800}
+        delay={baseDelay + cumulativeDelay}
         key={index}
         style={{
-          zIndex: 999,
+          zIndex: 500,
           alignItems: 'center',
           position: 'absolute',
         }}
@@ -203,7 +317,7 @@ export default class EndingViewContainer extends Component {
       >
         <Image
           style={{
-            zIndex: 999,
+            zIndex: 500,
             width: size,
             height: size,
             resizeMode: 'contain',
@@ -214,126 +328,262 @@ export default class EndingViewContainer extends Component {
     );
   };
 
-  drawMoods = () =>
-    <View style={{ alignItems: 'center' }}>
-      {moods.map((mood, index) =>
-        this.drawBlob(
-          assets[mood.get('key')].shadow,
-          index,
-          moods.length,
-          this.moodAnimatables,
-          2000,
-        ),
-      )}
-    </View>;
+  drawMoods = () => {
+    const chosenMoods = this.props.selectedMoods.toJS();
+
+    const bottom = this.envelopeFillAnim.bottom.interpolate({
+      inputRange: [0, 1],
+      outputRange: ['0%', '-100%'],
+    });
+
+    return (
+      <Animated.View style={{ alignItems: 'center', bottom }}>
+        {moods.map((mood, index) => {
+          return chosenMoods.includes(mood.get('name'))
+            ? this.drawBlob(
+                assets[mood.get('key')].shadow,
+                index,
+                moods.length,
+                this.moodAnimatables,
+                500,
+                100,
+              )
+            : null;
+        })}
+      </Animated.View>
+    );
+  };
 
   drawActivities = () => {
     let numActivity = 0;
+    let numActivities = 0;
+    let chosenActivities = [];
 
-    const numActivities = activities.reduce(
-      (accumulator, activity) =>
-        accumulator + activity.get('subActivities').size,
-      0,
-    );
+    const bottom = this.envelopeFillAnim.bottom.interpolate({
+      inputRange: [0, 1],
+      outputRange: ['0%', '-100%'],
+    });
+
+    this.props.selectedActivities.entrySeq().forEach(mainActivity => {
+      const main = mainActivity[0];
+
+      mainActivity[1].entrySeq().forEach(subActivity => {
+        chosenActivities.push(subActivity[0]);
+
+        numActivities++;
+      });
+    });
 
     return (
-      <View style={{ alignItems: 'center' }}>
-        {activities.map(activity =>
-          activity
-            .get('subActivities')
-            .map(subActivity =>
-              this.drawBlob(
-                assets[subActivity.get('key')].shadow,
-                numActivity++,
-                numActivities,
-                this.activityAnimatables,
-                3000,
-              ),
-            ),
-        )}
-      </View>
+      <Animated.View style={{ alignItems: 'center', bottom }}>
+        {activities.map(activity => {
+          const subActivities = activity.get('subActivities');
+
+          return subActivities
+            ? activity.get('subActivities').map(subActivity => {
+                return chosenActivities.includes(subActivity.get('name'))
+                  ? this.drawBlob(
+                      assets[subActivity.get('key')].shadow,
+                      numActivity++,
+                      numActivities,
+                      this.activityAnimatables,
+                      1000,
+                      0,
+                    )
+                  : null;
+              })
+            : null;
+        })}
+      </Animated.View>
     );
   };
 
-  drawFreeWord = () =>
-    <View style={{ alignItems: 'center' }}>
-      {this.drawBlob(
-        assets['record_round'].normal,
-        0,
-        2,
-        this.freeWordAnimatables,
-        1000,
-      )}
-      {this.drawBlob(
-        assets['write_round'].normal,
-        1,
-        2,
-        this.freeWordAnimatables,
-        1000,
-      )}
-    </View>;
+  drawFreeWord = () => {
+    let renderAudio = false;
+    let renderWrite = false;
+
+    const bottom = this.envelopeFillAnim.bottom.interpolate({
+      inputRange: [0, 1],
+      outputRange: ['0%', '-100%'],
+    });
+
+    this.props.freeWord.map(async item => {
+      const type = item.keys().next().value;
+
+      if (type === 'audio') {
+        renderAudio = true;
+      } else if (type === 'text') {
+        renderWrite = true;
+      }
+    });
+
+    return (
+      <Animated.View style={{ alignItems: 'center', bottom }}>
+        {renderAudio
+          ? this.drawBlob(
+              assets['record_round'].normal,
+              0,
+              2,
+              this.freeWordAnimatables,
+              250,
+              0,
+            )
+          : null}
+        {renderWrite
+          ? this.drawBlob(
+              assets['write_round'].normal,
+              1,
+              2,
+              this.freeWordAnimatables,
+              250,
+              0,
+            )
+          : null}
+      </Animated.View>
+    );
+  };
 
   drawEnvelope = () => {
+    const scaleY = this.envelopeFillAnim.scaleY.interpolate({
+      inputRange: [0, 1],
+      outputRange: [1, -1],
+    });
+
+    const zIndex = this.envelopeFillAnim.zIndex.interpolate({
+      inputRange: [0, 1],
+      outputRange: [400, 9999],
+    });
+
+    const bottom = this.envelopeFillAnim.bottom.interpolate({
+      inputRange: [0, 1],
+      outputRange: ['0%', '-100%'],
+    });
+
     return (
-      <View
+      <Animated.View
         style={{
           position: 'absolute',
           alignItems: 'center',
-          bottom: 0,
+          bottom,
+          left: '50%',
         }}
       >
-        <Image
-          source={require('../../assets/graphics/others/envelope_background.png')}
+        <View
           style={{
-            zIndex: -1000,
             position: 'absolute',
-            bottom: 0,
-            width: Dimensions.get('window').width * 0.8,
-          }}
-          resizeMode="contain"
-        />
-        <Image
-          source={require('../../assets/graphics/others/envelope_open_s2dp.png')}
-          style={{
-            zIndex: 1000,
-            position: 'absolute',
-            bottom: 0,
-            width: Dimensions.get('window').width * 0.8,
-          }}
-          resizeMode="contain"
-        />
-        <Animatable.View
-          duration={1000}
-          delay={1000}
-          animation="letterLidAnimation"
-          useNativeDriver
-          style={{
-            zIndex: 900,
             alignItems: 'center',
-            position: 'absolute',
-            bottom:
-              Dimensions.get('window').width * 0.8 * letterAspectRatio * 0.33,
-            width: Dimensions.get('window').width * 0.8,
+            bottom: 0,
+            left: '50%',
           }}
         >
           <Image
-            style={{ zIndex: 900 }}
-            source={require('../../assets/graphics/others/envelope_lid_s2dp.png')}
+            source={require('../../assets/graphics/others/background_withstroke.png')}
+            style={{
+              zIndex: 0,
+              position: 'absolute',
+              bottom: 0,
+              width: Dimensions.get('window').width * 0.8,
+            }}
             resizeMode="contain"
           />
-        </Animatable.View>
-      </View>
+          <Image
+            source={require('../../assets/graphics/others/without_flap_small_s2dp.png')}
+            style={{
+              zIndex: 1000,
+              position: 'absolute',
+              bottom: 0,
+              width: Dimensions.get('window').width * 0.8,
+            }}
+            resizeMode="contain"
+          />
+          <Animated.View
+            style={{
+              alignItems: 'center',
+              position: 'absolute',
+              bottom:
+                Dimensions.get('window').width *
+                0.8 *
+                letterAspectRatio *
+                0.278,
+              width: Dimensions.get('window').width * 1,
+              transform: [{ scaleY }],
+              zIndex,
+            }}
+          >
+            <Animated.Image
+              source={require('../../assets/graphics/others/flap_nostroke.png')}
+              resizeMode="contain"
+            />
+          </Animated.View>
+        </View>
+      </Animated.View>
     );
   };
 
+  sendEnvelope = () => {
+    const left = this.envelopePos.left.interpolate({
+      inputRange: [0, 1],
+      outputRange: ['10%', '55%'],
+    });
+
+    const bottom = this.envelopePos.bottom.interpolate({
+      inputRange: [0, 1],
+      outputRange: ['0%', '120%'],
+    });
+
+    this.enableHemmo();
+
+    return (
+      <Animated.View
+        style={{
+          position: 'absolute',
+          alignItems: 'center',
+          bottom,
+          left,
+          transform: [{ scale: this.envelopeScale }],
+        }}
+      >
+        <Animated.Image
+          source={require('../../assets/graphics/others/envelope_closed_ending-screen.png')}
+          resizeMode="contain"
+        />
+      </Animated.View>
+    );
+  };
+
+  enableHemmo = async () => {
+    await this.props.setText(phrases['Ending_disable'].text);
+    await this.props.setAudio(phrases['Ending_disable'].audio);
+  };
+
+  drawStartAgain = () =>
+    <TouchableOpacity>
+      <Animated.View
+        style={{
+          alignItems: 'center',
+          top: '43%',
+          height: '100%',
+          opacity: this.showStartAgain,
+        }}
+      >
+        <AppButton
+          background="start_again"
+          onPress={this.props.startAgain}
+          width={getSizeByHeight('start_again', 0.75).height}
+        />
+      </Animated.View>
+    </TouchableOpacity>;
+
   render() {
     return (
-      <View style={styles.container}>
+      <Image source={getImage('tausta_perus3').normal} style={styles.container}>
+        {this.sendEnvelope()}
         {this.drawEnvelope()}
         {this.drawActivities()}
         {this.drawMoods()}
         {this.drawFreeWord()}
-      </View>
+        {this.drawStartAgain()}
+      </Image>
     );
   }
 }

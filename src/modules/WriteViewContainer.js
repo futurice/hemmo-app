@@ -18,7 +18,7 @@ import AudioRecorder from '../components/AudioRecorder';
 import LoadingSpinner from '../components/LoadingSpinner';
 import SaveConfirmationWindow from '../components/SaveConfirmationWindow';
 import { addFreeWord } from '../state/UserState';
-import { setText, setAudio } from '../state/HemmoState';
+import { setText } from '../state/HemmoState';
 import { getSessionId } from '../utils/session';
 import { xhr } from '../utils/api';
 import { getSizeByHeight, getImage } from '../services/graphics';
@@ -87,7 +87,7 @@ export default class FreeWordViewContainer extends Component {
     );
   };
 
-  sendText = async () => {
+  /*sendText = async () => {
     this.setState({ showSpinner: true });
 
     this.props.saveFreeWord(Map({ text: this.state.text }));
@@ -111,7 +111,7 @@ export default class FreeWordViewContainer extends Component {
     }
 
     this.setState({ showSpinner: false });
-  };
+  };*/
 
   renderTextForm = () =>
     <Image
@@ -140,18 +140,23 @@ export default class FreeWordViewContainer extends Component {
       />
     </Image>;
 
-  hideSucceedingMessage = () => {
-    if (this.state.showSucceedingMessage) {
-      this.setState({ showSucceedingMessage: false });
-      this.props.back();
-    }
-  };
+  //hideSucceedingMessage = () => {
+  //  if (this.state.showSucceedingMessage) {
+  //    this.setState({ showSucceedingMessage: false });
+  //    this.props.back();
+  //  }
+  //};
 
-  renderSaveConfirmationWindow = () =>
-    <SaveConfirmationWindow
-      closeWindow={this.hideSucceedingMessage}
-      visible={this.state.showSucceedingMessage}
-    />;
+  //renderSaveConfirmationWindow = () =>
+  //  <SaveConfirmationWindow
+  //    closeWindow={this.hideSucceedingMessage}
+  //    visible={this.state.showSucceedingMessage}
+  //  />;
+
+  sendText = () => {
+    this.props.saveFreeWord(Map({ text: this.state.text }));
+    this.props.back();
+  };
 
   renderDoneButton = () =>
     <DoneButton
@@ -178,7 +183,6 @@ export default class FreeWordViewContainer extends Component {
         <View style={styles.doneButton}>
           {this.renderDoneButton()}
         </View>
-        {this.renderSaveConfirmationWindow()}
       </Image>
     );
   }
