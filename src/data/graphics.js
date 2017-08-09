@@ -126,6 +126,14 @@ const graphics = {
     shadow: require('../../assets/graphics/buttons/thumb_down_s2dp.png'),
     ratio: 1,
   },
+  done_button: {
+    normal: require('../../assets/graphics/buttons/bottomnav.png'),
+    ratio: 1.0,
+  },
+  start_again: {
+    normal: require('../../assets/graphics/buttons/startagain.png'),
+    ratio: 1.0,
+  },
 
   /* moods */
   iloinen: {

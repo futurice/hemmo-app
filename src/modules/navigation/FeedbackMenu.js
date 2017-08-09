@@ -105,8 +105,8 @@ export default class FeedbackMenu extends Component {
 
           {this.renderSendButton(
             () => this.props.pushRoute('Ending'),
-            !this.props.activitiesSize ||
-              !this.props.moodsSize ||
+            !this.props.activitiesSize &&
+              !this.props.moodsSize &&
               !this.props.freeWordSize,
           )}
         </ScrollView>

@@ -160,7 +160,7 @@ export default class ActivityViewContainer extends Component {
   getMainActivityHeight = () =>
     getSizeByWidth('puuhasimme', 0.5).height + 2 * 5;
 
-  getRequestBody = () => {
+  /*getRequestBody = () => {
     const namedActivities = [];
 
     this.props.chosenActivities.entrySeq().forEach(mainActivity => {
@@ -187,7 +187,7 @@ export default class ActivityViewContainer extends Component {
       console.log(error);
       Alert.alert('Oops! Jokin meni pieleen!', 'Yritä myöhemmin uudelleen!');
     }
-  };
+  };*/
 
   chooseMainActivity = async activity => {
     const margin = 5;
@@ -257,7 +257,7 @@ export default class ActivityViewContainer extends Component {
       this.state.chosenSubActivity.get('name'),
     ]);
 
-  hideSucceedingMessage = () => {
+  /*hideSucceedingMessage = () => {
     if (this.state.showSucceedingMessage) {
       this.setState({ showSucceedingMessage: false });
       this.props.back();
@@ -268,7 +268,7 @@ export default class ActivityViewContainer extends Component {
     <SaveConfirmationWindow
       closeWindow={this.hideSucceedingMessage}
       visible={this.state.showSucceedingMessage}
-    />;
+    />;*/
 
   renderThumbButton = (thumb, i) =>
     <View
@@ -432,10 +432,9 @@ export default class ActivityViewContainer extends Component {
         {this.renderMainActivities()}
         {this.renderThumbModal()}
         <DoneButton
-          onPress={this.sendActivities.bind(this)}
+          onPress={this.props.back}
           disabled={this.props.chosenActivities.size === 0}
         />
-        {this.renderSaveConfirmationWindow()}
       </Image>
     );
   }

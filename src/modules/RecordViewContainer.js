@@ -8,7 +8,7 @@ import AudioRecorder from '../components/AudioRecorder';
 import LoadingSpinner from '../components/LoadingSpinner';
 import SaveConfirmationWindow from '../components/SaveConfirmationWindow';
 import { addFreeWord } from '../state/UserState';
-import { setText, setAudio } from '../state/HemmoState';
+import { setAudio } from '../state/HemmoState';
 import { getSessionId } from '../utils/session';
 import { xhr } from '../utils/api';
 import { getSizeByHeight, getImage } from '../services/graphics';
@@ -65,12 +65,11 @@ export default class FreeWordViewContainer extends Component {
     showSucceedingMessage: false,
     showSpinner: false,
     recordType: null,
-    recordContent: null,
   };
 
-  setText = text => {
+  /*setText = text => {
     this.setState({ text });
-  };
+  };*/
 
   error = () => {
     this.setState({ showSpinner: false });
@@ -81,7 +80,7 @@ export default class FreeWordViewContainer extends Component {
     );
   };
 
-  getRequestBody = (type, content) => {
+  /*getRequestBody = (type, content) => {
     const attachmentBody = new FormData();
 
     if (type === 'audio') {
@@ -131,20 +130,18 @@ export default class FreeWordViewContainer extends Component {
       this.setState({ showSucceedingMessage: false });
       this.props.back();
     }
-  };
+  };*/
 
   storeRecording = (type, content) => {
-    this.setState({
-      recordType: type,
-      recordContent: content,
-    });
+    this.props.saveFreeWord({ type, content });
+    this.setState({ recordType: type });
   };
 
-  renderSaveConfirmationWindow = () =>
+  /*renderSaveConfirmationWindow = () =>
     <SaveConfirmationWindow
       closeWindow={this.hideSucceedingMessage}
       visible={this.state.showSucceedingMessage}
-    />;
+    />;*/
 
   renderAudioRecorder = () =>
     <AudioRecorder save={this.storeRecording.bind(this)} />;
@@ -167,15 +164,10 @@ export default class FreeWordViewContainer extends Component {
         </ScrollView>
         <View style={styles.doneButton}>
           <DoneButton
-            onPress={() =>
-              this.sendFreeWord(
-                this.state.recordType,
-                this.state.recordContent,
-              )}
+            onPress={this.props.back}
             disabled={this.state.recordType === null}
           />
         </View>
-        {this.renderSaveConfirmationWindow()}
       </Image>
     );
   }
