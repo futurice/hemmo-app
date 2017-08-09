@@ -9,9 +9,8 @@ const activities = [
     id: 0,
     name: 'Puuhasimme',
     key: 'puuhasimme',
-    text:
-      'Kerro minulle vielä hieman tarkemmin? Leivoitteko tai kokkailitteko, puuhasitteko tai askartelitteko, luitko itseksesi, teittekö kotihommia tai rakentelitteko, nikkaroitteko tai korjailitte?',
-    audio: 'hemmo_05',
+    text: 'Ai puuhasitte?',
+    audio: 'ai_puuhasitte',
     subActivities: List([
       Map({
         id: 0,
@@ -54,9 +53,8 @@ const activities = [
     id: 1,
     name: 'Ulkoilimme, retkeilimme',
     key: 'ulkoilimme',
-    text:
-      'Kerro minulle vielä hieman tarkemmin? Ulkoilitteko, paistoitteko makkaraa, retkeilittekö, teittekö pihahommia, kävittekö leikkipuistossa, kalastitteko tai mökkeilittekö?',
-    audio: 'hemmo_06',
+    text: 'Ai ulkoilitte tai retkeilitte?',
+    audio: 'ai_ulkoilitte',
     subActivities: List([
       Map({
         id: 0,
@@ -113,9 +111,8 @@ const activities = [
     id: 2,
     name: 'Leikimme, pelasimme',
     key: 'leikimme',
-    text:
-      'Kerro minulle vielä hieman tarkemmin? Leikittekö, pelasitteko lautapelejä, pelasitteko videopelejä, liikuitteko tai uitteko?',
-    audio: 'hemmo_07',
+    text: 'Ai leikitte tai pelasitte?',
+    audio: 'ai_leikitte',
     subActivities: List([
       Map({
         id: 0,
@@ -158,9 +155,8 @@ const activities = [
     id: 3,
     name: 'Vietimme aikaa yhdessä',
     key: 'vietimme',
-    text:
-      'Kerro minulle vielä hieman tarkemmin? Saunoitteko, juttelitteko, kyläilittekö, katselitteko elokuvaa tai luitteko yhdessä?',
-    audio: 'hemmo_04',
+    text: 'Ai vietitte aikaa yhdessä?',
+    audio: 'ai_vietitte_aikaa',
     subActivities: List([
       Map({
         id: 0,
@@ -203,9 +199,8 @@ const activities = [
     id: 4,
     name: 'Lemmikit, kotieläimet',
     key: 'lemmikit',
-    text:
-      'Kerro minulle vielä hieman tarkemmin? Koira, kissa, hevonen vai muita eläimiä?',
-    audio: 'hemmo_08',
+    text: 'Ai hoiditte eläimiä?',
+    audio: 'ai_hoiditte_elaimia',
     subActivities: List([
       Map({
         id: 0,

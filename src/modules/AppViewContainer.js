@@ -195,7 +195,7 @@ export default class AppViewContainer extends Component {
 
   renderExitModalText = () =>
     <Text style={styles.exitModalText}>
-      (NO DESIGN YET) Haluatko lopettaa palautteen antamisen?
+      Haluatko lopettaa palautteen antamisen?
     </Text>;
 
   renderContinueButton = () =>

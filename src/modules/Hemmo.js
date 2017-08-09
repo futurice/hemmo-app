@@ -249,16 +249,18 @@ export default class Hemmo extends Component {
     </View>;
 
   render() {
-    const routeName = this.props.activeRoute;
-
-    // Don't render button if there is no phrase for current screen
-    if (!phrases[routeName]) return null;
+    if (
+      this.props.activeRoute === 'Login' ||
+      this.props.activeRoute === 'Settings'
+    ) {
+      return null;
+    }
 
     return (
       <View style={styles.container}>
         {this.renderBubble()}
         {this.renderAudio()}
-        {this.renderHemmoButton()}
+        {phrases[this.props.activeRoute] ? this.renderHemmoButton() : null}
       </View>
     );
   }

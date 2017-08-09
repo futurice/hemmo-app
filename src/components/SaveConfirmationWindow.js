@@ -42,6 +42,7 @@ const styles = StyleSheet.create({
 });
 
 const reactMixin = require('react-mixin');
+const phrases = require('../data/phrases');
 
 const mapDispatchToProps = dispatch => ({
   setAudio: audio => dispatch(setAudio(audio)),
@@ -58,7 +59,7 @@ export default class SaveConfirmationWindow extends Component {
 
   async componentDidUpdate() {
     if (this.props.visible) {
-      await this.props.setAudio('hemmo_43');
+      await this.props.setAudio(phrases.saved.audio);
       this.setTimeout(this.props.closeWindow, 2000);
     }
   }

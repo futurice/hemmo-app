@@ -27,9 +27,32 @@
     "text": "Nyt puhun taas!",
     "audio": "puhun_taas"
   },
-  "save": {
+  "saved": {
     "text": "",
     "audio": "hemmo_43"
   },
-  "DeliveredBy": "Mitä olet Hemmolle kertonut, sen kuuntelee Pelastakaa Lasten työntekijä"
+  "oh_no": {
+    "text": "Voi ei, en pystynyt lähettämään viestiäsi! Voisitko tarkistaa nettiyhteyteni, tai yrittää myöhemmin uudestaan!",
+    "audio": "voi_ei"
+  },
+  "check_connection": {
+    "text": "Hmm, jokin meni pieleen. Voisitko tarkistaa nettiyhteyteni?",
+    "audio": "tarkista_netti"
+  },
+  "welcome": {
+    "text": "Tervetuloa Hemmoon! Ensimmäinen askel on käyttäjätilin luominen lapselle. Tämä vaatii PeLa:n työntekijän tunnukset.",
+    "audio": "tervetuloa"
+  },
+  "create_account": {
+    "text": "Luodaksesi tilin lapselle, paina alla olevaa nappia ja kirjaudu sisään.",
+    "audio": "luodaksesi_tilin"
+  },
+  "thanks_listen": {
+    "text": "Kiitos kun kerroit minulle! Jos haluat kuunnella viestisi, paina mustaa kolmiota. Kun olet valmis, voit painaa eteenpäin-nappulaa näytön alareunasta.",
+    "audio": "kiitos_kuuntele"
+  },
+  "tell_record": {
+    "text": "Olen kuulolla! Voit alkaa kertoa. Kun olet valmis, paina mustaa neliötä, niin tallennetaan viesti.",
+    "audio": "kerro_nauhoita"
+  },
 }

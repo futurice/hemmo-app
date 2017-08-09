@@ -1,33 +1,19 @@
 import { NavigationActions } from 'react-navigation';
 import React, { Component } from 'react';
-import {
-  TouchableOpacity,
-  Image,
-  Alert,
-  Text,
-  View,
-  StyleSheet,
-  ScrollView,
-} from 'react-native';
+import { Image, Alert, Text, View, StyleSheet, ScrollView } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { List, Map } from 'immutable';
 import UserItem from '../components/UserItem';
 import AppButton from '../components/AppButton';
-import {
-  resetCurrentUser,
-  setCurrentUser,
-  addActivity,
-} from '../state/UserState';
+import { setCurrentUser } from '../state/UserState';
 import { startPreparing, finishPreparing } from '../state/SessionState';
 import { setAuthenticationToken } from '../utils/authentication';
 import { setSessionId } from '../utils/session';
 import { post } from '../utils/api';
-import {
-  getSizeByHeight,
-  getSizeByWidth,
-  getImage,
-} from '../services/graphics';
+import { getSizeByWidth, getImage } from '../services/graphics';
+
+const phrases = require('../data/phrases');
 
 const styles = StyleSheet.create({
   container: {
@@ -78,38 +64,24 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
   users: state.getIn(['user', 'users']),
-  currentUser: state.getIn(['user', 'currentUser']),
 });
 
 const mapDispatchToProps = dispatch => ({
-  resetCurrentUser: () => dispatch(resetCurrentUser()),
   setCurrentUser: user => dispatch(setCurrentUser(user)),
-  addActivity: () => dispatch(addActivity()),
   startPreparing: () => dispatch(startPreparing()),
   finishPreparing: () => dispatch(finishPreparing()),
   pushRoute: route =>
     dispatch(NavigationActions.navigate({ routeName: route })),
-  resetRoute: route =>
-    dispatch(
-      NavigationActions.reset({
-        index: 0,
-        actions: [NavigationActions.navigate({ routeName: route })],
-      }),
-    ),
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
 export default class HomeViewContainer extends Component {
   static propTypes = {
-    resetCurrentUser: PropTypes.func.isRequired,
     setCurrentUser: PropTypes.func.isRequired,
-    addActivity: PropTypes.func.isRequired,
     startPreparing: PropTypes.func.isRequired,
     finishPreparing: PropTypes.func.isRequired,
     pushRoute: PropTypes.func.isRequired,
-    resetRoute: PropTypes.func.isRequired,
     users: PropTypes.instanceOf(List).isRequired,
-    currentUser: PropTypes.instanceOf(Map).isRequired,
   };
 
   state = {
@@ -118,8 +90,8 @@ export default class HomeViewContainer extends Component {
     firstUseScreenIndex: 0,
   };
 
-  openSettings = () => {
-    this.props.pushRoute('Settings');
+  openLogin = () => {
+    this.props.pushRoute('Login');
   };
 
   startSession = async user => {
@@ -146,7 +118,7 @@ export default class HomeViewContainer extends Component {
     <View style={styles.settingsButton}>
       <AppButton
         background="settings"
-        onPress={() => this.props.pushRoute('Login')}
+        onPress={this.openLogin}
         width={getSizeByWidth('settings', 0.08).width}
       />
     </View>;
@@ -197,6 +169,12 @@ export default class HomeViewContainer extends Component {
     );
   };
 
+  switchScreen = () => {
+    this.setState({
+      firstUseScreenIndex: 1 - this.state.firstUseScreenIndex,
+    });
+  };
+
   renderFirstUseScreens = () => {
     const firstScreen = this.state.firstUseScreenIndex === 0;
 
@@ -205,10 +183,7 @@ export default class HomeViewContainer extends Component {
         <View style={styles.bubble}>
           <AppButton
             background="bubble_down"
-            onPress={() =>
-              this.setState({
-                firstUseScreenIndex: 1 - this.state.firstUseScreenIndex,
-              })}
+            onPress={this.switchScreen}
             contentContainerStyle={{ padding: 30 }}
             width={getSizeByWidth('bubble_down', 0.5).width}
           >
