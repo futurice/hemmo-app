@@ -104,7 +104,11 @@ export default class Hemmo extends Component {
       (this.props.activeRoute !== 'FeedbackMenu' ||
         prevProps.activeRoute === 'Home')
     ) {
-      await this.showBubble();
+      if (this.props.activeRoute === 'Ending') {
+        setTimeout(this.showBubble, 3000);
+      } else {
+        await this.showBubble();
+      }
     }
   }
 

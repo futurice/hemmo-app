@@ -58,7 +58,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(
       NavigationActions.reset({
         index: 0,
-        actions: [NavigationActions.navigate({ routeName: 'FeedbackMenu' })],
+        actions: [NavigationActions.navigate({ routeName: 'Home' })],
       }),
     );
   },
@@ -531,8 +531,6 @@ export default class EndingViewContainer extends Component {
       outputRange: ['0%', '120%'],
     });
 
-    this.enableHemmo();
-
     return (
       <Animated.View
         style={{
@@ -549,11 +547,6 @@ export default class EndingViewContainer extends Component {
         />
       </Animated.View>
     );
-  };
-
-  enableHemmo = async () => {
-    await this.props.setText(phrases['Ending_disable'].text);
-    await this.props.setAudio(phrases['Ending_disable'].audio);
   };
 
   drawStartAgain = () =>
