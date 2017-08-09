@@ -52,7 +52,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   reset: () => {
-    //    dispatch(resetCurrentUser());
+    dispatch(resetCurrentUser());
   },
   startAgain: () => {
     dispatch(
