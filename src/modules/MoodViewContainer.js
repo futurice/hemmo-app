@@ -104,20 +104,6 @@ export default class MoodViewContainer extends Component {
     this.props.setAudio(phrases.Mood.audio);
   }
 
-  /*sendMoods = async () => {
-    const feedbackId = await getSessionId();
-
-    try {
-      await patch(`/app/feedback/${feedbackId}`, {
-        moods: this.props.selectedMoods.toJS(),
-      });
-      this.setState({ showSucceedingMessage: true });
-    } catch (error) {
-      console.log(error);
-      Alert.alert('Oops! Jokin meni pieleen!', 'Yritä myöhemmin uudelleen!');
-    }
-  };*/
-
   addMood = async mood => {
     (await this.props.selectedMoods.includes(mood))
       ? this.props.deleteMood(mood)
@@ -125,19 +111,6 @@ export default class MoodViewContainer extends Component {
   };
 
   isSelected = mood => this.props.selectedMoods.includes(mood.get('name'));
-
-  /*hideSucceedingMessage = () => {
-    if (this.state.showSucceedingMessage) {
-      this.setState({ showSucceedingMessage: false });
-      this.props.back();
-    }
-  };
-
-  renderSaveConfirmationWindow = () =>
-    <SaveConfirmationWindow
-      closeWindow={this.hideSucceedingMessage}
-      visible={this.state.showSucceedingMessage}
-    />;*/
 
   renderMood = (mood, key) =>
     <View
