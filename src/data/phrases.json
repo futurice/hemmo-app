@@ -11,6 +11,10 @@
     "text": "Nyt voit kertoa ihan vapaasti viime kerrastasi tukiperheessä. Voit kertoa nauhoittamalla puhettasi, tai kirjoittamalla viestin.",
     "audio": "kerro_vapaasti"
   },
+  "Record": {
+    "text": "Olen kuulolla! Voit alkaa kertoa. Kun olet valmis, paina mustaa neliötä, niin tallennetaan viesti.",
+    "audio": "kerro_nauhoita"
+  },
   "Mood": {
     "text": "Kertoisitko, miltä sinusta tuntui viime kerralla tukiperheessä?",
     "audio": "milta_tuntui_viime"
@@ -50,9 +54,5 @@
   "thanks_listen": {
     "text": "Kiitos kun kerroit minulle! Jos haluat kuunnella viestisi, paina mustaa kolmiota. Kun olet valmis, voit painaa eteenpäin-nappulaa näytön alareunasta.",
     "audio": "kiitos_kuuntele"
-  },
-  "tell_record": {
-    "text": "Olen kuulolla! Voit alkaa kertoa. Kun olet valmis, paina mustaa neliötä, niin tallennetaan viesti.",
-    "audio": "kerro_nauhoita"
-  },
+  }
 }

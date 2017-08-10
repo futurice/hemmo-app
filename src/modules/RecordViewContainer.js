@@ -3,40 +3,27 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Map } from 'immutable';
 import { NavigationActions } from 'react-navigation';
-import { Image, ScrollView, Alert, View, StyleSheet } from 'react-native';
+import { Alert } from 'react-native';
 import AudioRecorder from '../components/AudioRecorder';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { addFreeWord } from '../state/UserState';
-import { getImage } from '../services/graphics';
-import DoneButton from '../components/DoneButton';
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    width: null,
-    height: null,
-  },
-  audioRecorder: {
-    paddingVertical: 16,
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
 
 const mapStateToProps = state => ({
   answers: state.getIn(['user', 'currentUser', 'answers']),
+  text: state.getIn(['hemmo', 'text']),
+  audio: state.getIn(['hemmo', 'audio']),
+  freeWordKey: state.getIn(['navigatorState', 'routes', 2, 'key']),
 });
 
 const mapDispatchToProps = dispatch => ({
-  back: () => dispatch(NavigationActions.back()),
+  back: key => dispatch(NavigationActions.back({ key })),
   pushRoute: key => dispatch(NavigationActions.navigate({ routeName: key })),
   popRoute: () => dispatch(NavigationActions.back()),
   saveFreeWord: freeWord => dispatch(addFreeWord(freeWord)),
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
-export default class FreeWordViewContainer extends Component {
+export default class RecordViewContainer extends Component {
   static navigationOptions = {
     title: 'Nauhoita',
   };
@@ -45,6 +32,7 @@ export default class FreeWordViewContainer extends Component {
     back: PropTypes.func.isRequired,
     popRoute: PropTypes.func.isRequired,
     pushRoute: PropTypes.func.isRequired,
+    freeWordKey: PropTypes.string,
     saveFreeWord: PropTypes.func.isRequired,
     answers: PropTypes.instanceOf(Map).isRequired,
   };
@@ -71,10 +59,8 @@ export default class FreeWordViewContainer extends Component {
   storeRecording = (type, content) => {
     this.props.saveFreeWord({ type, content });
     this.setState({ recordType: type });
+    this.props.back(this.props.freeWordKey);
   };
-
-  renderAudioRecorder = () =>
-    <AudioRecorder save={this.storeRecording.bind(this)} />;
 
   render() {
     if (this.state.showSpinner) {
@@ -82,23 +68,10 @@ export default class FreeWordViewContainer extends Component {
     }
 
     return (
-      <Image source={getImage('tausta_perus3').normal} style={styles.container}>
-        <ScrollView
-          keyboardShouldPersistTaps={'always'}
-          overScrollMode={'always'}
-          contentContainerStyle={styles.scrollContainer}
-        >
-          <View style={styles.audioRecorder}>
-            {this.renderAudioRecorder()}
-          </View>
-        </ScrollView>
-        <View style={styles.doneButton}>
-          <DoneButton
-            onPress={this.props.back}
-            disabled={this.state.recordType === null}
-          />
-        </View>
-      </Image>
+      <AudioRecorder
+        save={this.storeRecording}
+        disabled={this.props.text.length > 0 || this.props.audio.length > 0}
+      />
     );
   }
 }

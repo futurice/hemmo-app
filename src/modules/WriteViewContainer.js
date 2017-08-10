@@ -38,23 +38,25 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
   answers: state.getIn(['user', 'currentUser', 'answers']),
+  freeWordKey: state.getIn(['navigatorState', 'routes', 2, 'key']),
 });
 
 const mapDispatchToProps = dispatch => ({
-  back: () => dispatch(NavigationActions.back()),
+  back: key => dispatch(NavigationActions.back({ key })),
   pushRoute: key => dispatch(NavigationActions.navigate({ routeName: key })),
   popRoute: () => dispatch(NavigationActions.back()),
   saveFreeWord: freeWord => dispatch(addFreeWord(freeWord)),
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
-export default class FreeWordViewContainer extends Component {
+export default class WriteViewContainer extends Component {
   static navigationOptions = {
     title: 'Kirjoita',
   };
 
   static propTypes = {
     back: PropTypes.func.isRequired,
+    freeWordKey: PropTypes.string,
     popRoute: PropTypes.func.isRequired,
     pushRoute: PropTypes.func.isRequired,
     saveFreeWord: PropTypes.func.isRequired,
@@ -105,7 +107,7 @@ export default class FreeWordViewContainer extends Component {
 
   sendText = () => {
     this.props.saveFreeWord(Map({ text: this.state.text }));
-    this.props.back();
+    this.props.back(this.props.freeWordKey);
   };
 
   renderDoneButton = () =>

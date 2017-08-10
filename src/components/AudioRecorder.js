@@ -4,30 +4,43 @@ View block that includes audio recording button and progression bar.
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import {
   View,
-  Image,
   Alert,
   Dimensions,
-  Text,
-  TouchableOpacity,
   StyleSheet,
   Platform,
+  ScrollView,
+  Image,
 } from 'react-native';
 import ProgressBar from 'react-native-progress/Bar';
 import TimerMixin from 'react-timer-mixin';
 import { Recorder } from 'react-native-audio-toolkit';
-import { getSizeByHeight, getImage } from '../services/graphics';
+import { setAudio, setText } from '../state/HemmoState';
+import DoneButton from '../components/DoneButton';
+import { getImage } from '../services/graphics';
 
 const Permissions = require('react-native-permissions');
 
 import AppButton from '../components/AppButton';
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    width: null,
+    height: null,
+  },
   recordRow: {
     flexDirection: 'column',
     alignItems: 'center',
     alignSelf: 'center',
+  },
+  audioRecorder: {
+    paddingVertical: 16,
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   progressBar: {
     flexDirection: 'row',
@@ -50,13 +63,21 @@ const styles = StyleSheet.create({
 });
 
 const reactMixin = require('react-mixin');
+const phrases = require('../data/phrases');
 
 const filename = 'test.mp4';
 
+const mapDispatchToProps = dispatch => ({
+  setAudio: audio => dispatch(setAudio(audio)),
+  setText: text => dispatch(setText(text)),
+});
+
+@connect(null, mapDispatchToProps)
 @reactMixin.decorate(TimerMixin)
 export default class AudioRecorder extends Component {
   static propTypes = {
     save: PropTypes.func.isRequired,
+    disabled: PropTypes.bool.isRequired,
   };
 
   state = {
@@ -78,6 +99,12 @@ export default class AudioRecorder extends Component {
     }
 
     clearInterval(this._progressInterval);
+  }
+
+  async componentWillReceiveProps(props) {
+    if (!props.disabled) {
+      await this.handleStartRecordClick();
+    }
   }
 
   initializeRecorder = () => {
@@ -146,7 +173,7 @@ export default class AudioRecorder extends Component {
     this._updateState();
   };
 
-  _toggleRecord = () => {
+  _toggleRecord = async () => {
     this.recorder.toggleRecord((err, stopped) => {
       if (err) {
         this.setState({
@@ -208,16 +235,6 @@ export default class AudioRecorder extends Component {
       />
     </View>;
 
-  renderStartRecordButton = () =>
-    <AppButton
-      width={Dimensions.get('window').width * 0.9}
-      onPress={this.handleStartRecordClick}
-      background="record_expanded"
-      shadow
-    >
-      {this.renderProgressBar()}
-    </AppButton>;
-
   renderStopRecordButton = () =>
     <AppButton
       width={Dimensions.get('window').width * 0.9}
@@ -228,21 +245,22 @@ export default class AudioRecorder extends Component {
       {this.renderProgressBar()}
     </AppButton>;
 
-  renderRecordButton = () => {
-    if (this.state.recordButton === 'Record') {
-      return this.renderStartRecordButton();
-    } else if (this.state.recordButton === 'Stop') {
-      return this.renderStopRecordButton();
-    }
-
-    return null;
-  };
-
   render() {
     return (
-      <View style={styles.recordRow}>
-        {this.renderRecordButton()}
-      </View>
+      <Image source={getImage('tausta_perus3').normal} style={styles.container}>
+        <ScrollView
+          keyboardShouldPersistTaps={'always'}
+          overScrollMode={'always'}
+          contentContainerStyle={styles.scrollContainer}
+        >
+          <View style={styles.audioRecorder}>
+            <View style={styles.recordRow}>
+              {this.renderStopRecordButton()}
+            </View>
+          </View>
+        </ScrollView>
+        <DoneButton onPress={this._toggleRecord} disabled={false} />
+      </Image>
     );
   }
 }
