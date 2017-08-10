@@ -1,42 +1,19 @@
 import React, { Component } from 'react';
-import { View, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
-import { setText, setAudio } from '../../state/HemmoState';
-import { getImage } from '../../services/graphics';
+import { getSizeByHeight } from '../../services/graphics';
+import AppButton from '../../components/AppButton';
 
 const mapDispatchToProps = dispatch => ({
   back: () => {
-    dispatch(setText(''));
-    dispatch(setAudio(''));
     dispatch(NavigationActions.back());
   },
 });
 
 const styles = StyleSheet.create({
-  backButtonImage: {
-    height: 30,
-    width: 20,
-    marginLeft: 10,
-  },
-  navigationModal: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  closeButton: {
-    margin: 20,
-  },
-  text: {
-    alignSelf: 'center',
-    fontSize: 25,
-    color: '#1E90FF',
-    fontFamily: 'Gill Sans',
-  },
-  button: {
-    flex: 1,
-    alignItems: 'center',
+  backButton: {
+    marginLeft: 5,
   },
 });
 
@@ -44,13 +21,12 @@ const styles = StyleSheet.create({
 export default class BackButton extends Component {
   render() {
     return (
-      <View>
-        <TouchableOpacity onPress={this.props.back} style={styles.circle}>
-          <Image
-            style={styles.backButtonImage}
-            source={getImage('back').normal}
-          />
-        </TouchableOpacity>
+      <View style={styles.backButton}>
+        <AppButton
+          background="back"
+          onPress={this.props.back}
+          width={getSizeByHeight('back', 0.08).height}
+        />
       </View>
     );
   }

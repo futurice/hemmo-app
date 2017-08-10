@@ -67,7 +67,12 @@ const AppNavigator = StackNavigator({
       headerLeft: <BackButton />,
     },
   },
-  Ending: { screen: EndingViewContainer },
+  Ending: {
+    screen: EndingViewContainer,
+    navigationOptions: {
+      headerLeft: null,
+    },
+  },
 });
 
 export default AppNavigator;

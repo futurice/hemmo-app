@@ -128,12 +128,6 @@ const mapDispatchToProps = dispatch => ({
 export default class ActivityViewContainer extends Component {
   static navigationOptions = {
     title: 'Tekeminen',
-    tabBarIcon: (
-      <Image
-        source={require('./icon_activities.png')}
-        style={{ width: 64, height: 64 }}
-      />
-    ),
   };
 
   static propTypes = {

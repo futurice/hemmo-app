@@ -67,6 +67,7 @@ const mapStateToProps = state => ({
     state.getIn(['navigatorState', 'index']),
     'routeName',
   ]),
+  routes: state.getIn(['navigatorState', 'routes']),
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -80,13 +81,13 @@ const mapDispatchToProps = dispatch => ({
 export default class Hemmo extends Component {
   static propTypes = {
     navigation: PropTypes.object,
-    activeRoute: PropTypes.string,
-    text: PropTypes.string,
-    audio: PropTypes.string,
-    setText: PropTypes.func,
-    setAudio: PropTypes.func,
-    toggleMute: PropTypes.func,
-    muted: PropTypes.bool,
+    activeRoute: PropTypes.string.isRequired,
+    text: PropTypes.string.isRequired,
+    audio: PropTypes.string.isRequired,
+    setText: PropTypes.func.isRequired,
+    setAudio: PropTypes.func.isRequired,
+    toggleMute: PropTypes.func.isRequired,
+    muted: PropTypes.bool.isRequired,
   };
 
   state = {
@@ -102,14 +103,17 @@ export default class Hemmo extends Component {
   async componentDidUpdate(prevProps) {
     if (
       prevProps.activeRoute !== this.props.activeRoute &&
-      (this.props.activeRoute !== 'FeedbackMenu' ||
-        prevProps.activeRoute === 'Home')
+      this.props.routes.size > prevProps.routes.size
     ) {
       if (this.props.activeRoute === 'Ending') {
         setTimeout(this.showBubble, 3000);
       } else {
         await this.showBubble();
       }
+    }
+
+    if (this.props.routes.size < prevProps.routes.size) {
+      await this.setEmptyText();
     }
   }
 

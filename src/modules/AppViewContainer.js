@@ -153,7 +153,10 @@ export default class AppViewContainer extends Component {
       return true;
     }
 
-    if (this.props.activeRouteIndex !== 0) {
+    if (
+      this.props.activeRouteIndex !== 0 &&
+      this.props.activeRoute !== 'Ending'
+    ) {
       this.props.back();
       return true;
     }

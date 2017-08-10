@@ -2,12 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Set } from 'immutable';
-import {
-  Image,
-  View,
-  StyleSheet,
-  ScrollView,
-} from 'react-native';
+import { Image, View, StyleSheet, ScrollView } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { addMood, deleteMood } from '../state/UserState';
 import { setText, setAudio } from '../state/HemmoState';
@@ -72,12 +67,6 @@ const mapDispatchToProps = dispatch => ({
 export default class MoodViewContainer extends Component {
   static navigationOptions = {
     title: 'Tunteet',
-    tabBarIcon: (
-      <Image
-        source={require('./icon_moods.png')}
-        style={{ width: 64, height: 64 }}
-      />
-    ),
   };
 
   static propTypes = {
