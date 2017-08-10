@@ -190,52 +190,62 @@ export default class FeedbackMenu extends Component {
     this.props.toggleIsLoading(true);
     const feedbackId = this.props.feedbackId;
 
-    try {
-      await patch(`/app/feedback/${feedbackId}`, this.getRequestBody());
+    this.props.editUser(
+      Map({
+        id: this.props.currentUser.get('id'),
+        lastFeedbackSentOn: Date.now(),
+      }),
+    );
 
-      this.props.freeWord.map(async item => {
-        const type = item.type;
-        const content = item.content;
-        let attachmentBody = new FormData();
+    this.props.toggleIsLoading(false);
+    this.props.pushRoute('Ending');
 
-        if (type === 'audio') {
-          let file = {
-            uri: `file://${content}`,
-            type: 'audio/mp4',
-            name: 'file',
-          };
-
-          attachmentBody.append('data', file);
-        } else {
-          attachmentBody.append('data', content);
-        }
-
-        await xhr(
-          'POST',
-          `/app/feedback/${feedbackId}/attachments`,
-          attachmentBody,
-        );
-      });
-
-      this.props.editUser(
-        Map({
-          id: this.props.currentUser.get('id'),
-          lastFeedbackSentOn: Date.now(),
-        }),
-      );
-
-      this.props.toggleIsLoading(false);
-      this.props.pushRoute('Ending');
-    } catch (error) {
-      console.log(error);
-      this.props.toggleIsLoading(false);
-      await this.props.setAudio(phrases.oh_no.audio);
-      Alert.alert(
-        'Voi ei, en pystynyt lähettämään viestiäsi!',
-        phrases.oh_no.text,
-        [{ text: 'OK', onPress: () => this.props.setAudio('') }],
-      );
-    }
+    // try {
+    //   await patch(`/app/feedback/${feedbackId}`, this.getRequestBody());
+    //
+    //   this.props.freeWord.map(async item => {
+    //     const type = item.type;
+    //     const content = item.content;
+    //     let attachmentBody = new FormData();
+    //
+    //     if (type === 'audio') {
+    //       let file = {
+    //         uri: `file://${content}`,
+    //         type: 'audio/mp4',
+    //         name: 'file',
+    //       };
+    //
+    //       attachmentBody.append('data', file);
+    //     } else {
+    //       attachmentBody.append('data', content);
+    //     }
+    //
+    //     await xhr(
+    //       'POST',
+    //       `/app/feedback/${feedbackId}/attachments`,
+    //       attachmentBody,
+    //     );
+    //   });
+    //
+    //   this.props.editUser(
+    //     Map({
+    //       id: this.props.currentUser.get('id'),
+    //       lastFeedbackSentOn: Date.now(),
+    //     }),
+    //   );
+    //
+    //   this.props.toggleIsLoading(false);
+    //   this.props.pushRoute('Ending');
+    // } catch (error) {
+    //   console.log(error);
+    //   this.props.toggleIsLoading(false);
+    //   await this.props.setAudio(phrases.oh_no.audio);
+    //   Alert.alert(
+    //     'Voi ei, en pystynyt lähettämään viestiäsi!',
+    //     phrases.oh_no.text,
+    //     [{ text: 'OK', onPress: () => this.props.setAudio('') }],
+    //   );
+    // }
   };
 
   quit = () => {

@@ -68,6 +68,7 @@ const styles = StyleSheet.create({
 });
 
 const phrases = require('../data/phrases.json');
+let i = 0;
 
 const mapStateToProps = state => ({
   users: state.getIn(['user', 'users']),
@@ -104,26 +105,31 @@ export default class HomeViewContainer extends Component {
   };
 
   startSession = async user => {
+    await setAuthenticationToken(user.get('token'));
     this.props.toggleIsLoading(true);
+    this.props.setCurrentUser(user);
+    this.props.setFeedbackId(i++);
+    this.props.toggleIsLoading(false);
+    this.props.pushRoute('FeedbackMenu');
 
-    try {
-      await setAuthenticationToken(user.get('token'));
-
-      const result = await post('/app/feedback', { activities: [], moods: [] });
-
-      this.props.setCurrentUser(user);
-      this.props.setFeedbackId(result.id);
-      this.props.toggleIsLoading(false);
-      this.props.pushRoute('FeedbackMenu');
-    } catch (error) {
-      console.log(error);
-      this.props.toggleIsLoading(false);
-
-      await this.props.setAudio(phrases.check_connection.audio);
-      Alert.alert('Hmm, jokin meni pieleen.', phrases.check_connection.text, [
-        { text: 'OK', onPress: () => this.props.setAudio('') },
-      ]);
-    }
+    // try {
+    //   await setAuthenticationToken(user.get('token'));
+    //
+    //   const result = await post('/app/feedback', { activities: [], moods: [] });
+    //
+    //   this.props.setCurrentUser(user);
+    //   this.props.setFeedbackId(result.id);
+    //   this.props.toggleIsLoading(false);
+    //   this.props.pushRoute('FeedbackMenu');
+    // } catch (error) {
+    //   console.log(error);
+    //   this.props.toggleIsLoading(false);
+    //
+    //   await this.props.setAudio(phrases.check_connection.audio);
+    //   Alert.alert('Hmm, jokin meni pieleen.', phrases.check_connection.text, [
+    //     { text: 'OK', onPress: () => this.props.setAudio('') },
+    //   ]);
+    // }
   };
 
   renderSettingsButton = () =>

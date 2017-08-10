@@ -154,32 +154,35 @@ export default class LoginViewContainer extends Component {
 
   verifyPassword = async () => {
     this.props.toggleIsLoading(true);
+    this.props.toggleIsLoading(false);
+    await setAuthenticationToken('token');
+    this.props.onSuccess();
 
-    try {
-      const result = await post('/admin/employees/authenticate', {
-        email: this.state.email,
-        password: this.state.password,
-      });
-
-      this.props.toggleIsLoading(false);
-      await setAuthenticationToken(result.token);
-      this.props.onSuccess();
-    } catch (error) {
-      console.log(error);
-      this.props.toggleIsLoading(false);
-
-      if (error.status) {
-        Alert.alert(
-          'Virhe sisäänkirjautumisessa!',
-          'Tarkista sähköposti ja salasana.',
-        );
-      } else {
-        Alert.alert(
-          'Yhteyttä palvelimelle ei voitu muodostaa!',
-          'Tarkista nettiyhteytesi tai yritä myöhemmin uudelleen.',
-        );
-      }
-    }
+    // try {
+    //   const result = await post('/admin/employees/authenticate', {
+    //     email: this.state.email,
+    //     password: this.state.password,
+    //   });
+    //
+    //   this.props.toggleIsLoading(false);
+    //   await setAuthenticationToken(result.token);
+    //   this.props.onSuccess();
+    // } catch (error) {
+    //   console.log(error);
+    //   this.props.toggleIsLoading(false);
+    //
+    //   if (error.status) {
+    //     Alert.alert(
+    //       'Virhe sisäänkirjautumisessa!',
+    //       'Tarkista sähköposti ja salasana.',
+    //     );
+    //   } else {
+    //     Alert.alert(
+    //       'Yhteyttä palvelimelle ei voitu muodostaa!',
+    //       'Tarkista nettiyhteytesi tai yritä myöhemmin uudelleen.',
+    //     );
+    //   }
+    // }
   };
 
   renderEmailField = () =>

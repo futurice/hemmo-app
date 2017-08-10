@@ -140,6 +140,8 @@ const styles = StyleSheet.create({
   },
 });
 
+let i = 0;
+
 const options = require('./image-picker-options');
 
 const ImagePicker = require('react-native-image-picker');
@@ -209,47 +211,62 @@ export default class SettingsViewContainer extends Component {
   createChild = async () => {
     this.props.toggleIsLoading(true);
 
-    try {
-      const result = await post('/app/children', {
-        name: this.state.fullName,
-        birthYear: this.state.birthYear,
-      });
+    await this.props.createUser(
+      Map({
+        id: i++,
+        name: this.state.nickName,
+        token: 'token',
+        image: this.state.image,
+      }),
+    );
 
-      await this.props.createUser(
-        Map({
-          id: result.id,
-          name: this.state.nickName,
-          token: `Bearer ${result.token}`,
-          image: this.state.image,
-        }),
-      );
+    this.props.toggleIsLoading(false);
+    this.setState({ disabled: true });
+    this.resetForm();
+    this.props.showSaveModal();
+    this.handleTabClick(this.props.users.last());
 
-      this.props.toggleIsLoading(false);
-      this.setState({ disabled: true });
-      this.resetForm();
-      this.props.showSaveModal();
-      this.handleTabClick(this.props.users.last());
-    } catch (error) {
-      console.log(error);
-      this.props.toggleIsLoading(false);
-
-      if (error.status === 400) {
-        Alert.alert(
-          'Käyttäjän luominen epäonnistui!',
-          'Tarkista kenttien tiedot.',
-        );
-      } else if (error.status) {
-        Alert.alert(
-          'Käyttäjän luominen epäonnistui!',
-          'Palvelimella tapahtui virhe. Yritä myöhemmin uudelleen.',
-        );
-      } else {
-        Alert.alert(
-          'Käyttäjän luominen epäonnistui!',
-          'Tarkista nettiyhteytesi tai yritä myöhemmin uudelleen.',
-        );
-      }
-    }
+    // try {
+    //   const result = await post('/app/children', {
+    //     name: this.state.fullName,
+    //     birthYear: this.state.birthYear,
+    //   });
+    //
+    //   await this.props.createUser(
+    //     Map({
+    //       id: result.id,
+    //       name: this.state.nickName,
+    //       token: `Bearer ${result.token}`,
+    //       image: this.state.image,
+    //     }),
+    //   );
+    //
+    //   this.props.toggleIsLoading(false);
+    //   this.setState({ disabled: true });
+    //   this.resetForm();
+    //   this.props.showSaveModal();
+    //   this.handleTabClick(this.props.users.last());
+    // } catch (error) {
+    //   console.log(error);
+    //   this.props.toggleIsLoading(false);
+    //
+    //   if (error.status === 400) {
+    //     Alert.alert(
+    //       'Käyttäjän luominen epäonnistui!',
+    //       'Tarkista kenttien tiedot.',
+    //     );
+    //   } else if (error.status) {
+    //     Alert.alert(
+    //       'Käyttäjän luominen epäonnistui!',
+    //       'Palvelimella tapahtui virhe. Yritä myöhemmin uudelleen.',
+    //     );
+    //   } else {
+    //     Alert.alert(
+    //       'Käyttäjän luominen epäonnistui!',
+    //       'Tarkista nettiyhteytesi tai yritä myöhemmin uudelleen.',
+    //     );
+    //   }
+    // }
   };
 
   editChild = () => {
