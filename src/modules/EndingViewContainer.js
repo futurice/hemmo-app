@@ -11,12 +11,10 @@ import {
   Dimensions,
   View,
   Image,
-  Alert,
   Animated,
 } from 'react-native';
 import { resetCurrentUser } from '../state/UserState';
 import { getImage, getSizeByHeight } from '../services/graphics';
-import { patch, xhr } from '../utils/api';
 import AppButton from '../components/AppButton';
 
 const activities = require('../data/activities');
@@ -43,7 +41,6 @@ const mapStateToProps = state => ({
   ]),
   selectedMoods: state.getIn(['user', 'currentUser', 'answers', 'moods']),
   freeWord: state.getIn(['user', 'currentUser', 'answers', 'freeWord']),
-  feedbackId: state.getIn(['user', 'currentUser', 'answers', 'feedbackId']),
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -67,9 +64,7 @@ export default class EndingViewContainer extends Component {
   };
 
   static propTypes = {
-    reset: PropTypes.func.isRequired,
     startAgain: PropTypes.func.isRequired,
-    feedbackId: PropTypes.string.isRequired,
   };
 
   envelopePos = {
@@ -95,14 +90,12 @@ export default class EndingViewContainer extends Component {
   showStartAgain = new Animated.Value(0);
 
   componentWillMount() {
-    // Gather feedback data
+    // Gather feedback data and reset user after that
     this.parseFeedback();
+    this.props.reset();
   }
 
   componentDidMount() {
-    // Send data to server
-    this.sendFeedback();
-
     // Animation for closing lid
     Animated.parallel([
       Animated.timing(this.envelopeFillAnim.scaleY, {
@@ -220,20 +213,6 @@ export default class EndingViewContainer extends Component {
     );
   }
 
-  getRequestBody = () => {
-    let data = {};
-
-    if (this.selectedActivities.length) {
-      data.activities = this.selectedActivities;
-    }
-
-    if (this.selectedMoods.length) {
-      data.moods = this.selectedMoods;
-    }
-
-    return data;
-  };
-
   parseFeedback = () => {
     this.props.selectedActivities.entrySeq().forEach(mainActivity => {
       const main = mainActivity[0];
@@ -248,45 +227,6 @@ export default class EndingViewContainer extends Component {
     });
 
     this.selectedMoods = this.props.selectedMoods.toJS();
-  };
-
-  sendFeedback = async () => {
-    const feedbackId = this.props.feedbackId;
-    const requestBody = this.getRequestBody();
-
-    try {
-      await patch(`/app/feedback/${feedbackId}`, this.getRequestBody());
-
-      this.props.freeWord.map(async item => {
-        const type = item.keys().next().value;
-        const content = item.values().next().value;
-        let attachmentBody = new FormData();
-
-        if (type === 'audio') {
-          let file = {
-            uri: `file://${content}`,
-            type: 'audio/mp4',
-            name: 'file',
-          };
-
-          attachmentBody.append('data', file);
-        } else {
-          attachmentBody.append('data', content);
-        }
-
-        await xhr(
-          'POST',
-          `/app/feedback/${feedbackId}/attachments`,
-          attachmentBody,
-        );
-      });
-
-      // Reset status once everything has been sent
-      this.props.reset();
-    } catch (error) {
-      console.log(error);
-      Alert.alert('Oops! Jokin meni pieleen!', 'Yritä myöhemmin uudelleen!');
-    }
   };
 
   drawActivities = () => {};

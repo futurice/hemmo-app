@@ -51,8 +51,7 @@ export default class RecordViewContainer extends Component {
     this.setState({ showSpinner: false });
     Alert.alert(
       'Ohops!',
-      'Jokin meni pieleen! Tarkista nettiyhteys tai yritä myöhemmin uudelleen!',
-      [{ text: 'Ok' }],
+      'Nauhoittamisessa tapahtui virhe! Voisitko yrittää myöhemmin uudelleen?',
     );
   };
 

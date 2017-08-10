@@ -14,11 +14,13 @@ import {
   StyleSheet,
   Linking,
   Image,
+  Alert,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { getImage, getSizeByWidth } from '../services/graphics';
 import { post } from '../utils/api';
 import AppButton from '../components/AppButton';
+import LoadingSpinner from '../components/LoadingSpinner';
 import { setAuthenticationToken } from '../utils/authentication';
 
 const privacyPolicyURL =
@@ -143,7 +145,6 @@ export default class LoginViewContainer extends Component {
   state = {
     email: __DEV__ ? 'foo@bar.com' : '',
     password: __DEV__ ? 'foobar' : '',
-    message: '',
     loading: false,
   };
 
@@ -160,7 +161,6 @@ export default class LoginViewContainer extends Component {
 
     this.setState({
       loading: true,
-      message: 'Kirjaudutaan...',
     });
 
     try {
@@ -171,19 +171,25 @@ export default class LoginViewContainer extends Component {
 
       this.setState({
         loading: false,
-        message: '',
       });
 
       await setAuthenticationToken(result.token);
       this.props.onSuccess();
     } catch (error) {
-      console.log(`error ${error}`);
+      console.log(error);
+      this.setState({ loading: false });
 
-      this.setState({
-        loading: false,
-        message:
-          'Virhe sisäänkirjautumisessa, tarkista salasana ja internetyhteys',
-      });
+      if (error.status) {
+        Alert.alert(
+          'Virhe sisäänkirjautumisessa!',
+          'Tarkista sähköposti ja salasana.',
+        );
+      } else {
+        Alert.alert(
+          'Yhteyttä palvelimelle ei voitu muodostaa!',
+          'Tarkista nettiyhteytesi tai yritä myöhemmin uudelleen.',
+        );
+      }
     }
   };
 
@@ -229,17 +235,16 @@ export default class LoginViewContainer extends Component {
       </AppButton>
     </View>;
 
-  renderMessage = () =>
-    <Text style={styles.message}>
-      {this.state.message}
-    </Text>;
-
   renderPrivacyPolicyLink = () =>
     <Text style={styles.privacyPolicy} onPress={this.openPrivacyPolicy}>
       Tietosuojakäytäntö
     </Text>;
 
   render() {
+    if (this.state.loading) {
+      return <LoadingSpinner />;
+    }
+
     return (
       <Image source={getImage('forest').normal} style={styles.container}>
         <ScrollView
@@ -250,7 +255,6 @@ export default class LoginViewContainer extends Component {
           <View style={styles.loginContainer}>
             {this.renderEmailField()}
             {this.renderPasswordField()}
-            {this.renderMessage()}
             {this.renderLoginButton()}
             {this.renderPrivacyPolicyLink()}
           </View>

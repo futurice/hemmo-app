@@ -9,6 +9,7 @@ import AppButton from '../components/AppButton';
 import { setCurrentUser, setFeedbackId } from '../state/UserState';
 import { startPreparing, finishPreparing } from '../state/SessionState';
 import { setAuthenticationToken } from '../utils/authentication';
+import { setText, setAudio } from '../state/HemmoState';
 import { post } from '../utils/api';
 import { getSizeByWidth, getImage } from '../services/graphics';
 
@@ -59,6 +60,8 @@ const styles = StyleSheet.create({
   },
 });
 
+const phrases = require('../data/phrases.json');
+
 const mapStateToProps = state => ({
   users: state.getIn(['user', 'users']),
 });
@@ -68,6 +71,8 @@ const mapDispatchToProps = dispatch => ({
   setFeedbackId: id => dispatch(setFeedbackId(id)),
   startPreparing: () => dispatch(startPreparing()),
   finishPreparing: () => dispatch(finishPreparing()),
+  setText: text => dispatch(setText(text)),
+  setAudio: audio => dispatch(setAudio(audio)),
   pushRoute: route =>
     dispatch(NavigationActions.navigate({ routeName: route })),
 });
@@ -108,7 +113,9 @@ export default class HomeViewContainer extends Component {
     } catch (error) {
       console.log(error);
       this.props.finishPreparing();
-      Alert.alert('Oops! Jokin meni pieleen!', 'Yritä myöhemmin uudelleen!');
+
+      await this.props.setAudio(phrases.check_connection.audio);
+      Alert.alert('Hmm, jokin meni pieleen.', phrases.check_connection.text);
     }
   };
 

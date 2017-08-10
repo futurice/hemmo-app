@@ -25,7 +25,6 @@ import {
   setCurrentUser,
 } from '../../state/UserState';
 import { post } from '../../utils/api';
-import { setAuthenticationToken } from '../../utils/authentication';
 import { getSizeByWidth, getImage } from '../../services/graphics';
 
 const iconSize = getSizeByWidth('profilephoto', 0.2).width;
@@ -240,7 +239,23 @@ export default class SettingsViewContainer extends Component {
     } catch (error) {
       console.log(error);
       this.setState({ loading: false });
-      Alert.alert('Virhe käyttäjän luonnissa!', 'Yritä myöhemmin uudelleen.');
+
+      if (error.status === 400) {
+        Alert.alert(
+          'Käyttäjän luominen epäonnistui!',
+          'Tarkista kenttien tiedot.',
+        );
+      } else if (error.status) {
+        Alert.alert(
+          'Käyttäjän luominen epäonnistui!',
+          'Palvelimella tapahtui virhe. Yritä myöhemmin uudelleen.',
+        );
+      } else {
+        Alert.alert(
+          'Käyttäjän luominen epäonnistui!',
+          'Tarkista nettiyhteytesi tai yritä myöhemmin uudelleen.',
+        );
+      }
     }
   };
 

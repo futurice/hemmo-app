@@ -36,11 +36,11 @@
     "audio": "hemmo_43"
   },
   "oh_no": {
-    "text": "Voi ei, en pystynyt lähettämään viestiäsi! Voisitko tarkistaa nettiyhteyteni, tai yrittää myöhemmin uudestaan!",
+    "text": "Voisitko tarkistaa nettiyhteyteni tai yrittää myöhemmin uudestaan?",
     "audio": "voi_ei"
   },
   "check_connection": {
-    "text": "Hmm, jokin meni pieleen. Voisitko tarkistaa nettiyhteyteni?",
+    "text": "Voisitko tarkistaa nettiyhteyteni?",
     "audio": "tarkista_netti"
   },
   "welcome": {
