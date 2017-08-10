@@ -14,6 +14,7 @@ import {
   Text,
   Image,
   Platform,
+  Alert,
 } from 'react-native';
 import NavigationViewContainer from './navigation/NavigationViewContainer';
 import { getImage, getSizeByWidth } from '../services/graphics';
@@ -28,6 +29,8 @@ import AppButton from '../components/AppButton';
 import store from '../redux/store';
 import persistStore from '../utils/persist';
 import Hemmo from './Hemmo';
+
+const Permissions = require('react-native-permissions');
 
 const styles = StyleSheet.create({
   container: {
@@ -141,11 +144,54 @@ export default class AppViewContainer extends Component {
     BackHandler.addEventListener('hardwareBackPress', this.navigateBack);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     AppState.addEventListener('change', this.handleAppStateChange);
 
+    const permission = await this.checkRecordPermission();
+
     persistStore(store, () => this.setState({ rehydrated: true }));
+
+    if (permission !== 'authorized') {
+      return Alert.alert(
+        'Saammeko käyttää laitteesi mikrofonia?',
+        'Tarvitsemme oikeuden mikrofoniin, jotta äänen nauhoittaminen onnistuu.',
+        [
+          {
+            text: 'Estä',
+            onPress: () => console.log('permission denied'),
+            style: 'cancel',
+          },
+          permission === 'undetermined' || Platform.OS === 'android'
+            ? { text: 'Salli', onPress: this.showRequestAlert }
+            : { text: 'Avaa asetukset', onPress: Permissions.openSettings },
+        ],
+      );
+    }
   }
+
+  showRequestAlert = async () => {
+    await this.requestRecordPermission();
+  };
+
+  checkRecordPermission = async () => {
+    try {
+      return await Permissions.check('microphone');
+    } catch (e) {
+      console.log(e);
+    }
+
+    return 'undetermined';
+  };
+
+  requestRecordPermission = async () => {
+    try {
+      return await Permissions.request('microphone');
+    } catch (e) {
+      console.log(e);
+    }
+
+    return 'undetermined';
+  };
 
   navigateBack = () => {
     if (this.props.activeRoute === 'FeedbackMenu') {
