@@ -160,35 +160,6 @@ export default class ActivityViewContainer extends Component {
   getMainActivityHeight = () =>
     getSizeByWidth('puuhasimme', 0.5).height + 2 * 5;
 
-  /*getRequestBody = () => {
-    const namedActivities = [];
-
-    this.props.chosenActivities.entrySeq().forEach(mainActivity => {
-      const main = mainActivity[0];
-
-      mainActivity[1].entrySeq().forEach(subActivity => {
-        const sub = subActivity[0];
-        const like = subActivity[1];
-
-        namedActivities.push({ main, sub, like });
-      });
-    });
-
-    return { activities: namedActivities };
-  };
-
-  sendActivities = async () => {
-    const feedbackId = await getSessionId();
-
-    try {
-      await patch(`/app/feedback/${feedbackId}`, this.getRequestBody());
-      this.setState({ showSucceedingMessage: true });
-    } catch (error) {
-      console.log(error);
-      Alert.alert('Oops! Jokin meni pieleen!', 'Yritä myöhemmin uudelleen!');
-    }
-  };*/
-
   chooseMainActivity = async activity => {
     const margin = 5;
 
@@ -256,19 +227,6 @@ export default class ActivityViewContainer extends Component {
       this.state.chosenMainActivity.get('name'),
       this.state.chosenSubActivity.get('name'),
     ]);
-
-  /*hideSucceedingMessage = () => {
-    if (this.state.showSucceedingMessage) {
-      this.setState({ showSucceedingMessage: false });
-      this.props.back();
-    }
-  };
-
-  renderSaveConfirmationWindow = () =>
-    <SaveConfirmationWindow
-      closeWindow={this.hideSucceedingMessage}
-      visible={this.state.showSucceedingMessage}
-    />;*/
 
   renderThumbButton = (thumb, i) =>
     <View

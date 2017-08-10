@@ -87,32 +87,6 @@ export default class FreeWordViewContainer extends Component {
     );
   };
 
-  /*sendText = async () => {
-    this.setState({ showSpinner: true });
-
-    this.props.saveFreeWord(Map({ text: this.state.text }));
-
-    const attachmentBody = new FormData();
-    attachmentBody.append('data', this.state.text);
-
-    const feedbackId = await getSessionId();
-
-    try {
-      await xhr(
-        'POST',
-        `/app/feedback/${feedbackId}/attachments`,
-        attachmentBody,
-      );
-
-      this.setState({ showSucceedingMessage: true });
-    } catch (error) {
-      console.log(error);
-      Alert.alert('Oops! Jokin meni pieleen!', 'Yritä myöhemmin uudelleen!');
-    }
-
-    this.setState({ showSpinner: false });
-  };*/
-
   renderTextForm = () =>
     <Image
       style={{
@@ -139,19 +113,6 @@ export default class FreeWordViewContainer extends Component {
         }}
       />
     </Image>;
-
-  //hideSucceedingMessage = () => {
-  //  if (this.state.showSucceedingMessage) {
-  //    this.setState({ showSucceedingMessage: false });
-  //    this.props.back();
-  //  }
-  //};
-
-  //renderSaveConfirmationWindow = () =>
-  //  <SaveConfirmationWindow
-  //    closeWindow={this.hideSucceedingMessage}
-  //    visible={this.state.showSucceedingMessage}
-  //  />;
 
   sendText = () => {
     this.props.saveFreeWord(Map({ text: this.state.text }));

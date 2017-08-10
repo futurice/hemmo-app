@@ -92,11 +92,19 @@ export default class EndingViewContainer extends Component {
   activityAnimatables = [];
   moodAnimatables = [];
   freeWordAnimatables = [];
+  selectedActivities = [];
+  selectedSubActivities = [];
+  selectedMoods = [];
   envelopeSend = {
     duration: 700,
     delay: 2300,
   };
   showStartAgain = new Animated.Value(0);
+
+  componentWillMount() {
+    // Gather feedback data
+    this.parseFeedback();
+  }
 
   componentDidMount() {
     // Send data to server
@@ -220,10 +228,20 @@ export default class EndingViewContainer extends Component {
   }
 
   getRequestBody = () => {
-    const namedActivities = [];
-    const moods = this.props.selectedMoods.toJS();
     let data = {};
 
+    if (this.selectedActivities.length) {
+      data.activities = this.selectedActivities;
+    }
+
+    if (this.selectedMoods.length) {
+      data.moods = this.selectedMoods;
+    }
+
+    return data;
+  };
+
+  parseFeedback = () => {
     this.props.selectedActivities.entrySeq().forEach(mainActivity => {
       const main = mainActivity[0];
 
@@ -231,19 +249,12 @@ export default class EndingViewContainer extends Component {
         const sub = subActivity[0];
         const like = subActivity[1];
 
-        namedActivities.push({ main, sub, like });
+        this.selectedActivities.push({ main, sub, like });
+        this.selectedSubActivities.push(sub);
       });
     });
 
-    if (namedActivities.length) {
-      data.activities = namedActivities;
-    }
-
-    if (moods.length) {
-      data.moods = moods;
-    }
-
-    return data;
+    this.selectedMoods = this.props.selectedMoods.toJS();
   };
 
   sendFeedback = async () => {
@@ -329,8 +340,6 @@ export default class EndingViewContainer extends Component {
   };
 
   drawMoods = () => {
-    const chosenMoods = this.props.selectedMoods.toJS();
-
     const bottom = this.envelopeFillAnim.bottom.interpolate({
       inputRange: [0, 1],
       outputRange: ['0%', '-100%'],
@@ -339,7 +348,7 @@ export default class EndingViewContainer extends Component {
     return (
       <Animated.View style={{ alignItems: 'center', bottom }}>
         {moods.map((mood, index) => {
-          return chosenMoods.includes(mood.get('name'))
+          return this.selectedMoods.includes(mood.get('name'))
             ? this.drawBlob(
                 assets[mood.get('key')].shadow,
                 index,
@@ -356,22 +365,11 @@ export default class EndingViewContainer extends Component {
 
   drawActivities = () => {
     let numActivity = 0;
-    let numActivities = 0;
-    let chosenActivities = [];
+    const numActivities = this.selectedSubActivities.length;
 
     const bottom = this.envelopeFillAnim.bottom.interpolate({
       inputRange: [0, 1],
       outputRange: ['0%', '-100%'],
-    });
-
-    this.props.selectedActivities.entrySeq().forEach(mainActivity => {
-      const main = mainActivity[0];
-
-      mainActivity[1].entrySeq().forEach(subActivity => {
-        chosenActivities.push(subActivity[0]);
-
-        numActivities++;
-      });
     });
 
     return (
@@ -381,7 +379,9 @@ export default class EndingViewContainer extends Component {
 
           return subActivities
             ? activity.get('subActivities').map(subActivity => {
-                return chosenActivities.includes(subActivity.get('name'))
+                return this.selectedSubActivities.includes(
+                  subActivity.get('name'),
+                )
                   ? this.drawBlob(
                       assets[subActivity.get('key')].shadow,
                       numActivity++,

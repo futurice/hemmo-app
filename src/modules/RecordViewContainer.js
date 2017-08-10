@@ -67,10 +67,6 @@ export default class FreeWordViewContainer extends Component {
     recordType: null,
   };
 
-  /*setText = text => {
-    this.setState({ text });
-  };*/
-
   error = () => {
     this.setState({ showSpinner: false });
     Alert.alert(
@@ -80,68 +76,10 @@ export default class FreeWordViewContainer extends Component {
     );
   };
 
-  /*getRequestBody = (type, content) => {
-    const attachmentBody = new FormData();
-
-    if (type === 'audio') {
-      const file = {
-        uri: `file://${content}`,
-        type: 'audio/mp4',
-        name: 'file',
-      };
-
-      attachmentBody.append('data', file);
-    } else {
-      attachmentBody.append('data', content);
-    }
-
-    return attachmentBody;
-  };
-
-  sendFreeWord = async (type, content) => {
-    this.setState({ showSpinner: true });
-
-    this.props.saveFreeWord({ type, content });
-
-    if (type === 'text') {
-      this.toggleWriting();
-    }
-
-    const feedbackId = await getSessionId();
-
-    try {
-      await xhr(
-        'POST',
-        `/app/feedback/${feedbackId}/attachments`,
-        this.getRequestBody(type, content),
-      );
-
-      this.setState({ showSucceedingMessage: true });
-    } catch (error) {
-      console.log(error);
-      Alert.alert('Oops! Jokin meni pieleen!', 'Yritä myöhemmin uudelleen!');
-    }
-
-    this.setState({ showSpinner: false });
-  };
-
-  hideSucceedingMessage = () => {
-    if (this.state.showSucceedingMessage) {
-      this.setState({ showSucceedingMessage: false });
-      this.props.back();
-    }
-  };*/
-
   storeRecording = (type, content) => {
     this.props.saveFreeWord({ type, content });
     this.setState({ recordType: type });
   };
-
-  /*renderSaveConfirmationWindow = () =>
-    <SaveConfirmationWindow
-      closeWindow={this.hideSucceedingMessage}
-      visible={this.state.showSucceedingMessage}
-    />;*/
 
   renderAudioRecorder = () =>
     <AudioRecorder save={this.storeRecording.bind(this)} />;
