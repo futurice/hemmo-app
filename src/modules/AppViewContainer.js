@@ -290,7 +290,7 @@ export default class AppViewContainer extends Component {
   renderUserImage = () =>
     this.props.activeRoute === 'FeedbackMenu'
       ? <TouchableOpacity
-          onPress={() => this.setState({ modalVisible: true })}
+          onPress={() => this.setState({ exitModalVisible: true })}
           style={styles.circle}
         >
           <Image
