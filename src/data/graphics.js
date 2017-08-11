@@ -55,6 +55,11 @@ const graphics = {
     shadow: require('../../assets/graphics/buttons/modal_s4dp.png'),
     ratio: 1.083,
   },
+  saved: {
+    normal: require('../../assets/graphics/buttons/saved.png'),
+    shadow: require('../../assets/graphics/buttons/saved_s2dp.png'),
+    ratio: 0.8168,
+  },
 
   /* speech bubbles */
   puhekupla: {

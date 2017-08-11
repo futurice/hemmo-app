@@ -13,6 +13,7 @@ import {
 } from '../services/graphics';
 import AppButton from '../components/AppButton';
 import DoneButton from '../components/DoneButton';
+import SaveConfirmationWindow from '../components/SaveConfirmationWindow';
 
 const moods = require('../data/moods.js');
 
@@ -94,6 +95,19 @@ export default class MoodViewContainer extends Component {
 
   isSelected = mood => this.props.selectedMoods.includes(mood.get('name'));
 
+  hideSucceedingMessage = () => {
+    if (this.state.showSucceedingMessage) {
+      this.setState({ showSucceedingMessage: false });
+      this.props.back();
+    }
+  };
+
+  renderSaveConfirmationWindow = () =>
+    <SaveConfirmationWindow
+      closeWindow={this.hideSucceedingMessage}
+      visible={this.state.showSucceedingMessage}
+    />;
+
   renderMood = (mood, key) =>
     <View
       style={[styles.mood, this.isSelected(mood) ? styles.selectedMood : null]}
@@ -131,9 +145,10 @@ export default class MoodViewContainer extends Component {
           </View>
         </ScrollView>
         <DoneButton
-          onPress={this.props.back}
+          onPress={() => this.setState({ showSucceedingMessage: true })}
           disabled={this.props.selectedMoods.size === 0}
         />
+        {this.renderSaveConfirmationWindow()}
       </Image>
     );
   }

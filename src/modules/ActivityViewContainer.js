@@ -372,6 +372,19 @@ export default class ActivityViewContainer extends Component {
       />
     </ScrollView>;
 
+  hideSucceedingMessage = () => {
+    if (this.state.showSucceedingMessage) {
+      this.setState({ showSucceedingMessage: false });
+      this.props.back();
+    }
+  };
+
+  renderSaveConfirmationWindow = () =>
+    <SaveConfirmationWindow
+      closeWindow={this.hideSucceedingMessage}
+      visible={this.state.showSucceedingMessage}
+    />;
+
   render() {
     if (!this.props.isReady) {
       return <LoadingSpinner />;
@@ -382,9 +395,10 @@ export default class ActivityViewContainer extends Component {
         {this.renderMainActivities()}
         {this.renderThumbModal()}
         <DoneButton
-          onPress={this.props.back}
+          onPress={() => this.setState({ showSucceedingMessage: true })}
           disabled={this.props.chosenActivities.size === 0}
         />
+        {this.renderSaveConfirmationWindow()}
       </Image>
     );
   }

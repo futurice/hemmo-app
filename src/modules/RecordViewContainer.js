@@ -3,10 +3,32 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Map } from 'immutable';
 import { NavigationActions } from 'react-navigation';
-import { Alert } from 'react-native';
+import { Alert, View, ScrollView, Image, StyleSheet } from 'react-native';
 import AudioRecorder from '../components/AudioRecorder';
 import LoadingSpinner from '../components/LoadingSpinner';
+import { getImage } from '../services/graphics';
+import DoneButton from '../components/DoneButton';
 import { addFreeWord } from '../state/UserState';
+import SaveConfirmationWindow from '../components/SaveConfirmationWindow';
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    width: null,
+    height: null,
+  },
+  recordRow: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    alignSelf: 'center',
+  },
+  audioRecorder: {
+    paddingVertical: 16,
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
 
 const mapStateToProps = state => ({
   answers: state.getIn(['user', 'currentUser', 'answers']),
@@ -39,6 +61,8 @@ export default class RecordViewContainer extends Component {
     showSucceedingMessage: false,
     showSpinner: false,
     recordType: null,
+    shouldToggleRecord: false,
+    isRecording: false,
   };
 
   error = () => {
@@ -49,17 +73,52 @@ export default class RecordViewContainer extends Component {
     );
   };
 
-  storeRecording = (type, content) => {
-    this.props.saveFreeWord({ type, content });
-    this.setState({ recordType: type });
-    this.props.back(this.props.freeWordKey);
+  storeRecording = async (type, content) => {
+    await this.props.saveFreeWord({ type, content });
+    this.setState({ recordType: type, showSucceedingMessage: true });
   };
+
+  hideSucceedingMessage = () => {
+    if (this.state.showSucceedingMessage) {
+      this.setState({ showSucceedingMessage: false });
+      this.props.back(this.props.freeWordKey);
+    }
+  };
+
+  renderSaveConfirmationWindow = () =>
+    <SaveConfirmationWindow
+      closeWindow={this.hideSucceedingMessage}
+      visible={this.state.showSucceedingMessage}
+    />;
 
   render() {
     if (this.state.showSpinner) {
       return <LoadingSpinner />;
     }
 
-    return <AudioRecorder save={this.storeRecording} />;
+    return (
+      <Image source={getImage('tausta_perus3').normal} style={styles.container}>
+        <ScrollView
+          keyboardShouldPersistTaps={'always'}
+          overScrollMode={'always'}
+          contentContainerStyle={styles.scrollContainer}
+        >
+          <View style={styles.audioRecorder}>
+            <View style={styles.recordRow}>
+              <AudioRecorder
+                save={this.storeRecording}
+                shouldToggleRecord={this.state.shouldToggleRecord}
+                isRecording={() => this.setState({ isRecording: true })}
+              />
+            </View>
+          </View>
+        </ScrollView>
+        <DoneButton
+          onPress={() => this.setState({ shouldToggleRecord: true })}
+          disabled={!this.state.isRecording}
+        />
+        {this.renderSaveConfirmationWindow()}
+      </Image>
+    );
   }
 }

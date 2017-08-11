@@ -15,8 +15,13 @@ import {
   Image,
   Modal,
 } from 'react-native';
-import { getSizeByWidth, getImage } from '../services/graphics';
+import {
+  getSizeByWidth,
+  getSizeByHeight,
+  getImage,
+} from '../services/graphics';
 import { setAudio } from '../state/HemmoState';
+import AppButton from './AppButton';
 
 const styles = StyleSheet.create({
   container: {
@@ -80,23 +85,12 @@ export default class SaveConfirmationWindow extends Component {
           supportedOrientations={['portrait', 'landscape']}
         >
           <View style={styles.modal}>
-            <TouchableOpacity onPress={this.closeWindow}>
-              <Image
-                source={getImage('modal').shadow}
-                style={getSizeByWidth('modal', 0.3)}
-              >
-                <View style={styles.textAndCheckmark}>
-                  <Image
-                    source={getImage('valittu_iso').normal}
-                    style={[
-                      styles.checkmark,
-                      getSizeByWidth('valittu_iso', 0.13),
-                    ]}
-                  />
-                  <Text style={styles.text}>Tallennettu!</Text>
-                </View>
-              </Image>
-            </TouchableOpacity>
+            <AppButton
+              background="saved"
+              onPress={this.closeWindow}
+              width={getSizeByHeight('saved', 0.95).width}
+              shadow
+            />
           </View>
         </Modal>
       </View>

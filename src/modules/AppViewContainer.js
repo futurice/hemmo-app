@@ -136,7 +136,7 @@ export default class AppViewContainer extends Component {
   state = {
     currentState: AppState.currentState,
     previousState: null,
-    modalVisible: false,
+    exitModalVisible: false,
     rehydrated: false,
   };
 
@@ -195,7 +195,7 @@ export default class AppViewContainer extends Component {
 
   navigateBack = () => {
     if (this.props.activeRoute === 'FeedbackMenu') {
-      this.setState({ modalVisible: true });
+      this.setState({ exitModalVisible: true });
       return true;
     }
 
@@ -212,13 +212,13 @@ export default class AppViewContainer extends Component {
   };
 
   quit = () => {
-    this.setState({ modalVisible: false });
+    this.setState({ exitModalVisible: false });
     this.props.resetCurrentUser();
     this.props.back();
   };
 
   continue = () => {
-    this.setState({ modalVisible: false });
+    this.setState({ exitModalVisible: false });
   };
 
   handleAppStateChange = appState => {
@@ -264,11 +264,11 @@ export default class AppViewContainer extends Component {
     </View>;
 
   renderExitModal = () =>
-    this.state.modalVisible
+    this.state.exitModalVisible
       ? <Modal
           animationType={'fade'}
           transparent
-          visible={this.state.modalVisible}
+          visible={this.state.exitModalVisible}
           onRequestClose={() => console.log(' ')}
           supportedOrientations={['portrait', 'landscape']}
         >

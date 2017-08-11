@@ -16,6 +16,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import { addFreeWord } from '../state/UserState';
 import { getImage } from '../services/graphics';
 import DoneButton from '../components/DoneButton';
+import SaveConfirmationWindow from '../components/SaveConfirmationWindow';
 
 const styles = StyleSheet.create({
   container: {
@@ -105,15 +106,28 @@ export default class WriteViewContainer extends Component {
       />
     </Image>;
 
-  sendText = () => {
-    this.props.saveFreeWord(Map({ text: this.state.text }));
-    this.props.back(this.props.freeWordKey);
+  sendText = async () => {
+    await this.props.saveFreeWord(Map({ text: this.state.text }));
+    this.setState({ showSucceedingMessage: true });
   };
 
   renderDoneButton = () =>
     <DoneButton
       onPress={this.sendText.bind(this)}
       disabled={this.state.text.length === 0}
+    />;
+
+  hideSucceedingMessage = () => {
+    if (this.state.showSucceedingMessage) {
+      this.setState({ showSucceedingMessage: false });
+      this.props.back(this.props.freeWordKey);
+    }
+  };
+
+  renderSaveConfirmationWindow = () =>
+    <SaveConfirmationWindow
+      closeWindow={this.hideSucceedingMessage}
+      visible={this.state.showSucceedingMessage}
     />;
 
   render() {
@@ -135,6 +149,7 @@ export default class WriteViewContainer extends Component {
         <View style={styles.doneButton}>
           {this.renderDoneButton()}
         </View>
+        {this.renderSaveConfirmationWindow()}
       </Image>
     );
   }

@@ -26,22 +26,6 @@ const Permissions = require('react-native-permissions');
 import AppButton from '../components/AppButton';
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    width: null,
-    height: null,
-  },
-  recordRow: {
-    flexDirection: 'column',
-    alignItems: 'center',
-    alignSelf: 'center',
-  },
-  audioRecorder: {
-    paddingVertical: 16,
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   progressBar: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -77,6 +61,8 @@ const mapDispatchToProps = dispatch => ({
 export default class AudioRecorder extends Component {
   static propTypes = {
     save: PropTypes.func.isRequired,
+    shouldToggleRecord: PropTypes.bool.isRequired,
+    isRecording: PropTypes.func.isRequired,
   };
 
   state = {
@@ -98,6 +84,12 @@ export default class AudioRecorder extends Component {
     }
 
     clearInterval(this._progressInterval);
+  }
+
+  componentDidUpdate() {
+    if (this.props.shouldToggleRecord) {
+      this._toggleRecord();
+    }
   }
 
   initializeRecorder = () => {
@@ -216,6 +208,7 @@ export default class AudioRecorder extends Component {
 
     this.initializeRecorder();
     this._toggleRecord();
+    this.props.isRecording();
   };
 
   renderProgressBar = () =>
@@ -259,21 +252,6 @@ export default class AudioRecorder extends Component {
   };
 
   render() {
-    return (
-      <Image source={getImage('tausta_perus3').normal} style={styles.container}>
-        <ScrollView
-          keyboardShouldPersistTaps={'always'}
-          overScrollMode={'always'}
-          contentContainerStyle={styles.scrollContainer}
-        >
-          <View style={styles.audioRecorder}>
-            <View style={styles.recordRow}>
-              {this.renderRecordButton()}
-            </View>
-          </View>
-        </ScrollView>
-        <DoneButton onPress={this._toggleRecord} disabled={false} />
-      </Image>
-    );
+    return this.renderRecordButton();
   }
 }
