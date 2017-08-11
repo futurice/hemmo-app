@@ -12,8 +12,8 @@
     "audio": "kerro_vapaasti"
   },
   "Record": {
-    "text": "Olen kuulolla! Voit alkaa kertoa. Kun olet valmis, paina mustaa neliötä, niin tallennetaan viesti.",
-    "audio": "kerro_nauhoita"
+    "text": "Kertoisitko minulle, mitä teitte, ja mikä siinä erityisesti jäi mieleen. Paina pyöreää punaista nappia, niin aloitetaan tallennus. Kun olet valmis, paina samalta paikalta mustaa nappia.",
+    "audio": "hemmo_36"
   },
   "Mood": {
     "text": "Kertoisitko, miltä sinusta tuntui viime kerralla tukiperheessä?",
