@@ -158,9 +158,6 @@ export default class Hemmo extends Component {
   };
 
   toggleMute = async () => {
-    await this.props.setAudio('');
-    await this.props.setText('');
-
     if (this.props.muted) {
       await this.props.setAudio(phrases.unmute.audio);
       await this.props.setText(phrases.unmute.text);

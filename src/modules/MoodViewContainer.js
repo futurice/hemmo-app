@@ -87,7 +87,6 @@ export default class MoodViewContainer extends Component {
       this.props.setAudio('');
       this.props.deleteMood(mood.get('name'));
     } else {
-      this.props.setAudio('');
       this.props.setAudio(mood.get('key'));
       this.props.addMood(mood.get('name'));
     }

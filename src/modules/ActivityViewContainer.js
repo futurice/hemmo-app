@@ -166,9 +166,9 @@ export default class ActivityViewContainer extends Component {
       0,
     );
 
-    await this.props.setAudio('');
-
     if (this.state.chosenMainActivity.get('id') === activity.get('id')) {
+      await this.props.setAudio('');
+
       this.setState({
         chosenMainActivity: Map(),
       });
@@ -182,7 +182,6 @@ export default class ActivityViewContainer extends Component {
   };
 
   chooseSubActivity = async subActivity => {
-    await this.props.setAudio('');
     await this.props.setAudio(subActivity.get('audio'));
     this.setState({ chosenSubActivity: subActivity, modalVisible: true });
   };

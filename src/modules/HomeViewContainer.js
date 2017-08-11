@@ -115,7 +115,9 @@ export default class HomeViewContainer extends Component {
       this.props.finishPreparing();
 
       await this.props.setAudio(phrases.check_connection.audio);
-      Alert.alert('Hmm, jokin meni pieleen.', phrases.check_connection.text);
+      Alert.alert('Hmm, jokin meni pieleen.', phrases.check_connection.text, [
+        { text: 'OK', onPress: () => this.props.setAudio('') },
+      ]);
     }
   };
 

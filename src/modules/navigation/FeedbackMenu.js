@@ -14,7 +14,7 @@ import {
 
 import AppButton from '../../components/AppButton';
 import { getImage } from '../../services/graphics';
-import { setAudio } from '../../state/HemmoState';
+import { setAudio, setText } from '../../state/HemmoState';
 
 const phrases = require('../../data/phrases.json');
 
@@ -47,6 +47,7 @@ const mapDispatchToProps = dispatch => ({
   pushRoute: route =>
     dispatch(NavigationActions.navigate({ routeName: route })),
   setAudio: audio => dispatch(setAudio(audio)),
+  setText: text => dispatch(setText(text)),
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -138,6 +139,7 @@ export default class FeedbackMenu extends Component {
       Alert.alert(
         'Voi ei, en pystynyt lähettämään viestiäsi!',
         phrases.oh_no.text,
+        [{ text: 'OK', onPress: () => this.props.setAudio('') }],
       );
     }
   };
