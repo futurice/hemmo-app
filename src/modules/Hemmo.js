@@ -32,6 +32,7 @@ const styles = StyleSheet.create({
   },
   bubbleContainer: {
     flex: 1,
+    flexDirection: 'column',
     backgroundColor: 'rgba(255,255,255,0.8)',
     top: 0,
     left: 0,
@@ -40,10 +41,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   bubble: {
-    alignSelf: 'center',
     marginTop: 20,
   },
-  toggleVolumeButton: {},
+  toggleVolumeButton: {
+    flex: 1,
+    alignSelf: 'flex-start',
+    justifyContent: 'flex-end',
+    margin: 10,
+  },
   text: {
     padding: 50,
     textAlign: 'center',
@@ -220,7 +225,7 @@ export default class Hemmo extends Component {
       <AppButton
         background={this.props.muted ? 'volume_is_off' : 'volume_is_on'}
         onPress={this.toggleMute}
-        width={getSizeByWidth('volume_is_off', 0.07).width}
+        width={getSizeByWidth('volume_is_off', 0.13).width}
         shadow
       />
     </View>;
