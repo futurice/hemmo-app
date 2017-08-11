@@ -147,9 +147,9 @@ export default class AppViewContainer extends Component {
   async componentDidMount() {
     AppState.addEventListener('change', this.handleAppStateChange);
 
-    const permission = await this.checkRecordPermission();
-
     persistStore(store, () => this.setState({ rehydrated: true }));
+
+    const permission = await this.checkRecordPermission();
 
     if (permission !== 'authorized') {
       return Alert.alert(

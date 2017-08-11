@@ -77,7 +77,6 @@ const mapDispatchToProps = dispatch => ({
 export default class AudioRecorder extends Component {
   static propTypes = {
     save: PropTypes.func.isRequired,
-    disabled: PropTypes.bool.isRequired,
   };
 
   state = {
@@ -99,12 +98,6 @@ export default class AudioRecorder extends Component {
     }
 
     clearInterval(this._progressInterval);
-  }
-
-  async componentWillReceiveProps(props) {
-    if (!props.disabled) {
-      await this.handleStartRecordClick();
-    }
   }
 
   initializeRecorder = () => {
@@ -235,6 +228,16 @@ export default class AudioRecorder extends Component {
       />
     </View>;
 
+  renderStartRecordButton = () =>
+    <AppButton
+      width={Dimensions.get('window').width * 0.9}
+      onPress={this.handleStartRecordClick}
+      background="record_expanded"
+      shadow
+    >
+      {this.renderProgressBar()}
+    </AppButton>;
+
   renderStopRecordButton = () =>
     <AppButton
       width={Dimensions.get('window').width * 0.9}
@@ -244,6 +247,16 @@ export default class AudioRecorder extends Component {
     >
       {this.renderProgressBar()}
     </AppButton>;
+
+  renderRecordButton = () => {
+    if (this.state.recordButton === 'Record') {
+      return this.renderStartRecordButton();
+    } else if (this.state.recordButton === 'Stop') {
+      return this.renderStopRecordButton();
+    }
+
+    return null;
+  };
 
   render() {
     return (
@@ -255,7 +268,7 @@ export default class AudioRecorder extends Component {
         >
           <View style={styles.audioRecorder}>
             <View style={styles.recordRow}>
-              {this.renderStopRecordButton()}
+              {this.renderRecordButton()}
             </View>
           </View>
         </ScrollView>

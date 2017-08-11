@@ -10,15 +10,11 @@ import { addFreeWord } from '../state/UserState';
 
 const mapStateToProps = state => ({
   answers: state.getIn(['user', 'currentUser', 'answers']),
-  text: state.getIn(['hemmo', 'text']),
-  audio: state.getIn(['hemmo', 'audio']),
   freeWordKey: state.getIn(['navigatorState', 'routes', 2, 'key']),
 });
 
 const mapDispatchToProps = dispatch => ({
   back: key => dispatch(NavigationActions.back({ key })),
-  pushRoute: key => dispatch(NavigationActions.navigate({ routeName: key })),
-  popRoute: () => dispatch(NavigationActions.back()),
   saveFreeWord: freeWord => dispatch(addFreeWord(freeWord)),
 });
 
@@ -30,8 +26,6 @@ export default class RecordViewContainer extends Component {
 
   static propTypes = {
     back: PropTypes.func.isRequired,
-    popRoute: PropTypes.func.isRequired,
-    pushRoute: PropTypes.func.isRequired,
     freeWordKey: PropTypes.string,
     saveFreeWord: PropTypes.func.isRequired,
     answers: PropTypes.instanceOf(Map).isRequired,
@@ -66,11 +60,6 @@ export default class RecordViewContainer extends Component {
       return <LoadingSpinner />;
     }
 
-    return (
-      <AudioRecorder
-        save={this.storeRecording}
-        disabled={this.props.text.length > 0 || this.props.audio.length > 0}
-      />
-    );
+    return <AudioRecorder save={this.storeRecording} />;
   }
 }
