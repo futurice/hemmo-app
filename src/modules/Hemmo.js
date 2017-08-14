@@ -233,9 +233,9 @@ export default class Hemmo extends Component {
   renderBubbleButton = () =>
     <View style={styles.bubble}>
       <AppButton
-        background="puhekupla"
+        background="up_big"
         onPress={this.hideBubble}
-        width={getSizeByWidth('puhekupla', 0.55).width}
+        width={getSizeByWidth('up_big', 0.5).width}
         shadow
       >
         <Text style={styles.text}>

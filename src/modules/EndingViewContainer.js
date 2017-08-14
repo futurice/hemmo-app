@@ -505,7 +505,7 @@ export default class EndingViewContainer extends Component {
 
   render() {
     return (
-      <Image source={getImage('tausta_perus3').normal} style={styles.container}>
+      <Image source={getImage('forest').normal} style={styles.container}>
         {this.sendEnvelope()}
         {this.drawEnvelope()}
         {this.drawActivities()}

@@ -6,7 +6,6 @@ import { NavigationActions } from 'react-navigation';
 import {
   Image,
   TextInput,
-  Dimensions,
   Alert,
   View,
   ScrollView,
@@ -14,7 +13,7 @@ import {
 } from 'react-native';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { addFreeWord } from '../state/UserState';
-import { getImage } from '../services/graphics';
+import { getImage, getSizeByWidth } from '../services/graphics';
 import DoneButton from '../components/DoneButton';
 import SaveConfirmationWindow from '../components/SaveConfirmationWindow';
 
@@ -83,7 +82,7 @@ export default class WriteViewContainer extends Component {
     <Image
       style={{
         height: null,
-        width: Dimensions.get('window').width * 0.8,
+        width: getSizeByWidth('textbox', 0.45).width,
         flexDirection: 'row',
         justifyContent: 'flex-start',
       }}
@@ -136,7 +135,7 @@ export default class WriteViewContainer extends Component {
     }
 
     return (
-      <Image source={getImage('tausta_perus3').normal} style={styles.container}>
+      <Image source={getImage('forest').normal} style={styles.container}>
         <ScrollView
           keyboardShouldPersistTaps={'always'}
           overScrollMode={'always'}

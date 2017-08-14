@@ -14,19 +14,14 @@ import SaveConfirmationWindow from '../components/SaveConfirmationWindow';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: 'column',
     width: null,
     height: null,
   },
-  recordRow: {
-    flexDirection: 'column',
-    alignItems: 'center',
-    alignSelf: 'center',
-  },
   audioRecorder: {
-    paddingVertical: 16,
-    flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
+    paddingVertical: 16,
   },
 });
 
@@ -97,20 +92,18 @@ export default class RecordViewContainer extends Component {
     }
 
     return (
-      <Image source={getImage('tausta_perus3').normal} style={styles.container}>
+      <Image source={getImage('forest').normal} style={styles.container}>
         <ScrollView
           keyboardShouldPersistTaps={'always'}
           overScrollMode={'always'}
           contentContainerStyle={styles.scrollContainer}
         >
           <View style={styles.audioRecorder}>
-            <View style={styles.recordRow}>
-              <AudioRecorder
-                save={this.storeRecording}
-                shouldToggleRecord={this.state.shouldToggleRecord}
-                isRecording={() => this.setState({ isRecording: true })}
-              />
-            </View>
+            <AudioRecorder
+              save={this.storeRecording}
+              shouldToggleRecord={this.state.shouldToggleRecord}
+              isRecording={() => this.setState({ isRecording: true })}
+            />
           </View>
         </ScrollView>
         <DoneButton

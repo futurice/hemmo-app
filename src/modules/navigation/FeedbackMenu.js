@@ -2,7 +2,6 @@ import { NavigationActions } from 'react-navigation';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { patch, xhr } from '../../utils/api';
 import {
   Image,
   Dimensions,
@@ -12,8 +11,9 @@ import {
   StyleSheet,
 } from 'react-native';
 
+import { patch, xhr } from '../../utils/api';
 import AppButton from '../../components/AppButton';
-import { getImage } from '../../services/graphics';
+import { getImage, getSizeByWidth } from '../../services/graphics';
 import { setAudio, setText } from '../../state/HemmoState';
 
 const phrases = require('../../data/phrases.json');
@@ -26,6 +26,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: null,
     width: null,
+    paddingTop: 50,
   },
 });
 
@@ -55,7 +56,7 @@ export default class FeedbackMenu extends Component {
   renderBigButton = (background, onPress, done) =>
     <View style={{ paddingVertical: 10 }}>
       <AppButton
-        width={Dimensions.get('window').width * 0.8}
+        width={getSizeByWidth('whatdoned', 0.5).width}
         onPress={onPress}
         background={background}
         shadow
@@ -74,7 +75,7 @@ export default class FeedbackMenu extends Component {
   renderSendButton = (onPress, disabled) =>
     <View style={{ paddingTop: 32, paddingBottom: 16 }}>
       <AppButton
-        width={Dimensions.get('window').width * 0.5}
+        width={getSizeByWidth('envelope_closed', 0.25).width}
         onPress={onPress}
         background="envelope_closed"
         disabled={disabled}
@@ -146,7 +147,7 @@ export default class FeedbackMenu extends Component {
 
   render() {
     return (
-      <Image source={getImage('tausta_perus3').normal} style={styles.container}>
+      <Image source={getImage('forest').normal} style={styles.container}>
         <ScrollView
           contentContainerStyle={{
             paddingVertical: 5,

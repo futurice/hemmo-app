@@ -2,21 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Map } from 'immutable';
-import {
-  Image,
-  View,
-  ScrollView,
-  StyleSheet,
-  Modal,
-  TouchableOpacity,
-  Dimensions,
-  Text,
-  Alert,
-} from 'react-native';
+import { Image, View, ScrollView, StyleSheet, Modal, Text } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import Accordion from 'react-native-collapsible/Accordion';
 import { addActivity, deleteActivity } from '../state/UserState';
-import { patch } from '../utils/api';
 import { setText, setAudio } from '../state/HemmoState';
 import LoadingSpinner from '../components/LoadingSpinner';
 import SaveConfirmationWindow from '../components/SaveConfirmationWindow';
@@ -33,8 +22,6 @@ const styles = StyleSheet.create({
     flex: 1,
     height: null,
     width: null,
-    flexDirection: 'column',
-    alignItems: 'center',
   },
   title: {
     fontSize: 20,
@@ -391,7 +378,7 @@ export default class ActivityViewContainer extends Component {
     }
 
     return (
-      <Image source={getImage('tausta_perus3').normal} style={styles.container}>
+      <Image source={getImage('forest').normal} style={styles.container}>
         {this.renderMainActivities()}
         {this.renderThumbModal()}
         <DoneButton

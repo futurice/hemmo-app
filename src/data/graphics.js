@@ -1,54 +1,20 @@
 const graphics = {
-  done_button: {
-    normal: require('../../assets/graphics/buttons/bottomnav.png'),
-    ratio: 1.0,
-  },
-  back: {
-    normal: require('../../assets/graphics/buttons/back.png'),
-    ratio: 1.0,
-  },
-
   /* backgrounds */
-  tausta_perus: {
-    normal: require('../../assets/graphics/backgrounds/tausta_perus.png'),
-    ratio: 1.7777,
-  },
-  tausta_perus2: {
-    normal: require('../../assets/graphics/backgrounds/tausta_perus2.png'),
-    ratio: 1.7777,
-  },
-  tausta_perus3: {
-    normal: require('../../assets/graphics/backgrounds/tausta_perus3.png'),
-    ratio: 1.7777,
-  },
-  kirjoituskentta: {
-    normal: require('../../assets/graphics/backgrounds/kirjoituskentta.png'),
-    ratio: 1.9638,
-  },
-  profilephoto: {
-    normal: require('../../assets/graphics/others/profilephoto.png'),
-    ratio: 1,
-  },
-  profile_card: {
-    normal: require('../../assets/graphics/others/profile_card.png'),
-    shadow: require('../../assets/graphics/others/profile_card_s2dp.png'),
-    ratio: 0.8145,
-  },
-  take_photo: {
-    normal: require('../../assets/graphics/buttons/take_photo.png'),
-    ratio: 1.397,
-  },
-  nelio: {
-    normal: require('../../assets/graphics/backgrounds/nelio.png'),
-    ratio: 1.2484,
-  },
-  tausta_levea: {
-    normal: require('../../assets/graphics/backgrounds/tausta_levea.png'),
-    ratio: 1.7872,
-  },
   forest: {
     normal: require('../../assets/graphics/backgrounds/forest.png'),
     ratio: 0.5625,
+  },
+  forest_2: {
+    normal: require('../../assets/graphics/backgrounds/forest_2.png'),
+    ratio: 1.7777,
+  },
+  forest_3: {
+    normal: require('../../assets/graphics/backgrounds/forest_3.png'),
+    ratio: 1.7777,
+  },
+  forest_4: {
+    normal: require('../../assets/graphics/backgrounds/forest_4.png'),
+    ratio: 1.7777,
   },
   modal: {
     normal: require('../../assets/graphics/buttons/modal.png'),
@@ -62,10 +28,10 @@ const graphics = {
   },
 
   /* speech bubbles */
-  puhekupla: {
-    normal: require('../../assets/graphics/bubbles/up_small.png'),
-    shadow: require('../../assets/graphics/bubbles/up_small_s2dp.png'),
-    ratio: 1.56,
+  up_big: {
+    normal: require('../../assets/graphics/bubbles/up_big.png'),
+    shadow: require('../../assets/graphics/bubbles/up_big_s2dp.png'),
+    ratio: 1.2214,
   },
   bubble_down: {
     normal: require('../../assets/graphics/bubbles/bubble_down.png'),
@@ -103,7 +69,6 @@ const graphics = {
     normal: require('../../assets/graphics/others/envelope_closed.png'),
     shadow: require('../../assets/graphics/others/envelope_closed_s2dp.png'),
   },
-
   close_small: {
     normal: require('../../assets/graphics/buttons/close_small.png'),
     ratio: 1,
@@ -131,12 +96,16 @@ const graphics = {
     shadow: require('../../assets/graphics/buttons/thumb_down_s2dp.png'),
     ratio: 1,
   },
+  start_again: {
+    normal: require('../../assets/graphics/buttons/startagain.png'),
+    ratio: 1.0,
+  },
   done_button: {
     normal: require('../../assets/graphics/buttons/bottomnav.png'),
     ratio: 1.0,
   },
-  start_again: {
-    normal: require('../../assets/graphics/buttons/startagain.png'),
+  back: {
+    normal: require('../../assets/graphics/buttons/back.png'),
     ratio: 1.0,
   },
 
@@ -381,20 +350,33 @@ const graphics = {
     normal: require('../../assets/graphics/buttons/settings.png'),
     ratio: 1,
   },
-  valittu: {
+  checkmark_small: {
     normal: require('../../assets/graphics/others/checkmark_small.png'),
     shadow: require('../../assets/graphics/others/checkmark_small_s2dp.png'),
     ratio: 1.0377,
   },
-  valittu_harmaa: {
+  checkmark_small_grey: {
     normal: require('../../assets/graphics/others/checkmark_small_grey.png'),
     shadow: require('../../assets/graphics/others/checkmark_small_grey_s2dp.png'),
     ratio: 1.0377,
   },
-  valittu_iso: {
+  checkmark_big: {
     normal: require('../../assets/graphics/others/checkmark_big.png'),
     shadow: require('../../assets/graphics/others/checkmark_big_s2dp.png'),
     ratio: 1.0377,
+  },
+  profilephoto: {
+    normal: require('../../assets/graphics/others/profilephoto.png'),
+    ratio: 1,
+  },
+  profile_card: {
+    normal: require('../../assets/graphics/others/profile_card.png'),
+    shadow: require('../../assets/graphics/others/profile_card_s2dp.png'),
+    ratio: 0.8145,
+  },
+  take_photo: {
+    normal: require('../../assets/graphics/buttons/take_photo.png'),
+    ratio: 1.397,
   },
 };
 

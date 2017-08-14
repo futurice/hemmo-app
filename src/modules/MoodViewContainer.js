@@ -20,12 +20,8 @@ const moods = require('../data/moods.js');
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'column',
     height: null,
     width: null,
-    flexWrap: 'wrap',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   scrollContainer: {},
   font: {
@@ -41,6 +37,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
+    alignItems: 'center',
     marginTop: 20,
   },
   mood: {
@@ -122,10 +119,10 @@ export default class MoodViewContainer extends Component {
         <Image
           source={
             this.isSelected(mood)
-              ? getImage('valittu').shadow
-              : getImage('valittu_harmaa').shadow
+              ? getImage('checkmark_small').shadow
+              : getImage('checkmark_small_grey').shadow
           }
-          style={[styles.check, getSizeByHeight('valittu', 0.14)]}
+          style={[styles.check, getSizeByHeight('checkmark_small', 0.14)]}
         />
       </AppButton>
     </View>;
@@ -134,7 +131,7 @@ export default class MoodViewContainer extends Component {
 
   render() {
     return (
-      <Image source={getImage('tausta_perus3').normal} style={styles.container}>
+      <Image source={getImage('forest').normal} style={styles.container}>
         <ScrollView
           keyboardShouldPersistTaps={'always'}
           overScrollMode={'always'}

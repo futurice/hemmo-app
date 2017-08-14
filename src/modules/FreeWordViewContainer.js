@@ -3,18 +3,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Map } from 'immutable';
 import { NavigationActions } from 'react-navigation';
-import {
-  TouchableOpacity,
-  Image,
-  Dimensions,
-  View,
-  StyleSheet,
-  ScrollView,
-} from 'react-native';
+import { Image, Dimensions, View, StyleSheet, ScrollView } from 'react-native';
 
 import AppButton from '../components/AppButton';
 import DoneButton from '../components/DoneButton';
-import { getImage } from '../services/graphics';
+import { getImage, getSizeByWidth } from '../services/graphics';
 
 const styles = StyleSheet.create({
   container: {
@@ -28,8 +21,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
-
-const phrases = require('../data/phrases.json');
 
 const mapStateToProps = state => ({
   answers: state.getIn(['user', 'currentUser', 'answers']),
@@ -61,7 +52,7 @@ export default class FreeWordViewContainer extends Component {
   renderRecordButton = () =>
     <View style={{ paddingVertical: 16 }}>
       <AppButton
-        width={Dimensions.get('window').width * 0.9}
+        width={getSizeByWidth('record', 0.5).width}
         onPress={() => this.props.pushRoute('Record')}
         background="record"
         shadow
@@ -71,7 +62,7 @@ export default class FreeWordViewContainer extends Component {
   renderWriteButton = () =>
     <View style={{ paddingVertical: 16 }}>
       <AppButton
-        width={Dimensions.get('window').width * 0.9}
+        width={getSizeByWidth('write', 0.5).width}
         onPress={() => this.props.pushRoute('Write')}
         background="write"
         shadow
@@ -86,7 +77,7 @@ export default class FreeWordViewContainer extends Component {
 
   render() {
     return (
-      <Image source={getImage('tausta_perus3').normal} style={styles.container}>
+      <Image source={getImage('forest').normal} style={styles.container}>
         <ScrollView
           keyboardShouldPersistTaps={'always'}
           overScrollMode={'always'}
