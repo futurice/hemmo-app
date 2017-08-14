@@ -5,11 +5,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, Image, TouchableOpacity, StyleSheet, Text } from 'react-native';
-import {
-  getSizeByWidth,
-  getSizeByHeight,
-  getImage,
-} from '../services/graphics';
+import { getSizeByWidth, getImage } from '../services/graphics';
 
 const frameSize = getSizeByWidth('profile_card', 0.28);
 const iconSize = getSizeByWidth('profile_card', 0.22).width;

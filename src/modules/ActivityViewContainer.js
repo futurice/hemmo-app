@@ -247,7 +247,7 @@ export default class ActivityViewContainer extends Component {
           animationType={'fade'}
           transparent
           visible={this.state.modalVisible}
-          onRequestClose={() => console.log(' ')}
+          onRequestClose={this.closeModal}
           supportedOrientations={['portrait', 'landscape']}
         >
           <View style={styles.thumbModal}>

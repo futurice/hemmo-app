@@ -2,14 +2,7 @@ import { NavigationActions } from 'react-navigation';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import {
-  Image,
-  Dimensions,
-  Alert,
-  View,
-  ScrollView,
-  StyleSheet,
-} from 'react-native';
+import { Image, Alert, View, ScrollView, StyleSheet } from 'react-native';
 
 import { patch, xhr } from '../../utils/api';
 import AppButton from '../../components/AppButton';

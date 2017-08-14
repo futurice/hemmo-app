@@ -7,19 +7,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import TimerMixin from 'react-timer-mixin';
 import { connect } from 'react-redux';
-import {
-  Text,
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  Image,
-  Modal,
-} from 'react-native';
-import {
-  getSizeByWidth,
-  getSizeByHeight,
-  getImage,
-} from '../services/graphics';
+import { View, StyleSheet, Modal } from 'react-native';
+import { getSizeByHeight } from '../services/graphics';
 import { setAudio } from '../state/HemmoState';
 import AppButton from './AppButton';
 
@@ -81,7 +70,7 @@ export default class SaveConfirmationWindow extends Component {
           animationType={'fade'}
           transparent
           visible={this.props.visible}
-          onRequestClose={() => {}}
+          onRequestClose={this.closeWindow}
           supportedOrientations={['portrait', 'landscape']}
         >
           <View style={styles.modal}>

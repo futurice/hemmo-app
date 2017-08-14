@@ -85,7 +85,6 @@ const mapDispatchToProps = dispatch => ({
 @reactMixin.decorate(TimerMixin)
 export default class Hemmo extends Component {
   static propTypes = {
-    navigation: PropTypes.object,
     activeRoute: PropTypes.string.isRequired,
     text: PropTypes.string.isRequired,
     audio: PropTypes.string.isRequired,
@@ -189,7 +188,7 @@ export default class Hemmo extends Component {
           animationType={'fade'}
           transparent
           visible={this.state.showBubble}
-          onRequestClose={() => console.log(' ')}
+          onRequestClose={this.hideBubble}
           supportedOrientations={['portrait', 'landscape']}
         >
           <TouchableOpacity

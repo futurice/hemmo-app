@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Map } from 'immutable';
 import { NavigationActions } from 'react-navigation';
-import { Image, Dimensions, View, StyleSheet, ScrollView } from 'react-native';
+import { Image, View, StyleSheet, ScrollView } from 'react-native';
 
 import AppButton from '../components/AppButton';
 import DoneButton from '../components/DoneButton';
@@ -29,7 +29,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   back: () => dispatch(NavigationActions.back()),
   pushRoute: key => dispatch(NavigationActions.navigate({ routeName: key })),
-  popRoute: () => dispatch(NavigationActions.back()),
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -40,13 +39,8 @@ export default class FreeWordViewContainer extends Component {
 
   static propTypes = {
     back: PropTypes.func.isRequired,
-    popRoute: PropTypes.func.isRequired,
     pushRoute: PropTypes.func.isRequired,
     answers: PropTypes.instanceOf(Map).isRequired,
-  };
-
-  state = {
-    showSucceedingMessage: false,
   };
 
   renderRecordButton = () =>

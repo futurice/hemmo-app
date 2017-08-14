@@ -269,7 +269,7 @@ export default class AppViewContainer extends Component {
           animationType={'fade'}
           transparent
           visible={this.state.exitModalVisible}
-          onRequestClose={() => console.log(' ')}
+          onRequestClose={() => this.setState({ exitModalVisible: false })}
           supportedOrientations={['portrait', 'landscape']}
         >
           <View style={styles.exitModal}>
