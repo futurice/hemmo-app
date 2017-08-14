@@ -375,7 +375,7 @@ export default class EndingViewContainer extends Component {
     );
   };
 
-  drawEnvelope = () => {
+  drawEnvelopeBackground = () => {
     const scaleY = this.envelopeFillAnim.scaleY.interpolate({
       inputRange: [0, 1],
       outputRange: [1, -1],
@@ -400,55 +400,76 @@ export default class EndingViewContainer extends Component {
           left: '50%',
         }}
       >
-        <View
+        <Image
+          source={require('../../assets/graphics/others/background_withstroke.png')}
           style={{
+            zIndex: 0,
             position: 'absolute',
-            alignItems: 'center',
             bottom: 0,
-            left: '50%',
+            width: Dimensions.get('window').width * 0.8,
+          }}
+          resizeMode="contain"
+        />
+        <Image
+          source={require('../../assets/graphics/others/without_flap_small_s2dp.png')}
+          style={{
+            zIndex: 1000,
+            position: 'absolute',
+            bottom: 0,
+            width: Dimensions.get('window').width * 0.8,
+          }}
+          resizeMode="contain"
+        />
+        <Animated.View
+          style={{
+            alignItems: 'center',
+            position: 'absolute',
+            bottom:
+              Dimensions.get('window').width * 0.8 * letterAspectRatio * 0.29,
+            width: Dimensions.get('window').width * 0.8,
+            transform: [{ scaleY }],
+            zIndex,
           }}
         >
-          <Image
-            source={require('../../assets/graphics/others/background_withstroke.png')}
+          <Animated.Image
+            source={require('../../assets/graphics/others/flap_nostroke.png')}
+            resizeMode="contain"
             style={{
-              zIndex: 0,
-              position: 'absolute',
               bottom: 0,
               width: Dimensions.get('window').width * 0.8,
             }}
-            resizeMode="contain"
           />
-          <Image
-            source={require('../../assets/graphics/others/without_flap_small_s2dp.png')}
-            style={{
-              zIndex: 1000,
-              position: 'absolute',
-              bottom: 0,
-              width: Dimensions.get('window').width * 0.8,
-            }}
-            resizeMode="contain"
-          />
-          <Animated.View
-            style={{
-              alignItems: 'center',
-              position: 'absolute',
-              bottom:
-                Dimensions.get('window').width * 0.8 * letterAspectRatio * 0.29,
-              width: Dimensions.get('window').width * 0.8,
-              transform: [{ scaleY }],
-              zIndex,
-            }}
-          >
-            <Animated.Image
-              source={require('../../assets/graphics/others/flap_nostroke.png')}
-              resizeMode="contain"
-              style={{
-                bottom: 0,
-                width: Dimensions.get('window').width * 0.8,
-              }}
-            />
-          </Animated.View>
-        </View>
+        </Animated.View>
+      </Animated.View>
+    );
+  };
+
+  drawEnvelopeForeground = () => {
+    const bottom = this.envelopeFillAnim.bottom.interpolate({
+      inputRange: [0, 1],
+      outputRange: ['0%', '-100%'],
+    });
+
+    return (
+      <Animated.View
+        style={{
+          position: 'absolute',
+          zIndex: 1000,
+          bottom,
+          width: Dimensions.get('window').width * 0.8,
+          alignSelf: 'center',
+        }}
+      >
+        <Animated.Image
+          source={require('../../assets/graphics/others/without_flap_small_s2dp.png')}
+          style={{
+            position: 'absolute',
+            zIndex: 1000,
+            bottom: 0,
+            width: Dimensions.get('window').width * 0.8,
+          }}
+          resizeMode="contain"
+        />
       </Animated.View>
     );
   };
@@ -507,7 +528,8 @@ export default class EndingViewContainer extends Component {
     return (
       <Image source={getImage('forest').normal} style={styles.container}>
         {this.sendEnvelope()}
-        {this.drawEnvelope()}
+        {this.drawEnvelopeBackground()}
+        {this.drawEnvelopeForeground()}
         {this.drawActivities()}
         {this.drawMoods()}
         {this.drawFreeWord()}
