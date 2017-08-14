@@ -229,8 +229,6 @@ export default class EndingViewContainer extends Component {
     this.selectedMoods = this.props.selectedMoods.toJS();
   };
 
-  drawActivities = () => {};
-
   drawBlob = (
     asset,
     index,
@@ -241,8 +239,9 @@ export default class EndingViewContainer extends Component {
   ) => {
     const size = Math.min(
       Dimensions.get('window').width * 0.2,
-      Dimensions.get('window').width * 0.7 * (1 / total),
+      Dimensions.get('window').width * (1 / total),
     );
+
     const cumulativeDelay = customDelay ? index * customDelay : 0;
 
     return (
@@ -285,7 +284,7 @@ export default class EndingViewContainer extends Component {
             ? this.drawBlob(
                 assets[mood.get('key')].shadow,
                 index,
-                moods.length,
+                this.selectedMoods.length,
                 this.moodAnimatables,
                 500,
                 100,
@@ -434,11 +433,8 @@ export default class EndingViewContainer extends Component {
               alignItems: 'center',
               position: 'absolute',
               bottom:
-                Dimensions.get('window').width *
-                0.8 *
-                letterAspectRatio *
-                0.278,
-              width: Dimensions.get('window').width * 1,
+                Dimensions.get('window').width * 0.8 * letterAspectRatio * 0.29,
+              width: Dimensions.get('window').width * 0.8,
               transform: [{ scaleY }],
               zIndex,
             }}
@@ -446,6 +442,10 @@ export default class EndingViewContainer extends Component {
             <Animated.Image
               source={require('../../assets/graphics/others/flap_nostroke.png')}
               resizeMode="contain"
+              style={{
+                bottom: 0,
+                width: Dimensions.get('window').width * 0.8,
+              }}
             />
           </Animated.View>
         </View>
@@ -456,7 +456,7 @@ export default class EndingViewContainer extends Component {
   sendEnvelope = () => {
     const left = this.envelopePos.left.interpolate({
       inputRange: [0, 1],
-      outputRange: ['10%', '55%'],
+      outputRange: ['10%', '50%'],
     });
 
     const bottom = this.envelopePos.bottom.interpolate({
@@ -475,8 +475,11 @@ export default class EndingViewContainer extends Component {
         }}
       >
         <Animated.Image
-          source={require('../../assets/graphics/others/envelope_closed_ending-screen.png')}
+          source={require('../../assets/graphics/others/envelope_closed_ending_screen.png')}
           resizeMode="contain"
+          style={{
+            width: Dimensions.get('window').width * 0.8,
+          }}
         />
       </Animated.View>
     );
