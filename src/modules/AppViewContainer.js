@@ -53,31 +53,26 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'rgba(255,255,255,0.8)',
   },
-  quitButtonText: {
+  buttonText: {
     fontSize: 25,
-    color: '#f64343',
-  },
-  continueButtonText: {
-    fontSize: 25,
-    color: '#3ac366',
+    fontFamily: 'ComicNeue-Bold',
   },
   navigationButtons: {
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
   },
   exitModalText: {
-    flex: 1,
     padding: 20,
+    margin: 10,
     textAlign: 'center',
-    fontSize: 16,
+    fontSize: 20,
+    fontFamily: 'ComicNeue-Bold',
   },
-  quitButton: {
-    margin: 20,
-    alignItems: 'center',
-  },
-  continueButton: {
-    margin: 20,
+  navigationButton: {
+    flex: 1,
+    flexDirection: 'column',
     alignItems: 'center',
   },
   circle: {
@@ -241,26 +236,24 @@ export default class AppViewContainer extends Component {
       Haluatko lopettaa palautteen antamisen?
     </Text>;
 
-  renderContinueButton = () =>
-    <View style={styles.continueButton}>
+  renderNoButton = () =>
+    <View style={styles.navigationButton}>
       <AppButton
-        background="thumb_up"
+        background="no"
         onPress={this.continue}
-        width={getSizeByWidth('thumb_up', 0.13).height}
-        shadow
+        width={getSizeByWidth('no', 0.13).height}
       />
-      <Text style={styles.continueButtonText}>Jatka</Text>
+      <Text style={styles.buttonText}>Peruuta</Text>
     </View>;
 
-  renderQuitButton = () =>
-    <View style={styles.quitButton}>
+  renderYesButton = () =>
+    <View style={styles.navigationButton}>
       <AppButton
-        background="thumb_down"
+        background="yes"
         onPress={this.quit}
-        width={getSizeByWidth('thumb_down', 0.13).height}
-        shadow
+        width={getSizeByWidth('yes', 0.13).height}
       />
-      <Text style={styles.quitButtonText}>Lopeta</Text>
+      <Text style={styles.buttonText}>Lopeta</Text>
     </View>;
 
   renderExitModal = () =>
@@ -279,8 +272,8 @@ export default class AppViewContainer extends Component {
             >
               {this.renderExitModalText()}
               <View style={styles.navigationButtons}>
-                {this.renderQuitButton()}
-                {this.renderContinueButton()}
+                {this.renderNoButton()}
+                {this.renderYesButton()}
               </View>
             </Image>
           </View>
