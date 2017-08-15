@@ -26,7 +26,6 @@ const styles = StyleSheet.create({
   scrollContainer: {},
   textBoxContainer: {
     paddingVertical: 32,
-    flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
@@ -81,7 +80,7 @@ export default class WriteViewContainer extends Component {
   renderTextForm = () =>
     <Image
       style={{
-        height: null,
+        height: 250,
         width: getSizeByWidth('textbox', 0.45).width,
         flexDirection: 'row',
         justifyContent: 'flex-start',
