@@ -23,7 +23,9 @@ const styles = StyleSheet.create({
     height: null,
     width: null,
   },
-  scrollContainer: {},
+  scrollContainer: {
+    paddingBottom: getSizeByWidth('done_button', 1).height,
+  },
   font: {
     fontSize: 17,
     fontFamily: 'Gill Sans',
@@ -113,7 +115,7 @@ export default class MoodViewContainer extends Component {
       <AppButton
         background={mood.get('key')}
         onPress={() => this.addMood(mood)}
-        width={getSizeByWidth(mood.get('key'), 0.23).width}
+        width={getSizeByWidth(mood.get('key'), 0.4).width}
         shadow={this.isSelected(mood)}
       >
         <Image
@@ -122,7 +124,7 @@ export default class MoodViewContainer extends Component {
               ? getImage('checkmark_small').shadow
               : getImage('checkmark_small_grey').shadow
           }
-          style={[styles.check, getSizeByHeight('checkmark_small', 0.14)]}
+          style={[styles.check, getSizeByHeight('checkmark_small', 0.08)]}
         />
       </AppButton>
     </View>;

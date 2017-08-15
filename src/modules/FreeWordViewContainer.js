@@ -15,6 +15,9 @@ const styles = StyleSheet.create({
     width: null,
     height: null,
   },
+  scrollContainer: {
+    paddingBottom: getSizeByWidth('done_button', 1).height,
+  },
   buttonContainer: {
     flexDirection: 'column',
     alignItems: 'center',
@@ -46,7 +49,7 @@ export default class FreeWordViewContainer extends Component {
   renderRecordButton = () =>
     <View style={{ paddingVertical: 16 }}>
       <AppButton
-        width={getSizeByWidth('record', 0.5).width}
+        width={getSizeByWidth('record', 0.9).width}
         onPress={() => this.props.pushRoute('Record')}
         background="record"
         shadow
@@ -56,7 +59,7 @@ export default class FreeWordViewContainer extends Component {
   renderWriteButton = () =>
     <View style={{ paddingVertical: 16 }}>
       <AppButton
-        width={getSizeByWidth('write', 0.5).width}
+        width={getSizeByWidth('write', 0.9).width}
         onPress={() => this.props.pushRoute('Write')}
         background="write"
         shadow

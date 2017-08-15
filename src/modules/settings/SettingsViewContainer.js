@@ -27,7 +27,7 @@ import {
 import { post } from '../../utils/api';
 import { getSizeByWidth, getImage } from '../../services/graphics';
 
-const iconSize = getSizeByWidth('profilephoto', 0.2).width;
+const iconSize = getSizeByWidth('profilephoto', 0.4).width;
 
 const styles = StyleSheet.create({
   container: {
@@ -558,7 +558,7 @@ export default class SettingsViewContainer extends Component {
         background="button_small"
         disabled={this.state.disabled}
         contentContainerStyle={{ padding: 10 }}
-        width={getSizeByWidth('button_small', 0.25).width}
+        width={getSizeByWidth('button_small', 0.5).width}
         shadow
       >
         <Text style={styles.saveButtonText}>

@@ -228,7 +228,7 @@ export default class LoginViewContainer extends Component {
         contentContainerStyle={{ padding: 10 }}
         background="button_small"
         disabled={this.state.loading}
-        width={getSizeByWidth('button_small', 0.25).width}
+        width={getSizeByWidth('button_small', 0.5).width}
         shadow
       >
         <Text style={styles.loginText}>Kirjaudu</Text>

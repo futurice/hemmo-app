@@ -23,15 +23,14 @@ const styles = StyleSheet.create({
     width: null,
     height: null,
   },
-  scrollContainer: {},
+  scrollContainer: {
+    paddingBottom: getSizeByWidth('done_button', 1).height,
+  },
   textBoxContainer: {
     paddingVertical: 32,
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  doneButton: {
-    alignSelf: 'center',
   },
 });
 
@@ -81,7 +80,7 @@ export default class WriteViewContainer extends Component {
     <Image
       style={{
         height: 250,
-        width: getSizeByWidth('textbox', 0.45).width,
+        width: getSizeByWidth('textbox', 0.9).width,
         flexDirection: 'row',
         justifyContent: 'flex-start',
       }}
@@ -144,9 +143,7 @@ export default class WriteViewContainer extends Component {
             {this.renderTextForm()}
           </View>
         </ScrollView>
-        <View style={styles.doneButton}>
-          {this.renderDoneButton()}
-        </View>
+        {this.renderDoneButton()}
         {this.renderSaveConfirmationWindow()}
       </Image>
     );

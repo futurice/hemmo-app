@@ -34,10 +34,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   settingsButton: {
-    alignSelf: 'flex-start',
-    justifyContent: 'flex-end',
-    left: 20,
-    bottom: 20,
+    position: 'absolute',
+    bottom: 10,
+    left: 10,
   },
   bubbleText: {
     alignSelf: 'center',
@@ -126,7 +125,7 @@ export default class HomeViewContainer extends Component {
       <AppButton
         background="settings"
         onPress={this.openLogin}
-        width={getSizeByWidth('settings', 0.08).width}
+        width={getSizeByWidth('settings', 0.15).width}
       />
     </View>;
 

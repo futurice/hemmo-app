@@ -42,9 +42,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   userImage: {
-    height: 40,
-    width: 40,
-    borderRadius: 20,
+    height: Platform.OS === 'android' ? 50 : 40,
+    width: Platform.OS === 'android' ? 50 : 40,
+    borderRadius: Platform.OS === 'android' ? 25 : 20,
   },
   exitModal: {
     flex: 1,
@@ -66,11 +66,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  exitModalText: {
+  exitModalTextContainer: {
     flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  exitModalText: {
     padding: 20,
     textAlign: 'center',
-    fontSize: 16,
+    fontSize: 24,
+    fontFamily: 'ComicNeue-Bold',
   },
   quitButton: {
     margin: 20,
@@ -244,10 +249,9 @@ export default class AppViewContainer extends Component {
   renderContinueButton = () =>
     <View style={styles.continueButton}>
       <AppButton
-        background="thumb_up"
+        background="yes"
         onPress={this.continue}
-        width={getSizeByWidth('thumb_up', 0.13).height}
-        shadow
+        width={getSizeByWidth('thumb_up', 0.25).height}
       />
       <Text style={styles.continueButtonText}>Jatka</Text>
     </View>;
@@ -255,10 +259,9 @@ export default class AppViewContainer extends Component {
   renderQuitButton = () =>
     <View style={styles.quitButton}>
       <AppButton
-        background="thumb_down"
+        background="no"
         onPress={this.quit}
-        width={getSizeByWidth('thumb_down', 0.13).height}
-        shadow
+        width={getSizeByWidth('thumb_down', 0.25).height}
       />
       <Text style={styles.quitButtonText}>Lopeta</Text>
     </View>;
@@ -275,9 +278,11 @@ export default class AppViewContainer extends Component {
           <View style={styles.exitModal}>
             <Image
               source={getImage('modal').shadow}
-              style={getSizeByWidth('modal', 0.53)}
+              style={getSizeByWidth('modal', 0.9)}
             >
-              {this.renderExitModalText()}
+              <View style={styles.exitModalTextContainer}>
+                {this.renderExitModalText()}
+              </View>
               <View style={styles.navigationButtons}>
                 {this.renderQuitButton()}
                 {this.renderContinueButton()}

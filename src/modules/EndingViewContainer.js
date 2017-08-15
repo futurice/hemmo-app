@@ -14,7 +14,7 @@ import {
   Animated,
 } from 'react-native';
 import { resetCurrentUser } from '../state/UserState';
-import { getImage, getSizeByHeight } from '../services/graphics';
+import { getImage, getSizeByWidth } from '../services/graphics';
 import AppButton from '../components/AppButton';
 
 const activities = require('../data/activities');
@@ -519,7 +519,7 @@ export default class EndingViewContainer extends Component {
         <AppButton
           background="start_again"
           onPress={this.props.startAgain}
-          width={getSizeByHeight('start_again', 0.75).height}
+          width={getSizeByWidth('start_again', 0.75).height}
         />
       </Animated.View>
     </TouchableOpacity>;

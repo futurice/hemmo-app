@@ -14,6 +14,7 @@ import {
 import { getSizeByHeight, getSizeByWidth } from '../services/graphics';
 import AudioPlayerViewContainer from './AudioPlayerViewContainer';
 import { toggleMute, setText, setAudio } from '../state/HemmoState';
+import { getScreenHeight, getScreenWidth } from '../services/screenSize';
 import AppButton from '../components/AppButton';
 
 const styles = StyleSheet.create({
@@ -31,16 +32,20 @@ const styles = StyleSheet.create({
     }),
   },
   bubbleContainer: {
-    flex: 1,
+    height: getScreenHeight(),
+    width: getScreenWidth(),
     flexDirection: 'column',
+    zIndex: 10000,
     backgroundColor: 'rgba(255,255,255,0.8)',
+    position: 'absolute',
     top: 0,
     left: 0,
-    bottom: 0,
-    right: 0,
     alignItems: 'center',
   },
   bubble: {
+    position: 'absolute',
+    top: Platform.OS === 'android' ? 56 : 44,
+    right: 30,
     marginTop: 20,
   },
   toggleVolumeButton: {
@@ -224,7 +229,7 @@ export default class Hemmo extends Component {
       <AppButton
         background={this.props.muted ? 'volume_is_off' : 'volume_is_on'}
         onPress={this.toggleMute}
-        width={getSizeByWidth('volume_is_off', 0.13).width}
+        width={getSizeByWidth('volume_is_off', 0.23).width}
         shadow
       />
     </View>;
@@ -234,7 +239,7 @@ export default class Hemmo extends Component {
       <AppButton
         background="up_big"
         onPress={this.hideBubble}
-        width={getSizeByWidth('up_big', 0.5).width}
+        width={getSizeByWidth('up_big', 0.8).width}
         shadow
       >
         <Text style={styles.text}>
@@ -248,7 +253,7 @@ export default class Hemmo extends Component {
       <AppButton
         background="hemmo"
         onPress={this.state.showBubble ? this.hideBubble : this.showBubble}
-        width={getSizeByHeight('hemmo', 0.15).width}
+        height={Platform.OS === 'android' ? 55 : 40}
         shadow
       />
     </View>;
