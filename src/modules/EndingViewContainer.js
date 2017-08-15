@@ -9,7 +9,6 @@ import {
   StyleSheet,
   TouchableOpacity,
   Dimensions,
-  View,
   Image,
   Animated,
 } from 'react-native';
@@ -20,8 +19,6 @@ import AppButton from '../components/AppButton';
 const activities = require('../data/activities');
 const moods = require('../data/moods');
 const assets = require('../data/graphics');
-
-const letterAspectRatio = 202 / 312;
 
 const styles = StyleSheet.create({
   container: {
@@ -73,8 +70,6 @@ export default class EndingViewContainer extends Component {
   };
   envelopeScale = new Animated.Value(1);
   envelopeFillAnim = {
-    scaleY: new Animated.Value(0),
-    zIndex: new Animated.Value(0),
     bottom: new Animated.Value(0),
   };
   activityAnimatables = [];
@@ -96,18 +91,7 @@ export default class EndingViewContainer extends Component {
   }
 
   componentDidMount() {
-    // Animation for closing lid
     Animated.parallel([
-      Animated.timing(this.envelopeFillAnim.scaleY, {
-        toValue: 1,
-        duration: 500,
-        delay: 2000,
-      }),
-      Animated.timing(this.envelopeFillAnim.zIndex, {
-        toValue: 1,
-        duration: 0,
-        delay: 2000,
-      }),
       Animated.timing(this.envelopeFillAnim.bottom, {
         toValue: 1,
         duration: 0,
@@ -376,16 +360,6 @@ export default class EndingViewContainer extends Component {
   };
 
   drawEnvelopeBackground = () => {
-    const scaleY = this.envelopeFillAnim.scaleY.interpolate({
-      inputRange: [0, 1],
-      outputRange: [1, -1],
-    });
-
-    const zIndex = this.envelopeFillAnim.zIndex.interpolate({
-      inputRange: [0, 1],
-      outputRange: [400, 9999],
-    });
-
     const bottom = this.envelopeFillAnim.bottom.interpolate({
       inputRange: [0, 1],
       outputRange: ['0%', '-100%'],
@@ -420,26 +394,6 @@ export default class EndingViewContainer extends Component {
           }}
           resizeMode="contain"
         />
-        <Animated.View
-          style={{
-            alignItems: 'center',
-            position: 'absolute',
-            bottom:
-              Dimensions.get('window').width * 0.8 * letterAspectRatio * 0.29,
-            width: Dimensions.get('window').width * 0.8,
-            transform: [{ scaleY }],
-            zIndex,
-          }}
-        >
-          <Animated.Image
-            source={require('../../assets/graphics/others/flap_nostroke.png')}
-            resizeMode="contain"
-            style={{
-              bottom: 0,
-              width: Dimensions.get('window').width * 0.8,
-            }}
-          />
-        </Animated.View>
       </Animated.View>
     );
   };
@@ -477,12 +431,12 @@ export default class EndingViewContainer extends Component {
   sendEnvelope = () => {
     const left = this.envelopePos.left.interpolate({
       inputRange: [0, 1],
-      outputRange: ['10%', '50%'],
+      outputRange: ['10%', '90%'],
     });
 
     const bottom = this.envelopePos.bottom.interpolate({
       inputRange: [0, 1],
-      outputRange: ['0%', '120%'],
+      outputRange: ['0%', '200%'],
     });
 
     return (

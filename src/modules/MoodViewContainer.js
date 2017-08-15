@@ -115,7 +115,7 @@ export default class MoodViewContainer extends Component {
       <AppButton
         background={mood.get('key')}
         onPress={() => this.addMood(mood)}
-        width={getSizeByWidth(mood.get('key'), 0.4).width}
+        width={getSizeByWidth(mood.get('key'), 0.36).width}
         shadow={this.isSelected(mood)}
       >
         <Image

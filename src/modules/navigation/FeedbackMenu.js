@@ -126,7 +126,7 @@ export default class FeedbackMenu extends Component {
   renderBigButton = (background, onPress, done) =>
     <View style={{ paddingVertical: 10 }}>
       <AppButton
-        width={getSizeByWidth('whatdoned', 0.9).width}
+        width={getSizeByWidth('whatdoned', 0.85).width}
         onPress={onPress}
         background={background}
         shadow
@@ -143,9 +143,9 @@ export default class FeedbackMenu extends Component {
     </View>;
 
   renderSendButton = (onPress, disabled) =>
-    <View style={{ paddingTop: 32, paddingBottom: 16 }}>
+    <View style={{ paddingTop: 16, paddingBottom: 16 }}>
       <AppButton
-        width={getSizeByWidth('envelope_closed', 0.5).width}
+        width={getSizeByWidth('envelope_closed', 0.45).width}
         onPress={onPress}
         background="envelope_closed"
         disabled={disabled}
