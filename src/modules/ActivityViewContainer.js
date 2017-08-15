@@ -50,19 +50,20 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     right: 0,
   },
-  titleRow: {
-    flexDirection: 'row',
-  },
+  titleRow: {},
   closeButton: {
-    margin: 15,
+    position: 'absolute',
+    top: 15,
+    left: 15,
   },
   subActivityThumbImage: {
-    margin: 14,
+    margin: 24,
     alignSelf: 'center',
-    width: 150,
-    height: 150,
+    width: 175,
+    height: 175,
   },
   thumbRow: {
+    marginVertical: 32,
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
@@ -70,6 +71,9 @@ const styles = StyleSheet.create({
   },
   thumbModalQuestion: {
     alignSelf: 'center',
+    textAlign: 'center',
+    fontFamily: 'ComicNeue-Bold',
+    fontSize: 20,
   },
   voteButton: {
     margin: 5,
@@ -185,9 +189,9 @@ export default class ActivityViewContainer extends Component {
         sub: this.state.chosenSubActivity.get('name'),
         thumb: thumbValue,
       });
-    }
 
-    setTimeout(this.closeModal, 1000);
+      setTimeout(this.closeModal, 1000);
+    }
   };
 
   closeModal = () => {
@@ -253,7 +257,7 @@ export default class ActivityViewContainer extends Component {
           <View style={styles.thumbModal}>
             <Image
               source={getImage('modal').normal}
-              style={getSizeByWidth('modal', 0.53)}
+              style={getSizeByWidth('modal', 0.5)}
             >
               <View style={styles.titleRow}>
                 {this.renderCloseButton()}
