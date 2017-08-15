@@ -5,11 +5,14 @@ export const INITIALIZE_STATE = 'SessionState/INITIALIZE';
 export const TOGGLE_ISREADY = 'SessionState/TOGGLE_ISREADY';
 export const ACTIVATE = 'SessionState/ACTIVATE';
 export const DEACTIVATE = 'SessionState/DEACTIVATE';
+export const SHOW_EXIT_MODAL = 'SessionState/SHOW_EXIT_MODAL';
+export const HIDE_EXIT_MODAL = 'SessionState/HIDE_EXIT_MODAL';
 
 // Initial state
 const initialState = Map({
   isReady: false,
   isActive: true,
+  exitModalVisible: false,
 });
 
 export function startPreparing() {
@@ -23,6 +26,18 @@ export function finishPreparing() {
   return {
     type: TOGGLE_ISREADY,
     payload: true,
+  };
+}
+
+export function hideExitModal() {
+  return {
+    type: HIDE_EXIT_MODAL,
+  };
+}
+
+export function showExitModal() {
+  return {
+    type: SHOW_EXIT_MODAL,
   };
 }
 
@@ -59,6 +74,12 @@ export default function SessionStateReducer(state = initialState, action = {}) {
 
     case DEACTIVATE:
       return state.set('isActive', false);
+
+    case SHOW_EXIT_MODAL:
+      return state.set('exitModalVisible', true);
+
+    case HIDE_EXIT_MODAL:
+      return state.set('exitModalVisible', false);
 
     default:
       return state;

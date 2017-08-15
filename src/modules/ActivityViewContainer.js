@@ -59,8 +59,6 @@ const styles = StyleSheet.create({
   subActivityThumbImage: {
     margin: 24,
     alignSelf: 'center',
-    width: 175,
-    height: 175,
   },
   thumbRow: {
     marginVertical: 32,
@@ -139,10 +137,9 @@ export default class ActivityViewContainer extends Component {
   };
 
   getSubActivityHeight = () =>
-    getSizeByWidth('leikkiminen', 0.22).height + 2 * 5;
+    getSizeByWidth('leikkiminen', 0.5).height + 2 * 5;
 
-  getMainActivityHeight = () =>
-    getSizeByWidth('puuhasimme', 0.5).height + 2 * 5;
+  getMainActivityHeight = () => getSizeByWidth('puuhasimme', 1).height + 2 * 5;
 
   chooseMainActivity = async activity => {
     const margin = 5;
@@ -152,7 +149,7 @@ export default class ActivityViewContainer extends Component {
         this.scrollView.scrollTo({
           y:
             activity.get('id') *
-            (getSizeByWidth('puuhasimme', 0.5).height + 2 * margin),
+            (getSizeByWidth('puuhasimme', 1).height + 2 * margin),
         }),
       0,
     );
@@ -223,7 +220,7 @@ export default class ActivityViewContainer extends Component {
       <AppButton
         background={thumb.imageName}
         onPress={() => this.chooseThumb(thumb.value)}
-        width={getSizeByWidth('thumb_up', 0.11).width}
+        width={getSizeByWidth('thumb_up', 0.2).width}
         shadow={this.isSelected(thumb.value)}
       />
     </View>;
@@ -236,7 +233,7 @@ export default class ActivityViewContainer extends Component {
       <AppButton
         background="close_small"
         onPress={this.closeModal}
-        width={getSizeByHeight('close_small', 0.12).height}
+        width={getSizeByWidth('close_small', 0.15).width}
       />
     </View>;
 
@@ -257,7 +254,7 @@ export default class ActivityViewContainer extends Component {
           <View style={styles.thumbModal}>
             <Image
               source={getImage('modal').normal}
-              style={getSizeByWidth('modal', 0.5)}
+              style={getSizeByWidth('modal', 0.9)}
             >
               <View style={styles.titleRow}>
                 {this.renderCloseButton()}
@@ -265,7 +262,10 @@ export default class ActivityViewContainer extends Component {
                   source={
                     getImage(this.state.chosenSubActivity.get('key')).normal
                   }
-                  style={styles.subActivityThumbImage}
+                  style={[
+                    styles.subActivityThumbImage,
+                    getSizeByWidth('leikkiminen', 0.3),
+                  ]}
                 />
               </View>
               <Text style={styles.thumbModalQuestion}>
@@ -281,7 +281,7 @@ export default class ActivityViewContainer extends Component {
     thumb !== undefined
       ? <Image
           source={getImage(thumb.imageName).shadow}
-          style={[styles.chosenThumb, getSizeByHeight(thumb.imageName, 0.15)]}
+          style={[styles.chosenThumb, getSizeByHeight(thumb.imageName, 0.1)]}
         />
       : null;
 
@@ -298,7 +298,7 @@ export default class ActivityViewContainer extends Component {
         <AppButton
           background={subActivity.get('key')}
           onPress={() => this.chooseSubActivity(subActivity)}
-          width={getSizeByWidth('leipominen', 0.22).width}
+          width={getSizeByWidth('leipominen', 0.5).width}
           shadow
         >
           {this.renderChosenThumb(thumb)}
@@ -321,7 +321,7 @@ export default class ActivityViewContainer extends Component {
       <AppButton
         background={mainActivity.get('key')}
         onPress={() => this.chooseMainActivity(mainActivity)}
-        width={getSizeByWidth('puuhasimme', 0.5).width}
+        width={getSizeByWidth('puuhasimme', 1).width}
         shadow
       />
     </View>;
@@ -343,6 +343,7 @@ export default class ActivityViewContainer extends Component {
                 2 *
                 this.getSubActivityHeight(),
             ),
+        paddingBottom: getSizeByWidth('done_button', 1).height,
       }}
       ref={scrollView => {
         this.scrollView = scrollView;

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 import { getSizeByHeight } from '../../services/graphics';
@@ -25,7 +25,7 @@ export default class BackButton extends Component {
         <AppButton
           background="back"
           onPress={this.props.back}
-          width={getSizeByHeight('back', 0.08).height}
+          height={Platform.OS === 'android' ? 55 : 40}
         />
       </View>
     );

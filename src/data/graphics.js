@@ -102,11 +102,19 @@ const graphics = {
   },
   done_button: {
     normal: require('../../assets/graphics/buttons/bottomnav.png'),
-    ratio: 1.0,
+    ratio: 720 / 112,
   },
   back: {
     normal: require('../../assets/graphics/buttons/back.png'),
     ratio: 1.0,
+  },
+  yes: {
+    normal: require('../../assets/graphics/buttons/yes.png'),
+    ratio: 1,
+  },
+  no: {
+    normal: require('../../assets/graphics/buttons/no.png'),
+    ratio: 1,
   },
 
   /* moods */

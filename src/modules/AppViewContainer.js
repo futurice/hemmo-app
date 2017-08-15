@@ -19,6 +19,7 @@ import {
 import NavigationViewContainer from './navigation/NavigationViewContainer';
 import { getImage, getSizeByWidth } from '../services/graphics';
 import { resetCurrentUser } from '../state/UserState';
+import { showExitModal } from '../state/SessionState';
 import { setText, setAudio } from '../state/HemmoState';
 import {
   initializeSessionState,
@@ -41,49 +42,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  userImage: {
-    height: 40,
-    width: 40,
-    borderRadius: 20,
-  },
-  exitModal: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(255,255,255,0.8)',
-  },
-  buttonText: {
-    fontSize: 25,
-    fontFamily: 'ComicNeue-Bold',
-  },
-  navigationButtons: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  exitModalText: {
-    padding: 20,
-    margin: 10,
-    textAlign: 'center',
-    fontSize: 20,
-    fontFamily: 'ComicNeue-Bold',
-  },
-  navigationButton: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  circle: {
-    position: 'absolute',
-    margin: 5,
-    ...Platform.select({
-      ios: {
-        top: 20,
-      },
-    }),
-  },
 });
 
 const mapStateToProps = state => ({
@@ -99,6 +57,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+  showExitModal: () => dispatch(showExitModal()),
   back: () => {
     dispatch(setText(''));
     dispatch(setAudio(''));
@@ -117,6 +76,7 @@ const mapDispatchToProps = dispatch => ({
 @connect(mapStateToProps, mapDispatchToProps)
 export default class AppViewContainer extends Component {
   static propTypes = {
+    showExitModal: PropTypes.func.isRequired,
     isReady: PropTypes.bool.isRequired,
     initializeSessionState: PropTypes.func.isRequired,
     activate: PropTypes.func.isRequired,
@@ -190,7 +150,7 @@ export default class AppViewContainer extends Component {
 
   navigateBack = () => {
     if (this.props.activeRoute === 'FeedbackMenu') {
-      this.setState({ exitModalVisible: true });
+      this.props.showExitModal();
       return true;
     }
 
@@ -204,16 +164,6 @@ export default class AppViewContainer extends Component {
 
     // otherwise let OS handle the back button action
     return false;
-  };
-
-  quit = () => {
-    this.setState({ exitModalVisible: false });
-    this.props.resetCurrentUser();
-    this.props.back();
-  };
-
-  continue = () => {
-    this.setState({ exitModalVisible: false });
   };
 
   handleAppStateChange = appState => {
@@ -231,72 +181,6 @@ export default class AppViewContainer extends Component {
     }
   };
 
-  renderExitModalText = () =>
-    <Text style={styles.exitModalText}>
-      Haluatko lopettaa palautteen antamisen?
-    </Text>;
-
-  renderNoButton = () =>
-    <View style={styles.navigationButton}>
-      <AppButton
-        background="no"
-        onPress={this.continue}
-        width={getSizeByWidth('no', 0.13).height}
-      />
-      <Text style={styles.buttonText}>Peruuta</Text>
-    </View>;
-
-  renderYesButton = () =>
-    <View style={styles.navigationButton}>
-      <AppButton
-        background="yes"
-        onPress={this.quit}
-        width={getSizeByWidth('yes', 0.13).height}
-      />
-      <Text style={styles.buttonText}>Lopeta</Text>
-    </View>;
-
-  renderExitModal = () =>
-    this.state.exitModalVisible
-      ? <Modal
-          animationType={'fade'}
-          transparent
-          visible={this.state.exitModalVisible}
-          onRequestClose={() => this.setState({ exitModalVisible: false })}
-          supportedOrientations={['portrait', 'landscape']}
-        >
-          <View style={styles.exitModal}>
-            <Image
-              source={getImage('modal').shadow}
-              style={getSizeByWidth('modal', 0.53)}
-            >
-              {this.renderExitModalText()}
-              <View style={styles.navigationButtons}>
-                {this.renderNoButton()}
-                {this.renderYesButton()}
-              </View>
-            </Image>
-          </View>
-        </Modal>
-      : null;
-
-  renderUserImage = () =>
-    this.props.activeRoute === 'FeedbackMenu'
-      ? <TouchableOpacity
-          onPress={() => this.setState({ exitModalVisible: true })}
-          style={styles.circle}
-        >
-          <Image
-            style={styles.userImage}
-            source={
-              this.props.currentUser.get('image')
-                ? { uri: this.props.currentUser.get('image') }
-                : getImage('profilephoto').normal
-            }
-          />
-        </TouchableOpacity>
-      : null;
-
   render() {
     const { rehydrated } = this.state;
 
@@ -311,9 +195,7 @@ export default class AppViewContainer extends Component {
     return (
       <View style={styles.container}>
         <NavigationViewContainer />
-        {this.renderUserImage()}
         <Hemmo />
-        {this.renderExitModal()}
       </View>
     );
   }

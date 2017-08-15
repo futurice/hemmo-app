@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import TimerMixin from 'react-timer-mixin';
 import { connect } from 'react-redux';
 import { View, StyleSheet, Modal } from 'react-native';
-import { getSizeByHeight } from '../services/graphics';
+import { getSizeByWidth } from '../services/graphics';
 import { setAudio } from '../state/HemmoState';
 import AppButton from './AppButton';
 
@@ -77,7 +77,7 @@ export default class SaveConfirmationWindow extends Component {
             <AppButton
               background="saved"
               onPress={this.closeWindow}
-              width={getSizeByHeight('saved', 0.95).width}
+              width={getSizeByWidth('saved', 0.9).width}
               shadow
             />
           </View>

@@ -72,7 +72,7 @@ export default class AppButton extends React.Component {
     return (
       <Image
         style={{
-          opacity: this.props.disabled ? 0.5 : 1,
+          opacity: this.props.disabled ? 0.75 : 1,
           width: this.state.width,
           height: this.state.height,
         }}

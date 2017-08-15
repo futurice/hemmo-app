@@ -6,7 +6,7 @@ import { NavigationActions } from 'react-navigation';
 import { Alert, View, ScrollView, Image, StyleSheet } from 'react-native';
 import AudioRecorder from '../components/AudioRecorder';
 import LoadingSpinner from '../components/LoadingSpinner';
-import { getImage } from '../services/graphics';
+import { getImage, getSizeByWidth } from '../services/graphics';
 import DoneButton from '../components/DoneButton';
 import { addFreeWord } from '../state/UserState';
 import SaveConfirmationWindow from '../components/SaveConfirmationWindow';
@@ -17,6 +17,9 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     width: null,
     height: null,
+  },
+  scrollContainer: {
+    paddingBottom: getSizeByWidth('done_button', 1).height,
   },
   audioRecorder: {
     alignItems: 'center',
@@ -80,6 +83,12 @@ export default class RecordViewContainer extends Component {
     }
   };
 
+  renderDoneButton = () =>
+    <DoneButton
+      onPress={() => this.setState({ shouldToggleRecord: true })}
+      disabled={!this.state.isRecording}
+    />;
+
   renderSaveConfirmationWindow = () =>
     <SaveConfirmationWindow
       closeWindow={this.hideSucceedingMessage}
@@ -106,10 +115,7 @@ export default class RecordViewContainer extends Component {
             />
           </View>
         </ScrollView>
-        <DoneButton
-          onPress={() => this.setState({ shouldToggleRecord: true })}
-          disabled={!this.state.isRecording}
-        />
+        {this.renderDoneButton()}
         {this.renderSaveConfirmationWindow()}
       </Image>
     );
