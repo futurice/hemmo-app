@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     flex: 1,
     height: null,
     width: null,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#fff',
   },
   userContainer: {
     flexDirection: 'column',
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'flex-end',
+    alignItems: 'center',
   },
   scrollContainer: {
     alignItems: 'center',
@@ -191,7 +191,7 @@ export default class HomeViewContainer extends Component {
             background="bubble_down"
             onPress={this.switchScreen}
             contentContainerStyle={{ padding: 30 }}
-            width={getSizeByWidth('bubble_down', 0.5).width}
+            width={getSizeByWidth('bubble_down', 0.8).width}
           >
             {this.renderBubbleText()}
           </AppButton>
@@ -202,7 +202,7 @@ export default class HomeViewContainer extends Component {
             styles.hemmo,
             getSizeByWidth(
               firstScreen ? 'hemmo_big' : 'hemmo_down',
-              firstScreen ? 0.25 : 0.23,
+              firstScreen ? 0.48 : 0.44,
             ),
           ]}
         />
