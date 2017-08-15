@@ -16,12 +16,11 @@ const styles = StyleSheet.create({
     height: null,
   },
   scrollContainer: {
-    paddingBottom: getSizeByWidth('done_button', 1).height,
-  },
-  buttonContainer: {
+    flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
+    paddingBottom: getSizeByWidth('done_button', 1).height,
   },
 });
 
@@ -80,10 +79,8 @@ export default class FreeWordViewContainer extends Component {
           overScrollMode={'always'}
           contentContainerStyle={styles.scrollContainer}
         >
-          <View style={styles.buttonContainer}>
-            {this.renderRecordButton()}
-            {this.renderWriteButton()}
-          </View>
+          {this.renderRecordButton()}
+          {this.renderWriteButton()}
         </ScrollView>
         <View style={styles.doneButton}>
           {this.renderDoneButton()}

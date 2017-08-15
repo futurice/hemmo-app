@@ -14,17 +14,15 @@ import SaveConfirmationWindow from '../components/SaveConfirmationWindow';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'column',
     width: null,
     height: null,
   },
   scrollContainer: {
+    flex: 1,
+    flexDirection: 'column',
     paddingBottom: getSizeByWidth('done_button', 1).height,
-  },
-  audioRecorder: {
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 16,
   },
 });
 
@@ -107,13 +105,11 @@ export default class RecordViewContainer extends Component {
           overScrollMode={'always'}
           contentContainerStyle={styles.scrollContainer}
         >
-          <View style={styles.audioRecorder}>
-            <AudioRecorder
-              save={this.storeRecording}
-              shouldToggleRecord={this.state.shouldToggleRecord}
-              isRecording={() => this.setState({ isRecording: true })}
-            />
-          </View>
+          <AudioRecorder
+            save={this.storeRecording}
+            shouldToggleRecord={this.state.shouldToggleRecord}
+            isRecording={() => this.setState({ isRecording: true })}
+          />
         </ScrollView>
         {this.renderDoneButton()}
         {this.renderSaveConfirmationWindow()}
