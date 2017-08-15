@@ -386,6 +386,14 @@ const graphics = {
     normal: require('../../assets/graphics/buttons/take_photo.png'),
     ratio: 1.397,
   },
+  yes: {
+    normal: require('../../assets/graphics/buttons/yes.png'),
+    ratio: 1,
+  },
+  no: {
+    normal: require('../../assets/graphics/buttons/no.png'),
+    ratio: 1,
+  },
 };
 
 module.exports = graphics;
