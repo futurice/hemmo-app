@@ -32,14 +32,12 @@ const styles = StyleSheet.create({
     }),
   },
   bubbleContainer: {
+    flex: 1,
     height: getScreenHeight(),
     width: getScreenWidth(),
     flexDirection: 'column',
     zIndex: 10000,
     backgroundColor: 'rgba(255,255,255,0.8)',
-    position: 'absolute',
-    top: 0,
-    left: 0,
     alignItems: 'center',
   },
   bubble: {
@@ -49,10 +47,10 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   toggleVolumeButton: {
-    flex: 1,
-    alignSelf: 'flex-start',
-    justifyContent: 'flex-end',
-    margin: 10,
+    position: 'absolute',
+    left: 0,
+    bottom: 0,
+    padding: 20,
   },
   text: {
     padding: 50,
