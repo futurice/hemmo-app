@@ -104,7 +104,7 @@ export default class WriteViewContainer extends Component {
     </Image>;
 
   sendText = async () => {
-    await this.props.saveFreeWord(Map({ text: this.state.text }));
+    await this.props.saveFreeWord({ type: 'text', content: this.state.text });
     this.setState({ showSucceedingMessage: true });
   };
 

@@ -18,7 +18,6 @@ import AppButton from '../components/AppButton';
 
 const activities = require('../data/activities');
 const moods = require('../data/moods');
-const assets = require('../data/graphics');
 
 const styles = StyleSheet.create({
   container: {
@@ -78,6 +77,7 @@ export default class EndingViewContainer extends Component {
   selectedActivities = [];
   selectedSubActivities = [];
   selectedMoods = [];
+  selectedFreeWord = [];
   envelopeSend = {
     duration: 700,
     delay: 2300,
@@ -159,9 +159,9 @@ export default class EndingViewContainer extends Component {
             0.7 *
             (1 / array.length),
           translateY:
-            Dimensions.get('window').width * 0.3 +
+            Dimensions.get('window').height * 0.3 +
             Math.sin(-Math.PI * ((index + 0.5) / array.length)) *
-              Dimensions.get('window').width *
+              Dimensions.get('window').height *
               0.04,
         },
         // End positions
@@ -211,6 +211,7 @@ export default class EndingViewContainer extends Component {
     });
 
     this.selectedMoods = this.props.selectedMoods.toJS();
+    this.selectedFreeWord = this.props.freeWord.toJS();
   };
 
   drawBlob = (
@@ -266,7 +267,7 @@ export default class EndingViewContainer extends Component {
         {moods.map((mood, index) => {
           return this.selectedMoods.includes(mood.get('name'))
             ? this.drawBlob(
-                assets[mood.get('key')].shadow,
+                getImage(mood.get('key')).shadow,
                 index,
                 this.selectedMoods.length,
                 this.moodAnimatables,
@@ -299,7 +300,7 @@ export default class EndingViewContainer extends Component {
                   subActivity.get('name'),
                 )
                   ? this.drawBlob(
-                      assets[subActivity.get('key')].shadow,
+                      getImage(subActivity.get('key')).shadow,
                       numActivity++,
                       numActivities,
                       this.activityAnimatables,
@@ -315,29 +316,23 @@ export default class EndingViewContainer extends Component {
   };
 
   drawFreeWord = () => {
-    let renderAudio = false;
-    let renderWrite = false;
+    const renderAudio = this.selectedFreeWord.some(
+      item => item.type === 'audio',
+    );
+    const renderWrite = this.selectedFreeWord.some(
+      item => item.type === 'text',
+    );
 
     const bottom = this.envelopeFillAnim.bottom.interpolate({
       inputRange: [0, 1],
       outputRange: ['0%', '-100%'],
     });
 
-    this.props.freeWord.map(async item => {
-      const type = item.keys().next().value;
-
-      if (type === 'audio') {
-        renderAudio = true;
-      } else if (type === 'text') {
-        renderWrite = true;
-      }
-    });
-
     return (
       <Animated.View style={{ alignItems: 'center', bottom }}>
         {renderAudio
           ? this.drawBlob(
-              assets['record_round'].normal,
+              getImage('record_round').normal,
               0,
               2,
               this.freeWordAnimatables,
@@ -347,7 +342,7 @@ export default class EndingViewContainer extends Component {
           : null}
         {renderWrite
           ? this.drawBlob(
-              assets['write_round'].normal,
+              getImage('write_round').normal,
               1,
               2,
               this.freeWordAnimatables,
@@ -375,22 +370,22 @@ export default class EndingViewContainer extends Component {
         }}
       >
         <Image
-          source={require('../../assets/graphics/others/background_withstroke.png')}
+          source={getImage('background_withstroke').normal}
           style={{
             zIndex: 0,
             position: 'absolute',
             bottom: 0,
-            width: Dimensions.get('window').width * 0.8,
+            width: getSizeByWidth('background_withstroke', 0.8).width,
           }}
           resizeMode="contain"
         />
         <Image
-          source={require('../../assets/graphics/others/without_flap_small_s2dp.png')}
+          source={getImage('without_flap_small').normal}
           style={{
             zIndex: 1000,
             position: 'absolute',
             bottom: 0,
-            width: Dimensions.get('window').width * 0.8,
+            width: getSizeByWidth('without_flap_small', 0.8).width,
           }}
           resizeMode="contain"
         />
@@ -415,12 +410,12 @@ export default class EndingViewContainer extends Component {
         }}
       >
         <Animated.Image
-          source={require('../../assets/graphics/others/without_flap_small_s2dp.png')}
+          source={getImage('without_flap_small').normal}
           style={{
             position: 'absolute',
             zIndex: 1000,
             bottom: 0,
-            width: Dimensions.get('window').width * 0.8,
+            width: getSizeByWidth('without_flap_small', 0.8).width,
           }}
           resizeMode="contain"
         />
@@ -429,11 +424,6 @@ export default class EndingViewContainer extends Component {
   };
 
   sendEnvelope = () => {
-    const left = this.envelopePos.left.interpolate({
-      inputRange: [0, 1],
-      outputRange: ['10%', '90%'],
-    });
-
     const bottom = this.envelopePos.bottom.interpolate({
       inputRange: [0, 1],
       outputRange: ['0%', '200%'],
@@ -444,16 +434,16 @@ export default class EndingViewContainer extends Component {
         style={{
           position: 'absolute',
           alignItems: 'center',
+          alignSelf: 'center',
           bottom,
-          left,
           transform: [{ scale: this.envelopeScale }],
         }}
       >
         <Animated.Image
-          source={require('../../assets/graphics/others/envelope_closed_ending_screen.png')}
+          source={getImage('envelope_closed_ending_screen').normal}
           resizeMode="contain"
           style={{
-            width: Dimensions.get('window').width * 0.8,
+            width: getSizeByWidth('envelope_closed_ending_screen', 0.8).width,
           }}
         />
       </Animated.View>
@@ -473,7 +463,8 @@ export default class EndingViewContainer extends Component {
         <AppButton
           background="start_again"
           onPress={this.props.startAgain}
-          width={getSizeByWidth('start_again', 0.75).height}
+          width={getSizeByWidth('start_again', 0.8).width}
+          shadow
         />
       </Animated.View>
     </TouchableOpacity>;

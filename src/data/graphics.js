@@ -26,6 +26,18 @@ const graphics = {
     shadow: require('../../assets/graphics/buttons/saved_s2dp.png'),
     ratio: 0.8168,
   },
+  background_withstroke: {
+    normal: require('../../assets/graphics/others/background_withstroke.png'),
+    ratio: 328 / 360,
+  },
+  envelope_closed_ending_screen: {
+    normal: require('../../assets/graphics/others/envelope_closed_ending_screen.png'),
+    ratio: 327 / 230,
+  },
+  without_flap_small: {
+    normal: require('../../assets/graphics/others/without_flap_small_s2dp.png'),
+    ratio: 328 / 300,
+  },
 
   /* speech bubbles */
   up_big: {
@@ -98,7 +110,8 @@ const graphics = {
   },
   start_again: {
     normal: require('../../assets/graphics/buttons/startagain.png'),
-    ratio: 1.0,
+    shadow: require('../../assets/graphics/buttons/startagain_s2dp.png'),
+    ratio: 624 / 204,
   },
   done_button: {
     normal: require('../../assets/graphics/buttons/bottomnav.png'),
@@ -385,14 +398,6 @@ const graphics = {
   take_photo: {
     normal: require('../../assets/graphics/buttons/take_photo.png'),
     ratio: 1.397,
-  },
-  yes: {
-    normal: require('../../assets/graphics/buttons/yes.png'),
-    ratio: 1,
-  },
-  no: {
-    normal: require('../../assets/graphics/buttons/no.png'),
-    ratio: 1,
   },
 };
 

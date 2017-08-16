@@ -180,8 +180,8 @@ export default class FeedbackMenu extends Component {
       await patch(`/app/feedback/${feedbackId}`, this.getRequestBody());
 
       this.props.freeWord.map(async item => {
-        const type = item.keys().next().value;
-        const content = item.values().next().value;
+        const type = item.type;
+        const content = item.content;
         let attachmentBody = new FormData();
 
         if (type === 'audio') {
