@@ -11,10 +11,9 @@ import {
   Platform,
   TouchableOpacity,
 } from 'react-native';
-import { getSizeByHeight, getSizeByWidth } from '../services/graphics';
+import { getSizeByWidth } from '../services/graphics';
 import AudioPlayerViewContainer from './AudioPlayerViewContainer';
 import { toggleMute, setText, setAudio } from '../state/HemmoState';
-import { getScreenHeight, getScreenWidth } from '../services/screenSize';
 import AppButton from '../components/AppButton';
 
 const styles = StyleSheet.create({
@@ -33,8 +32,6 @@ const styles = StyleSheet.create({
   },
   bubbleContainer: {
     flex: 1,
-    height: getScreenHeight(),
-    width: getScreenWidth(),
     flexDirection: 'column',
     zIndex: 10000,
     backgroundColor: 'rgba(255,255,255,0.8)',
@@ -128,7 +125,9 @@ export default class Hemmo extends Component {
     AppState.removeEventListener('change', this.handleAppStateChange);
   }
 
-  onEnd = () => {};
+  onEnd = () => {
+    setTimeout(this.hideBubble, 500);
+  };
 
   setDefaultText = async () => {
     const routeName = this.props.activeRoute;
