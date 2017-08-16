@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Image, Alert, Text, View, StyleSheet, ScrollView } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { List, Map } from 'immutable';
+import { List } from 'immutable';
 import UserItem from '../components/UserItem';
 import AppButton from '../components/AppButton';
 import { setCurrentUser, setFeedbackId } from '../state/UserState';
@@ -11,7 +11,11 @@ import { startPreparing, finishPreparing } from '../state/SessionState';
 import { setAuthenticationToken } from '../utils/authentication';
 import { setText, setAudio } from '../state/HemmoState';
 import { post } from '../utils/api';
-import { getSizeByWidth, getImage } from '../services/graphics';
+import {
+  getSizeByWidth,
+  getSizeByHeight,
+  getImage,
+} from '../services/graphics';
 
 const styles = StyleSheet.create({
   container: {
@@ -19,6 +23,10 @@ const styles = StyleSheet.create({
     height: null,
     width: null,
     backgroundColor: '#fff',
+  },
+  firstUseScreen: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   userContainer: {
     flexDirection: 'column',
@@ -43,12 +51,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontFamily: 'ComicNeue-Bold',
     color: '#000',
-    fontSize: 14,
+    fontSize: 16,
     margin: 16,
   },
-  hemmo: {
-    alignSelf: 'center',
-  },
+  hemmo: {},
   bubbleTextTitle: {
     fontSize: 16,
     margin: 5,
@@ -185,13 +191,13 @@ export default class HomeViewContainer extends Component {
     const firstScreen = this.state.firstUseScreenIndex === 0;
 
     return (
-      <View>
+      <View style={styles.firstUseScreen}>
         <View style={styles.bubble}>
           <AppButton
             background="bubble_down"
             onPress={this.switchScreen}
             contentContainerStyle={{ padding: 30 }}
-            width={getSizeByWidth('bubble_down', 0.8).width}
+            width={getSizeByWidth('bubble_down', 0.75).width}
           >
             {this.renderBubbleText()}
           </AppButton>
@@ -200,9 +206,9 @@ export default class HomeViewContainer extends Component {
           source={getImage(firstScreen ? 'hemmo_big' : 'hemmo_down').normal}
           style={[
             styles.hemmo,
-            getSizeByWidth(
+            getSizeByHeight(
               firstScreen ? 'hemmo_big' : 'hemmo_down',
-              firstScreen ? 0.48 : 0.44,
+              firstScreen ? 0.4 : 0.4,
             ),
           ]}
         />
