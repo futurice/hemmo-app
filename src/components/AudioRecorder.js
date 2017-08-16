@@ -86,8 +86,8 @@ export default class AudioRecorder extends Component {
     clearInterval(this._progressInterval);
   }
 
-  componentDidUpdate() {
-    if (this.props.shouldToggleRecord) {
+  componentDidUpdate(prevProps) {
+    if (!prevProps.shouldToggleRecord && this.props.shouldToggleRecord) {
       this._toggleRecord();
     }
   }
