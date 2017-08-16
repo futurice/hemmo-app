@@ -7,9 +7,7 @@ import { getSizeByWidth } from '../services/graphics';
 const styles = StyleSheet.create({
   doneButton: {
     zIndex: 100,
-    position: 'absolute',
     bottom: 0,
-    left: 0,
     alignSelf: 'center',
   },
 });

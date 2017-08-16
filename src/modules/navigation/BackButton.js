@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { View, StyleSheet, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
-import { getSizeByHeight } from '../../services/graphics';
 import AppButton from '../../components/AppButton';
 
 const mapDispatchToProps = dispatch => ({
@@ -25,7 +24,7 @@ export default class BackButton extends Component {
         <AppButton
           background="back"
           onPress={this.props.back}
-          height={Platform.OS === 'android' ? 55 : 40}
+          height={Platform.OS === 'android' ? 50 : 35}
         />
       </View>
     );

@@ -13,7 +13,7 @@ export function getSizeByHeight(name, size) {
 
 export function getSizeByWidth(name, size) {
   const ratio = graphics[name].ratio;
-  const screenWidth = getScreenWidth();
+  const screenWidth = Math.min(getScreenWidth(), getScreenHeight());
   const width = screenWidth * size;
   const height = width / ratio;
 

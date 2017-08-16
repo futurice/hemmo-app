@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Map } from 'immutable';
 import { NavigationActions } from 'react-navigation';
-import { Alert, View, ScrollView, Image, StyleSheet } from 'react-native';
+import { Alert, ScrollView, Image, StyleSheet } from 'react-native';
 import AudioRecorder from '../components/AudioRecorder';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { getImage, getSizeByWidth } from '../services/graphics';
@@ -18,11 +18,12 @@ const styles = StyleSheet.create({
     height: null,
   },
   scrollContainer: {
-    flex: 1,
+    flexGrow: 1,
     flexDirection: 'column',
     paddingBottom: getSizeByWidth('done_button', 1).height,
     alignItems: 'center',
     justifyContent: 'center',
+    alignSelf: 'center',
   },
 });
 

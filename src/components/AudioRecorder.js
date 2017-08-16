@@ -19,7 +19,7 @@ import TimerMixin from 'react-timer-mixin';
 import { Recorder } from 'react-native-audio-toolkit';
 import { setAudio, setText } from '../state/HemmoState';
 import DoneButton from '../components/DoneButton';
-import { getImage } from '../services/graphics';
+import { getImage, getSizeByWidth } from '../services/graphics';
 
 const Permissions = require('react-native-permissions');
 
@@ -223,7 +223,7 @@ export default class AudioRecorder extends Component {
 
   renderStartRecordButton = () =>
     <AppButton
-      width={Dimensions.get('window').width * 0.9}
+      width={getSizeByWidth('record_expanded', 0.9).width}
       onPress={this.handleStartRecordClick}
       background="record_expanded"
       shadow
@@ -233,7 +233,7 @@ export default class AudioRecorder extends Component {
 
   renderStopRecordButton = () =>
     <AppButton
-      width={Dimensions.get('window').width * 0.9}
+      width={getSizeByWidth('stop_expanded', 0.9).width}
       onPress={this._toggleRecord}
       background="stop_expanded"
       shadow

@@ -6,11 +6,7 @@ import { Image, View, StyleSheet, ScrollView } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { addMood, deleteMood } from '../state/UserState';
 import { setText, setAudio } from '../state/HemmoState';
-import {
-  getSizeByHeight,
-  getSizeByWidth,
-  getImage,
-} from '../services/graphics';
+import { getSizeByWidth, getImage } from '../services/graphics';
 import AppButton from '../components/AppButton';
 import DoneButton from '../components/DoneButton';
 import SaveConfirmationWindow from '../components/SaveConfirmationWindow';
@@ -124,7 +120,7 @@ export default class MoodViewContainer extends Component {
               ? getImage('checkmark_small').shadow
               : getImage('checkmark_small_grey').shadow
           }
-          style={[styles.check, getSizeByHeight('checkmark_small', 0.08)]}
+          style={[styles.check, getSizeByWidth('checkmark_small', 0.15)]}
         />
       </AppButton>
     </View>;

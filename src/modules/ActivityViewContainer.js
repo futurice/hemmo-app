@@ -9,11 +9,7 @@ import { addActivity, deleteActivity } from '../state/UserState';
 import { setText, setAudio } from '../state/HemmoState';
 import LoadingSpinner from '../components/LoadingSpinner';
 import SaveConfirmationWindow from '../components/SaveConfirmationWindow';
-import {
-  getImage,
-  getSizeByWidth,
-  getSizeByHeight,
-} from '../services/graphics';
+import { getImage, getSizeByWidth } from '../services/graphics';
 import AppButton from '../components/AppButton';
 import DoneButton from '../components/DoneButton';
 
@@ -233,7 +229,7 @@ export default class ActivityViewContainer extends Component {
       <AppButton
         background="close_small"
         onPress={this.closeModal}
-        width={getSizeByWidth('close_small', 0.15).width}
+        width={getSizeByWidth('close_small', 0.13).width}
       />
     </View>;
 
@@ -281,7 +277,7 @@ export default class ActivityViewContainer extends Component {
     thumb !== undefined
       ? <Image
           source={getImage(thumb.imageName).shadow}
-          style={[styles.chosenThumb, getSizeByHeight(thumb.imageName, 0.1)]}
+          style={[styles.chosenThumb, getSizeByWidth(thumb.imageName, 0.18)]}
         />
       : null;
 
