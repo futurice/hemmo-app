@@ -34,12 +34,15 @@ const styles = StyleSheet.create({
   },
   mainActivity: {
     alignSelf: 'center',
-    marginTop: 7,
+    marginTop: 10,
   },
   subActivityContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
+  },
+  subActivity: {
+    margin: 5,
   },
   chosenThumb: {
     position: 'absolute',
@@ -229,7 +232,7 @@ export default class ActivityViewContainer extends Component {
       <AppButton
         background="close_small"
         onPress={this.closeModal}
-        width={getSizeByWidth('close_small', 0.13).width}
+        width={getSizeByWidth('close_small', 0.12).width}
       />
     </View>;
 
@@ -260,7 +263,7 @@ export default class ActivityViewContainer extends Component {
                   }
                   style={[
                     styles.subActivityThumbImage,
-                    getSizeByWidth('leikkiminen', 0.3),
+                    getSizeByWidth('leikkiminen', 0.35),
                   ]}
                 />
               </View>
@@ -294,7 +297,7 @@ export default class ActivityViewContainer extends Component {
         <AppButton
           background={subActivity.get('key')}
           onPress={() => this.chooseSubActivity(subActivity)}
-          width={getSizeByWidth('leipominen', 0.5).width}
+          width={getSizeByWidth('leipominen', 0.43).width}
           shadow
         >
           {this.renderChosenThumb(thumb)}
@@ -317,7 +320,7 @@ export default class ActivityViewContainer extends Component {
       <AppButton
         background={mainActivity.get('key')}
         onPress={() => this.chooseMainActivity(mainActivity)}
-        width={getSizeByWidth('puuhasimme', 1).width}
+        width={getSizeByWidth('puuhasimme', 0.9).width}
         shadow
       />
     </View>;
