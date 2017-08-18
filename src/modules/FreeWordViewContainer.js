@@ -20,7 +20,10 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingBottom: getSizeByWidth('done_button', 1).height,
+  },
+  headerTitle: {
+    alignSelf: 'center',
+    fontSize: 22,
   },
 });
 
@@ -37,6 +40,8 @@ const mapDispatchToProps = dispatch => ({
 export default class FreeWordViewContainer extends Component {
   static navigationOptions = {
     title: 'Kerro vapaasti',
+    headerRight: <View />, // Needed for a centered title,
+    headerTitleStyle: styles.headerTitle,
   };
 
   static propTypes = {

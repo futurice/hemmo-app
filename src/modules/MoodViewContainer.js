@@ -45,6 +45,10 @@ const styles = StyleSheet.create({
   selectedMood: {
     opacity: 1,
   },
+  headerTitle: {
+    alignSelf: 'center',
+    fontSize: 22,
+  },
 });
 
 const mapStateToProps = state => ({
@@ -63,6 +67,8 @@ const mapDispatchToProps = dispatch => ({
 export default class MoodViewContainer extends Component {
   static navigationOptions = {
     title: 'Tunteet',
+    headerRight: <View />, // Needed for a centered title,
+    headerTitleStyle: styles.headerTitle,
   };
 
   static propTypes = {

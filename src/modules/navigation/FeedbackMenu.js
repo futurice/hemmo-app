@@ -45,9 +45,17 @@ const styles = StyleSheet.create({
     margin: 5,
     ...Platform.select({
       ios: {
-        top: 20,
+        top: 17,
       },
     }),
+    borderRadius: Platform.OS === 'android' ? 25 : 20,
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
+    shadowOffset: {
+      height: 3,
+      width: 0,
+    },
+    elevation: 5,
   },
   exitModal: {
     flex: 1,

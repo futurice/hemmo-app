@@ -32,6 +32,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  headerTitle: {
+    alignSelf: 'center',
+    fontSize: 22,
+  },
 });
 
 const mapStateToProps = state => ({
@@ -50,6 +54,8 @@ const mapDispatchToProps = dispatch => ({
 export default class WriteViewContainer extends Component {
   static navigationOptions = {
     title: 'Kirjoita',
+    headerRight: <View />, // Needed for a centered title,
+    headerTitleStyle: styles.headerTitle,
   };
 
   static propTypes = {

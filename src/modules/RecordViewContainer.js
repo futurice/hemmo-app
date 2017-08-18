@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Map } from 'immutable';
 import { NavigationActions } from 'react-navigation';
-import { Alert, ScrollView, Image, StyleSheet } from 'react-native';
+import { Alert, ScrollView, Image, StyleSheet, View } from 'react-native';
 import AudioRecorder from '../components/AudioRecorder';
 import LoadingSpinner from '../components/LoadingSpinner';
-import { getImage, getSizeByWidth } from '../services/graphics';
+import { getImage } from '../services/graphics';
 import DoneButton from '../components/DoneButton';
 import { addFreeWord } from '../state/UserState';
 import SaveConfirmationWindow from '../components/SaveConfirmationWindow';
@@ -20,10 +20,13 @@ const styles = StyleSheet.create({
   scrollContainer: {
     flexGrow: 1,
     flexDirection: 'column',
-    paddingBottom: getSizeByWidth('done_button', 1).height,
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',
+  },
+  headerTitle: {
+    alignSelf: 'center',
+    fontSize: 22,
   },
 });
 
@@ -41,6 +44,8 @@ const mapDispatchToProps = dispatch => ({
 export default class RecordViewContainer extends Component {
   static navigationOptions = {
     title: 'Nauhoita',
+    headerRight: <View />, // Needed for a centered title,
+    headerTitleStyle: styles.headerTitle,
   };
 
   static propTypes = {

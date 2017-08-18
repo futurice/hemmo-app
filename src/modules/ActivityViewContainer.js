@@ -82,6 +82,10 @@ const styles = StyleSheet.create({
     margin: 5,
     opacity: 0.5,
   },
+  headerTitle: {
+    alignSelf: 'center',
+    fontSize: 22,
+  },
 });
 
 const activities = require('../data/activities.js');
@@ -116,6 +120,8 @@ const mapDispatchToProps = dispatch => ({
 export default class ActivityViewContainer extends Component {
   static navigationOptions = {
     title: 'Tekeminen',
+    headerRight: <View />, // Needed for a centered title,
+    headerTitleStyle: styles.headerTitle,
   };
 
   static propTypes = {

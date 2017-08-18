@@ -11,6 +11,7 @@ import {
   Dimensions,
   Image,
   Animated,
+  View,
 } from 'react-native';
 import { resetCurrentUser } from '../state/UserState';
 import { getImage, getSizeByWidth } from '../services/graphics';
@@ -25,6 +26,10 @@ const styles = StyleSheet.create({
     height: null,
     width: null,
     flexDirection: 'column',
+  },
+  headerTitle: {
+    alignSelf: 'center',
+    fontSize: 22,
   },
 });
 
@@ -57,6 +62,7 @@ const mapDispatchToProps = dispatch => ({
 export default class EndingViewContainer extends Component {
   static navigationOptions = {
     title: 'Valmis',
+    headerTitleStyle: styles.headerTitle,
   };
 
   static propTypes = {
