@@ -56,11 +56,8 @@ export function editUser(user) {
     payload: {
       id: user.get('id'),
       values: Map({
-        id: user.get('id'),
         name: user.get('name'),
-        token: user.get('token'),
         image: user.get('image'),
-        answers: initialAnswers,
       }),
     },
   };
@@ -127,7 +124,12 @@ function usersReducer(state = List(), action) {
       return state.update(list => list.push(action.payload));
 
     case EDIT_USER:
-      return state.set(action.payload.id, action.payload.values);
+      return state.map(
+        user =>
+          user.get('id') === action.payload.id
+            ? user.merge(action.payload.values)
+            : user,
+      );
 
     case REMOVE_USER:
       return state.filter(user => user.get('id') !== action.payload);
