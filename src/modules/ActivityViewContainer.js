@@ -3,14 +3,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Map } from 'immutable';
 import { Image, View, ScrollView, StyleSheet, Modal, Text } from 'react-native';
-import { NavigationActions } from 'react-navigation';
 import Accordion from 'react-native-collapsible/Accordion';
 import { addActivity, deleteActivity } from '../state/UserState';
 import { setText, setAudio } from '../state/HemmoState';
 import LoadingSpinner from '../components/LoadingSpinner';
-import SaveConfirmationWindow from '../components/SaveConfirmationWindow';
 import { getImage, getSizeByWidth } from '../services/graphics';
 import AppButton from '../components/AppButton';
+import { showSaveModal } from '../state/SessionState';
 import DoneButton from '../components/DoneButton';
 
 const styles = StyleSheet.create({
@@ -109,11 +108,11 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  back: () => dispatch(NavigationActions.back()),
   addActivity: activity => dispatch(addActivity(activity)),
   deleteActivity: activity => dispatch(deleteActivity(activity)),
   setText: text => dispatch(setText(text)),
   setAudio: audio => dispatch(setAudio(audio)),
+  showSaveModal: () => dispatch(showSaveModal()),
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -125,18 +124,17 @@ export default class ActivityViewContainer extends Component {
   };
 
   static propTypes = {
-    back: PropTypes.func.isRequired,
     addActivity: PropTypes.func.isRequired,
     deleteActivity: PropTypes.func.isRequired,
     setText: PropTypes.func.isRequired,
     setAudio: PropTypes.func.isRequired,
     isReady: PropTypes.bool.isRequired,
     chosenActivities: PropTypes.instanceOf(Map).isRequired,
+    showSaveModal: PropTypes.func.isRequired,
   };
 
   state = {
     modalVisible: false,
-    showSucceedingMessage: false,
     chosenMainActivity: Map(),
     chosenSubActivity: Map(),
   };
@@ -369,19 +367,6 @@ export default class ActivityViewContainer extends Component {
       />
     </ScrollView>;
 
-  hideSucceedingMessage = () => {
-    if (this.state.showSucceedingMessage) {
-      this.setState({ showSucceedingMessage: false });
-      this.props.back();
-    }
-  };
-
-  renderSaveConfirmationWindow = () =>
-    <SaveConfirmationWindow
-      closeWindow={this.hideSucceedingMessage}
-      visible={this.state.showSucceedingMessage}
-    />;
-
   render() {
     if (!this.props.isReady) {
       return <LoadingSpinner />;
@@ -392,10 +377,9 @@ export default class ActivityViewContainer extends Component {
         {this.renderMainActivities()}
         {this.renderThumbModal()}
         <DoneButton
-          onPress={() => this.setState({ showSucceedingMessage: true })}
+          onPress={this.props.showSaveModal}
           disabled={this.props.chosenActivities.size === 0}
         />
-        {this.renderSaveConfirmationWindow()}
       </Image>
     );
   }

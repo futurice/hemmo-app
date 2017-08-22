@@ -9,7 +9,7 @@ import { setText, setAudio } from '../state/HemmoState';
 import { getSizeByWidth, getImage } from '../services/graphics';
 import AppButton from '../components/AppButton';
 import DoneButton from '../components/DoneButton';
-import SaveConfirmationWindow from '../components/SaveConfirmationWindow';
+import { showSaveModal } from '../state/SessionState';
 
 const moods = require('../data/moods.js');
 
@@ -56,11 +56,11 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  back: () => dispatch(NavigationActions.back()),
   addMood: mood => dispatch(addMood(mood)),
   deleteMood: mood => dispatch(deleteMood(mood)),
   setText: text => dispatch(setText(text)),
   setAudio: audio => dispatch(setAudio(audio)),
+  showSaveModal: () => dispatch(showSaveModal()),
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -72,16 +72,12 @@ export default class MoodViewContainer extends Component {
   };
 
   static propTypes = {
-    back: PropTypes.func.isRequired,
     addMood: PropTypes.func.isRequired,
     deleteMood: PropTypes.func.isRequired,
     setText: PropTypes.func.isRequired,
     setAudio: PropTypes.func.isRequired,
     selectedMoods: PropTypes.instanceOf(Set).isRequired,
-  };
-
-  state = {
-    showSucceedingMessage: false,
+    showSaveModal: PropTypes.func.isRequired,
   };
 
   addMood = async mood => {
@@ -95,19 +91,6 @@ export default class MoodViewContainer extends Component {
   };
 
   isSelected = mood => this.props.selectedMoods.includes(mood.get('name'));
-
-  hideSucceedingMessage = () => {
-    if (this.state.showSucceedingMessage) {
-      this.setState({ showSucceedingMessage: false });
-      this.props.back();
-    }
-  };
-
-  renderSaveConfirmationWindow = () =>
-    <SaveConfirmationWindow
-      closeWindow={this.hideSucceedingMessage}
-      visible={this.state.showSucceedingMessage}
-    />;
 
   renderMood = (mood, key) =>
     <View
@@ -146,10 +129,9 @@ export default class MoodViewContainer extends Component {
           </View>
         </ScrollView>
         <DoneButton
-          onPress={() => this.setState({ showSucceedingMessage: true })}
+          onPress={this.props.showSaveModal}
           disabled={this.props.selectedMoods.size === 0}
         />
-        {this.renderSaveConfirmationWindow()}
       </Image>
     );
   }

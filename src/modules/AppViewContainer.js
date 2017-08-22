@@ -9,27 +9,22 @@ import {
   AppState,
   ActivityIndicator,
   BackHandler,
-  TouchableOpacity,
-  Modal,
-  Text,
-  Image,
   Platform,
   Alert,
 } from 'react-native';
 import NavigationViewContainer from './navigation/NavigationViewContainer';
-import { getImage, getSizeByWidth } from '../services/graphics';
 import { resetCurrentUser } from '../state/UserState';
-import { showExitModal } from '../state/SessionState';
 import { setText, setAudio } from '../state/HemmoState';
 import {
   initializeSessionState,
   activate,
   deactivate,
+  showExitModal,
 } from '../state/SessionState';
-import AppButton from '../components/AppButton';
 import store from '../redux/store';
 import persistStore from '../utils/persist';
 import Hemmo from './Hemmo';
+import SaveConfirmationWindow from '../components/SaveConfirmationWindow';
 
 const Permissions = require('react-native-permissions');
 
@@ -58,10 +53,10 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   showExitModal: () => dispatch(showExitModal()),
-  back: () => {
+  back: key => {
     dispatch(setText(''));
     dispatch(setAudio(''));
-    dispatch(NavigationActions.back());
+    dispatch(NavigationActions.back({ key }));
   },
   initializeSessionState: () => dispatch(initializeSessionState()),
   activate: () => dispatch(activate()),
@@ -196,6 +191,7 @@ export default class AppViewContainer extends Component {
       <View style={styles.container}>
         <NavigationViewContainer />
         <Hemmo />
+        <SaveConfirmationWindow />
       </View>
     );
   }

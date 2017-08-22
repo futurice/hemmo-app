@@ -15,7 +15,7 @@ import {
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import LoadingSpinner from '../../components/LoadingSpinner';
-import SaveConfirmationWindow from '../../components/SaveConfirmationWindow';
+import { showSaveModal } from '../../state/SessionState';
 import AppButton from '../../components/AppButton';
 import {
   createUser,
@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
   },
   settingsContainer: {
     backgroundColor: '#fff',
+    flexDirection: 'column',
     paddingBottom: 10,
     paddingLeft: 5,
     borderBottomWidth: 3,
@@ -169,6 +170,7 @@ const mapDispatchToProps = dispatch => ({
   resetCurrentUser: () => dispatch(resetCurrentUser()),
   setCurrentUser: id => dispatch(setCurrentUser(id)),
   popRoute: () => dispatch(NavigationActions.back()),
+  showSaveModal: () => dispatch(showSaveModal()),
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -188,12 +190,12 @@ export default class SettingsViewContainer extends Component {
     setCurrentUser: PropTypes.func.isRequired,
     popRoute: PropTypes.func.isRequired,
     users: PropTypes.instanceOf(List).isRequired,
+    showSaveModal: PropTypes.func.isRequired,
   };
 
   state = {
     loading: false,
     disabled: !__DEV__,
-    showSucceedingMessage: false,
     id: null,
     image: null,
     ...defaultUser,
@@ -234,7 +236,7 @@ export default class SettingsViewContainer extends Component {
 
       this.setState({ disabled: true, loading: false });
       this.resetForm();
-      this.showSucceedingMessage();
+      this.props.showSaveModal();
       this.handleTabClick(this.props.users.last());
     } catch (error) {
       console.log(error);
@@ -271,15 +273,7 @@ export default class SettingsViewContainer extends Component {
     );
 
     this.setState({ disabled: true, loading: false });
-    this.showSucceedingMessage();
-  };
-
-  showSucceedingMessage = () => {
-    this.setState({ showSucceedingMessage: true });
-  };
-
-  closeSucceedingMessage = () => {
-    this.setState({ showSucceedingMessage: false });
+    this.props.showSaveModal();
   };
 
   verifyRemoveUser = () => {
@@ -597,12 +591,6 @@ export default class SettingsViewContainer extends Component {
       </ScrollView>
     </Image>;
 
-  renderSaveConfirmationWindow = () =>
-    <SaveConfirmationWindow
-      closeWindow={this.closeSucceedingMessage}
-      visible={this.state.showSucceedingMessage}
-    />;
-
   render() {
     if (this.state.loading) {
       return <LoadingSpinner />;
@@ -612,7 +600,6 @@ export default class SettingsViewContainer extends Component {
       <View style={styles.container}>
         {this.renderTabBar()}
         {this.renderTabBody()}
-        {this.renderSaveConfirmationWindow()}
       </View>
     );
   }

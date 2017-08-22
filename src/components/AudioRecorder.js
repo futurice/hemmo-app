@@ -4,22 +4,10 @@ View block that includes audio recording button and progression bar.
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import {
-  View,
-  Alert,
-  Dimensions,
-  StyleSheet,
-  Platform,
-  ScrollView,
-  Image,
-} from 'react-native';
+import { View, Alert, StyleSheet, Platform } from 'react-native';
 import ProgressBar from 'react-native-progress/Bar';
-import TimerMixin from 'react-timer-mixin';
 import { Recorder } from 'react-native-audio-toolkit';
-import { setAudio, setText } from '../state/HemmoState';
-import DoneButton from '../components/DoneButton';
-import { getImage, getSizeByWidth } from '../services/graphics';
+import { getSizeByWidth } from '../services/graphics';
 
 const Permissions = require('react-native-permissions');
 
@@ -46,18 +34,8 @@ const styles = StyleSheet.create({
   },
 });
 
-const reactMixin = require('react-mixin');
-const phrases = require('../data/phrases');
-
 const filename = 'test.mp4';
 
-const mapDispatchToProps = dispatch => ({
-  setAudio: audio => dispatch(setAudio(audio)),
-  setText: text => dispatch(setText(text)),
-});
-
-@connect(null, mapDispatchToProps)
-@reactMixin.decorate(TimerMixin)
 export default class AudioRecorder extends Component {
   static propTypes = {
     save: PropTypes.func.isRequired,
@@ -74,6 +52,12 @@ export default class AudioRecorder extends Component {
     error: null,
   };
 
+  componentDidUpdate(prevProps) {
+    if (!prevProps.shouldToggleRecord && this.props.shouldToggleRecord) {
+      this._toggleRecord();
+    }
+  }
+
   componentWillUnmount() {
     if (this.recorder) {
       this.recorder.destroy();
@@ -84,12 +68,6 @@ export default class AudioRecorder extends Component {
     }
 
     clearInterval(this._progressInterval);
-  }
-
-  componentDidUpdate(prevProps) {
-    if (!prevProps.shouldToggleRecord && this.props.shouldToggleRecord) {
-      this._toggleRecord();
-    }
   }
 
   initializeRecorder = () => {
@@ -170,7 +148,7 @@ export default class AudioRecorder extends Component {
         this._updateState();
         this.setState({ progress: 0 });
         this.recorder.destroy();
-        this.props.save('audio', this.state.filePath);
+        this.props.save(this.state.filePath);
       } else {
         this._updateState();
       }

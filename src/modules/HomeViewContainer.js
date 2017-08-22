@@ -197,7 +197,7 @@ export default class HomeViewContainer extends Component {
             background="bubble_down"
             onPress={this.switchScreen}
             contentContainerStyle={{ padding: 30 }}
-            width={getSizeByWidth('bubble_down', 0.75).width}
+            width={getSizeByWidth('bubble_down', 0.8).width}
           >
             {this.renderBubbleText()}
           </AppButton>

@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Map } from 'immutable';
-import { NavigationActions } from 'react-navigation';
 import {
   Image,
   TextInput,
@@ -10,21 +8,19 @@ import {
   View,
   ScrollView,
   StyleSheet,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
-import LoadingSpinner from '../components/LoadingSpinner';
 import { addFreeWord } from '../state/UserState';
+import { showSaveModal } from '../state/SessionState';
 import { getImage, getSizeByWidth } from '../services/graphics';
 import DoneButton from '../components/DoneButton';
-import SaveConfirmationWindow from '../components/SaveConfirmationWindow';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: null,
     height: null,
-  },
-  scrollContainer: {
-    paddingBottom: getSizeByWidth('done_button', 1).height,
   },
   textBoxContainer: {
     paddingVertical: 32,
@@ -38,19 +34,12 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = state => ({
-  answers: state.getIn(['user', 'currentUser', 'answers']),
-  freeWordKey: state.getIn(['navigatorState', 'routes', 2, 'key']),
-});
-
 const mapDispatchToProps = dispatch => ({
-  back: key => dispatch(NavigationActions.back({ key })),
-  pushRoute: key => dispatch(NavigationActions.navigate({ routeName: key })),
-  popRoute: () => dispatch(NavigationActions.back()),
   saveFreeWord: freeWord => dispatch(addFreeWord(freeWord)),
+  showSaveModal: () => dispatch(showSaveModal()),
 });
 
-@connect(mapStateToProps, mapDispatchToProps)
+@connect(null, mapDispatchToProps)
 export default class WriteViewContainer extends Component {
   static navigationOptions = {
     title: 'Kirjoita',
@@ -59,22 +48,15 @@ export default class WriteViewContainer extends Component {
   };
 
   static propTypes = {
-    back: PropTypes.func.isRequired,
-    freeWordKey: PropTypes.string,
-    popRoute: PropTypes.func.isRequired,
-    pushRoute: PropTypes.func.isRequired,
     saveFreeWord: PropTypes.func.isRequired,
-    answers: PropTypes.instanceOf(Map).isRequired,
+    showSaveModal: PropTypes.func.isRequired,
   };
 
   state = {
     text: '',
-    showSucceedingMessage: false,
-    showSpinner: false,
   };
 
   error = () => {
-    this.setState({ showSpinner: false });
     Alert.alert(
       'Ohops!',
       'Jokin meni pieleen! Tarkista nettiyhteys tai yritä myöhemmin uudelleen!',
@@ -109,35 +91,18 @@ export default class WriteViewContainer extends Component {
       />
     </Image>;
 
-  sendText = async () => {
-    await this.props.saveFreeWord({ type: 'text', content: this.state.text });
-    this.setState({ showSucceedingMessage: true });
+  storeText = () => {
+    this.props.saveFreeWord({ type: 'text', content: this.state.text });
+    this.props.showSaveModal();
   };
 
   renderDoneButton = () =>
     <DoneButton
-      onPress={this.sendText.bind(this)}
+      onPress={this.storeText}
       disabled={this.state.text.length === 0}
     />;
 
-  hideSucceedingMessage = () => {
-    if (this.state.showSucceedingMessage) {
-      this.setState({ showSucceedingMessage: false });
-      this.props.back(this.props.freeWordKey);
-    }
-  };
-
-  renderSaveConfirmationWindow = () =>
-    <SaveConfirmationWindow
-      closeWindow={this.hideSucceedingMessage}
-      visible={this.state.showSucceedingMessage}
-    />;
-
   render() {
-    if (this.state.showSpinner) {
-      return <LoadingSpinner />;
-    }
-
     return (
       <Image source={getImage('forest').normal} style={styles.container}>
         <ScrollView
@@ -149,8 +114,14 @@ export default class WriteViewContainer extends Component {
             {this.renderTextForm()}
           </View>
         </ScrollView>
-        {this.renderDoneButton()}
-        {this.renderSaveConfirmationWindow()}
+        {Platform.OS === 'ios'
+          ? <KeyboardAvoidingView
+              behavior={'padding'}
+              keyboardVerticalOffset={-64}
+            >
+              {this.renderDoneButton()}
+            </KeyboardAvoidingView>
+          : this.renderDoneButton()}
       </Image>
     );
   }

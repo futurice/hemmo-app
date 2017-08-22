@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import TimerMixin from 'react-timer-mixin';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
@@ -59,7 +58,6 @@ const styles = StyleSheet.create({
   },
 });
 
-const reactMixin = require('react-mixin');
 const phrases = require('../data/phrases.json');
 
 const mapStateToProps = state => ({
@@ -82,7 +80,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
-@reactMixin.decorate(TimerMixin)
 export default class Hemmo extends Component {
   static propTypes = {
     activeRoute: PropTypes.string.isRequired,

@@ -7,12 +7,15 @@ export const ACTIVATE = 'SessionState/ACTIVATE';
 export const DEACTIVATE = 'SessionState/DEACTIVATE';
 export const SHOW_EXIT_MODAL = 'SessionState/SHOW_EXIT_MODAL';
 export const HIDE_EXIT_MODAL = 'SessionState/HIDE_EXIT_MODAL';
+export const SHOW_SAVE_MODAL = 'SessionState/SHOW_SAVE_MODAL';
+export const HIDE_SAVE_MODAL = 'SessionState/HIDE_SAVE_MODAL';
 
 // Initial state
 const initialState = Map({
   isReady: false,
   isActive: true,
   exitModalVisible: false,
+  saveModalVisible: false,
 });
 
 export function startPreparing() {
@@ -38,6 +41,18 @@ export function hideExitModal() {
 export function showExitModal() {
   return {
     type: SHOW_EXIT_MODAL,
+  };
+}
+
+export function hideSaveModal() {
+  return {
+    type: HIDE_SAVE_MODAL,
+  };
+}
+
+export function showSaveModal() {
+  return {
+    type: SHOW_SAVE_MODAL,
   };
 }
 
@@ -80,6 +95,12 @@ export default function SessionStateReducer(state = initialState, action = {}) {
 
     case HIDE_EXIT_MODAL:
       return state.set('exitModalVisible', false);
+
+    case SHOW_SAVE_MODAL:
+      return state.set('saveModalVisible', true);
+
+    case HIDE_SAVE_MODAL:
+      return state.set('saveModalVisible', false);
 
     default:
       return state;
