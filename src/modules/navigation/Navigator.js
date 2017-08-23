@@ -79,16 +79,6 @@ const AppNavigator = StackNavigator(
   {
     transitionConfig: () => ({
       screenInterpolator: sceneProps => {
-        // Disable the transition animation when resetting to the home screen or feedback menu
-        if (
-          (sceneProps.scene.route.routeName === 'Record' ||
-            sceneProps.scene.route.routeName === 'Write' ||
-            sceneProps.scene.route.routeName === 'Ending') &&
-          sceneProps.scenes.length > 2
-        )
-          return null;
-
-        // Otherwise, use the usual horizontal animation
         return CardStackStyleInterpolator.forHorizontal(sceneProps);
       },
     }),
