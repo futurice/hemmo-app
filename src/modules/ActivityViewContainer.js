@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     textAlign: 'center',
     fontFamily: 'ComicNeue-Bold',
-    fontSize: 20,
+    fontSize: 16,
   },
   voteButton: {
     margin: 5,

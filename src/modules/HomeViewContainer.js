@@ -51,8 +51,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontFamily: 'ComicNeue-Bold',
     color: '#000',
-    fontSize: 16,
-    margin: 16,
+    fontSize: 14,
+    margin: 10,
   },
   hemmo: {},
   bubbleTextTitle: {
@@ -162,7 +162,7 @@ export default class HomeViewContainer extends Component {
   renderBubbleText = () => {
     if (this.state.firstUseScreenIndex === 0) {
       return (
-        <View style={{ margin: 15 }}>
+        <View>
           <Text style={[styles.bubbleText, styles.bubbleTextTitle]}>
             Tervetuloa Hemmoon!
           </Text>

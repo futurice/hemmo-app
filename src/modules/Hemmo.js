@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     padding: 50,
     textAlign: 'center',
     alignSelf: 'center',
-    fontSize: 15,
+    fontSize: 14,
     color: '#000',
     fontFamily: 'ComicNeue-Bold',
   },

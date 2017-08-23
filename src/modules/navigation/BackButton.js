@@ -24,7 +24,7 @@ export default class BackButton extends Component {
         <AppButton
           background="back"
           onPress={this.props.back}
-          height={Platform.OS === 'android' ? 50 : 35}
+          height={Platform.OS === 'android' ? 50 : 40}
         />
       </View>
     );

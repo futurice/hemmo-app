@@ -14,6 +14,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import { showSaveModal } from '../../state/SessionState';
 import AppButton from '../../components/AppButton';
@@ -155,7 +156,7 @@ const Permissions = require('react-native-permissions');
 const defaultUser = {
   nickName: __DEV__ ? 'Testikäyttäjä' : '',
   fullName: __DEV__ ? 'Matti Meikäläinen' : '',
-  birthYear: __DEV__ ? '2010' : null,
+  birthYear: __DEV__ ? '2010' : '',
 };
 
 const mapStateToProps = state => ({
@@ -201,7 +202,10 @@ export default class SettingsViewContainer extends Component {
     ...defaultUser,
   };
 
-  infoIsMissing = () => this.state.nickName.length === 0;
+  infoIsMissing = () =>
+    this.state.nickName.length === 0 ||
+    this.state.fullName.length === 0 ||
+    this.state.birthYear.length === 0;
 
   saveChild = () => {
     if (this.infoIsMissing()) {
@@ -369,7 +373,7 @@ export default class SettingsViewContainer extends Component {
       id: null,
       nickName: '',
       fullName: '',
-      birthYear: null,
+      birthYear: '',
       image: null,
     });
   };
@@ -573,10 +577,12 @@ export default class SettingsViewContainer extends Component {
 
   renderTabBody = () =>
     <Image source={getImage('forest').normal} style={styles.container}>
-      <ScrollView
+      <KeyboardAwareScrollView
         keyboardShouldPersistTaps={'always'}
         overScrollMode={'always'}
         contentContainerStyle={styles.scrollContainer}
+        resetScrollToCoords={{ x: 0, y: 0 }}
+        extraScrollHeight={60}
       >
         <View style={styles.settingsContainer}>
           {this.renderImage()}
@@ -588,7 +594,7 @@ export default class SettingsViewContainer extends Component {
             {this.renderRemoveUserButton()}
           </View>
         </View>
-      </ScrollView>
+      </KeyboardAwareScrollView>
     </Image>;
 
   render() {
