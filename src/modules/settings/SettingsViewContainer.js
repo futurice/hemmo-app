@@ -504,22 +504,8 @@ export default class SettingsViewContainer extends Component {
       permission.camera !== 'authorized' ||
       permission.photo !== 'authorized'
     ) {
-      return Alert.alert(
-        'Saammeko käyttää laitteesi kameraa ja kuvakirjastoa?',
-        'Tarvitsemme oikeudet kameraan ja kuviin, jotta kuvan valitseminen onnistuu.',
-        [
-          {
-            text: 'Estä',
-            onPress: () => console.log('permission denied'),
-            style: 'cancel',
-          },
-          permission.camera === 'undetermined' ||
-          permission.photo === 'undetermined' ||
-          Platform.OS === 'android'
-            ? { text: 'Salli', onPress: this.showRequestDialog }
-            : { text: 'Avaa asetukset', onPress: Permissions.openSettings },
-        ],
-      );
+      await this.showRequestDialog();
+      return;
     }
 
     this.openImageGallery();

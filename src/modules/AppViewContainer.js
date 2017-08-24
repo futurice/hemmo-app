@@ -102,26 +102,9 @@ export default class AppViewContainer extends Component {
     const permission = await this.checkRecordPermission();
 
     if (permission !== 'authorized') {
-      return Alert.alert(
-        'Saammeko käyttää laitteesi mikrofonia?',
-        'Tarvitsemme oikeuden mikrofoniin, jotta äänen nauhoittaminen onnistuu.',
-        [
-          {
-            text: 'Estä',
-            onPress: () => console.log('permission denied'),
-            style: 'cancel',
-          },
-          permission === 'undetermined' || Platform.OS === 'android'
-            ? { text: 'Salli', onPress: this.showRequestAlert }
-            : { text: 'Avaa asetukset', onPress: Permissions.openSettings },
-        ],
-      );
+      await this.requestRecordPermission();
     }
   }
-
-  showRequestAlert = async () => {
-    await this.requestRecordPermission();
-  };
 
   checkRecordPermission = async () => {
     try {
