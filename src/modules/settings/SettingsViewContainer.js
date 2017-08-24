@@ -504,11 +504,31 @@ export default class SettingsViewContainer extends Component {
       permission.camera !== 'authorized' ||
       permission.photo !== 'authorized'
     ) {
-      await this.showRequestDialog();
-      return;
-    }
+      // Show app-level dialog on iOS if permissions have been denied previously because iOS shows
+      // system dialog only once, after that you have to allow permissions from settings
+      if (
+        Platform.OS === 'ios' &&
+        permission.camera !== 'undetermined' &&
+        permission.photo !== 'undetermined'
+      ) {
+        return Alert.alert(
+          'Saammeko käyttää laitteesi kameraa ja kuvakirjastoa?',
+          'Tarvitsemme oikeuden kameraan ja kuviin, jotta profiilikuvan valitseminen onnistuu.',
+          [
+            {
+              text: 'Estä',
+              onPress: () => console.log('permission denied'),
+              style: 'cancel',
+            },
+            { text: 'Avaa asetukset', onPress: Permissions.openSettings },
+          ],
+        );
+      }
 
-    this.openImageGallery();
+      await this.showRequestDialog();
+    } else {
+      this.openImageGallery();
+    }
   };
 
   renderDefaultImage = () =>

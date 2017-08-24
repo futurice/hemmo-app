@@ -50,13 +50,6 @@ export default class RecordViewContainer extends Component {
     isRecording: false,
   };
 
-  error = () => {
-    Alert.alert(
-      'Ohops!',
-      'Nauhoittamisessa tapahtui virhe! Voisitko yrittää myöhemmin uudelleen?',
-    );
-  };
-
   storeRecording = content => {
     this.props.saveFreeWord({ type: 'audio', content });
     this.props.showSaveModal();

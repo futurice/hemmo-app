@@ -1,6 +1,6 @@
 /*
 Message window that is shown whenever new user has been added to system
-or audio has been successfully recorded and saved,
+or feedback has been successfully saved
 */
 
 import React, { Component } from 'react';

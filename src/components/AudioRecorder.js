@@ -155,12 +155,17 @@ export default class AudioRecorder extends Component {
     });
   };
 
+  startRecording = () => {
+    this.initializeRecorder();
+    this._toggleRecord();
+    this.props.isRecording();
+  };
+
   showRequestAlert = async () => {
     const permission = await this.requestRecordPermission();
 
     if (permission === 'authorized') {
-      this.initializeRecorder();
-      this._toggleRecord();
+      this.startRecording();
     }
   };
 
@@ -168,25 +173,27 @@ export default class AudioRecorder extends Component {
     const permission = await this.checkRecordPermission();
 
     if (permission !== 'authorized') {
-      return Alert.alert(
-        'Saammeko käyttää laitteesi mikrofonia?',
-        'Tarvitsemme oikeuden mikrofoniin, jotta äänen nauhoittaminen onnistuu.',
-        [
-          {
-            text: 'Estä',
-            onPress: () => console.log('permission denied'),
-            style: 'cancel',
-          },
-          permission === 'undetermined' || Platform.OS === 'android'
-            ? { text: 'Salli', onPress: this.showRequestAlert }
-            : { text: 'Avaa asetukset', onPress: Permissions.openSettings },
-        ],
-      );
-    }
+      // Show app-level dialog on iOS if permission has been denied previously because iOS shows
+      // system dialog only once, after that you have to allow permission from settings
+      if (Platform.OS === 'ios' && permission !== 'undetermined') {
+        return Alert.alert(
+          'Saammeko käyttää laitteesi mikrofonia?',
+          'Tarvitsemme oikeuden mikrofoniin, jotta äänen nauhoittaminen onnistuu.',
+          [
+            {
+              text: 'Estä',
+              onPress: () => console.log('permission denied'),
+              style: 'cancel',
+            },
+            { text: 'Avaa asetukset', onPress: Permissions.openSettings },
+          ],
+        );
+      }
 
-    this.initializeRecorder();
-    this._toggleRecord();
-    this.props.isRecording();
+      await this.showRequestAlert();
+    } else {
+      this.startRecording();
+    }
   };
 
   renderProgressBar = () =>
