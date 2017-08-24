@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import KeyboardSpacer from 'react-native-keyboard-spacer';
 import {
   Image,
   TextInput,
-  Alert,
   View,
   ScrollView,
   StyleSheet,
-  KeyboardAvoidingView,
   Platform,
+  Keyboard,
 } from 'react-native';
 import { addFreeWord } from '../state/UserState';
 import { showSaveModal } from '../state/SessionState';
@@ -56,12 +56,10 @@ export default class WriteViewContainer extends Component {
     text: '',
   };
 
-  error = () => {
-    Alert.alert(
-      'Ohops!',
-      'Jokin meni pieleen! Tarkista nettiyhteys tai yritä myöhemmin uudelleen!',
-      [{ text: 'Ok' }],
-    );
+  storeText = () => {
+    Keyboard.dismiss();
+    this.props.saveFreeWord({ type: 'text', content: this.state.text });
+    this.props.showSaveModal();
   };
 
   renderTextForm = () =>
@@ -91,11 +89,6 @@ export default class WriteViewContainer extends Component {
       />
     </Image>;
 
-  storeText = () => {
-    this.props.saveFreeWord({ type: 'text', content: this.state.text });
-    this.props.showSaveModal();
-  };
-
   renderDoneButton = () =>
     <DoneButton
       onPress={this.storeText}
@@ -114,14 +107,8 @@ export default class WriteViewContainer extends Component {
             {this.renderTextForm()}
           </View>
         </ScrollView>
-        {Platform.OS === 'ios'
-          ? <KeyboardAvoidingView
-              behavior={'padding'}
-              keyboardVerticalOffset={-64}
-            >
-              {this.renderDoneButton()}
-            </KeyboardAvoidingView>
-          : this.renderDoneButton()}
+        {this.renderDoneButton()}
+        {Platform.OS === 'ios' ? <KeyboardSpacer /> : null}
       </Image>
     );
   }
