@@ -4,7 +4,7 @@
     "audio": "kertoisitko_main"
   },
   "Activity": {
-    "text": "Kertoisitko minulle, mitä teitte viime kerralla tukiperheessä?",
+    "text": "Kertoisitko minulle, mitä teitte viime kerralla tukiperheessä? Liittyikö se puuhailuun, ulkoiluun ja retkeilyyn, leikkimiseen ja pelaamiseen, yhdessä vietettyyn aikaan, tai lemmikkeihin ja kotieläimiin?",
     "audio": "kertoisitko_activities"
   },
   "FreeWord": {
