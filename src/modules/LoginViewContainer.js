@@ -147,7 +147,6 @@ export default class LoginViewContainer extends Component {
   state = {
     email: __DEV__ ? 'foo@bar.com' : '',
     password: __DEV__ ? 'foobar' : '',
-    loading: false,
   };
 
   openPrivacyPolicy = () => {
@@ -220,7 +219,6 @@ export default class LoginViewContainer extends Component {
         onPress={this.verifyPassword}
         contentContainerStyle={{ padding: 10 }}
         background="button_small"
-        disabled={this.state.loading}
         width={getSizeByWidth('button_small', 0.5).width}
         shadow
       >

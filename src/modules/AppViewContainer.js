@@ -177,7 +177,7 @@ export default class AppViewContainer extends Component {
   render() {
     const { rehydrated } = this.state;
 
-    if (!rehydrated || this.props.isLoading) {
+    if (!rehydrated) {
       return <LoadingSpinner />;
     }
 
@@ -186,6 +186,7 @@ export default class AppViewContainer extends Component {
         <NavigationViewContainer />
         <Hemmo />
         <SaveConfirmationWindow />
+        {this.props.isLoading ? <LoadingSpinner /> : null}
       </View>
     );
   }

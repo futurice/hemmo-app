@@ -152,7 +152,6 @@ const defaultUser = {
 };
 
 const mapStateToProps = state => ({
-  loading: state.getIn(['home', 'loading']),
   users: state.getIn(['user', 'users']),
 });
 
@@ -225,8 +224,8 @@ export default class SettingsViewContainer extends Component {
         }),
       );
 
-      this.setState({ disabled: true });
       this.props.toggleIsLoading(false);
+      this.setState({ disabled: true });
       this.resetForm();
       this.props.showSaveModal();
       this.handleTabClick(this.props.users.last());
