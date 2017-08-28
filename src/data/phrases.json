@@ -1,6 +1,6 @@
 {
   "FeedbackMenu": {
-    "text": "Kertoisitko minulle, millaista sinulla oli viime kerralla tukiperheessä. Voit kertoa siitä, mitä teitte, siitä, miltä sinusta tuntui, tai ihan vapaasti mistä vaan asiasta tukiperheessä.",
+    "text": "Kertoisitko minulle, millaista sinulla oli viime kerralla tukiperheessä? Voit kertoa siitä, mitä teitte, siitä, miltä sinusta tuntui, tai ihan vapaasti mistä vaan asiasta tukiperheessä.",
     "audio": "kertoisitko_main"
   },
   "Activity": {

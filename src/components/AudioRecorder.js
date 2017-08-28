@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import { View, Alert, StyleSheet, Platform } from 'react-native';
 import ProgressBar from 'react-native-progress/Bar';
 import { Recorder } from 'react-native-audio-toolkit';
-import { getSizeByWidth } from '../services/graphics';
+import { getSizeByWidth, getFontSize } from '../services/graphics';
 
 const Permissions = require('react-native-permissions');
 
@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
   progressBar: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 20,
+    marginTop: getFontSize(5),
   },
   highlightCircle: {
     alignItems: 'center',
@@ -26,11 +26,6 @@ const styles = StyleSheet.create({
   highlightSquare: {
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  recordPermissionButton: {
-    borderRadius: 10,
-    width: 100,
-    backgroundColor: '#87cefa',
   },
 });
 

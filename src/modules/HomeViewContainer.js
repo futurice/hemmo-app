@@ -15,6 +15,7 @@ import {
   getSizeByWidth,
   getSizeByHeight,
   getImage,
+  getFontSize,
 } from '../services/graphics';
 
 const styles = StyleSheet.create({
@@ -30,7 +31,7 @@ const styles = StyleSheet.create({
   },
   userContainer: {
     flexDirection: 'column',
-    marginTop: 20,
+    marginTop: getFontSize(3),
   },
   firstUseContainer: {
     flex: 1,
@@ -43,25 +44,26 @@ const styles = StyleSheet.create({
   },
   settingsButton: {
     position: 'absolute',
-    bottom: 10,
-    left: 10,
+    bottom: getFontSize(2),
+    left: getFontSize(2),
   },
   bubbleText: {
     alignSelf: 'center',
     textAlign: 'center',
     fontFamily: 'ComicNeue-Bold',
     color: '#000',
-    fontSize: 14,
-    margin: 10,
+    fontSize: getFontSize(1.8),
+    margin: getFontSize(3),
   },
   hemmo: {},
   bubbleTextTitle: {
-    fontSize: 16,
+    fontSize: getFontSize(2.3),
     margin: 5,
   },
   userName: {
     fontFamily: 'Roboto-Regular',
     color: '#000',
+    fontSize: getFontSize(2.5),
   },
 });
 

@@ -11,10 +11,9 @@ import {
   Dimensions,
   Image,
   Animated,
-  View,
 } from 'react-native';
 import { resetCurrentUser } from '../state/UserState';
-import { getImage, getSizeByWidth } from '../services/graphics';
+import { getImage, getSizeByWidth, getFontSize } from '../services/graphics';
 import AppButton from '../components/AppButton';
 
 const activities = require('../data/activities');
@@ -29,7 +28,7 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     alignSelf: 'center',
-    fontSize: 22,
+    fontSize: getFontSize(3),
   },
 });
 
@@ -63,6 +62,7 @@ export default class EndingViewContainer extends Component {
   static navigationOptions = {
     title: 'Valmis',
     headerTitleStyle: styles.headerTitle,
+    headerStyle: { height: getFontSize(8) },
   };
 
   static propTypes = {

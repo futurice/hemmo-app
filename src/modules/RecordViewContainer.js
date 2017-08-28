@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Alert, ScrollView, Image, StyleSheet, View } from 'react-native';
+import { ScrollView, Image, StyleSheet, View } from 'react-native';
 import AudioRecorder from '../components/AudioRecorder';
-import { getImage } from '../services/graphics';
+import { getImage, getFontSize } from '../services/graphics';
 import { showSaveModal } from '../state/SessionState';
 import DoneButton from '../components/DoneButton';
 import { addFreeWord } from '../state/UserState';
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     alignSelf: 'center',
-    fontSize: 22,
+    fontSize: getFontSize(3),
   },
 });
 
@@ -38,6 +38,7 @@ export default class RecordViewContainer extends Component {
     title: 'Nauhoita',
     headerRight: <View />, // Needed for a centered title,
     headerTitleStyle: styles.headerTitle,
+    headerStyle: { height: getFontSize(8) },
   };
 
   static propTypes = {

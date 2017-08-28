@@ -10,7 +10,7 @@ import {
   Platform,
   TouchableOpacity,
 } from 'react-native';
-import { getSizeByWidth } from '../services/graphics';
+import { getSizeByWidth, getFontSize } from '../services/graphics';
 import AudioPlayerViewContainer from './AudioPlayerViewContainer';
 import { toggleMute, setText, setAudio } from '../state/HemmoState';
 import AppButton from '../components/AppButton';
@@ -22,10 +22,11 @@ const styles = StyleSheet.create({
   },
   hemmo: {
     alignSelf: 'flex-end',
-    top: 2,
+    right: getFontSize(1),
+    top: getFontSize(1.5),
     ...Platform.select({
       ios: {
-        top: 20,
+        top: getFontSize(2.8),
       },
     }),
   },
@@ -38,21 +39,21 @@ const styles = StyleSheet.create({
   },
   bubble: {
     position: 'absolute',
-    top: Platform.OS === 'android' ? 56 : 44,
-    right: 30,
-    marginTop: 20,
+    top: getFontSize(4),
+    right: getFontSize(5),
+    marginTop: getFontSize(5),
   },
   toggleVolumeButton: {
     position: 'absolute',
     left: 0,
     bottom: 0,
-    padding: 20,
+    padding: getFontSize(2),
   },
   text: {
-    padding: 50,
+    padding: 70,
     textAlign: 'center',
     alignSelf: 'center',
-    fontSize: 14,
+    fontSize: getFontSize(1.8),
     color: '#000',
     fontFamily: 'ComicNeue-Bold',
   },
@@ -247,7 +248,7 @@ export default class Hemmo extends Component {
       <AppButton
         background="hemmo"
         onPress={this.state.showBubble ? this.hideBubble : this.showBubble}
-        height={Platform.OS === 'android' ? 55 : 40}
+        width={getSizeByWidth('hemmo', 0.12).width}
         shadow
       />
     </View>;

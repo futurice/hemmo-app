@@ -16,7 +16,7 @@ import {
 
 import { patch, xhr } from '../../utils/api';
 import AppButton from '../../components/AppButton';
-import { getImage, getSizeByWidth } from '../../services/graphics';
+import { getImage, getSizeByWidth, getFontSize } from '../../services/graphics';
 import {
   showExitModal,
   hideExitModal,
@@ -35,24 +35,24 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: null,
     width: null,
-    paddingTop: 50,
+    paddingTop: getFontSize(5),
   },
   userImage: {
-    height: Platform.OS === 'android' ? 50 : 40,
-    width: Platform.OS === 'android' ? 50 : 40,
-    borderRadius: Platform.OS === 'android' ? 25 : 20,
+    width: getFontSize(5),
+    height: getFontSize(5),
+    borderRadius: getFontSize(2.5),
   },
   circle: {
     position: 'absolute',
     top: 0,
     left: 0,
-    margin: 5,
+    margin: getFontSize(1),
     ...Platform.select({
       ios: {
         top: 17,
       },
     }),
-    borderRadius: Platform.OS === 'android' ? 25 : 20,
+    borderRadius: getFontSize(7),
     shadowOpacity: 0.3,
     shadowRadius: 3,
     shadowOffset: {
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255,255,255,0.8)',
   },
   buttonText: {
-    fontSize: 25,
+    fontSize: getFontSize(2.5),
     fontFamily: 'ComicNeue-Bold',
   },
   navigationButtons: {
@@ -84,10 +84,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   exitModalText: {
-    padding: 20,
-    margin: 10,
+    margin: getFontSize(5),
     textAlign: 'center',
-    fontSize: 24,
+    fontSize: getFontSize(3),
     fontFamily: 'ComicNeue-Bold',
   },
   navigationButton: {
@@ -148,8 +147,8 @@ export default class FeedbackMenu extends Component {
         <View style={{ flex: 1, alignItems: 'flex-end' }}>
           {done
             ? <Image
-                source={require('../../../assets/graphics/others/checkmark_big_s2dp.png')}
-                style={{ width: 72, height: 72 }}
+                source={getImage('checkmark_big').shadow}
+                style={getSizeByWidth('checkmark_big', 0.12)}
               />
             : null}
         </View>

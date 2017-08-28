@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Platform } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 import AppButton from '../../components/AppButton';
+import { getSizeByWidth } from '../../services/graphics';
 
 const mapDispatchToProps = dispatch => ({
   back: () => {
@@ -24,7 +25,7 @@ export default class BackButton extends Component {
         <AppButton
           background="back"
           onPress={this.props.back}
-          height={Platform.OS === 'android' ? 50 : 40}
+          width={getSizeByWidth('back', 0.06).width}
         />
       </View>
     );

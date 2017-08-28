@@ -3,10 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Set } from 'immutable';
 import { Image, View, StyleSheet, ScrollView } from 'react-native';
-import { NavigationActions } from 'react-navigation';
 import { addMood, deleteMood } from '../state/UserState';
 import { setText, setAudio } from '../state/HemmoState';
-import { getSizeByWidth, getImage } from '../services/graphics';
+import { getSizeByWidth, getImage, getFontSize } from '../services/graphics';
 import AppButton from '../components/AppButton';
 import DoneButton from '../components/DoneButton';
 import { showSaveModal } from '../state/SessionState';
@@ -22,10 +21,6 @@ const styles = StyleSheet.create({
   scrollContainer: {
     paddingBottom: getSizeByWidth('done_button', 1).height,
   },
-  font: {
-    fontSize: 17,
-    fontFamily: 'Gill Sans',
-  },
   check: {
     position: 'absolute',
     top: 0,
@@ -36,10 +31,10 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 20,
+    marginTop: getFontSize(2),
   },
   mood: {
-    margin: 7,
+    margin: getFontSize(0.5),
     opacity: 0.8,
   },
   selectedMood: {
@@ -47,7 +42,7 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     alignSelf: 'center',
-    fontSize: 22,
+    fontSize: getFontSize(3),
   },
 });
 
@@ -69,6 +64,7 @@ export default class MoodViewContainer extends Component {
     title: 'Tunteet',
     headerRight: <View />, // Needed for a centered title,
     headerTitleStyle: styles.headerTitle,
+    headerStyle: { height: getFontSize(8) },
   };
 
   static propTypes = {

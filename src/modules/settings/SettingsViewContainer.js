@@ -18,7 +18,7 @@ import { showSaveModal, toggleIsLoading } from '../../state/SessionState';
 import AppButton from '../../components/AppButton';
 import { createUser, editUser, removeUser } from '../../state/UserState';
 import { post } from '../../utils/api';
-import { getSizeByWidth, getImage } from '../../services/graphics';
+import { getSizeByWidth, getImage, getFontSize } from '../../services/graphics';
 
 const iconSize = getSizeByWidth('profilephoto', 0.4).width;
 
@@ -32,8 +32,8 @@ const styles = StyleSheet.create({
   settingsContainer: {
     backgroundColor: '#fff',
     flexDirection: 'column',
-    paddingBottom: 10,
-    paddingLeft: 5,
+    paddingBottom: getFontSize(3),
+    paddingLeft: getFontSize(1.5),
     borderBottomWidth: 3,
     borderLeftWidth: 3,
     borderRightWidth: 3,
@@ -49,35 +49,36 @@ const styles = StyleSheet.create({
     borderLeftWidth: 3,
     flexGrow: 0,
     paddingTop: 0,
-    padding: 15,
+    padding: getFontSize(2),
   },
   tab: {
     borderBottomWidth: 4,
-    padding: 15,
+    padding: getFontSize(1),
   },
   tabText: {
-    fontSize: 15,
+    fontSize: getFontSize(2),
     color: '#000',
     fontFamily: 'Roboto-Medium',
   },
   formField: {
-    paddingLeft: 15,
+    paddingLeft: getFontSize(1),
     paddingBottom: 10,
     marginRight: 100,
     ...Platform.select({
       ios: {
-        paddingBottom: 15,
+        paddingBottom: getFontSize(2),
       },
     }),
   },
   label: {
-    fontSize: 17,
+    fontSize: getFontSize(2.3),
     color: '#000',
     fontFamily: 'Roboto-Medium',
   },
   input: {
-    height: 40,
+    height: getFontSize(5.5),
     fontFamily: 'Roboto-Regular',
+    fontSize: getFontSize(2),
   },
   inputView: {
     ...Platform.select({
@@ -88,8 +89,8 @@ const styles = StyleSheet.create({
   },
   tabBody: {},
   image: {
-    marginLeft: 15,
-    marginBottom: 15,
+    marginLeft: getFontSize(1),
+    marginBottom: getFontSize(2),
   },
   defaultIcon: {
     alignItems: 'center',
@@ -100,23 +101,21 @@ const styles = StyleSheet.create({
     width: iconSize,
     height: iconSize,
   },
-  saveButton: {
-    marginLeft: 10,
-    margin: 5,
-  },
   saveButtonText: {
     flex: 1,
-    fontSize: 16,
+    margin: 15,
+    fontSize: getFontSize(2.5),
     color: '#000',
     textAlign: 'center',
     fontWeight: 'bold',
     fontFamily: 'Roboto-Medium',
   },
   removeButton: {
-    paddingRight: 15,
+    paddingRight: getFontSize(3),
   },
   removeButtonText: {
     color: '#E64C4C',
+    fontSize: getFontSize(2),
     fontFamily: 'Roboto-Medium',
   },
   buttonColumn: {
@@ -133,10 +132,11 @@ const styles = StyleSheet.create({
     shadowOffset: {
       height: 0,
     },
+    height: getFontSize(8),
   },
   headerTitle: {
     alignSelf: 'center',
-    fontSize: 22,
+    fontSize: getFontSize(3),
   },
 });
 
@@ -547,7 +547,7 @@ export default class SettingsViewContainer extends Component {
         background="button_small"
         disabled={this.state.disabled}
         contentContainerStyle={{ padding: 10 }}
-        width={getSizeByWidth('button_small', 0.5).width}
+        width={getSizeByWidth('button_small', 0.4).width}
         shadow
       >
         <Text style={styles.saveButtonText}>

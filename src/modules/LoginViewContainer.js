@@ -17,7 +17,7 @@ import {
   Alert,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { getImage, getSizeByWidth } from '../services/graphics';
+import { getImage, getSizeByWidth, getFontSize } from '../services/graphics';
 import { toggleIsLoading } from '../state/SessionState';
 import { post } from '../utils/api';
 import AppButton from '../components/AppButton';
@@ -36,20 +36,19 @@ const styles = StyleSheet.create({
   },
   loginContainer: {
     backgroundColor: '#fff',
-    paddingTop: 40,
-    paddingBottom: 40,
+    paddingTop: getFontSize(2.5),
+    paddingBottom: getFontSize(4),
     borderBottomWidth: 3,
     borderLeftWidth: 3,
     borderRightWidth: 3,
   },
   scrollContainer: {},
   formField: {
-    marginBottom: 7,
-    marginLeft: 60,
-    marginRight: 60,
+    marginLeft: getFontSize(7),
+    marginRight: getFontSize(7),
     ...Platform.select({
       ios: {
-        paddingBottom: 10,
+        paddingBottom: getFontSize(2),
       },
     }),
   },
@@ -62,40 +61,37 @@ const styles = StyleSheet.create({
   },
   input: {
     textAlign: 'center',
+    fontSize: getFontSize(2),
     fontFamily: 'Roboto-Regular',
     ...Platform.select({
       ios: {
-        height: 40,
+        height: getFontSize(5),
       },
     }),
-  },
-  message: {
-    color: 'red',
-    textAlign: 'center',
-    fontFamily: 'Roboto-Regular',
-    minHeight: 40,
   },
   label: {
     textAlign: 'center',
     color: '#000',
     fontFamily: 'Roboto-Medium',
-    margin: 5,
-    fontSize: 17,
+    margin: getFontSize(1.5),
+    fontSize: getFontSize(2),
   },
   privacyPolicy: {
-    marginTop: 20,
-    fontSize: 14,
+    marginTop: getFontSize(3),
+    fontSize: getFontSize(2),
     textAlign: 'center',
     fontFamily: 'Roboto-Regular',
   },
   loginButton: {
     alignSelf: 'center',
+    margin: getFontSize(3),
   },
   loginText: {
     flex: 1,
-    fontSize: 16,
+    margin: getFontSize(3),
     textAlign: 'center',
     fontFamily: 'Roboto-Medium',
+    fontSize: getFontSize(2),
     color: '#000',
   },
   header: {
@@ -109,10 +105,11 @@ const styles = StyleSheet.create({
     shadowOffset: {
       height: 0,
     },
+    height: getFontSize(8),
   },
   headerTitle: {
     alignSelf: 'center',
-    fontSize: 22,
+    fontSize: getFontSize(3),
   },
 });
 
@@ -219,7 +216,7 @@ export default class LoginViewContainer extends Component {
         onPress={this.verifyPassword}
         contentContainerStyle={{ padding: 10 }}
         background="button_small"
-        width={getSizeByWidth('button_small', 0.5).width}
+        width={getSizeByWidth('button_small', 0.45).width}
         shadow
       >
         <Text style={styles.loginText}>Kirjaudu</Text>

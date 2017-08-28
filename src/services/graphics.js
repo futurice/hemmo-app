@@ -23,3 +23,10 @@ export function getSizeByWidth(name, size) {
 export function getImage(name) {
   return graphics[name];
 }
+
+export function getFontSize(f) {
+  const height = getScreenHeight();
+  const width = getScreenWidth();
+
+  return Math.sqrt(height * height + width * width) * (f / 100);
+}

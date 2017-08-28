@@ -7,7 +7,7 @@ import { Image, View, StyleSheet, ScrollView } from 'react-native';
 
 import AppButton from '../components/AppButton';
 import DoneButton from '../components/DoneButton';
-import { getImage, getSizeByWidth } from '../services/graphics';
+import { getImage, getSizeByWidth, getFontSize } from '../services/graphics';
 
 const styles = StyleSheet.create({
   container: {
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     alignSelf: 'center',
-    fontSize: 22,
+    fontSize: getFontSize(3),
   },
 });
 
@@ -42,6 +42,7 @@ export default class FreeWordViewContainer extends Component {
     title: 'Kerro vapaasti',
     headerRight: <View />, // Needed for a centered title,
     headerTitleStyle: styles.headerTitle,
+    headerStyle: { height: getFontSize(8) },
   };
 
   static propTypes = {

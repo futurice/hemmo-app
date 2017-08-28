@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import { addFreeWord } from '../state/UserState';
 import { showSaveModal } from '../state/SessionState';
-import { getImage, getSizeByWidth } from '../services/graphics';
+import { getImage, getSizeByWidth, getFontSize } from '../services/graphics';
 import DoneButton from '../components/DoneButton';
 
 const styles = StyleSheet.create({
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     alignSelf: 'center',
-    fontSize: 22,
+    fontSize: getFontSize(3),
   },
 });
 
@@ -45,6 +45,7 @@ export default class WriteViewContainer extends Component {
     title: 'Kirjoita',
     headerRight: <View />, // Needed for a centered title,
     headerTitleStyle: styles.headerTitle,
+    headerStyle: { height: getFontSize(8) },
   };
 
   static propTypes = {
@@ -84,6 +85,7 @@ export default class WriteViewContainer extends Component {
           flex: 1,
           textAlignVertical: 'top',
           margin: 16,
+          fontSize: getFontSize(2),
           fontFamily: 'Roboto-Regular',
         }}
       />

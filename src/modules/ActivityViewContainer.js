@@ -6,8 +6,7 @@ import { Image, View, ScrollView, StyleSheet, Modal, Text } from 'react-native';
 import Accordion from 'react-native-collapsible/Accordion';
 import { addActivity, deleteActivity } from '../state/UserState';
 import { setText, setAudio } from '../state/HemmoState';
-import LoadingSpinner from '../components/LoadingSpinner';
-import { getImage, getSizeByWidth } from '../services/graphics';
+import { getImage, getSizeByWidth, getFontSize } from '../services/graphics';
 import AppButton from '../components/AppButton';
 import { showSaveModal } from '../state/SessionState';
 import DoneButton from '../components/DoneButton';
@@ -18,12 +17,6 @@ const styles = StyleSheet.create({
     height: null,
     width: null,
   },
-  title: {
-    fontSize: 20,
-    margin: 17,
-    fontFamily: 'Roboto-Medium',
-    color: '#000',
-  },
   thumbModal: {
     flex: 1,
     flexDirection: 'column',
@@ -33,7 +26,7 @@ const styles = StyleSheet.create({
   },
   mainActivity: {
     alignSelf: 'center',
-    marginTop: 10,
+    marginTop: getFontSize(2),
   },
   subActivityContainer: {
     flexDirection: 'row',
@@ -41,7 +34,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   subActivity: {
-    margin: 5,
+    margin: getFontSize(1),
   },
   chosenThumb: {
     position: 'absolute',
@@ -51,15 +44,14 @@ const styles = StyleSheet.create({
   titleRow: {},
   closeButton: {
     position: 'absolute',
-    top: 15,
-    left: 15,
+    top: getFontSize(2),
+    left: getFontSize(2),
   },
   subActivityThumbImage: {
-    margin: 24,
+    margin: getFontSize(3),
     alignSelf: 'center',
   },
   thumbRow: {
-    marginVertical: 32,
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
@@ -69,21 +61,21 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     textAlign: 'center',
     fontFamily: 'ComicNeue-Bold',
-    fontSize: 16,
+    fontSize: getFontSize(2),
   },
   voteButton: {
-    margin: 5,
+    margin: getFontSize(1),
   },
   selectedThumbButton: {
-    margin: 5,
+    margin: getFontSize(1),
   },
   unselectedThumbButton: {
-    margin: 5,
+    margin: getFontSize(1),
     opacity: 0.5,
   },
   headerTitle: {
     alignSelf: 'center',
-    fontSize: 22,
+    fontSize: getFontSize(3),
   },
 });
 
@@ -120,6 +112,7 @@ export default class ActivityViewContainer extends Component {
     title: 'Tekeminen',
     headerRight: <View />, // Needed for a centered title,
     headerTitleStyle: styles.headerTitle,
+    headerStyle: { height: getFontSize(8) },
   };
 
   static propTypes = {

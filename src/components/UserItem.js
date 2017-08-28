@@ -5,14 +5,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, Image, TouchableOpacity, StyleSheet, Text } from 'react-native';
-import { getSizeByWidth, getImage } from '../services/graphics';
+import { getSizeByWidth, getImage, getFontSize } from '../services/graphics';
 
 const frameSize = getSizeByWidth('profile_card', 0.5);
 const iconSize = getSizeByWidth('profile_card', 0.4).width;
 
 const styles = StyleSheet.create({
   userRow: {
-    margin: 10,
+    margin: getFontSize(2),
     backgroundColor: '#fff',
     borderWidth: 2,
     alignItems: 'center',
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     width: iconSize,
     textAlign: 'center',
     fontSize: 17,
-    padding: 10,
+    padding: getFontSize(1.7),
   },
 });
 
