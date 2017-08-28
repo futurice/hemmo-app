@@ -1,6 +1,6 @@
 import { NavigationActions } from 'react-navigation';
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import { Map } from 'immutable';
 import { connect } from 'react-redux';
 import {
   Text,
@@ -17,8 +17,12 @@ import {
 import { patch, xhr } from '../../utils/api';
 import AppButton from '../../components/AppButton';
 import { getImage, getSizeByWidth } from '../../services/graphics';
-import { showExitModal, hideExitModal } from '../../state/SessionState';
-import { resetCurrentUser } from '../../state/UserState';
+import {
+  showExitModal,
+  hideExitModal,
+  toggleIsLoading,
+} from '../../state/SessionState';
+import { resetCurrentUser, editUser } from '../../state/UserState';
 import { setAudio, setText } from '../../state/HemmoState';
 
 const phrases = require('../../data/phrases.json');
@@ -117,6 +121,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   showExitModal: () => dispatch(showExitModal()),
   hideExitModal: () => dispatch(hideExitModal()),
+  toggleIsLoading: loading => dispatch(toggleIsLoading(loading)),
   pushRoute: route =>
     dispatch(NavigationActions.navigate({ routeName: route })),
   setAudio: audio => dispatch(setAudio(audio)),
@@ -127,6 +132,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(NavigationActions.back());
   },
   resetCurrentUser: () => dispatch(resetCurrentUser()),
+  editUser: user => dispatch(editUser(user)),
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -182,6 +188,7 @@ export default class FeedbackMenu extends Component {
   };
 
   sendFeedback = async () => {
+    this.props.toggleIsLoading(true);
     const feedbackId = this.props.feedbackId;
 
     try {
@@ -211,9 +218,18 @@ export default class FeedbackMenu extends Component {
         );
       });
 
+      this.props.editUser(
+        Map({
+          id: this.props.currentUser.get('id'),
+          lastFeedbackSentOn: Date.now(),
+        }),
+      );
+
+      this.props.toggleIsLoading(false);
       this.props.pushRoute('Ending');
     } catch (error) {
       console.log(error);
+      this.props.toggleIsLoading(false);
       await this.props.setAudio(phrases.oh_no.audio);
       Alert.alert(
         'Voi ei, en pystynyt lähettämään viestiäsi!',

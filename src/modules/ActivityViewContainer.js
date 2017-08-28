@@ -98,7 +98,6 @@ const thumbs = [
 ];
 
 const mapStateToProps = state => ({
-  isReady: state.getIn(['session', 'isReady']),
   chosenActivities: state.getIn([
     'user',
     'currentUser',
@@ -128,7 +127,6 @@ export default class ActivityViewContainer extends Component {
     deleteActivity: PropTypes.func.isRequired,
     setText: PropTypes.func.isRequired,
     setAudio: PropTypes.func.isRequired,
-    isReady: PropTypes.bool.isRequired,
     chosenActivities: PropTypes.instanceOf(Map).isRequired,
     showSaveModal: PropTypes.func.isRequired,
   };
@@ -368,10 +366,6 @@ export default class ActivityViewContainer extends Component {
     </ScrollView>;
 
   render() {
-    if (!this.props.isReady) {
-      return <LoadingSpinner />;
-    }
-
     return (
       <Image source={getImage('forest').normal} style={styles.container}>
         {this.renderMainActivities()}

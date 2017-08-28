@@ -1,8 +1,6 @@
 import { Map } from 'immutable';
 
-export const RESET_STATE = 'SessionState/RESET';
-export const INITIALIZE_STATE = 'SessionState/INITIALIZE';
-export const TOGGLE_ISREADY = 'SessionState/TOGGLE_ISREADY';
+export const TOGGLE_ISLOADING = 'SessionState/TOGGLE_ISLOADING';
 export const ACTIVATE = 'SessionState/ACTIVATE';
 export const DEACTIVATE = 'SessionState/DEACTIVATE';
 export const SHOW_EXIT_MODAL = 'SessionState/SHOW_EXIT_MODAL';
@@ -12,25 +10,11 @@ export const HIDE_SAVE_MODAL = 'SessionState/HIDE_SAVE_MODAL';
 
 // Initial state
 const initialState = Map({
-  isReady: false,
   isActive: true,
+  isLoading: false,
   exitModalVisible: false,
   saveModalVisible: false,
 });
-
-export function startPreparing() {
-  return {
-    type: TOGGLE_ISREADY,
-    payload: false,
-  };
-}
-
-export function finishPreparing() {
-  return {
-    type: TOGGLE_ISREADY,
-    payload: true,
-  };
-}
 
 export function hideExitModal() {
   return {
@@ -56,12 +40,6 @@ export function showSaveModal() {
   };
 }
 
-export function initializeSessionState() {
-  return {
-    type: INITIALIZE_STATE,
-  };
-}
-
 export function activate() {
   return {
     type: ACTIVATE,
@@ -74,15 +52,18 @@ export function deactivate() {
   };
 }
 
+export function toggleIsLoading(loading) {
+  return {
+    type: TOGGLE_ISLOADING,
+    payload: loading,
+  };
+}
+
 // Reducer
 export default function SessionStateReducer(state = initialState, action = {}) {
   switch (action.type) {
-    case INITIALIZE_STATE:
-    case RESET_STATE:
-      return state.set('isReady', true);
-
-    case TOGGLE_ISREADY:
-      return state.set('isReady', action.payload);
+    case TOGGLE_ISLOADING:
+      return state.set('isLoading', action.payload);
 
     case ACTIVATE:
       return state.set('isActive', true);

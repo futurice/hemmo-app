@@ -13,18 +13,10 @@ import {
   Platform,
   StyleSheet,
 } from 'react-native';
-import { NavigationActions } from 'react-navigation';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import LoadingSpinner from '../../components/LoadingSpinner';
-import { showSaveModal } from '../../state/SessionState';
+import { showSaveModal, toggleIsLoading } from '../../state/SessionState';
 import AppButton from '../../components/AppButton';
-import {
-  createUser,
-  editUser,
-  removeUser,
-  resetCurrentUser,
-  setCurrentUser,
-} from '../../state/UserState';
+import { createUser, editUser, removeUser } from '../../state/UserState';
 import { post } from '../../utils/api';
 import { getSizeByWidth, getImage } from '../../services/graphics';
 
@@ -168,10 +160,8 @@ const mapDispatchToProps = dispatch => ({
   createUser: user => dispatch(createUser(user)),
   editUser: user => dispatch(editUser(user)),
   removeUser: id => dispatch(removeUser(id)),
-  resetCurrentUser: () => dispatch(resetCurrentUser()),
-  setCurrentUser: id => dispatch(setCurrentUser(id)),
-  popRoute: () => dispatch(NavigationActions.back()),
   showSaveModal: () => dispatch(showSaveModal()),
+  toggleIsLoading: loading => dispatch(toggleIsLoading(loading)),
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -187,15 +177,12 @@ export default class SettingsViewContainer extends Component {
     createUser: PropTypes.func.isRequired,
     editUser: PropTypes.func.isRequired,
     removeUser: PropTypes.func.isRequired,
-    resetCurrentUser: PropTypes.func.isRequired,
-    setCurrentUser: PropTypes.func.isRequired,
-    popRoute: PropTypes.func.isRequired,
+    toggleIsLoading: PropTypes.func.isRequired,
     users: PropTypes.instanceOf(List).isRequired,
     showSaveModal: PropTypes.func.isRequired,
   };
 
   state = {
-    loading: false,
     disabled: !__DEV__,
     id: null,
     image: null,
@@ -221,7 +208,7 @@ export default class SettingsViewContainer extends Component {
   };
 
   createChild = async () => {
-    this.setState({ loading: true });
+    this.props.toggleIsLoading(true);
 
     try {
       const result = await post('/app/children', {
@@ -238,13 +225,14 @@ export default class SettingsViewContainer extends Component {
         }),
       );
 
-      this.setState({ disabled: true, loading: false });
+      this.setState({ disabled: true });
+      this.props.toggleIsLoading(false);
       this.resetForm();
       this.props.showSaveModal();
       this.handleTabClick(this.props.users.last());
     } catch (error) {
       console.log(error);
-      this.setState({ loading: false });
+      this.props.toggleIsLoading(false);
 
       if (error.status === 400) {
         Alert.alert(
@@ -266,8 +254,6 @@ export default class SettingsViewContainer extends Component {
   };
 
   editChild = () => {
-    this.setState({ loading: true });
-
     this.props.editUser(
       Map({
         id: this.state.id,
@@ -276,7 +262,7 @@ export default class SettingsViewContainer extends Component {
       }),
     );
 
-    this.setState({ disabled: true, loading: false });
+    this.setState({ disabled: true });
     this.props.showSaveModal();
   };
 
@@ -604,10 +590,6 @@ export default class SettingsViewContainer extends Component {
     </Image>;
 
   render() {
-    if (this.state.loading) {
-      return <LoadingSpinner />;
-    }
-
     return (
       <View style={styles.container}>
         {this.renderTabBar()}

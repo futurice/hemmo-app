@@ -18,9 +18,9 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { getImage, getSizeByWidth } from '../services/graphics';
+import { toggleIsLoading } from '../state/SessionState';
 import { post } from '../utils/api';
 import AppButton from '../components/AppButton';
-import LoadingSpinner from '../components/LoadingSpinner';
 import { setAuthenticationToken } from '../utils/authentication';
 
 const privacyPolicyURL =
@@ -127,6 +127,7 @@ const mapDispatchToProps = dispatch => ({
         ],
       }),
     ),
+  toggleIsLoading: loading => dispatch(toggleIsLoading(loading)),
 });
 
 @connect(undefined, mapDispatchToProps)
@@ -140,6 +141,7 @@ export default class LoginViewContainer extends Component {
 
   static propTypes = {
     onSuccess: PropTypes.func.isRequired,
+    toggleIsLoading: PropTypes.func.isRequired,
   };
 
   state = {
@@ -155,13 +157,7 @@ export default class LoginViewContainer extends Component {
   };
 
   verifyPassword = async () => {
-    if (this.state.loading) {
-      return;
-    }
-
-    this.setState({
-      loading: true,
-    });
+    this.props.toggleIsLoading(true);
 
     try {
       const result = await post('/admin/employees/authenticate', {
@@ -169,15 +165,12 @@ export default class LoginViewContainer extends Component {
         password: this.state.password,
       });
 
-      this.setState({
-        loading: false,
-      });
-
+      this.props.toggleIsLoading(false);
       await setAuthenticationToken(result.token);
       this.props.onSuccess();
     } catch (error) {
       console.log(error);
-      this.setState({ loading: false });
+      this.props.toggleIsLoading(false);
 
       if (error.status) {
         Alert.alert(
@@ -241,10 +234,6 @@ export default class LoginViewContainer extends Component {
     </Text>;
 
   render() {
-    if (this.state.loading) {
-      return <LoadingSpinner />;
-    }
-
     return (
       <Image source={getImage('forest').normal} style={styles.container}>
         <ScrollView

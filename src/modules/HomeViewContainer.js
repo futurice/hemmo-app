@@ -7,7 +7,7 @@ import { List } from 'immutable';
 import UserItem from '../components/UserItem';
 import AppButton from '../components/AppButton';
 import { setCurrentUser, setFeedbackId } from '../state/UserState';
-import { startPreparing, finishPreparing } from '../state/SessionState';
+import { toggleIsLoading } from '../state/SessionState';
 import { setAuthenticationToken } from '../utils/authentication';
 import { setText, setAudio } from '../state/HemmoState';
 import { post } from '../utils/api';
@@ -74,8 +74,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   setCurrentUser: user => dispatch(setCurrentUser(user)),
   setFeedbackId: id => dispatch(setFeedbackId(id)),
-  startPreparing: () => dispatch(startPreparing()),
-  finishPreparing: () => dispatch(finishPreparing()),
+  toggleIsLoading: loading => dispatch(toggleIsLoading(loading)),
   setText: text => dispatch(setText(text)),
   setAudio: audio => dispatch(setAudio(audio)),
   pushRoute: route =>
@@ -87,8 +86,7 @@ export default class HomeViewContainer extends Component {
   static propTypes = {
     setCurrentUser: PropTypes.func.isRequired,
     setFeedbackId: PropTypes.func.isRequired,
-    startPreparing: PropTypes.func.isRequired,
-    finishPreparing: PropTypes.func.isRequired,
+    toggleIsLoading: PropTypes.func.isRequired,
     pushRoute: PropTypes.func.isRequired,
     users: PropTypes.instanceOf(List).isRequired,
   };
@@ -104,20 +102,20 @@ export default class HomeViewContainer extends Component {
   };
 
   startSession = async user => {
-    this.props.startPreparing();
+    this.props.toggleIsLoading(true);
 
     try {
       await setAuthenticationToken(user.get('token'));
 
       const result = await post('/app/feedback', { activities: [], moods: [] });
 
-      this.props.finishPreparing();
       this.props.setCurrentUser(user);
       this.props.setFeedbackId(result.id);
+      this.props.toggleIsLoading(false);
       this.props.pushRoute('FeedbackMenu');
     } catch (error) {
       console.log(error);
-      this.props.finishPreparing();
+      this.props.toggleIsLoading(false);
 
       await this.props.setAudio(phrases.check_connection.audio);
       Alert.alert('Hmm, jokin meni pieleen.', phrases.check_connection.text, [
