@@ -101,7 +101,7 @@ export default class AppViewContainer extends Component {
           PushNotification.localNotification({
             message: `Moi ${user.get(
               'name',
-            )}! En ole kuullut sinusta hetkeen. Miten tukiperheesi kanssa menee? :)`,
+            )}! En ole kuullut sinusta hetkeen. Miten tukiperheen kanssa menee? :)`,
             playSound: false,
           });
         }
@@ -118,7 +118,7 @@ export default class AppViewContainer extends Component {
     });
 
     // Run the background task every day
-    BackgroundTask.schedule({ period: 900 });
+    BackgroundTask.schedule({ period: 86400 });
   }
 
   checkRecordPermission = async () => {

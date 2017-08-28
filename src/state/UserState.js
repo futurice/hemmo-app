@@ -45,6 +45,7 @@ export function createUser(newUser) {
       name: newUser.get('name'),
       token: newUser.get('token'),
       image: newUser.get('image'),
+      lastFeedbackSentOn: Date.now(),
       answers: initialAnswers,
     }),
   };
@@ -55,10 +56,7 @@ export function editUser(user) {
     type: EDIT_USER,
     payload: {
       id: user.get('id'),
-      values: Map({
-        name: user.get('name'),
-        image: user.get('image'),
-      }),
+      values: user,
     },
   };
 }
