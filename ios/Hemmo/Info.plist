@@ -21,7 +21,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>3</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -35,18 +35,18 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>$(PRODUCT_NAME) bluetooth use</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>$(PRODUCT_NAME) calendar use</string>
 	<key>NSCameraUsageDescription</key>
 	<string>$(PRODUCT_NAME) tarvitsee oikeuden kameraan, jotta profiilikuvan valitseminen onnistuu.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>$(PRODUCT_NAME) tarvitsee oikeuden mikrofoniin, jotta puheviestien nauhoitus onnistuu.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>$(PRODUCT_NAME) tarvitsee oikeuden kuvakirjastoon, jotta profiilikuvan valitseminen onnistuu.</string>
-	<key>NSBluetoothPeripheralUsageDescription</key>
-	<string>$(PRODUCT_NAME) bluetooth use</string>
-    <key>NSCalendarsUsageDescription</key>
-    <string>$(PRODUCT_NAME) calendar use</string>
-    <key>NSSpeechRecognitionUsageDescription</key>
-    <string>$(PRODUCT_NAME) speech recognition use</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>$(PRODUCT_NAME) speech recognition use</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>ComicNeue-Bold.ttf</string>
