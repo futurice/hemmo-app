@@ -25,6 +25,6 @@ For more info: https://facebook.github.io/react-native/docs/signed-apk-android.h
 
 **iOS:**
 
-- Use the Futurice Oy/Ltd iOS distribution certificates/key when building.
-- If the certificate has expired, a new one can be generated using the key found in Confluence (under **Apple Developer**)!
+- Use the Futurice Oy/Ltd iOS distribution certificates/key when building. You can get the certificate from https://developer.apple.com/account/ -> **Certificates** -> **Production**.
+- If the certificate has expired, a new one can be generated using the key found in Confluence (under **Apple Developer**).
 - Follow [these steps](https://facebook.github.io/react-native/docs/running-on-device.html#building-your-app-for-production)
